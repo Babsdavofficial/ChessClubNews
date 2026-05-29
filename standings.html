@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test News Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+
+    <header class="topbar panel">
+      <div class="brand">
+        <div class="logo">FET</div>
+        <div class="titlebox">
+
+          <h1>Chess News Hub</h1>
+          <p>Bright, playful news and events dashboard</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Top Story</a>
+        <a href="matches.html">Matches</a>
+        <a href="standings.html">Standings</a>
+        <a href="updates.html">Updates</a>
+       <a href="funfact.html">Fun Facts</a>
+      </nav>
+    </header>
+     <section id="standings" class="panel section">
+      <div class="section-head">
+        <div>
+          <h2>Final Standings</h2>
+          <p>Chess 960 standings and Top best Updated standings</p>
+        </div>
+        <button class="btn secondary" onclick="toggleSection('standingMore')">Show More</button>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="chip">Chess 960 Game standings</div>
+          <h3>Final Table</h3>
+          <p>1. Astronomer23 <span style="float: right;">5 p</span><hr></hr></p>
+          <p>2. GeePrime <span style="float: right;">3 p</span><hr></hr></p>
+          <p>3. Davekeyz<span style="float: right;">2 p</span><hr></hr></p>
+          <p>4. Creedaville0 <span style="float: right;">2 p</span><hr></hr></p>
+          <p>5. Lah <span style="float: right;">1 p</span><hr></hr></p>
+          <p>6. Humblelear<span style="float: right;">0 p</span><hr></hr></p>
+        </div>
+        <div class="card">
+          <div class="chip">Player performance Rating</div>
+          <h3>Overall ratings</h3>
+          <p>1. Astronomer23  <br>1801<hr></hr></p>
+          <p>2. GeePrime <br>1703<hr></hr></p>
+          <p>3. Davekeyz <br>1700<hr></hr></p>
+          <p>4. Creedaville0 <br>1650<hr></hr></p>
+          <p>5. Humblelear <br>1474<hr></hr></p>
+          <p>6. Lah <br>1456<hr></hr></p>
+        </div>
+        <div class="card">
+          <div class="chip">General Rankings</div>
+          <h3>TOP BEST</h3>
+          <p>Active players get to be on the top.</p>
+          <p>1. Astronomer23  <span style="color:gray; float: right;">--</span><hr></hr></p>
+          <p>2. Davekeyz   <span style="color:gray; float: right;">--</span><hr></hr></p>
+          <p>3. Creedaville0 <span style="color:gray; float: right;">--</span><hr></hr></p>
+          <p>4. GeePrime <span style="color:greenyellow; float: right;">+1</span><hr></hr></p>
+          <p>5. Major <span style="color:red; float: right;">-1</span><hr></hr></p>
+          <p>6. HayZedd <span style="color:gray; float: right;">--</span><hr></hr></p>
+          <p>7. Lah <span style="color:greenyellow; float: right;">+1</span><hr></hr></p>
+          <p>8. Humblelear <span style="color:greenyellow; float: right;">+2</span><hr></hr></p>
+          <p>9. Abayomi <span style="color:gray; float: right;">--</span><hr></hr></p>
+          <p>10. Da2484111 <span style="color:red; float: right;">-4</span><hr></hr></p>
+          <p>11. Hey13470 <span style="color:red; float: right;">-4</span><hr></hr></p>
+          <p>12. Astro <span style="color:red; float: right;">-1</span><hr></hr></p>
+          <p>13. Ebunoluwa <span style="color:red; float: right;">-3</span><hr></hr></p>
+          <p>14. Maxi <span style="color:gray; float: right;">--</span><hr></p> 
+          <p>15. Anonymous <span style="color:gray; float: right;">--</span><hr></p>
+          <p>16. Abdulquawiyu <span style="color:gray; float: right;">--</span><hr></p>
+          <p>17. Fadman <span style="color:gray; float: right;">--</span><hr></p>
+          <p>18. Darush <span style="color:gray; float: right;">--</span><hr></p>
+          <p>19. Others...</p>
+
+        </div>
+      </div>
+
+      <div id="standingMore" class="standing-list hidden" style="margin-top:14px;">
+        <div class="match-item">
+          <div class="row">
+            <div class="teams"><strong>Winner:</strong> Astronomer23</div>
+            <span class="chip">Rating 1801</span>
+          </div>
+        </div>
+        <div class="match-item">
+          <div class="row">
+            <div class="teams"><strong>Ranking performance:</strong> GeePrime and Humblelear</div>
+            <span class="chip">Rating 1703 and 1474</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+            
+</div>
+
+</body>
+<script>
+    function toggleSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.toggle('hidden');
+    }
+
+    function openPlayer(name, rating, tag, desc){
+      document.getElementById('playerName').textContent = name;
+      document.getElementById('playerRating').textContent = `Rating: ${rating} • ${tag}`;
+      document.getElementById('playerDesc').textContent = desc;
+      document.getElementById('playerModal').style.display = 'flex';
+    }
+
+    function hideModal(){
+      document.getElementById('playerModal').style.display = 'none';
+    }
+
+    function closePlayer(event){
+      if(event.target.id === 'playerModal'){
+        hideModal();
+      }
+    }
+  </script>
+</html>

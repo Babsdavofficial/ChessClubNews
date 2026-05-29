@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test News Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+
+    <header class="topbar panel">
+      <div class="brand">
+        <div class="logo">FET</div>
+        <div class="titlebox">
+
+          <h1>Chess News Hub</h1>
+          <p>Bright, playful news and events dashboard</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Top Story</a>
+        <a href="matches.html">Matches</a>
+        <a href="standings.html">Standings</a>
+        <a href="#updates">Updates</a>
+        <a href="funfact.html">Fun Facts</a>
+      </nav>
+    </header>
+   <section class="panel section" id="updates">
+      <div class="section-head">
+        <div>
+          <h2>Current Updates</h2>
+          <p>Short news tickers and event notes.</p>
+        </div>
+        <button class="btn secondary" onclick="toggleSection('updateMore')">Show More</button>
+      </div>
+      <div class="updates-list">
+        <div class="update-item">
+          <strong>Rapid Clash:</strong> Rapid Continues Nextweek, with only 5 rounds remaining.
+        </div>
+        <div class="update-item">
+          <strong>Chess 960:</strong> Chess 960 has been concluded with Astronomer23 once again winning a tournament with a high rating of 1801.
+        </div>
+      </div>
+      <div id="updateMore" class="updates-list hidden" style="margin-top:12px;">
+        <div class="update-item"><strong>Speed Championship:</strong> The speed Championship 3rd edition start after our exams.
+            Registration is ongoing. Message Davekeyz through whatsapp if you are interested in participating</div>
+
+        <div class="update-item"><strong>Blitz Knockout:</strong> The blitz knockout  start after our exams.
+            Registration is ongoing. Message Davekeyz through whatsapp if you are interested in participating</div>
+
+            <div class="update-item"><strong>Conference Game:</strong> The new event Conference game is a game meant for rankings from 5th to 18th of the top best table.</div>
+            <div class="update-item"><strong>Champions Battle:</strong> The Champions Battle is a game for the top 4 best players and any players who has won any final before or league before </div>
+        <div class="update-item">More updates coming soon...</div>
+      </div>
+    </section>
+
+
+    <section class="panel section">
+      <div class="section-head">
+        <div>
+          <h2>Rules & Regulations</h2>
+          <p>Applies before, during and after gaming</p>
+        </div>
+        <button class="btn secondary" onclick="toggleSection('rulesMore')">Show More</button>
+      </div>
+
+      <div class="rules-list">
+        <div class="rule-item">No screenshots allowed for result confirmation <br>
+            <small>Players are expected to share game links or send results directly for proper review and rating updates.</small></div>
+        <div class="rule-item">Fast games keep the tournament exciting <br>
+            <small>Rapid Clash is creating a sharper rhythm, while Chess960 adds variety through unpredictable openings.</small></div>
+        <div class="rule-item">Fair play remains the main rule <br>
+            <small>No engine help, no shortcuts, and no cheating — every result must come from real play.</small></div>
+      </div>
+      <div id="rulesMore" class="rules-list hidden" style="margin-top:12px;">
+        <div class="rule-item">Opponent absent <br>
+
+        <small> If you tagged your opponent and they did not respond before the deadline, you win the game. If neither player made any effort, both lose. If both players tagged each other but did not play, they both lose.</small></div>
+      </div>
+    </section>
+
+
+            
+</div>
+
+</body>
+<script>
+    function toggleSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.toggle('hidden');
+    }
+
+    function openPlayer(name, rating, tag, desc){
+      document.getElementById('playerName').textContent = name;
+      document.getElementById('playerRating').textContent = `Rating: ${rating} • ${tag}`;
+      document.getElementById('playerDesc').textContent = desc;
+      document.getElementById('playerModal').style.display = 'flex';
+    }
+
+    function hideModal(){
+      document.getElementById('playerModal').style.display = 'none';
+    }
+
+    function closePlayer(event){
+      if(event.target.id === 'playerModal'){
+        hideModal();
+      }
+    }
+  </script>
+</html>

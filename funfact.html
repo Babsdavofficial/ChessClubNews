@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test News Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+
+    <header class="topbar panel">
+      <div class="brand">
+        <div class="logo">FET</div>
+        <div class="titlebox">
+
+          <h1>Chess News Hub</h1>
+          <p>Bright, playful news and events dashboard</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Top Story</a>
+        <a href="matches.html">Matches</a>
+        <a href="standings.html">Standings</a>
+        <a href="updates.html">Updates</a>
+        <a href="#facts">Fun Facts</a>
+      </nav>
+    </header>
+   <section id="facts" class="panel section">
+      <div class="section-head">
+        <div>
+          <h2>Fun Facts</h2>
+          <p>Little history and questions from our players.</p>
+        </div>
+        <button class="btn secondary" onclick="toggleSection('factMore')">Show More</button>
+      </div>
+
+      <div class="grid-3">
+        <div class="fact-item">
+          <strong>♟️ Fun Fact: The Queen Used To Be One of the Weakest Pieces in Chess</strong> 
+The Queen — the most powerful piece today — used to move like a SLOW pawn‑bishop hybrid.
+Yup. In early medieval chess (around the 10th century), the queen could only move one square diagonally. That’s it. No slicing across the board. No dramatic checkmates. No “queen sacrifice” fireworks. She was basically the shy cousin of the bishop.
+
+⭐ Why did this change?
+Because history got spicy.
+
+Around the 15th century, in Europe, powerful queens were rising in real life — think Isabella of Castile, who helped unify Spain. Society started seeing queens as influential, commanding figures.
+
+So chess followed the vibe.
+
+The queen’s movement was upgraded to what we know today:
+any direction, any number of squares — absolute domination.
+
+This rule change was so dramatic that people called the new version of chess:
+
+“Mad Queen Chess”
+(because the queen suddenly went from 0 to 100 real quick).
+        </div>
+        <div class="fact-item">
+          <strong>🐴 Fun Fact: A Knight Can Visit Every Square on the Board Exactly Once… in One Single Trip</strong> 
+This magical journey is called the Knight’s Tour, and it’s one of the oldest and coolest puzzles in all of chess.
+
+What’s the idea?
+A knight starts on any square.
+It must move like a knight (L‑shape), and it must land on every single square exactly once…
+…without repeating any square or getting stuck.
+
+And yes — it’s actually possible.
+
+Not just one way.
+Not ten ways.
+There are tens of thousands of different knight tours.
+        </div>
+        <div class="fact-item">
+          <strong>⚔️ Tactical Fact: The “Double Attack” Is the Most Common Winning Tactic in Chess
+Most games — even at high levels — are decided by one simple idea:</strong> Most games — even at high levels — are decided by one simple idea:
+
+Attacking two things at the same time.
+It sounds basic, but it’s the backbone of tactics.
+And the king of double attacks is…
+the knight.
+
+🐴 Why the Knight Is the Double‑Attack Monster
+The knight’s weird L‑shape movement lets it:
+
+jump over pieces
+
+attack squares people forget about
+
+hit two valuable targets at once (like king + queen, or king + rook)
+
+This is why knight forks are the most common tactical blow in chess.
+
+Even grandmasters get forked.
+Even world champions get forked.
+Nobody is safe from the horse.
+
+📜 A bit of history
+The knight fork has been ruining people’s days for centuries.
+
+One of the earliest recorded tactical traps (from the 1400s!) involved a knight fork that won a queen.
+Back then, players didn’t even fully understand tactics — they just knew:
+
+“If the horse jumps like this, someone cries.”
+
+As chess evolved, knights became known as the “trickster pieces” — unpredictable, sneaky, and perfect for ambushes.
+        </div>
+      </div>
+
+      <div id="factMore" class="hidden" style="margin-top:12px;">
+        <div class="fact-item">More facts coming soon...</div>
+      </div>
+      </section>
+
+            
+</div>
+
+</body>
+<script>
+    function toggleSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.toggle('hidden');
+    }
+
+    function openPlayer(name, rating, tag, desc){
+      document.getElementById('playerName').textContent = name;
+      document.getElementById('playerRating').textContent = `Rating: ${rating} • ${tag}`;
+      document.getElementById('playerDesc').textContent = desc;
+      document.getElementById('playerModal').style.display = 'flex';
+    }
+
+    function hideModal(){
+      document.getElementById('playerModal').style.display = 'none';
+    }
+
+    function closePlayer(event){
+      if(event.target.id === 'playerModal'){
+        hideModal();
+      }
+    }
+  </script>
+</html>
