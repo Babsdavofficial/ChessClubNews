@@ -7,33 +7,48 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg1:#ff7a00;
-      --bg2:#ffb347;
-      --bg3:#ffe2a8;
-      --dark:#11192e;
-      --dark2:#182545;
-      --card:rgba(255,255,255,.08);
-      --card2:rgba(255,255,255,.12);
-      --text:#fffaf2;
-      --muted:#d7d8e2;
-      --accent:#ffd36b;
-      --line:rgba(255,255,255,.12);
-      --shadow:0 20px 50px rgba(10, 14, 24, .35);
-      --radius:28px;
-    }
+  --green-900:#0b3d2e;
+  --green-800:#145c43;
+  --green-700:#177a56;
+  --green-600:#1f9d6a;
+  --green-100:#e8f7ef;
+  --green-050:#f4fbf7;
+
+  --bg1:var(--green-900);
+  --bg2:var(--green-800);
+  --bg3:var(--green-700);
+
+  --dark:var(--green-900);
+  --dark2:var(--green-800);
+
+  --text:#ffffff;
+  --muted:#c8e6d6;
+  --accent:var(--green-600);
+
+  --line:rgba(255,255,255,.10);
+
+  --shadow:0 20px 50px rgba(0,0,0,.25);
+}
 
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
-    body{
-      font-family:'Fredoka',sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 22%),
-        radial-gradient(circle at 80% 20%, rgba(255,255,255,.12), transparent 18%),
-        linear-gradient(135deg, #ff6a00, #ffb347 42%, #ffd27f 100%);
-      min-height:100vh;
-      overflow-x:hidden;
-    }
+  body{
+     font-family:'Fredoka',sans-serif;
+     color:var(--text);
+  background:
+    radial-gradient(circle at top left,
+      rgba(255,255,255,.08),
+      transparent 25%),
+    radial-gradient(circle at 80% 20%,
+      rgba(255,255,255,.06),
+      transparent 20%),
+    linear-gradient(
+      135deg,
+      var(--green-900),
+      var(--green-800) 45%,
+      var(--green-700) 100%
+    );
+}
 
     body::before{
       content:"NEWS • MATCHES • UPDATES • FUN FACTS •";
@@ -42,8 +57,8 @@
       font-size:72px;
       letter-spacing:18px;
       line-height:180px;
-      opacity:.06;
-      color:#fff7e4;
+      color:var(--green-100);
+      opacity:.05;
       white-space:pre-wrap;
       transform:rotate(-10deg) translateY(-40px);
       pointer-events:none;
@@ -64,7 +79,8 @@
       gap:16px;
       padding:18px 22px;
       border:1px solid rgba(255,255,255,.16);
-      background:rgba(17,25,46,.72);
+      background:rgba(11,61,46,.88);
+
       backdrop-filter: blur(16px);
       border-radius: 22px;
       box-shadow: var(--shadow);
@@ -85,10 +101,15 @@
       border-radius:18px;
       display:grid;
       place-items:center;
-      background:linear-gradient(135deg, #ff7a00, #ffd36b);
+       background:linear-gradient(
+    135deg,
+    var(--green-600),
+    var(--green-700)
+  );
+  box-shadow:0 10px 20px rgba(31,157,106,.35);
       color:#fff;
       font-size:24px;
-      box-shadow:0 10px 20px rgba(255,122,0,.35);
+      
       flex:0 0 auto;
     }
 
@@ -137,7 +158,11 @@
     .panel{
       border:1px solid var(--line);
       border-radius: var(--radius);
-      background:linear-gradient(180deg, rgba(16,24,44,.84), rgba(15,20,36,.76));
+        background:linear-gradient(
+    180deg,
+    rgba(11,61,46,.92),
+    rgba(20,92,67,.85)
+  );
       box-shadow: var(--shadow);
       overflow:hidden;
     }
@@ -207,15 +232,21 @@
     }
 
     .btn.primary{
-      background:linear-gradient(135deg, #ff7a00, #ffd36b);
+     background:linear-gradient(
+    135deg,
+    var(--green-600),
+    var(--green-700)
+  );
+  box-shadow:0 12px 24px rgba(31,157,106,.25);
       color:#fff;
-      box-shadow:0 12px 24px rgba(255,122,0,.25);
+      
     }
 
     .btn.secondary{
-      background:rgba(255,255,255,.10);
+      background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
       color:#fff;
-      border:1px solid rgba(255,255,255,.14);
+     
     }
 
     .btn:hover{ transform:translateY(-2px) scale(1.01); }
@@ -223,9 +254,17 @@
     .hero-art{
       border-radius:24px;
       padding:20px;
-      background:
-        radial-gradient(circle at top right, rgba(255,211,107,.30), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03));
+       background:
+    radial-gradient(
+      circle at top right,
+      rgba(31,157,106,.25),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.03)
+    );
       border:1px solid rgba(255,255,255,.10);
       min-height:300px;
       display:flex;
@@ -239,15 +278,15 @@
       align-self:flex-start;
       padding:8px 12px;
       border-radius:999px;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.10);
+        background:rgba(31,157,106,.18);
+  border:1px solid rgba(31,157,106,.25);
       font-size:13px;
       color:#fff;
     }
 
     .art-card{
-      background:rgba(9,12,22,.44);
-      border:1px solid rgba(255,255,255,.10);
+        background:rgba(31,157,106,.18);
+  border:1px solid rgba(31,157,106,.25);
       border-radius:22px;
       padding:18px;
       backdrop-filter: blur(8px);
@@ -267,11 +306,11 @@
     .stat{
       padding:12px 12px;
       border-radius:18px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.08);
+       background:rgba(31,157,106,.18);
+  border:1px solid rgba(31,157,106,.25);
     }
 
-    .stat .num{ font-size:24px; font-weight:700; }
+    .stat .num{ font-size:24px; font-weight:700; color:var(--green-100); }
     .stat .label{ font-size:12px; color:var(--muted); }
 
     .hero-side{
@@ -335,7 +374,12 @@
       height:400px;
       border-radius:22px;
       background:
-        linear-gradient(135deg, rgba(255,122,0,.88), rgba(255,211,107,.66)),
+      
+    linear-gradient(
+      135deg,
+      rgba(11,61,46,.85),
+      rgba(31,157,106,.45)
+    )
         url('https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=80');
       background-size:cover;
       background-position:center;
@@ -411,8 +455,9 @@
       font-size:12px;
       padding:6px 10px;
       border-radius:999px;
-      background:rgba(255,211,107,.16);
-      border:1px solid rgba(255,211,107,.22);
+       background:rgba(31,157,106,.18);
+  border:1px solid rgba(31,157,106,.35);
+  color:var(--green-100);
       color:#ffecc0;
     }
 
@@ -433,8 +478,9 @@
       padding:18px;
       border-radius:22px;
       background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-      border:1px solid rgba(255,255,255,.10);
+    
       cursor:pointer;
+       border-color:rgba(31,157,106,.35);
       transition:.25s ease;
     }
 
@@ -448,12 +494,17 @@
       border-radius:18px;
       display:grid;
       place-items:center;
-      background:linear-gradient(135deg, #ff7a00, #ffd36b);
+        background:linear-gradient(
+    135deg,
+    var(--green-600),
+    var(--green-700)
+  );
+  box-shadow:0 12px 20px rgba(31,157,106,.25);
       color:#fff;
       font-size:22px;
       font-weight:700;
       margin-bottom:12px;
-      box-shadow:0 12px 20px rgba(255,122,0,.22);
+     
     }
 
     .player-card h4{
@@ -515,7 +566,11 @@
 
     .modal{
       width:min(560px, 100%);
-      background:linear-gradient(180deg, rgba(20,28,50,.98), rgba(14,18,34,.98));
+      background:linear-gradient(180deg, rgba(20,28,50,.98), rgba(14,18,34,.98));  background:linear-gradient(
+    180deg,
+    rgba(11,61,46,.98),
+    rgba(20,92,67,.98)
+  );
       border:1px solid rgba(255,255,255,.12);
       border-radius:28px;
       box-shadow:0 30px 70px rgba(0,0,0,.45);
@@ -597,13 +652,17 @@
 
         <div class="hero-grid">
           <div>
-            <h2 class="headline">Chess960 First Edition Concludes Successfully</h2>
+            <h2 class="headline">Rapid Clash Begins the Third Round</h2>
             <p class="lead">
-             The Chess960 First Edition has officially concluded, and it was one of the most exciting events in our chess league so far. Players displayed excellent competitiveness, impressive accuracy, and remarkable creativity throughout the tournament.
+            Rapid Clash enters its third round, even though only two rounds have been played so far. The tournament has already produced some exciting games, with Astronomer23 leading the standings once again.
 
-              One of the most interesting aspects of this edition was that there were no draws. 
-              Every game ended with a decisive result—either a win or a loss. The event featured brilliant moves, 
-              unexpected blunders, and outstanding performances, with some players achieving accuracy ratings as high as 93%.
+At the moment, Astronomer23 has secured two wins from the seven games he is scheduled to play. Major,HayZedd, Davekeyz, and GeePrime each have one point, while Abayomi and Lah are still looking to get on the scoreboard. With only two rounds completed, there is still plenty of chess left to be played.
+
+Unlike Chess960, this tournament follows standard chess rules, allowing players to rely more on familiar openings, strategies, and tactical ideas. This has made the games highly competitive and entertaining to watch.
+
+We have also seen some impressive performances in terms of accuracy. So far, the highest game accuracy recorded is 96%, an outstanding achievement from Davekeyz. Humblelear has been playing exceptionally well, securing victories against GeePrime and Abayomi with strong and accurate play.
+
+The tournament is still wide open, and it is too early to predict the eventual winner.
             </p>
 
             <div class="cta-row">
@@ -623,19 +682,19 @@
           <div class="hero-art">
             <span class="cover-pill">Today’s spotlight</span>
             <div class="art-card">
-              <h3>Breaking: Astronomer23 is crowned the winner of chess 960</h3>
+              <h3>Breaking: Humblelear and Astronomer23 are leading the scoreboard</h3>
               <p>
-               Second position to GeePrime and Third to Davekeyz.
+               Abayomi and Lah still looking for their first win
               </p>
             </div>
 
             <div class="stats">
               <div class="stat">
-                <div class="num">01</div>
+                <div class="num">02</div>
                 <div class="label">Updates</div>
               </div>
               <div class="stat">
-                <div class="num">06</div>
+                <div class="num">08</div>
                 <div class="label">Players</div>
               </div>
               <div class="stat">
@@ -652,14 +711,14 @@
           <div class="section-head" style="margin-bottom:10px;">
             <div>
               <h2 style="font-size:22px;margin-bottom:4px;">Present Event</h2>
-              <p><img src="eventimg.png" alt="" style="width:30%"></p>
+              <p><img src="Nextevent.png" alt="" style="width:30%"></p>
             </div>
           </div>
           <div class="card">
             <div class="chip">Completed now</div>
-            <h3 style="margin-top:10px;">Chess 960 First edition</h3>
+            <h3 style="margin-top:10px;">Rapid Clash First edition</h3>
             <p>
-             Random Thinking
+             Through Jungle Challenges
             </p>
           </div>
         </div>
@@ -669,9 +728,10 @@
             <div>
               <h2 style="font-size:22px;margin-bottom:4px;">Upcoming Event</h2>
               <div style:float:right;>
-                 <p><img src="Nextevent.png" alt="" style="width:30%">  --<img src="Nextevent2.png" alt="" style="width:30%">  --<img src="Nextevent3.png" alt="" style="width:30%">
-                  <br>
-              <img src="NextEvent4.png" alt="" style="width:30%">  --<img src="Nextevent5.png" alt="" style="width:30%">  --<img src="Nextevent6.png" alt="" style="width:30%"></p>
+                 <p> <img src="Nextevent2.png" alt="" style="width:30%">  --<img src="Nextevent3.png" alt="" style="width:30%">
+                  
+              --<img src="Nextevent4.png" alt="" style="width:30%"> 
+              <br> <img src="Nextevent5.png" alt="" style="width:30%">  --<img src="Nextevent6.png" alt="" style="width:30%">--<img src="Nextevent7.png" alt="" style="width:30%"></p>
               <p></p>
               </div>
              
@@ -682,12 +742,13 @@
             <div class="chip">Coming soon</div>
             <h3 style="margin-top:10px;">List of event</h3>
             <p>
-             - Rapid Clash
+             
              - Speed Championship
              - Blitz Knockout
              - Champions Battle
              - Conference Game
              - Chess 960 Knockout
+             - Rapid Clash 2nd Edition
             </p>
           </div>
         </div>
@@ -700,57 +761,40 @@
           <h2>Top Story</h2>
           <p>Final conclusion</p>
         </div>
-       
+        
       </div>
 
       <div class="story-grid">
         <div class="story">
-          <h3>Teams deliver a dramatic finish in the latest featured match</h3>
+          <h3>Rapid Clash continues. Everyone needs a wins</h3>
           <p>
 
           </p>
-          The Chess960 First Edition has officially concluded, and it was one of the most exciting events in our chess league so far. Players displayed excellent competitiveness, impressive accuracy, and remarkable creativity throughout the tournament.
+           Rapid Clash enters its third round, even though only two rounds have been played so far. The tournament has already produced some exciting games, with Astronomer23 leading the standings once again.
 
-One of the most interesting aspects of this edition was that there were no draws. Every game ended with a decisive result—either a win or a loss. The event featured brilliant moves, unexpected blunders, and outstanding performances, with some players achieving accuracy ratings as high as 93%.
+At the moment, Astronomer23 has secured two wins from the seven games he is scheduled to play. Major,HayZedd, Davekeyz, and GeePrime each have one point, while Abayomi and Lah are still looking to get on the scoreboard. With only two rounds completed, there is still plenty of chess left to be played.
 
-The standings have seen significant changes following the conclusion of the tournament. Astronomer23 finished at the top after winning all five of his games, further establishing himself as one of the strongest competitors in the league.
+Unlike Chess960, this tournament follows standard chess rules, allowing players to rely more on familiar openings, strategies, and tactical ideas. This has made the games highly competitive and entertaining to watch.
 
-GeePrime made a remarkable improvement, climbing into fourth place among the best. Humblelear also recorded a rating increase thanks to several strong performances and high-accuracy games, moving from 10th place to 8th place on the table. Likewise, Lah improved his position by moving up one place in the rankings.
+We have also seen some impressive performances in terms of accuracy. So far, the highest game accuracy recorded is 96%, an outstanding achievement from Davekeyz. Humblelear has been playing exceptionally well, securing victories against GeePrime and Abayomi with strong and accurate play.
+
+The tournament is still wide open, and it is too early to predict the eventual winner.
 
 The overall rankings have also been updated. So far, 18 players have participated in league competitions. Active participation plays a major role in the rankings—the more games a player competes in, the greater the opportunity to climb the table. Players who become inactive may gradually drop in the rankings as new competitors join and other players continue to improve.
-          <br><button class="btn secondary" onclick="toggleSection('topMore')">Show More</button>
-          <p class="hidden" id="topMore">
-           With the completion of Season 1 Chess960, we now move on to Rapid Clash, which continues this week.
+          <br><br><br><button class="btn secondary" onclick="toggleSection('topMore')">Show More</button>
+<p class="hidden" id="topMore">
+          Anything can happen in the coming rounds. It will be interesting to see whether we have a new champion this time or if Astronomer23 can once again claim the title.
 
-In addition, our website has received a fresh update. The site's color theme now changes according to the current event, giving every tournament its own unique appearance and making the platform more attractive and engaging for visitors.
+More details and updates will be communicated soon as the tournament progresses. The remaining match dates are yet to be finalized.
 
-Upcoming Events
-
-Speed Championship III
-The Speed Championship returns for its third edition. Davekeyz won the first edition, while Astronomer23 claimed the second. The question now is: Who will become the champion of the third edition?
-
-Blitz Knockout
-The league's first-ever Blitz Knockout competition is coming soon, where players will battle in a fast-paced elimination format.
-
-Champions Battle
-This prestigious event features the top four players in the standings competing against one another for the title.
-
-Conference Game
-Designed for developing players, the Conference Game gives beginners and rising competitors an opportunity to challenge stronger opponents and gain valuable experience. Participants will include players ranked from 5th to 18th place, along with new and emerging players.
-
-Chess960 Knockout Championship
-The next Chess960 event will be played in a knockout format. Players who lose will initially be eliminated but will have a second chance through a revival bracket. Successful players from this stage can re-enter the competition before the final knockout rounds. More details about the format will be announced soon.
-
-Final Remarks
-
-We would like to thank all players, organizers, and supporters for making this event a success. Sportsmanship, competitiveness, and community spirit were on full display throughout the tournament. Every participant contributed to making the Chess960 First Edition a memorable experience.
 
 Stay tuned for more updates, and be sure to visit our website regularly for the latest news, standings, and upcoming events.
           </p>
           
         </div>
-        <div class="thumb"><img src="eventimg.png" alt="" srcset="" style="width:100%; height:100%"></div>
+        <div class="thumb"><img src="Nextevent.png" alt="" srcset="" style="width:100%; height:100%"></div>
       </div>
+      
     </section>
 
     
@@ -759,53 +803,67 @@ Stay tuned for more updates, and be sure to visit our website regularly for the 
     <section class="panel section">
       <div class="section-head">
         <div>
-          <h2>Players who participated</h2>
-          <p>Chess 960 players info</p>
+          <h2>Players participating</h2>
+          <p>Rapid Clash players info</p>
         </div>
-     
+      
       </div>
 
       <div class="grid-3">
-        <div class="player-card" onclick="openPlayer('GeePrime', '1703', 'Top-Best: 4', 'A strong current performer with a balanced style and solid ranking.')">
+        <div class="player-card" onclick="openPlayer('GeePrime', '960-1703, Rapid- 1401', 'Top-Best: 4')">
           <div class="avatar">G</div>
           <h4>GeePrime</h4>
-          <div class="small">Rating: 1703</div>
+          <div class="small">Rating: 1401</div>
           <div class="meta"><span>Top-Best: 4</span><span>Click for details</span></div>
         </div>
-        <div class="player-card" onclick="openPlayer('Humblelear', '1474', 'Top-Best: 10', 'He achieved a remarkable increase in his rankings.')">
+        <div class="player-card" onclick="openPlayer('Humblelear', '960-1474, Rapid- 1628', 'Top-Best: 8')">
           <div class="avatar">H</div>
           <h4>Humblelear</h4>
-          <div class="small">Rating: 1474</div>
+          <div class="small">Rating: 1628</div>
           <div class="meta"><span>Top-Best: 8</span><span>Click for details</span></div>
         </div>
-        <div class="player-card" onclick="openPlayer('Davekeyz', '1700', 'Top-Best: 2', 'One of the strongest players in the tournament. He still holds his 2nd dangerous player')">
+        <div class="player-card" onclick="openPlayer('Davekeyz', '960-1700, Rapid- 1714', 'Top-Best: 2')">
           <div class="avatar">D</div>
           <h4>Davekeyz</h4>
-          <div class="small">Rating: 1700</div>
+          <div class="small">Rating: 1714</div>
           <div class="meta"><span>Top-Best: 2</span><span>Click for details</span></div>
         </div>
-        
+         <div class="player-card" onclick="openPlayer('Abayomi', 'Rapid- 1363', 'Top-Best: 9')">
+          <div class="avatar">A</div>
+          <h4>Abayomi</h4>
+          <div class="small">Rating: 1363</div>
+          <div class="meta"><span>Top-Best: 9</span><span>Click for details</span></div>
+        </div>
+         <div class="player-card" onclick="openPlayer('Major', 'Rapid- 1588', 'Top-Best: 5')">
+          <div class="avatar">M</div>
+          <h4>Major</h4>
+          <div class="small">Rating: 1588</div>
+          <div class="meta"><span>Top-Best: 5</span><span>Click for details</span></div>
+        </div>
+         <div class="player-card" onclick="openPlayer('Astronomer23', '960-1801, Rapid- 1709', 'Top-Best: 1')">
+          <div class="avatar">A</div>
+          <h4>Astronomer23</h4>
+          <div class="small">Rating: 1709</div>
+          <div class="meta"><span>Top-Best: 1</span><span>Click for details</span></div>
+        </div>
       </div>
-         <br><button class="btn secondary" onclick="toggleSection('playerMore')">Show More</button>
+      
+      <br><br>
+        <button class="btn secondary" onclick="toggleSection('playerMore')">Show More</button>
 
       <div id="playerMore" class="hidden" style="margin-top:12px;">
         <div class="grid-3">
-         <div class="player-card" onclick="openPlayer('Astronomer23', '1801', 'Top-Best: 1', 'One of the strongest players in the tournament. He has three championship wins now')">
-          <div class="avatar">A</div>
-          <h4>Astronomer23</h4>
-          <div class="small">Rating: 1801</div>
-          <div class="meta"><span>Top-Best: 1</span><span>Click for details</span></div>
+        
+        <div class="player-card" onclick="openPlayer('HayZedd', 'Rapid-1434', 'Top-Best: 6')">
+          <div class="avatar">H</div>
+          <h4>HayZedd</h4>
+          <div class="small">Rating: 1434</div>
+          <div class="meta"><span>Top-Best: 6</span><span>Click for details</span></div>
         </div>
-        <div class="player-card" onclick="openPlayer('Creedaville0', '1650', 'Top-Best: 3', 'A remarkable player with strong tactical thinking')">
-          <div class="avatar">C</div>
-          <h4>Creedaville0</h4>
-          <div class="small">Rating: 1650</div>
-          <div class="meta"><span>Top-Best: 3</span><span>Click for details</span></div>
-        </div>
-        <div class="player-card" onclick="openPlayer('Lah', '1456', 'Top-Best: 7', 'A dedicated player who has performed in all competition so far')">
+        <div class="player-card" onclick="openPlayer('Lah', '960-1456 Rapid-1256', 'Top-Best: 7')">
           <div class="avatar">L</div>
           <h4>Lah</h4>
-          <div class="small">Rating: 1456</div>
+          <div class="small">Rating: 1256</div>
           <div class="meta"><span>Top-Best: 7</span><span>Click for details</span></div>
         </div>
         </div>
