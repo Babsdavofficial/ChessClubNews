@@ -21,8 +21,9 @@ onAuthStateChanged(auth, async (user) => {
   const userSnap = await getDoc(userRef);
 
   if (!userSnap.exists() || userSnap.data().role !== "admin") {
+     window.location.href = "community.html";
     alert("Access denied.");
-    window.location.href = "community.html";
+   
     return;
   }
 
