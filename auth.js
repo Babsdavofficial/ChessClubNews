@@ -208,6 +208,14 @@ if (profileBtn && profileDropdown) {
   });
 }
 
+if (adminPanelBtn && userData.role === "admin") {
+    adminPanelBtn.style.display = "block";
+
+    adminPanelBtn.addEventListener("click", () => {
+        window.location.href = "admin.html";
+    });
+}
+
 
 
 
