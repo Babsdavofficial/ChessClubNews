@@ -22,3 +22,4 @@ const auth = getAuth(app);
 
 // Export them so we can use them in other files later
 export { db, auth };
+console.log("🔥 Firebase Connected Successfully!");
