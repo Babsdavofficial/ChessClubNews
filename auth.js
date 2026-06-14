@@ -150,13 +150,18 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // LOGOUT
+// LOGOUT
 const logoutBtn = document.getElementById("logoutBtn");
 
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async () => {
-    await signOut(auth);
-    alert("Logged out successfully!");
-    window.location.href = "login.html";
+    try {
+      await signOut(auth);
+      window.location.href = "login.html";
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
   });
 }
 
