@@ -1,16 +1,17 @@
 
 // Import Firebase services
-import { auth, db } from "./firebase.js";
-
 import {
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 import {
   doc,
-  setDoc
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
 // Get form elements
 const signupBtn = document.getElementById("signupBtn");
 
