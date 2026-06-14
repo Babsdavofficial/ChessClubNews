@@ -392,7 +392,12 @@
       border-radius:999px;
       font-size:13px;
     }
-
+   input, textarea{
+  background: rgba(255,255,255,.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,.12);
+  font-family: inherit;
+}
 input::placeholder,
 textarea::placeholder{
   color: rgba(255,255,255,.55);
