@@ -113,6 +113,22 @@ onAuthStateChanged(auth, async (user) => {
 
       if (userSnap.exists()) {
         const userData = userSnap.data();
+        const profileName = document.getElementById("profileName");
+const profileEmail = document.getElementById("profileEmail");
+const fantasyPoints = document.getElementById("fantasyPoints");
+const triviaScore = document.getElementById("triviaScore");
+const predictionScore = document.getElementById("predictionScore");
+const adminPanelBtn = document.getElementById("adminPanelBtn");
+
+if (profileName) profileName.textContent = userData.username;
+if (profileEmail) profileEmail.textContent = userData.email;
+if (fantasyPoints) fantasyPoints.textContent = userData.fantasyPoints || 0;
+if (triviaScore) triviaScore.textContent = userData.triviaCorrect || 0;
+if (predictionScore) predictionScore.textContent = userData.predictionScore || 0;
+
+if (adminPanelBtn && userData.role === "admin") {
+  adminPanelBtn.style.display = "block";
+}
 
         if (userDisplay) {
           userDisplay.textContent = `👤 ${userData.username}`;
@@ -167,7 +183,30 @@ if (logoutBtn) {
 
 
 
+// PROFILE DROPDOWN
+const profileBtn = document.getElementById("profileBtn");
+const profileDropdown = document.getElementById("profileDropdown");
 
+if (profileBtn && profileDropdown) {
+  profileBtn.addEventListener("click", () => {
+    if (
+      profileDropdown.style.display === "block"
+    ) {
+      profileDropdown.style.display = "none";
+    } else {
+      profileDropdown.style.display = "block";
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (
+      !profileBtn.contains(event.target) &&
+      !profileDropdown.contains(event.target)
+    ) {
+      profileDropdown.style.display = "none";
+    }
+  });
+}
 
 
 
