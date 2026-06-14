@@ -98,6 +98,64 @@ if (loginBtn) {
   });
 }
 
+// KEEP USER LOGGED IN
+onAuthStateChanged(auth, async (user) => {
+
+  const userDisplay = document.getElementById("userDisplay");
+  const loginLink = document.getElementById("loginLink");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (user) {
+    console.log("User logged in:", user.email);
+
+    // Get user profile from Firestore
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const data = userSnap.data();
+
+      if (userDisplay) {
+        userDisplay.textContent = `👤 ${data.username}`;
+      }
+    }
+
+    if (loginLink) {
+      loginLink.style.display = "none";
+    }
+
+    if (logoutBtn) {
+      logoutBtn.style.display = "inline-block";
+    }
+
+  } else {
+
+    if (userDisplay) {
+      userDisplay.textContent = "Guest";
+    }
+
+    if (loginLink) {
+      loginLink.style.display = "inline-block";
+    }
+
+    if (logoutBtn) {
+      logoutBtn.style.display = "none";
+    }
+
+  }
+});
+
+// LOGOUT
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    await signOut(auth);
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+  });
+}
+
 
 
 
