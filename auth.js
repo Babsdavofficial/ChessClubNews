@@ -67,3 +67,44 @@ if (signupBtn) {
 
   });
 }
+
+// LOGIN
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", async () => {
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+
+      alert("🎉 Login successful!");
+
+      // Go to the main page after login
+      window.location.href = "community.html";
+
+    } catch (error) {
+      alert("Login failed: " + error.message);
+      console.error(error);
+    }
+
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
