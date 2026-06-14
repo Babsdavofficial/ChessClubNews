@@ -28,19 +28,37 @@
         <a href="#">Community</a>
       </nav>
 
-      <div style="display:flex;align-items:center;gap:10px;">
-  <span id="userDisplay">👤 Guest</span>
-
-  <a href="login.html" id="loginLink" class="btn secondary">
-    Login
-  </a>
-
-  <button
-    id="logoutBtn"
-    class="btn primary"
-    style="display:none;">
-    Logout
+  <div class="profile-menu">
+  <button id="profileBtn" class="btn secondary">
+    <span id="userDisplay">👤 Guest</span> ▼
   </button>
+
+  <div id="profileDropdown" class="profile-dropdown">
+    <p><strong id="profileName">Guest</strong></p>
+    <p id="profileEmail">Not logged in</p>
+
+    <hr>
+
+    <p>🏆 Fantasy Points: <span id="fantasyPoints">0</span></p>
+    <p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>
+    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
+
+    <hr>
+
+    <button
+      id="adminPanelBtn"
+      class="btn primary"
+      style="width:100%;display:none;margin-bottom:8px;">
+      👑 Admin Panel
+    </button>
+
+    <button
+      id="logoutBtn"
+      class="btn secondary"
+      style="width:100%;">
+      🚪 Logout
+    </button>
+  </div>
 </div>
     </header>
 
