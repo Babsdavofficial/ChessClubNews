@@ -88,7 +88,7 @@ if (loginBtn) {
       alert("🎉 Login successful!");
 
       // Go to the main page after login
-      window.location.href = "index.html";
+      window.location.href = "community.html";
 
     } catch (error) {
       alert("Login failed: " + error.message);
