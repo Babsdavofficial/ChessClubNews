@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Chess News Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<div class="wrap">
+
+  <!-- Top Bar -->
+  <header class="topbar panel">
+    <div class="brand">
+      <div class="logo">👑</div>
+      <div class="titlebox">
+        <h1>Admin Dashboard</h1>
+        <p>Manage Chess News Hub content.</p>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span id="userDisplay">👤 Admin</span>
+      <a href="community.html" class="btn secondary">Back to Site</a>
+      <button id="logoutBtn" class="btn primary">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <br>
+
+  <!-- Admin Controls -->
+  <section class="panel section">
+
+    <div class="section-head">
+      <div>
+        <h2>👑 Content Management</h2>
+        <p>Create and manage all public content from here.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+
+      <!-- Tournament Updates -->
+      <div class="card">
+        <div class="chip">📰 Updates</div>
+        <h3>Create Tournament Update</h3>
+        <p>Publish announcements and tournament news.</p>
+        <br>
+        <button id="openUpdatePanel" class="btn primary">
+          Create Update
+        </button>
+      </div>
+
+      <!-- Weekly Trivia -->
+      <div class="card">
+        <div class="chip">🧠 Trivia</div>
+        <h3>Weekly Chess Trivia</h3>
+        <p>Create a new trivia question.</p>
+        <br>
+        <button id="openTriviaPanel" class="btn primary">
+          New Trivia
+        </button>
+      </div>
+
+      <!-- Prediction -->
+      <div class="card">
+        <div class="chip">🎯 Predictions</div>
+        <h3>Prediction of the Week</h3>
+        <p>Set the featured match and options.</p>
+        <br>
+        <button id="openPredictionPanel" class="btn primary">
+          New Prediction
+        </button>
+      </div>
+
+    </div>
+
+    <br><br>
+
+    <div class="grid-3">
+
+      <!-- Puzzle -->
+      <div class="card">
+        <div class="chip">🧩 Puzzle</div>
+        <h3>Daily Puzzle</h3>
+        <p>Upload a new puzzle image and answer.</p>
+        <br>
+        <button id="openPuzzlePanel" class="btn primary">
+          Upload Puzzle
+        </button>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="card">
+        <div class="chip">🏆 Leaderboard</div>
+        <h3>Fantasy Rankings</h3>
+        <p>Update fantasy points and rankings.</p>
+        <br>
+        <button id="openLeaderboardPanel" class="btn primary">
+          Manage Leaderboard
+        </button>
+      </div>
+
+      <!-- Community -->
+      <div class="card">
+        <div class="chip">💬 Community</div>
+        <h3>Community Wall</h3>
+        <p>Review and moderate player discussions.</p>
+        <br>
+        <button id="openCommunityPanel" class="btn primary">
+          Moderate Chat
+        </button>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<script type="module" src="auth.js"></script>
+
+</body>
+</html>
