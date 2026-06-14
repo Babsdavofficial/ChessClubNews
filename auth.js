@@ -99,6 +99,7 @@ if (loginBtn) {
 }
 
 // KEEP USER LOGGED IN
+// KEEP USER LOGGED IN
 onAuthStateChanged(auth, async (user) => {
 
   const userDisplay = document.getElementById("userDisplay");
@@ -106,32 +107,34 @@ onAuthStateChanged(auth, async (user) => {
   const logoutBtn = document.getElementById("logoutBtn");
 
   if (user) {
-    console.log("User logged in:", user.email);
+    try {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
 
-    // Get user profile from Firestore
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
 
-    if (userSnap.exists()) {
-      const data = userSnap.data();
-
-      if (userDisplay) {
-        userDisplay.textContent = `👤 ${data.username}`;
+        if (userDisplay) {
+          userDisplay.textContent = `👤 ${userData.username}`;
+        }
       }
-    }
 
-    if (loginLink) {
-      loginLink.style.display = "none";
-    }
+      if (loginLink) {
+        loginLink.style.display = "none";
+      }
 
-    if (logoutBtn) {
-      logoutBtn.style.display = "inline-block";
+      if (logoutBtn) {
+        logoutBtn.style.display = "inline-block";
+      }
+
+    } catch (error) {
+      console.error(error);
     }
 
   } else {
 
     if (userDisplay) {
-      userDisplay.textContent = "Guest";
+      userDisplay.textContent = "👤 Guest";
     }
 
     if (loginLink) {
@@ -143,6 +146,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 
   }
+
 });
 
 // LOGOUT
