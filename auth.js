@@ -1,4 +1,4 @@
-
+import { auth, db } from "./firebase.js";
 // Import Firebase services
 import {
   createUserWithEmailAndPassword,
