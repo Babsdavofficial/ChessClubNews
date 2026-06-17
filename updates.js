@@ -29,7 +29,8 @@ async function loadUpdates() {
   updatesContainer.innerHTML = "";
 
   snapshot.forEach((doc) => {
-    const update = doc.data();
+  const update = doc.data();
+  const updateId = doc.id;
 
     updatesContainer.innerHTML += `
       <div class="card">
@@ -46,12 +47,62 @@ async function loadUpdates() {
 
         <div style="display:flex;justify-content:space-between;">
           <span>❤️ ${update.likes || 0} Likes</span>
-          <button class="btn secondary">Like</button>
+         <button
+  class="btn secondary likeBtn"
+  data-id="${updateId}">
+  ❤️ Like
+</button>
         </div>
       </div>
       <br>
     `;
   });
+
+
+loadUpdates();
+  document.addEventListener("click", async (e) => {
+
+  if (!e.target.classList.contains("likeBtn")) return;
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please login first.");
+    return;
+  }
+
+  const updateId = e.target.dataset.id;
+
+  const likeRef = doc(
+    db,
+    "updateLikes",
+    `${updateId}_${user.uid}`
+  );
+
+  const likeSnap = await getDoc(likeRef);
+
+  if (likeSnap.exists()) {
+    alert("You already liked this update.");
+    return;
+  }
+
+  await setDoc(likeRef, {
+    updateId,
+    userId: user.uid
+  });
+
+  await updateDoc(
+    doc(db, "updates", updateId),
+    {
+      likes: increment(1)
+    }
+  );
+
+  alert("❤️ Liked!");
+
+  loadUpdates();
+
+});
 }
 
 loadUpdates();
