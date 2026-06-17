@@ -18,16 +18,17 @@ if (publishBtn) {
     console.log("Title:", title);
     console.log("Content:", content);
 
-    if (image) {
-      console.log("Image selected:", image.name);
-    } else {
-      console.log("No image selected.");
-    }
+    if (imageName) {
+  console.log("Image filename:", imageName);
+} else {
+  console.log("No image provided.");
+}
 
-    alert(
-      "✅ Admin form is working!\n\n" +
-      "Title: " + title +
-      "\n\nNext step: Save to Firebase."
-    );
+alert(
+  "✅ Admin form is working!\n\n" +
+  "Title: " + title +
+  "\nImage: " + (imageName || "None") +
+  "\n\nNext step: Save to Firebase."
+);
   });
 }
