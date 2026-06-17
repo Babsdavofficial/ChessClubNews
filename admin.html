@@ -65,13 +65,18 @@
     style="width:100%;padding:12px;border:none;border-radius:12px;resize:vertical;margin:10px 0;"
   ></textarea>
 
-  <label>Update Image (Coming Next)</label>
-  <input
-    type="file"
-    id="updateImage"
-    accept="image/*"
-    style="width:100%;margin:10px 0;"
-  >
+ <label>Image Filename</label>
+<input
+  type="text"
+  id="updateImage"
+  placeholder="e.g. round5.jpg"
+  style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+>
+
+<p style="font-size:0.9em;opacity:0.8;">
+  Upload the image to your GitHub <strong>images/</strong> folder first,
+  then enter the filename here.
+</p>
 
   <button id="publishUpdateBtn" class="btn primary" style="width:100%;margin-top:10px;">
     🚀 Publish Update
