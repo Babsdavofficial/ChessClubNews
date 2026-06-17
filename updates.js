@@ -205,17 +205,12 @@ async function loadComments(updateId) {
 
     const comment = docSnap.data();
 
-    commentsList.innerHTML += `
-      <div style="
-        background:#f3f3f3;
-        padding:10px;
-        border-radius:10px;
-        margin-bottom:10px;
-      ">
-        <strong>${comment.username}</strong><br>
-        ${comment.text}
-      </div>
-    `;
+commentsList.innerHTML += `
+  <div class="comment-bubble">
+    <strong>${comment.username}</strong><br>
+    ${comment.text}
+  </div>
+`;
 
   });
 
