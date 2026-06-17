@@ -49,7 +49,10 @@ async function loadUpdates() {
       <hr style="margin:15px 0;opacity:.2;">
 
       <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+<div style="display:flex;gap:12px;">
   <span>❤️ ${update.likes || 0} Likes</span>
+  <span>💬 ${update.commentsCount || 0} Comments</span>
+</div>
 
   <div>
     <button
