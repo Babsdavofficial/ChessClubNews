@@ -44,15 +44,39 @@
     <div class="grid-3">
 
       <!-- Tournament Updates -->
-      <div class="card">
-        <div class="chip">📰 Updates</div>
-        <h3>Create Tournament Update</h3>
-        <p>Publish announcements and tournament news.</p>
-        <br>
-        <button id="openUpdatePanel" class="btn primary">
-          Create Update
-        </button>
-      </div>
+      <!-- Tournament Updates -->
+<div class="card">
+  <div class="chip">📰 Tournament Updates</div>
+  <h3>Create New Update</h3>
+
+  <label>Update Title</label>
+  <input
+    type="text"
+    id="updateTitle"
+    placeholder="e.g. Round 5 Pairings Released"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <label>Update Message</label>
+  <textarea
+    id="updateContent"
+    rows="5"
+    placeholder="Write the tournament update here..."
+    style="width:100%;padding:12px;border:none;border-radius:12px;resize:vertical;margin:10px 0;"
+  ></textarea>
+
+  <label>Update Image (Coming Next)</label>
+  <input
+    type="file"
+    id="updateImage"
+    accept="image/*"
+    style="width:100%;margin:10px 0;"
+  >
+
+  <button id="publishUpdateBtn" class="btn primary" style="width:100%;margin-top:10px;">
+    🚀 Publish Update
+  </button>
+</div>
 
       <!-- Weekly Trivia -->
       <div class="card">
