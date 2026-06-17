@@ -1,3 +1,4 @@
+
 import {
   collection,
   query,
@@ -7,10 +8,11 @@ import {
   getDoc,
   setDoc,
   updateDoc,
-  increment
+  increment,
+  addDoc,
+  where,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-import { auth, db } from "./firebase.js";
 
 const updatesContainer = document.getElementById("updatesContainer");
 
