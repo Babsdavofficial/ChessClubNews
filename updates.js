@@ -263,6 +263,12 @@ document.addEventListener("click", async (e) => {
       createdAt: serverTimestamp()
     }
   );
+  await updateDoc(
+  doc(db, "updates", updateId),
+  {
+    commentsCount: increment(1)
+  }
+);
 
   input.value = "";
 
