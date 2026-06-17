@@ -726,6 +726,92 @@ textarea::placeholder{
     }
     
 
-pre{
-  font-size:30px;
+/* =========================
+   MOBILE SIDEBAR
+========================= */
+
+.sidebar-toggle{
+  display:none;
+}
+
+.sidebar-overlay{
+  display:none;
+}
+
+@media (max-width: 900px){
+
+  .sidebar-toggle{
+    display:block;
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    z-index:999;
+
+    border:none;
+    cursor:pointer;
+
+    padding:12px 18px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+      135deg,
+      var(--green-600),
+      var(--green-700)
+    );
+
+    color:white;
+    font-weight:600;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+  }
+
+  .right-sidebar{
+    position:fixed;
+
+    top:0;
+    right:-100%;
+
+    width:320px;
+    max-width:90vw;
+
+    height:100vh;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    background:linear-gradient(
+      180deg,
+      rgba(11,61,46,.98),
+      rgba(20,92,67,.98)
+    );
+
+    z-index:1001;
+
+    transition:.35s ease;
+  }
+
+  .show-sidebar{
+    right:0;
+  }
+
+  .sidebar-overlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.55);
+
+    z-index:1000;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.35s;
+  }
+
+  .show-overlay{
+    opacity:1;
+    visibility:visible;
+  }
 }
