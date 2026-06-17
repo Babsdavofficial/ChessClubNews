@@ -1,11 +1,16 @@
-import { db } from "./firebase.js";
-
 import {
   collection,
   query,
   orderBy,
-  getDocs
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+import { auth, db } from "./firebase.js";
 
 const updatesContainer = document.getElementById("updatesContainer");
 
