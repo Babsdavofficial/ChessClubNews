@@ -39,30 +39,27 @@
     </div>
   </div>
 
-  <div class="updates-layout">
+ <div class="updates-layout">
 
-    <!-- LEFT SIDE : UPDATE GRID -->
-    <div>
+  <!-- LEFT COLUMN -->
+  <div class="updates-main">
 
-      <div class="grid-2">
-
-        <!-- Update Card 1 -->
-      <section class="panel section">
-  <div class="section-head">
-    <div>
-      <h2>📰 Latest Chess Updates</h2>
-      <p>Tournament news, announcements and community posts.</p>
-    </div>
-  </div>
-
-  <div id="updatesContainer">
-    <!-- Firestore updates will appear here -->
-  </div>
-</section>
+    <section class="panel section">
+      <div class="section-head">
+        <div>
+          <h2>📰 Latest Chess Updates</h2>
+          <p>Tournament news, announcements and community posts.</p>
+        </div>
       </div>
 
-        <!-- Update Card 2 -->
-       
+      <div id="updatesContainer">
+        <!-- Firestore updates -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- RIGHT COLUMN -->     
 
     <!-- RIGHT SIDEBAR -->
    <!-- Mobile Toggle Button -->
@@ -74,7 +71,7 @@
 <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
 <!-- RIGHT SIDEBAR -->
-<div id="rightSidebar" class="right-sidebar">
+<aside id="rightSidebar" class="right-sidebar">
 <button id="closeSidebar" class="btn secondary">
   ✖ Close
 </button>
@@ -157,7 +154,7 @@
 
 
             
-</div>
+</aside>
 <script type="module" src="firebase.js"></script>
 <script type="module" src="updates.js"></script>
     <script>
