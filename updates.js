@@ -100,6 +100,10 @@ async function loadUpdates() {
 
 loadUpdates();
 
+// =========================
+// LIKE UPDATE
+// =========================
+
 document.addEventListener("click", async (e) => {
 
   if (!e.target.classList.contains("likeBtn")) return;
@@ -142,8 +146,14 @@ document.addEventListener("click", async (e) => {
 
   loadUpdates();
 
+});
 
-  document.addEventListener("click", async (e) => {
+
+// =========================
+// OPEN/CLOSE COMMENTS
+// =========================
+
+document.addEventListener("click", async (e) => {
 
   if (!e.target.classList.contains("toggleCommentsBtn")) return;
 
@@ -152,19 +162,28 @@ document.addEventListener("click", async (e) => {
   const section =
     document.getElementById(`comments-${updateId}`);
 
+  if (!section) return;
+
   if (section.style.display === "none") {
+
     section.style.display = "block";
-    loadComments(updateId);
+
+    await loadComments(updateId);
+
   } else {
+
     section.style.display = "none";
+
   }
 
 });
 
 
+// =========================
+// LOAD COMMENTS
+// =========================
 
-
-  async function loadComments(updateId) {
+async function loadComments(updateId) {
 
   const commentsList =
     document.getElementById(`commentsList-${updateId}`);
@@ -182,18 +201,17 @@ document.addEventListener("click", async (e) => {
 
   commentsList.innerHTML = "";
 
-  snapshot.forEach((doc) => {
+  snapshot.forEach((docSnap) => {
 
-    const comment = doc.data();
+    const comment = docSnap.data();
 
     commentsList.innerHTML += `
-      <div
-        style="
-          background:#f3f3f3;
-          padding:10px;
-          border-radius:10px;
-          margin-bottom:10px;
-        ">
+      <div style="
+        background:#f3f3f3;
+        padding:10px;
+        border-radius:10px;
+        margin-bottom:10px;
+      ">
         <strong>${comment.username}</strong><br>
         ${comment.text}
       </div>
@@ -203,7 +221,12 @@ document.addEventListener("click", async (e) => {
 
 }
 
-  document.addEventListener("click", async (e) => {
+
+// =========================
+// POST COMMENT
+// =========================
+
+document.addEventListener("click", async (e) => {
 
   if (!e.target.classList.contains("postCommentBtn")) return;
 
@@ -221,14 +244,19 @@ document.addEventListener("click", async (e) => {
 
   const text = input.value.trim();
 
-  if (!text) return;
+  if (!text) {
+    alert("Write a comment first.");
+    return;
+  }
 
   const userSnap = await getDoc(
     doc(db, "users", user.uid)
   );
 
   const username =
-    userSnap.data().username;
+    userSnap.exists()
+      ? userSnap.data().username
+      : "Anonymous";
 
   await addDoc(
     collection(db, "comments"),
@@ -243,8 +271,6 @@ document.addEventListener("click", async (e) => {
 
   input.value = "";
 
-  loadComments(updateId);
-
-});
+  await loadComments(updateId);
 
 });
