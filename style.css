@@ -891,3 +891,22 @@ textarea::placeholder{
   margin-bottom: 10px;
   border: 1px solid rgba(255,255,255,0.1);
 }
+.commentsSection {
+  margin-top: 15px;
+}
+
+.comments-list {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* Optional custom scrollbar */
+.comments-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(255,255,255,0.25);
+}
