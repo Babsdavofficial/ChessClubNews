@@ -74,7 +74,11 @@
 
 <!-- RIGHT SIDEBAR -->
 <div id="rightSidebar" class="right-sidebar">
+<button id="closeSidebar" class="btn secondary">
+  ✖ Close
+</button>
 
+<br><br>
       <!-- Featured Discussion -->
       <div class="card">
         <div class="chip">📌 Hot Discussion</div>
@@ -159,16 +163,21 @@
 const sidebar = document.getElementById("rightSidebar");
 const toggleBtn = document.getElementById("sidebarToggle");
 const overlay = document.getElementById("sidebarOverlay");
+const closeBtn = document.getElementById("closeSidebar");
+
+function closeSidebar() {
+  sidebar.classList.remove("show-sidebar");
+  overlay.classList.remove("show-overlay");
+}
 
 toggleBtn.addEventListener("click", () => {
   sidebar.classList.add("show-sidebar");
   overlay.classList.add("show-overlay");
 });
 
-overlay.addEventListener("click", () => {
-  sidebar.classList.remove("show-sidebar");
-  overlay.classList.remove("show-overlay");
-});
+overlay.addEventListener("click", closeSidebar);
+
+closeBtn.addEventListener("click", closeSidebar);
 </script>
 </body>
 <script>
