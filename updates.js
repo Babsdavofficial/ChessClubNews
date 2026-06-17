@@ -47,16 +47,50 @@ async function loadUpdates() {
 
       <hr style="margin:15px 0;opacity:.2;">
 
-      <div style="display:flex;justify-content:space-between;">
-        <span>❤️ ${update.likes || 0} Likes</span>
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+  <span>❤️ ${update.likes || 0} Likes</span>
 
-        <button
-          class="btn secondary likeBtn"
-          data-id="${updateId}">
-          ❤️ Like
-        </button>
-      </div>
-    </div>
+  <div>
+    <button
+      class="btn secondary likeBtn"
+      data-id="${updateId}">
+      ❤️ Like
+    </button>
+
+    <button
+      class="btn primary toggleCommentsBtn"
+      data-id="${updateId}">
+      💬 Comments
+    </button>
+  </div>
+</div>
+
+<div
+  id="comments-${updateId}"
+  class="commentsSection"
+  style="display:none;margin-top:15px;">
+
+  <div
+    id="commentsList-${updateId}"
+    style="margin-bottom:10px;">
+  </div>
+
+  <textarea
+    id="commentInput-${updateId}"
+    rows="2"
+    placeholder="Write a comment..."
+    style="width:100%;padding:10px;border-radius:12px;">
+  </textarea>
+
+  <br><br>
+
+  <button
+    class="btn primary postCommentBtn"
+    data-id="${updateId}">
+    Post Comment
+  </button>
+
+</div>
     <br>
   `;
 });
