@@ -141,4 +141,109 @@ document.addEventListener("click", async (e) => {
 
   loadUpdates();
 
+
+  document.addEventListener("click", async (e) => {
+
+  if (!e.target.classList.contains("toggleCommentsBtn")) return;
+
+  const updateId = e.target.dataset.id;
+
+  const section =
+    document.getElementById(`comments-${updateId}`);
+
+  if (section.style.display === "none") {
+    section.style.display = "block";
+    loadComments(updateId);
+  } else {
+    section.style.display = "none";
+  }
+
+});
+
+
+
+
+  async function loadComments(updateId) {
+
+  const commentsList =
+    document.getElementById(`commentsList-${updateId}`);
+
+  if (!commentsList) return;
+
+  commentsList.innerHTML = "Loading comments...";
+
+  const q = query(
+    collection(db, "comments"),
+    where("updateId", "==", updateId)
+  );
+
+  const snapshot = await getDocs(q);
+
+  commentsList.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+
+    const comment = doc.data();
+
+    commentsList.innerHTML += `
+      <div
+        style="
+          background:#f3f3f3;
+          padding:10px;
+          border-radius:10px;
+          margin-bottom:10px;
+        ">
+        <strong>${comment.username}</strong><br>
+        ${comment.text}
+      </div>
+    `;
+
+  });
+
+}
+
+  document.addEventListener("click", async (e) => {
+
+  if (!e.target.classList.contains("postCommentBtn")) return;
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please login first.");
+    return;
+  }
+
+  const updateId = e.target.dataset.id;
+
+  const input =
+    document.getElementById(`commentInput-${updateId}`);
+
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const userSnap = await getDoc(
+    doc(db, "users", user.uid)
+  );
+
+  const username =
+    userSnap.data().username;
+
+  await addDoc(
+    collection(db, "comments"),
+    {
+      updateId,
+      userId: user.uid,
+      username,
+      text,
+      createdAt: serverTimestamp()
+    }
+  );
+
+  input.value = "";
+
+  loadComments(updateId);
+
+});
+
 });
