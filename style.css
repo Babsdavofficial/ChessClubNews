@@ -899,6 +899,8 @@ textarea::placeholder{
   max-height: 250px;
   overflow-y: auto;
   padding-right: 5px;
+ width:250px;
+   font-size:12px;
 }
 
 /* Optional custom scrollbar */
