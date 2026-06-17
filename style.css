@@ -549,9 +549,18 @@ textarea::placeholder{
 }
 
 .profile-dropdown {
+    
+  width: 280px;
+  max-width: calc(100vw - 20px);
+
+  right: 0;
+  left: auto;
+
+  box-sizing: border-box;
+
   display: none;
   position: absolute;
-  right: 15;
+
   top: 110%;
   min-width: 240px;
   background: #1b1b1b;
@@ -814,4 +823,19 @@ textarea::placeholder{
     opacity:1;
     visibility:visible;
   }
+}
+@media (max-width: 768px){
+
+  .profile-dropdown{
+    position: absolute;
+
+    left: 10px !important;
+    right: 10px !important;
+
+    width: auto !important;
+    max-width: none !important;
+
+    min-width: 0 !important;
+  }
+
 }
