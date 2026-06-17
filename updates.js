@@ -83,7 +83,7 @@ async function loadUpdates() {
     id="commentInput-${updateId}"
     rows="2"
     placeholder="Write a comment..."
-    style="width:100%;padding:10px;border-radius:12px;">
+    style="width:100%;padding:10px;border-radius:12px;height: 120px; resize: none;overflow-y: auto;">
   </textarea>
 
   <br><br>
