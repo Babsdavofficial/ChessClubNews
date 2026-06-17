@@ -1,39 +1,54 @@
-// Temporary Admin Update Handler
+import { db, auth } from "./firebase.js";
+
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const publishBtn = document.getElementById("publishUpdateBtn");
 
 if (publishBtn) {
-  publishBtn.addEventListener("click", () => {
+  publishBtn.addEventListener("click", async () => {
 
     const title = document.getElementById("updateTitle").value.trim();
     const content = document.getElementById("updateContent").value.trim();
     const imageName = document.getElementById("updateImage").value.trim();
 
     if (!title || !content) {
-      alert("Please enter both a title and an update message.");
+      alert("Please fill in the title and update message.");
       return;
     }
 
-    // GitHub image folder
+    // GitHub image path
     const baseImageUrl =
       "https://babsdavofficial.github.io/ChessClubNews/images/";
 
-    // Build full image URL automatically
     const imageUrl = imageName
       ? baseImageUrl + imageName
       : "";
 
-    console.log("=== NEW UPDATE ===");
-    console.log("Title:", title);
-    console.log("Content:", content);
-    console.log("Image URL:", imageUrl);
+    try {
+      await addDoc(collection(db, "updates"), {
+        title: title,
+        content: content,
+        imageUrl: imageUrl,
+        author: auth.currentUser ? auth.currentUser.uid : "admin",
+        likes: 0,
+        createdAt: serverTimestamp()
+      });
 
-    alert(
-      "✅ Admin form is working!\n\n" +
-      "Title: " + title +
-      "\nImage URL: " + (imageUrl || "No image") +
-      "\n\nNext step: Save to Firestore."
-    );
+      alert("✅ Update published successfully!");
+
+      // Clear form
+      document.getElementById("updateTitle").value = "";
+      document.getElementById("updateContent").value = "";
+      document.getElementById("updateImage").value = "";
+
+    } catch (error) {
+      console.error(error);
+      alert("❌ Failed to publish update.");
+    }
 
   });
 }
