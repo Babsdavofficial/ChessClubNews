@@ -28,39 +28,42 @@ async function loadUpdates() {
 
   updatesContainer.innerHTML = "";
 
-  snapshot.forEach((doc) => {
+ snapshot.forEach((doc) => {
   const update = doc.data();
   const updateId = doc.id;
 
-    updatesContainer.innerHTML += `
-      <div class="card">
-        ${update.imageUrl ? `
-          <img src="${update.imageUrl}"
-               style="width:100%;border-radius:14px;margin-bottom:12px;">
-        ` : ""}
+  updatesContainer.innerHTML += `
+    <div class="card">
+      ${update.imageUrl ? `
+        <img src="${update.imageUrl}"
+             style="width:100%;border-radius:14px;margin-bottom:12px;">
+      ` : ""}
 
-        <div class="chip">Latest Update</div>
-        <h3>${update.title}</h3>
-        <p>${update.content}</p>
+      <div class="chip">Latest Update</div>
+      <h3>${update.title}</h3>
+      <p>${update.content}</p>
 
-        <hr style="margin:15px 0;opacity:.2;">
+      <hr style="margin:15px 0;opacity:.2;">
 
-        <div style="display:flex;justify-content:space-between;">
-          <span>❤️ ${update.likes || 0} Likes</span>
-         <button
-  class="btn secondary likeBtn"
-  data-id="${updateId}">
-  ❤️ Like
-</button>
-        </div>
+      <div style="display:flex;justify-content:space-between;">
+        <span>❤️ ${update.likes || 0} Likes</span>
+
+        <button
+          class="btn secondary likeBtn"
+          data-id="${updateId}">
+          ❤️ Like
+        </button>
       </div>
-      <br>
-    `;
-  });
+    </div>
+    <br>
+  `;
+});
 
+} // closes loadUpdates()
 
 loadUpdates();
-  document.addEventListener("click", async (e) => {
+
+document.addEventListener("click", async (e) => {
 
   if (!e.target.classList.contains("likeBtn")) return;
 
@@ -103,6 +106,3 @@ loadUpdates();
   loadUpdates();
 
 });
-}
-
-loadUpdates();
