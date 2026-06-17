@@ -551,7 +551,7 @@ textarea::placeholder{
 .profile-dropdown {
   display: none;
   position: absolute;
-  right: 0;
+  right: 15;
   top: 110%;
   min-width: 240px;
   background: #1b1b1b;
