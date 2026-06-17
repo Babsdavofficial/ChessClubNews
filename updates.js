@@ -72,9 +72,9 @@ async function loadUpdates() {
   style="display:none;margin-top:15px;">
 
   <div
-    id="commentsList-${updateId}"
-    style="margin-bottom:10px;">
-  </div>
+  id="commentsList-${updateId}"
+  class="comments-list">
+</div>
 
   <textarea
     id="commentInput-${updateId}"
