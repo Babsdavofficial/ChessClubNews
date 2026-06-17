@@ -858,40 +858,50 @@ textarea::placeholder{
 
 
 
-
-/* Main Updates Layout */
+/* Main Layout */
 .updates-layout{
-  display:grid;
+  display: grid;
   grid-template-columns: 2fr 1fr;
-  gap:24px;
-  align-items:start;
+  gap: 24px;
+  align-items: start;
 }
 
-/* Desktop Sidebar */
+/* Updates Area */
+.updates-content{
+  display: grid;
+  gap: 20px;
+}
+
+/* Firestore Update Cards */
+#updatesContainer{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+/* Individual update card */
+.update-card{
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+/* Sidebar */
 .right-sidebar{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+  display: grid;
+  gap: 20px;
+  position: sticky;
+  top: 20px;
 }
 
-/* Desktop */
-@media (min-width: 769px){
-
+/* Mobile */
+@media (max-width: 900px){
   .updates-layout{
-    grid-template-columns: 1.8fr 0.9fr;
+    grid-template-columns: 1fr;
   }
 
-  .sidebar-toggle{
-    display:none;
-  }
-
-  #closeSidebar{
-    display:none;
-  }
-
-  .right-sidebar{
-    position:sticky;
-    top:20px;
-    height:fit-content;
+  #updatesContainer{
+    grid-template-columns: 1fr;
   }
 }
