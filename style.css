@@ -319,6 +319,11 @@
       margin-top:18px;
       padding:22px;
     }
+#closeSidebar {
+  display: none;
+}
+
+
 
     .section-head{
       display:flex;
@@ -838,4 +843,9 @@ textarea::placeholder{
     min-width: 0 !important;
   }
 
+}
+@media (max-width: 768px) {
+  #closeSidebar {
+    display: block;
+  }
 }
