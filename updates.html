@@ -64,7 +64,16 @@
        
 
     <!-- RIGHT SIDEBAR -->
-    <div>
+   <!-- Mobile Toggle Button -->
+<button id="sidebarToggle" class="sidebar-toggle">
+  💬 Discussions
+</button>
+
+<!-- Sidebar Overlay -->
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+<!-- RIGHT SIDEBAR -->
+<div id="rightSidebar" class="right-sidebar">
 
       <!-- Featured Discussion -->
       <div class="card">
@@ -146,6 +155,21 @@
 </div>
 <script type="module" src="firebase.js"></script>
 <script type="module" src="updates.js"></script>
+    <script>
+const sidebar = document.getElementById("rightSidebar");
+const toggleBtn = document.getElementById("sidebarToggle");
+const overlay = document.getElementById("sidebarOverlay");
+
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.add("show-sidebar");
+  overlay.classList.add("show-overlay");
+});
+
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("show-sidebar");
+  overlay.classList.remove("show-overlay");
+});
+</script>
 </body>
 <script>
     function toggleSection(id){
