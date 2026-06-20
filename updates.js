@@ -42,104 +42,138 @@ onAuthStateChanged(auth, async (user) => {
 const updatesContainer = document.getElementById("updatesContainer");
 
 async function loadUpdates() {
+
   if (!updatesContainer) return;
 
-  updatesContainer.innerHTML = "<p>Loading updates...</p>";
+  updatesContainer.innerHTML =
+    "<p>Loading updates...</p>";
 
   const q = query(
     collection(db, "updates"),
     orderBy("createdAt", "desc")
   );
 
-snapshot.forEach((doc) => {
+  onSnapshot(q, (snapshot) => {
 
-  const update = doc.data();
-  const updateId = doc.id;
+    updatesContainer.innerHTML = "";
 
-  updatesContainer.innerHTML += `
-    <div class="card">
+    snapshot.forEach((docSnap) => {
 
-      ${update.imageUrl ? `
-        <img src="${update.imageUrl}"
-        style="width:100%;border-radius:14px;margin-bottom:12px;">
-      ` : ""}
+      const update = docSnap.data();
+      const updateId = docSnap.id;
 
-      <div class="chip">Latest Update</div>
+      updatesContainer.innerHTML += `
+        <div class="card">
 
-      <h3>${update.title}</h3>
-
-      <p>${update.content}</p>
-
-      <hr style="margin:15px 0;opacity:.2;">
-
-      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-
-        <div style="display:flex;gap:12px;">
-          <span>❤️ ${update.likes || 0} Likes</span>
-          <span>💬 ${update.commentsCount || 0} Comments</span>
-        </div>
-
-        <div>
-
-          <button
-            class="btn secondary likeBtn"
-            data-id="${updateId}">
-            ❤️ Like
-          </button>
-
-          <button
-            class="btn primary toggleCommentsBtn"
-            data-id="${updateId}">
-            💬 Comments
-          </button>
-
-          ${isAdmin ? `
-          <button
-            class="btn secondary deleteUpdateBtn"
-            data-id="${updateId}">
-            🗑 Delete
-          </button>
+          ${update.imageUrl ? `
+            <img
+              src="${update.imageUrl}"
+              style="
+                width:100%;
+                border-radius:14px;
+                margin-bottom:12px;
+              ">
           ` : ""}
 
+          <div class="chip">
+            Latest Update
+          </div>
+
+          <h3>${update.title}</h3>
+
+          <p>${update.content}</p>
+
+          <hr style="margin:15px 0;opacity:.2;">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            gap:10px;
+            flex-wrap:wrap;
+          ">
+
+            <div style="display:flex;gap:12px;">
+              <span>
+                ❤️ ${update.likes || 0} Likes
+              </span>
+
+              <span>
+                💬 ${update.commentsCount || 0} Comments
+              </span>
+            </div>
+
+            <div>
+
+              <button
+                class="btn secondary likeBtn"
+                data-id="${updateId}">
+                ❤️ Like
+              </button>
+
+              <button
+                class="btn primary toggleCommentsBtn"
+                data-id="${updateId}">
+                💬 Comments
+              </button>
+
+              ${isAdmin ? `
+                <button
+                  class="btn secondary deleteUpdateBtn"
+                  data-id="${updateId}">
+                  🗑 Delete
+                </button>
+              ` : ""}
+
+            </div>
+
+          </div>
+
+          <div
+            id="comments-${updateId}"
+            class="commentsSection"
+            style="
+              display:none;
+              margin-top:15px;
+            ">
+
+            <div
+              id="commentsList-${updateId}"
+              class="comments-list">
+            </div>
+
+            <textarea
+              id="commentInput-${updateId}"
+              rows="2"
+              placeholder="Write a comment..."
+              style="
+                width:100%;
+                padding:10px;
+                border-radius:12px;
+                height:120px;
+                resize:none;
+              ">
+            </textarea>
+
+            <br><br>
+
+            <button
+              class="btn primary postCommentBtn"
+              data-id="${updateId}">
+              Post Comment
+            </button>
+
+          </div>
+
+          <br>
+
         </div>
+      `;
 
-      </div>
+    });
 
-      <div
-        id="comments-${updateId}"
-        class="commentsSection"
-        style="display:none;margin-top:15px;">
+  });
 
-        <div
-          id="commentsList-${updateId}"
-          class="comments-list">
-        </div>
-
-        <textarea
-          id="commentInput-${updateId}"
-          rows="2"
-          placeholder="Write a comment..."
-          style="width:100%;padding:10px;border-radius:12px;height:120px;resize:none;">
-        </textarea>
-
-        <br><br>
-
-        <button
-          class="btn primary postCommentBtn"
-          data-id="${updateId}">
-          Post Comment
-        </button>
-
-      </div>
-
-    </div>
-
-    <br>
-  `;
-}); 
-}); // closes onSnapshot
-
-} // closes loadUpdates
+}
 
 loadUpdates();
 
