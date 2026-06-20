@@ -208,7 +208,7 @@ if (profileBtn && profileDropdown) {
   });
 }
 
-if (adminPanelBtn && userSnap.role === "admin") {
+if (adminPanelBtn && userData.role === "admin") {
     adminPanelBtn.style.display = "block";
 
     adminPanelBtn.addEventListener("click", () => {
