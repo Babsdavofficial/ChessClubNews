@@ -283,8 +283,30 @@ async function loadComments(updateId) {
 
 commentsList.innerHTML += `
   <div class="comment-bubble">
-    <strong>${comment.username}</strong><br>
-    ${comment.text}
+
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    ">
+
+      <div>
+        <strong>${comment.username}</strong><br>
+        ${comment.text}
+      </div>
+
+      ${isAdmin ? `
+      <button
+        class="btn secondary deleteCommentBtn"
+        data-id="${docSnap.id}"
+        data-update="${updateId}">
+        🗑
+      </button>
+      ` : ""}
+
+    </div>
+
   </div>
 `;
 
@@ -412,5 +434,44 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+document.addEventListener("click", async (e) => {
 
+  if (!e.target.classList.contains("deleteCommentBtn"))
+    return;
+
+  if (!confirm("Delete this comment?"))
+    return;
+
+  const commentId =
+    e.target.dataset.id;
+
+  const updateId =
+    e.target.dataset.update;
+
+  try {
+
+    await deleteDoc(
+      doc(db, "comments", commentId)
+    );
+
+    await updateDoc(
+      doc(db, "updates", updateId),
+      {
+        commentsCount: increment(-1)
+      }
+    );
+
+    alert("✅ Comment deleted");
+
+    loadComments(updateId);
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Failed to delete comment");
+
+  }
+
+});
  
