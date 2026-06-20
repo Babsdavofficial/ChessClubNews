@@ -13,7 +13,9 @@ import {
   where,
   onSnapshot,
   serverTimestamp,
-  deleteDoc
+  deleteDoc,
+  writeBatch,
+  limit
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged }
@@ -649,6 +651,141 @@ document.addEventListener("click", async (e) => {
     );
 
     alert("✅ Registration submitted!");
+
+    document.getElementById("regName").value = "";
+    document.getElementById("regEmail").value = "";
+    document.getElementById("regPhone").value = "";
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Registration failed.");
+
+  }
+
+});
+
+async function loadEventRegistration() {
+
+  const container =
+    document.getElementById(
+      "eventRegistrationContent"
+    );
+
+  if (!container) return;
+
+  const q = query(
+    collection(db, "events"),
+    where("active", "==", true),
+    limit(1)
+  );
+
+  const snapshot = await getDocs(q);
+
+  if (snapshot.empty) {
+
+    container.innerHTML = `
+      <p>No active event registration.</p>
+    `;
+
+    return;
+  }
+
+  const eventDoc = snapshot.docs[0];
+
+  const event = eventDoc.data();
+
+  container.innerHTML = `
+
+    <h3>${event.title}</h3>
+
+    <p>${event.description}</p>
+
+    <input
+      id="regName"
+      type="text"
+      placeholder="Full Name"
+      style="
+        width:100%;
+        padding:10px;
+        margin-top:10px;
+        border-radius:10px;
+      ">
+
+    <br><br>
+
+    <input
+      id="regEmail"
+      type="email"
+      placeholder="Email Address"
+      style="
+        width:100%;
+        padding:10px;
+        border-radius:10px;
+      ">
+
+    <br><br>
+
+    <input
+      id="regPhone"
+      type="text"
+      placeholder="Phone Number"
+      style="
+        width:100%;
+        padding:10px;
+        border-radius:10px;
+      ">
+
+    <br><br>
+
+    <button
+      class="btn primary"
+      id="registerEventBtn"
+      data-id="${eventDoc.id}">
+      Register
+    </button>
+
+  `;
+}
+loadEventRegistration();
+document.addEventListener("click", async (e) => {
+
+  if (e.target.id !== "registerEventBtn")
+    return;
+
+  const eventId = e.target.dataset.id;
+
+  const name =
+    document.getElementById("regName").value.trim();
+
+  const email =
+    document.getElementById("regEmail").value.trim();
+
+  const phone =
+    document.getElementById("regPhone").value.trim();
+
+  if (!name || !email || !phone) {
+
+    alert("Fill all fields.");
+
+    return;
+  }
+
+  try {
+
+    await addDoc(
+      collection(db, "registrations"),
+      {
+        eventId,
+        name,
+        email,
+        phone,
+        createdAt: serverTimestamp()
+      }
+    );
+
+    alert("✅ Registration successful!");
 
     document.getElementById("regName").value = "";
     document.getElementById("regEmail").value = "";
