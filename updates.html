@@ -11,6 +11,7 @@
 <div class="wrap">
 
 
+   
     <header class="topbar panel">
       <div class="brand">
         <div class="logo">FET</div>
@@ -24,9 +25,42 @@
         <a href="index.html">Top Story</a>
         <a href="matches.html">Matches</a>
         <a href="standings.html">Standings</a>
-        <a href="#">Updates</a>
-        <a href="#">Community</a>
+        <a href="updates.html">Updates</a>
+        <a href="community.html">Community</a>
       </nav>
+
+  <div class="profile-menu">
+  <button id="profileBtn" class="btn secondary">
+    <span id="userDisplay">👤 Guest</span> ▼
+  </button>
+
+  <div id="profileDropdown" class="profile-dropdown" style= "float:right;">
+    <p><strong id="profileName">Guest</strong></p>
+    
+
+    <hr>
+    <p id="profileEmail">Not logged in</p>
+    <p>🏆 Fantasy Points: <span id="fantasyPoints">0</span></p>
+    <p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>
+    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
+
+    <hr>
+
+   <button
+  id="adminPanelBtn"
+  class="btn primary"
+  style="width:100%;display:none;margin-bottom:8px;">
+  👑 Admin Dashboard
+</button>
+
+    <button
+      id="logoutBtn"
+      class="btn secondary"
+      style="width:100%;">
+      🚪 Logout
+    </button>
+  </div>
+</div>
     </header>
    
 
