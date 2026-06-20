@@ -20,23 +20,17 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 onAuthStateChanged(auth, async (user) => {
+  isAdmin = false;
 
-  if (!user) {
-    isAdmin = false;
-    return;
+  if (user) {
+    const userSnap = await getDoc(doc(db, "users", user.uid));
+
+    if (userSnap.exists() && userSnap.data().role === "admin") {
+      isAdmin = true;
+    }
   }
 
-  const userSnap = await getDoc(
-    doc(db, "users", user.uid)
-  );
-
-  if (
-    userSnap.exists() &&
-    userSnap.data().role === "admin"
-  ) {
-    isAdmin = true;
-  }
-
+  loadUpdates(); // 👈 move here
 });
 
 const updatesContainer = document.getElementById("updatesContainer");
@@ -344,7 +338,7 @@ document.addEventListener("click", async (e) => {
 
     alert("✅ Update deleted.");
 
-    loadUpdates();
+ 
 
   } catch (error) {
 
