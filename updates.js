@@ -614,3 +614,52 @@ document.addEventListener(
 
   }
 );
+// =========================
+// TOURNAMENT REGISTRATION
+// =========================
+
+document.addEventListener("click", async (e) => {
+
+  if (e.target.id !== "registerTournamentBtn") return;
+
+  const name =
+    document.getElementById("regName").value.trim();
+
+  const email =
+    document.getElementById("regEmail").value.trim();
+
+  const phone =
+    document.getElementById("regPhone").value.trim();
+
+  if (!name || !email || !phone) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  try {
+
+    await addDoc(
+      collection(db, "registrations"),
+      {
+        name,
+        email,
+        phone,
+        createdAt: serverTimestamp()
+      }
+    );
+
+    alert("✅ Registration submitted!");
+
+    document.getElementById("regName").value = "";
+    document.getElementById("regEmail").value = "";
+    document.getElementById("regPhone").value = "";
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Registration failed.");
+
+  }
+
+});
