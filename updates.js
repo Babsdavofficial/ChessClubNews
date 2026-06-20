@@ -20,29 +20,28 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 onAuthStateChanged(auth, async (user) => {
-  isAdmin = false;
 
-  if (user) {
-    const userSnap = await getDoc(doc(db, "users", user.uid));
-
-    if (userSnap.exists() && userSnap.data().role === "admin") {
-      isAdmin = true;
-    }
+  if (!user) {
+    isAdmin = false;
+    return;
   }
 
-  loadUpdates(); // 👈 move here
+  const userSnap = await getDoc(
+    doc(db, "users", user.uid)
+  );
+
+  if (
+    userSnap.exists() &&
+    userSnap.data().role === "admin"
+  ) {
+    isAdmin = true;
+  }
+
 });
-function escapeHtml(str = "") {
-  return str
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
+
 const updatesContainer = document.getElementById("updatesContainer");
 
-function loadUpdates() {
+async function loadUpdates() {
   if (!updatesContainer) return;
 
   updatesContainer.innerHTML = "<p>Loading updates...</p>";
@@ -52,73 +51,96 @@ function loadUpdates() {
     orderBy("createdAt", "desc")
   );
 
-  onSnapshot(q, (snapshot) => {
-    updatesContainer.innerHTML = "";
+snapshot.forEach((doc) => {
 
-    snapshot.forEach((docSnap) => {
-      const update = docSnap.data();
-      const updateId = docSnap.id;
+  const update = doc.data();
+  const updateId = doc.id;
 
-      updatesContainer.innerHTML += `
-        <div class="card">
+  updatesContainer.innerHTML += `
+    <div class="card">
 
-          ${update.imageUrl ? `
-            <img src="${update.imageUrl}"
-            style="width:100%;border-radius:14px;margin-bottom:12px;">
+      ${update.imageUrl ? `
+        <img src="${update.imageUrl}"
+        style="width:100%;border-radius:14px;margin-bottom:12px;">
+      ` : ""}
+
+      <div class="chip">Latest Update</div>
+
+      <h3>${update.title}</h3>
+
+      <p>${update.content}</p>
+
+      <hr style="margin:15px 0;opacity:.2;">
+
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+
+        <div style="display:flex;gap:12px;">
+          <span>❤️ ${update.likes || 0} Likes</span>
+          <span>💬 ${update.commentsCount || 0} Comments</span>
+        </div>
+
+        <div>
+
+          <button
+            class="btn secondary likeBtn"
+            data-id="${updateId}">
+            ❤️ Like
+          </button>
+
+          <button
+            class="btn primary toggleCommentsBtn"
+            data-id="${updateId}">
+            💬 Comments
+          </button>
+
+          ${isAdmin ? `
+          <button
+            class="btn secondary deleteUpdateBtn"
+            data-id="${updateId}">
+            🗑 Delete
+          </button>
           ` : ""}
 
-          <div class="chip">Latest Update</div>
+        </div>
 
-          <h3>${escapeHtml(update.title)}</h3>
-          <p>${escapeHtml(update.content)}</p>
+      </div>
 
-          <hr style="margin:15px 0;opacity:.2;">
+      <div
+        id="comments-${updateId}"
+        class="commentsSection"
+        style="display:none;margin-top:15px;">
 
-          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div
+          id="commentsList-${updateId}"
+          class="comments-list">
+        </div>
 
-            <div>
-              <span>❤️ ${update.likes || 0} Likes</span>
-              <span>💬 ${update.commentsCount || 0} Comments</span>
-            </div>
+        <textarea
+          id="commentInput-${updateId}"
+          rows="2"
+          placeholder="Write a comment..."
+          style="width:100%;padding:10px;border-radius:12px;height:120px;resize:none;">
+        </textarea>
 
-            <div>
-              <button class="btn secondary likeBtn" data-id="${updateId}">
-                ❤️ Like
-              </button>
+        <br><br>
 
-              <button class="btn primary toggleCommentsBtn" data-id="${updateId}">
-                💬 Comments
-              </button>
+        <button
+          class="btn primary postCommentBtn"
+          data-id="${updateId}">
+          Post Comment
+        </button>
 
-              ${isAdmin ? `
-                <button class="btn secondary deleteUpdateBtn" data-id="${updateId}">
-                  🗑 Delete
-                </button>
-              ` : ""}
-            </div>
+      </div>
 
-          </div>
+    </div>
 
-          <div id="comments-${updateId}" class="commentsSection" style="display:none;margin-top:15px;">
-            <div id="commentsList-${updateId}" class="comments-list"></div>
+    <br>
+  `;
 
-            <textarea id="commentInput-${updateId}" rows="2"
-              placeholder="Write a comment..."
-              style="width:100%;padding:10px;border-radius:12px;height:120px;resize:none;">
-            </textarea>
+}); // closes onSnapshot
 
-            <br><br>
+} // closes loadUpdates
 
-            <button class="btn primary postCommentBtn" data-id="${updateId}">
-              Post Comment
-            </button>
-          </div>
-
-        </div><br>
-      `;
-    });
-  });
-}
 loadUpdates();
 
 // =========================
@@ -345,7 +367,7 @@ document.addEventListener("click", async (e) => {
 
     alert("✅ Update deleted.");
 
- 
+    loadUpdates();
 
   } catch (error) {
 
@@ -356,3 +378,5 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
+ 
