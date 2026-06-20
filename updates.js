@@ -11,7 +11,9 @@ import {
   increment,
   addDoc,
   where,
-  serverTimestamp
+  serverTimestamp,
+  deleteDoc,
+  writeBatch
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
 
@@ -66,6 +68,12 @@ async function loadUpdates() {
       data-id="${updateId}">
       💬 Comments
     </button>
+
+    <button
+  class="btn secondary deleteUpdateBtn"
+  data-id="${updateId}">
+  🗑 Delete
+</button>
   </div>
 </div>
 
@@ -276,5 +284,66 @@ document.addEventListener("click", async (e) => {
   input.value = "";
 
   await loadComments(updateId);
+
+});
+document.addEventListener("click", async (e) => {
+
+  if (!e.target.classList.contains("deleteUpdateBtn")) return;
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Login required.");
+    return;
+  }
+
+  if (!confirm("Delete this update?")) {
+    return;
+  }
+
+  const updateId = e.target.dataset.id;
+
+  try {
+
+    // Delete update document
+    await deleteDoc(
+      doc(db, "updates", updateId)
+    );
+
+    // Delete comments
+    const commentsQuery = query(
+      collection(db, "comments"),
+      where("updateId", "==", updateId)
+    );
+
+    const commentsSnap = await getDocs(commentsQuery);
+
+    for (const commentDoc of commentsSnap.docs) {
+      await deleteDoc(commentDoc.ref);
+    }
+
+    // Delete likes
+    const likesQuery = query(
+      collection(db, "updateLikes"),
+      where("updateId", "==", updateId)
+    );
+
+    const likesSnap = await getDocs(likesQuery);
+
+    for (const likeDoc of likesSnap.docs) {
+      await deleteDoc(likeDoc.ref);
+    }
+
+    alert("✅ Update deleted.");
+
+    loadUpdates();
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Delete failed.");
+
+  }
 
 });
