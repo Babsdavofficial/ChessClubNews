@@ -1,4 +1,4 @@
-
+let isAdmin = false;
 import {
   collection,
   query,
@@ -11,11 +11,33 @@ import {
   increment,
   addDoc,
   where,
+  onSnapshot,
   serverTimestamp,
   deleteDoc,
   writeBatch
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
+import { onAuthStateChanged }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+    isAdmin = false;
+    return;
+  }
+
+  const userSnap = await getDoc(
+    doc(db, "users", user.uid)
+  );
+
+  if (
+    userSnap.exists() &&
+    userSnap.data().role === "admin"
+  ) {
+    isAdmin = true;
+  }
+
+});
 
 const updatesContainer = document.getElementById("updatesContainer");
 
@@ -29,13 +51,16 @@ async function loadUpdates() {
     orderBy("createdAt", "desc")
   );
 
-  const snapshot = await getDocs(q);
+  onSnapshot(q, (snapshot) => {
 
   updatesContainer.innerHTML = "";
 
- snapshot.forEach((doc) => {
-  const update = doc.data();
-  const updateId = doc.id;
+  snapshot.forEach((doc) => {
+
+    const update = doc.data();
+    const updateId = doc.id;
+
+    // your existing card HTML here
 
   updatesContainer.innerHTML += `
     <div class="card">
@@ -69,11 +94,13 @@ async function loadUpdates() {
       💬 Comments
     </button>
 
-    <button
+  ${isAdmin ? `
+<button
   class="btn secondary deleteUpdateBtn"
   data-id="${updateId}">
   🗑 Delete
 </button>
+` : ""}
   </div>
 </div>
 
@@ -153,7 +180,7 @@ document.addEventListener("click", async (e) => {
     }
   );
 
-  alert("❤️ Liked!");
+
 
   loadUpdates();
 
