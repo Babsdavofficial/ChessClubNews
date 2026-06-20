@@ -8,7 +8,12 @@ import {
   deleteDoc,
   doc,
   query,
-  where
+  where,
+  getDocs,
+ deleteDoc,
+ query,
+ where,
+ doc
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const publishBtn = document.getElementById("publishUpdateBtn");
@@ -129,3 +134,142 @@ if (createEventBtn) {
   );
 
 }
+
+// =========================
+// VIEW REGISTRATIONS
+// =========================
+
+const loadRegistrationsBtn =
+  document.getElementById(
+    "loadRegistrationsBtn"
+  );
+
+if (loadRegistrationsBtn) {
+
+  loadRegistrationsBtn.addEventListener(
+    "click",
+    async () => {
+
+      const container =
+        document.getElementById(
+          "registrationsContainer"
+        );
+
+      container.innerHTML =
+        "Loading registrations...";
+
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            "registrations"
+          )
+        );
+
+      if (snapshot.empty) {
+
+        container.innerHTML =
+          "<p>No registrations yet.</p>";
+
+        return;
+      }
+
+      container.innerHTML = "";
+
+      snapshot.forEach((docSnap) => {
+
+        const reg =
+          docSnap.data();
+
+        container.innerHTML += `
+
+          <div class="card">
+
+            <strong>
+              ${reg.name}
+            </strong>
+
+            <br>
+
+            ${reg.email}
+
+            <br>
+
+            ${reg.phone}
+
+            <br><br>
+
+            <button
+              class="btn secondary deleteRegistrationBtn"
+              data-id="${docSnap.id}">
+
+              🗑 Delete
+
+            </button>
+
+          </div>
+
+          <br>
+
+        `;
+
+      });
+
+    }
+  );
+
+}
+
+// =========================
+// DELETE REGISTRATION
+// =========================
+
+document.addEventListener(
+  "click",
+  async (e) => {
+
+    if (
+      !e.target.classList.contains(
+        "deleteRegistrationBtn"
+      )
+    ) return;
+
+    const id =
+      e.target.dataset.id;
+
+    if (
+      !confirm(
+        "Delete registration?"
+      )
+    ) return;
+
+    try {
+
+      await deleteDoc(
+        doc(
+          db,
+          "registrations",
+          id
+        )
+      );
+
+      e.target
+        .closest(".card")
+        .remove();
+
+      alert(
+        "✅ Registration deleted."
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Delete failed."
+      );
+
+    }
+
+  }
+);
