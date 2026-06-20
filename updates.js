@@ -13,8 +13,7 @@ import {
   where,
   onSnapshot,
   serverTimestamp,
-  deleteDoc,
-  writeBatch
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged }
@@ -474,4 +473,144 @@ document.addEventListener("click", async (e) => {
   }
 
 });
- 
+
+const communityContainer =
+  document.getElementById("communityMessages");
+
+function loadCommunityMessages() {
+
+  if (!communityContainer) return;
+
+  const q = query(
+    collection(db, "communityMessages"),
+    orderBy("createdAt", "asc")
+  );
+
+  onSnapshot(q, (snapshot) => {
+
+    communityContainer.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+
+      const msg = docSnap.data();
+      const messageId = docSnap.id;
+
+      communityContainer.innerHTML += `
+        <div class="fact-item">
+
+          <strong>${msg.username}</strong><br>
+
+          ${msg.text}
+
+          ${isAdmin ? `
+            <br><br>
+
+            <button
+              class="btn secondary deleteCommunityMessageBtn"
+              data-id="${messageId}">
+              🗑 Delete
+            </button>
+          ` : ""}
+
+        </div>
+
+        <br>
+      `;
+    });
+
+  });
+
+}
+loadCommunityMessages();
+
+const sendCommunityBtn =
+  document.getElementById("sendCommunityMessage");
+
+if (sendCommunityBtn) {
+
+  sendCommunityBtn.addEventListener(
+    "click",
+    async () => {
+
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert("Login first.");
+        return;
+      }
+
+      const input =
+        document.getElementById(
+          "communityMessageInput"
+        );
+
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      const userSnap = await getDoc(
+        doc(db, "users", user.uid)
+      );
+
+      const username =
+        userSnap.exists()
+          ? userSnap.data().username
+          : "Anonymous";
+
+      await addDoc(
+        collection(db, "communityMessages"),
+        {
+          userId: user.uid,
+          username,
+          text,
+          createdAt: serverTimestamp()
+        }
+      );
+
+      input.value = "";
+
+    }
+  );
+
+}
+
+
+document.addEventListener(
+  "click",
+  async (e) => {
+
+    if (
+      !e.target.classList.contains(
+        "deleteCommunityMessageBtn"
+      )
+    ) return;
+
+    if (
+      !confirm("Delete message?")
+    ) return;
+
+    const messageId =
+      e.target.dataset.id;
+
+    try {
+
+      await deleteDoc(
+        doc(
+          db,
+          "communityMessages",
+          messageId
+        )
+      );
+
+      alert("Message deleted.");
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Delete failed.");
+
+    }
+
+  }
+);
