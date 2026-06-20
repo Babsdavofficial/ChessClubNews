@@ -8,12 +8,7 @@ import {
   deleteDoc,
   doc,
   query,
-  where,
-  getDocs,
- deleteDoc,
- query,
- where,
- doc
+  where
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const publishBtn = document.getElementById("publishUpdateBtn");
