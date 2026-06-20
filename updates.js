@@ -136,7 +136,7 @@ snapshot.forEach((doc) => {
 
     <br>
   `;
-
+}); 
 }); // closes onSnapshot
 
 } // closes loadUpdates
