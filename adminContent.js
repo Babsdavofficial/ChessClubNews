@@ -3,9 +3,14 @@ import { db, auth } from "./firebase.js";
 import {
   collection,
   addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
+  serverTimestamp,
+  getDocs,
+  deleteDoc,
+  doc,
+  query,
+  where
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const publishBtn = document.getElementById("publishUpdateBtn");
 
 if (publishBtn) {
@@ -51,4 +56,76 @@ if (publishBtn) {
     }
 
   });
+}
+// =========================
+// CREATE EVENT
+// =========================
+
+const createEventBtn =
+  document.getElementById("createEventBtn");
+
+if (createEventBtn) {
+
+  createEventBtn.addEventListener(
+    "click",
+    async () => {
+
+      const title =
+        document
+        .getElementById("eventTitle")
+        .value
+        .trim();
+
+      const description =
+        document
+        .getElementById("eventDescription")
+        .value
+        .trim();
+
+      if (!title || !description) {
+
+        alert(
+          "Please enter title and description."
+        );
+
+        return;
+      }
+
+      try {
+
+        await addDoc(
+          collection(db, "events"),
+          {
+            title,
+            description,
+            active: true,
+            createdAt: serverTimestamp()
+          }
+        );
+
+        alert(
+          "✅ Event created successfully!"
+        );
+
+        document.getElementById(
+          "eventTitle"
+        ).value = "";
+
+        document.getElementById(
+          "eventDescription"
+        ).value = "";
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Failed to create event."
+        );
+
+      }
+
+    }
+  );
+
 }
