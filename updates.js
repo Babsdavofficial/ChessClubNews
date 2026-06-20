@@ -799,4 +799,196 @@ document.addEventListener("click", async (e) => {
 
   }
 
+
+
+
+  // =========================
+// LOAD EVENT REGISTRATION
+// =========================
+
+async function loadEventRegistration() {
+
+  const container =
+    document.getElementById(
+      "eventRegistrationContent"
+    );
+
+  if (!container) return;
+
+  const q = query(
+    collection(db, "events"),
+    where("active", "==", true),
+    limit(1)
+  );
+
+  const snapshot =
+    await getDocs(q);
+
+  if (snapshot.empty) {
+
+    container.innerHTML = `
+      <p>No active registration.</p>
+    `;
+
+    return;
+  }
+
+  const eventDoc =
+    snapshot.docs[0];
+
+  const event =
+    eventDoc.data();
+
+  container.innerHTML = `
+
+    <h3>${event.title}</h3>
+
+    <p>${event.description}</p>
+
+    <br>
+
+    <input
+      id="regName"
+      placeholder="Full Name"
+      style="
+        width:100%;
+        padding:10px;
+        border-radius:10px;
+      "
+    >
+
+    <br><br>
+
+    <input
+      id="regEmail"
+      placeholder="Email"
+      style="
+        width:100%;
+        padding:10px;
+        border-radius:10px;
+      "
+    >
+
+    <br><br>
+
+    <input
+      id="regPhone"
+      placeholder="Phone Number"
+      style="
+        width:100%;
+        padding:10px;
+        border-radius:10px;
+      "
+    >
+
+    <br><br>
+
+    <button
+      class="btn primary"
+      id="registerEventBtn"
+      data-id="${eventDoc.id}">
+
+      Register
+
+    </button>
+
+  `;
+}
+
+loadEventRegistration();
+
 });
+
+
+// =========================
+// REGISTER FOR EVENT
+// =========================
+
+document.addEventListener(
+  "click",
+  async (e) => {
+
+    if (
+      e.target.id !==
+      "registerEventBtn"
+    ) return;
+
+    const eventId =
+      e.target.dataset.id;
+
+    const name =
+      document
+      .getElementById("regName")
+      .value
+      .trim();
+
+    const email =
+      document
+      .getElementById("regEmail")
+      .value
+      .trim();
+
+    const phone =
+      document
+      .getElementById("regPhone")
+      .value
+      .trim();
+
+    if (
+      !name ||
+      !email ||
+      !phone
+    ) {
+
+      alert(
+        "Fill all fields."
+      );
+
+      return;
+    }
+
+    try {
+
+      await addDoc(
+        collection(
+          db,
+          "registrations"
+        ),
+        {
+          eventId,
+          name,
+          email,
+          phone,
+          createdAt:
+            serverTimestamp()
+        }
+      );
+
+      alert(
+        "✅ Registration successful!"
+      );
+
+      document.getElementById(
+        "regName"
+      ).value = "";
+
+      document.getElementById(
+        "regEmail"
+      ).value = "";
+
+      document.getElementById(
+        "regPhone"
+      ).value = "";
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Registration failed."
+      );
+
+    }
+
+  }
+);
