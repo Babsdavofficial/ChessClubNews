@@ -240,13 +240,16 @@ document.addEventListener(
 
     try {
 
-      await deleteDoc(
-        doc(
-          db,
-          "registrations",
-          id
-        )
-      );
+     await deleteDoc(
+  doc(db, "registrations", id)
+);
+
+const card =
+  e.target.closest(".card");
+
+if (card) {
+  card.remove();
+}
 
       e.target
         .closest(".card")
