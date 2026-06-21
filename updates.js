@@ -613,197 +613,8 @@ document.addEventListener(
       alert("Delete failed.");
 
     }
-
-  }
-);
 // =========================
-// TOURNAMENT REGISTRATION
-// =========================
-
-document.addEventListener("click", async (e) => {
-
-  if (e.target.id !== "registerTournamentBtn") return;
-
-  const name =
-    document.getElementById("regName").value.trim();
-
-  const email =
-    document.getElementById("regEmail").value.trim();
-
-  const phone =
-    document.getElementById("regPhone").value.trim();
-
-  if (!name || !email || !phone) {
-    alert("Please fill all fields.");
-    return;
-  }
-
-  try {
-
-    await addDoc(
-      collection(db, "registrations"),
-      {
-        name,
-        email,
-        phone,
-        createdAt: serverTimestamp()
-      }
-    );
-
-    alert("✅ Registration submitted!");
-
-    document.getElementById("regName").value = "";
-    document.getElementById("regEmail").value = "";
-    document.getElementById("regPhone").value = "";
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("Registration failed.");
-
-  }
-
-});
-
-async function loadEventRegistration() {
-
-  const container =
-    document.getElementById(
-      "eventRegistrationContent"
-    );
-
-  if (!container) return;
-
-  const q = query(
-    collection(db, "events"),
-    where("active", "==", true),
-    limit(1)
-  );
-
-  const snapshot = await getDocs(q);
-
-  if (snapshot.empty) {
-
-    container.innerHTML = `
-      <p>No active event registration.</p>
-    `;
-
-    return;
-  }
-
-  const eventDoc = snapshot.docs[0];
-
-  const event = eventDoc.data();
-
-  container.innerHTML = `
-
-    <h3>${event.title}</h3>
-
-    <p>${event.description}</p>
-
-    <input
-      id="regName"
-      type="text"
-      placeholder="Full Name"
-      style="
-        width:100%;
-        padding:10px;
-        margin-top:10px;
-        border-radius:10px;
-      ">
-
-    <br><br>
-
-    <input
-      id="regEmail"
-      type="email"
-      placeholder="Email Address"
-      style="
-        width:100%;
-        padding:10px;
-        border-radius:10px;
-      ">
-
-    <br><br>
-
-    <input
-      id="regPhone"
-      type="text"
-      placeholder="Phone Number"
-      style="
-        width:100%;
-        padding:10px;
-        border-radius:10px;
-      ">
-
-    <br><br>
-
-    <button
-      class="btn primary"
-      id="registerEventBtn"
-      data-id="${eventDoc.id}">
-      Register
-    </button>
-
-  `;
-}
-loadEventRegistration();
-document.addEventListener("click", async (e) => {
-
-  if (e.target.id !== "registerEventBtn")
-    return;
-
-  const eventId = e.target.dataset.id;
-
-  const name =
-    document.getElementById("regName").value.trim();
-
-  const email =
-    document.getElementById("regEmail").value.trim();
-
-  const phone =
-    document.getElementById("regPhone").value.trim();
-
-  if (!name || !email || !phone) {
-
-    alert("Fill all fields.");
-
-    return;
-  }
-
-  try {
-
-    await addDoc(
-      collection(db, "registrations"),
-      {
-        eventId,
-        name,
-        email,
-        phone,
-        createdAt: serverTimestamp()
-      }
-    );
-
-    alert("✅ Registration successful!");
-
-    document.getElementById("regName").value = "";
-    document.getElementById("regEmail").value = "";
-    document.getElementById("regPhone").value = "";
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("Registration failed.");
-
-  }
-
-
-
-
-  // =========================
-// LOAD EVENT REGISTRATION
+// EVENT REGISTRATION
 // =========================
 
 async function loadEventRegistration() {
@@ -815,29 +626,67 @@ async function loadEventRegistration() {
 
   if (!container) return;
 
-  const q = query(
+  const eventQuery = query(
     collection(db, "events"),
     where("active", "==", true),
     limit(1)
   );
 
-  const snapshot =
-    await getDocs(q);
+  const eventSnapshot =
+    await getDocs(eventQuery);
 
-  if (snapshot.empty) {
+  if (eventSnapshot.empty) {
 
-    container.innerHTML = `
-      <p>No active registration.</p>
-    `;
+    container.innerHTML =
+      "<p>No active registration.</p>";
 
     return;
   }
 
   const eventDoc =
-    snapshot.docs[0];
+    eventSnapshot.docs[0];
 
   const event =
     eventDoc.data();
+
+  const user =
+    auth.currentUser;
+
+  let alreadyRegistered = false;
+
+  if (user) {
+
+    const regQuery = query(
+      collection(db, "registrations"),
+      where("eventId", "==", eventDoc.id),
+      where("userId", "==", user.uid)
+    );
+
+    const regSnapshot =
+      await getDocs(regQuery);
+
+    alreadyRegistered =
+      !regSnapshot.empty;
+
+  }
+
+  if (alreadyRegistered) {
+
+    container.innerHTML = `
+      <h3>${event.title}</h3>
+
+      <p>${event.description}</p>
+
+      <br>
+
+      <div class="chip">
+        ✅ You are already registered
+      </div>
+    `;
+
+    return;
+
+  }
 
   container.innerHTML = `
 
@@ -887,17 +736,14 @@ async function loadEventRegistration() {
       class="btn primary"
       id="registerEventBtn"
       data-id="${eventDoc.id}">
-
       Register
-
     </button>
 
   `;
+
 }
 
 loadEventRegistration();
-
-});
 
 
 // =========================
@@ -913,26 +759,35 @@ document.addEventListener(
       "registerEventBtn"
     ) return;
 
+    const user =
+      auth.currentUser;
+
+    if (!user) {
+
+      alert(
+        "Please login first."
+      );
+
+      return;
+    }
+
     const eventId =
       e.target.dataset.id;
 
     const name =
-      document
-      .getElementById("regName")
-      .value
-      .trim();
+      document.getElementById(
+        "regName"
+      ).value.trim();
 
     const email =
-      document
-      .getElementById("regEmail")
-      .value
-      .trim();
+      document.getElementById(
+        "regEmail"
+      ).value.trim();
 
     const phone =
-      document
-      .getElementById("regPhone")
-      .value
-      .trim();
+      document.getElementById(
+        "regPhone"
+      ).value.trim();
 
     if (
       !name ||
@@ -947,6 +802,28 @@ document.addEventListener(
       return;
     }
 
+    const duplicateQuery = query(
+      collection(db, "registrations"),
+      where("eventId", "==", eventId),
+      where("userId", "==", user.uid)
+    );
+
+    const duplicateSnapshot =
+      await getDocs(
+        duplicateQuery
+      );
+
+    if (
+      !duplicateSnapshot.empty
+    ) {
+
+      alert(
+        "You are already registered."
+      );
+
+      return;
+    }
+
     try {
 
       await addDoc(
@@ -956,6 +833,7 @@ document.addEventListener(
         ),
         {
           eventId,
+          userId: user.uid,
           name,
           email,
           phone,
@@ -968,17 +846,7 @@ document.addEventListener(
         "✅ Registration successful!"
       );
 
-      document.getElementById(
-        "regName"
-      ).value = "";
-
-      document.getElementById(
-        "regEmail"
-      ).value = "";
-
-      document.getElementById(
-        "regPhone"
-      ).value = "";
+      loadEventRegistration();
 
     } catch (error) {
 
@@ -990,5 +858,7 @@ document.addEventListener(
 
     }
 
+  }
+);
   }
 );
