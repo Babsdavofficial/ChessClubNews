@@ -165,9 +165,6 @@ onSnapshot(userRef, (userSnap) => {
 
 });
 
-        }
-
-      }
 
       if (loginLink)
         loginLink.style.display = "none";
