@@ -362,6 +362,24 @@ document.addEventListener("click", async (e) => {
       createdAt: serverTimestamp()
     }
   );
+  // Give 1 fantasy point only for first comment on this update
+
+const previousComments = query(
+  collection(db, "comments"),
+  where("updateId", "==", updateId),
+  where("userId", "==", user.uid)
+);
+
+const previousSnapshot = await getDocs(previousComments);
+
+if (previousSnapshot.size === 1) {
+  await updateDoc(
+    doc(db, "users", user.uid),
+    {
+      fantasyPoints: increment(1)
+    }
+  );
+}
   await updateDoc(
   doc(db, "updates", updateId),
   {
@@ -591,17 +609,41 @@ if (sendCommunityBtn) {
           ? userSnap.data().username
           : "Anonymous";
 
-      await addDoc(
-        collection(db, "communityMessages"),
-        {
-          userId: user.uid,
-          username,
-          text,
-          createdAt: serverTimestamp()
-        }
-      );
+     // Check if user has already chatted today
 
-      input.value = "";
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const todayQuery = query(
+  collection(db, "communityMessages"),
+  where("userId", "==", user.uid),
+  where("createdAt", ">=", today)
+);
+
+const todaySnapshot = await getDocs(todayQuery);
+
+// Save the message
+await addDoc(
+  collection(db, "communityMessages"),
+  {
+    userId: user.uid,
+    username,
+    text,
+    createdAt: serverTimestamp()
+  }
+);
+
+// Award 1 point only for first message today
+if (todaySnapshot.empty) {
+  await updateDoc(
+    doc(db, "users", user.uid),
+    {
+      fantasyPoints: increment(1)
+    }
+  );
+}
+
+input.value = "";
 
     }
   );
