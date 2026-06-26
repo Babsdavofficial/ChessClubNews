@@ -477,6 +477,39 @@ document.addEventListener("click", async (e) => {
 
 const communityContainer =
   document.getElementById("communityMessages");
+// =========================
+// DELETE COMMUNITY MESSAGES OLDER THAN 7 DAYS
+// =========================
+
+async function deleteOldCommunityMessages() {
+
+  const snapshot = await getDocs(
+    collection(db, "communityMessages")
+  );
+
+  const now = Date.now();
+
+  const sevenDays =
+    7 * 24 * 60 * 60 * 1000;
+
+  for (const message of snapshot.docs) {
+
+    const data = message.data();
+
+    if (!data.createdAt) continue;
+
+    const createdTime =
+      data.createdAt.toDate().getTime();
+
+    if (now - createdTime > sevenDays) {
+
+      await deleteDoc(message.ref);
+
+    }
+
+  }
+
+}
 
 function loadCommunityMessages() {
 
