@@ -380,6 +380,7 @@ if (previousSnapshot.size === 1) {
     }
   );
 }
+  console.log("Previous comments:", previousSnapshot.size);
   await updateDoc(
   doc(db, "updates", updateId),
   {
