@@ -611,19 +611,36 @@ if (sendCommunityBtn) {
           : "Anonymous";
 
      // Check if user has already chatted today
+// Check today's messages
 
-const today = new Date();
-today.setHours(0, 0, 0, 0);
+const today = new Date().toDateString();
 
-const todayQuery = query(
-  collection(db, "communityMessages"),
-  where("userId", "==", user.uid),
-  where("createdAt", ">=", today)
+const previousMessages = await getDocs(
+  query(
+    collection(db, "communityMessages"),
+    where("userId", "==", user.uid)
+  )
 );
 
-const todaySnapshot = await getDocs(todayQuery);
+let alreadyChattedToday = false;
 
-// Save the message
+previousMessages.forEach((docSnap) => {
+
+  const data = docSnap.data();
+
+  if (!data.createdAt) return;
+
+  const messageDate =
+    data.createdAt.toDate().toDateString();
+
+  if (messageDate === today) {
+    alreadyChattedToday = true;
+  }
+
+});
+
+// Save message
+
 await addDoc(
   collection(db, "communityMessages"),
   {
@@ -634,14 +651,17 @@ await addDoc(
   }
 );
 
-// Award 1 point only for first message today
-if (todaySnapshot.empty) {
+// Award point only if first message today
+
+if (!alreadyChattedToday) {
+
   await updateDoc(
     doc(db, "users", user.uid),
     {
       fantasyPoints: increment(1)
     }
   );
+
 }
 
 input.value = "";
