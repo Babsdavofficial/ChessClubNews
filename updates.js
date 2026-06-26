@@ -612,3 +612,4 @@ document.addEventListener(
       alert("Delete failed.");
 
     }
+}); 
