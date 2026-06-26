@@ -10,7 +10,8 @@ import {
 import {
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 // Get form elements
 const signupBtn = document.getElementById("signupBtn");
@@ -118,52 +119,51 @@ onAuthStateChanged(auth, async (user) => {
 
     try {
 
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
+  const userRef = doc(db, "users", user.uid);
 
-      if (userSnap.exists()) {
+onSnapshot(userRef, (userSnap) => {
 
-        const userData = userSnap.data();
+    if (!userSnap.exists()) return;
 
-        if (userDisplay)
-          userDisplay.textContent =
-            `👤 ${userData.username}`;
+    const userData = userSnap.data();
 
-        if (profileName)
-          profileName.textContent =
-            userData.username;
+    if (userDisplay)
+        userDisplay.textContent = `👤 ${userData.username}`;
 
-        if (profileEmail)
-          profileEmail.textContent =
-            userData.email;
+    if (profileName)
+        profileName.textContent = userData.username;
 
-        if (fantasyPoints)
-          fantasyPoints.textContent =
-            userData.fantasyPoints || 0;
+    if (profileEmail)
+        profileEmail.textContent = userData.email;
 
-        if (triviaScore)
-          triviaScore.textContent =
-            userData.triviaCorrect || 0;
+    if (fantasyPoints)
+        fantasyPoints.textContent = userData.fantasyPoints || 0;
 
-        if (predictionScore)
-          predictionScore.textContent =
-            userData.predictionScore || 0;
+    if (triviaScore)
+        triviaScore.textContent = userData.triviaCorrect || 0;
 
-        if (adminPanelBtn) {
+    if (predictionScore)
+        predictionScore.textContent = userData.predictionScore || 0;
 
-          if (userData.role === "admin") {
+    if (adminPanelBtn) {
+
+        if (userData.role === "admin") {
 
             adminPanelBtn.style.display = "block";
 
             adminPanelBtn.onclick = () => {
-              window.location.href = "admin.html";
+                window.location.href = "admin.html";
             };
 
-          } else {
+        } else {
 
             adminPanelBtn.style.display = "none";
 
-          }
+        }
+
+    }
+
+});
 
         }
 
