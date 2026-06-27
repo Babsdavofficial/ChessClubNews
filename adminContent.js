@@ -270,3 +270,82 @@ if (card) {
 
   }
 );
+// =========================
+// CREATE PREDICTION
+// =========================
+
+const createPredictionBtn =
+document.getElementById("createPredictionBtn");
+
+if(createPredictionBtn){
+
+createPredictionBtn.addEventListener("click",async()=>{
+
+const title=
+document.getElementById("predictionTitle").value.trim();
+
+const option1=
+document.getElementById("predictionOption1").value.trim();
+
+const option2=
+document.getElementById("predictionOption2").value.trim();
+
+const option3=
+document.getElementById("predictionOption3").value.trim();
+
+const closeDate=
+document.getElementById("predictionCloseDate").value;
+
+if(!title||!option1||!option2||!closeDate){
+
+alert("Fill all required fields.");
+
+return;
+
+}
+
+const options=[option1,option2];
+
+if(option3){
+
+options.push(option3);
+
+}
+
+try{
+
+await addDoc(collection(db,"predictions"),{
+
+title,
+
+options,
+
+closesAt: Timestamp.fromDate(new Date(closeDate)),
+
+createdAt:serverTimestamp(),
+
+active:true,
+
+correctAnswer:""
+
+});
+
+alert("✅ Prediction created.");
+
+document.getElementById("predictionTitle").value="";
+document.getElementById("predictionOption1").value="";
+document.getElementById("predictionOption2").value="";
+document.getElementById("predictionOption3").value="";
+document.getElementById("predictionCloseDate").value="";
+
+}catch(error){
+
+console.error(error);
+
+alert("Failed.");
+
+}
+
+});
+
+}
