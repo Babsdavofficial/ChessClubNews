@@ -1,3 +1,5 @@
+import { db, auth } from "./firebase.js";
+
 import {
   collection,
   addDoc,
