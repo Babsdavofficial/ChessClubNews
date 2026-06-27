@@ -95,17 +95,66 @@
       </div>
 
       <!-- Prediction -->
-      <div class="card">
-        <div class="chip">🎯 Predictions</div>
-        <h3>Prediction of the Week</h3>
-        <p>Set the featured match and options.</p>
-        <br>
-        <button id="openPredictionPanel" class="btn primary">
-          New Prediction
-        </button>
-      </div>
+<div class="card">
 
-    </div>
+  <div class="chip">🎯 Predictions</div>
+
+  <h3>Create Prediction</h3>
+
+  <label>Match Title</label>
+
+  <input
+    type="text"
+    id="predictionTitle"
+    placeholder="e.g. Astronomer23 vs Davekeyz"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <label>Option 1</label>
+
+  <input
+    type="text"
+    id="predictionOption1"
+    placeholder="Astronomer23"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <label>Option 2</label>
+
+  <input
+    type="text"
+    id="predictionOption2"
+    placeholder="Davekeyz"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <label>Option 3</label>
+
+  <input
+    type="text"
+    id="predictionOption3"
+    placeholder="Draw"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <label>Voting Ends</label>
+
+  <input
+    type="datetime-local"
+    id="predictionCloseTime"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <button
+    id="createPredictionBtn"
+    class="btn primary"
+    style="width:100%;">
+
+    🚀 Publish Prediction
+
+  </button>
+
+</div>
 
     <br><br>
 
