@@ -8,7 +8,8 @@ import {
   doc,
   query,
   where,
-  Timestamp
+  Timestamp,
+  orderBy,
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 let selectedPrediction = null;
