@@ -1,5 +1,3 @@
-import { db, auth } from "./firebase.js";
-
 import {
   collection,
   addDoc,
@@ -8,7 +6,8 @@ import {
   deleteDoc,
   doc,
   query,
-  where
+  where,
+  Timestamp
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const publishBtn = document.getElementById("publishUpdateBtn");
