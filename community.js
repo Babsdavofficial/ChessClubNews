@@ -1,15 +1,21 @@
 import { db, auth } from "./firebase.js";
 import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-  deleteDoc,
-  doc,
+ collection,
   query,
-  where,
-  Timestamp,
   orderBy,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment,
+  addDoc,
+  where,
+  onSnapshot,
+  serverTimestamp,
+  deleteDoc,
+  writeBatch,
+  limit
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 let selectedPrediction = null;
