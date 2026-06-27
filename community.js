@@ -10,6 +10,152 @@ import {
   Timestamp
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+let selectedPrediction = null;
+
+async function loadPrediction(){
+
+const snapshot = await getDocs(
+
+query(
+
+collection(db,"predictions"),
+
+where("active","==",true),
+
+orderBy("createdAt","desc"),
+
+limit(1)
+
+)
+
+);
+
+if(snapshot.empty){
+
+document.getElementById("predictionTitle").textContent=
+"No prediction available.";
+
+return;
+
+}
+
+const predictionDoc=snapshot.docs[0];
+
+selectedPrediction={
+id:predictionDoc.id,
+...predictionDoc.data()
+};
+
+document.getElementById("predictionTitle").textContent=
+selectedPrediction.title;
+
+const optionsDiv=
+document.getElementById("predictionOptions");
+
+optionsDiv.innerHTML="";
+
+selectedPrediction.options.forEach(option=>{
+
+optionsDiv.innerHTML+=`
+
+<label>
+
+<input
+type="radio"
+name="predictionOption"
+value="${option}">
+
+${option}
+
+</label>
+
+<br><br>
+
+`;
+
+});
+
+}
+
+loadPrediction();
+
+document
+.getElementById("submitPredictionBtn")
+.addEventListener("click",async()=>{
+
+const user=auth.currentUser;
+
+if(!user){
+
+alert("Login first.");
+
+return;
+
+}
+
+if(!selectedPrediction){
+
+return;
+
+}
+
+const choice=document.querySelector(
+'input[name="predictionOption"]:checked'
+);
+
+if(!choice){
+
+alert("Select an option.");
+
+return;
+
+}
+
+const alreadyVoted=await getDocs(
+
+query(
+
+collection(db,"predictionVotes"),
+
+where("predictionId","==",selectedPrediction.id),
+
+where("userId","==",user.uid)
+
+)
+
+);
+
+if(!alreadyVoted.empty){
+
+alert("You have already voted.");
+
+return;
+
+}
+
+await addDoc(
+
+collection(db,"predictionVotes"),
+
+{
+
+predictionId:selectedPrediction.id,
+
+userId:user.uid,
+
+choice:choice.value,
+
+createdAt:serverTimestamp()
+
+}
+
+);
+
+document.getElementById("predictionStatus")
+.textContent="✅ Prediction submitted.";
+
+});
+
 // =========================
 // CREATE PREDICTION
 // =========================
