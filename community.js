@@ -18,60 +18,101 @@ import {
   limit
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-let selectedPrediction = null;
+const predictionsContainer =
+document.getElementById("predictionsContainer");
 
-async function loadPrediction(){
+async function loadPredictions(){
 
-const snapshot = await getDocs(
+if(!predictionsContainer) return;
 
-query(
+predictionsContainer.innerHTML="Loading predictions...";
+
+const q=query(
 
 collection(db,"predictions"),
 
 where("active","==",true),
 
-orderBy("createdAt","desc"),
-
-limit(1)
-
-)
+orderBy("createdAt","desc")
 
 );
 
-if(snapshot.empty){
+const snapshot=await getDocs(q);
 
-document.getElementById("predictionTitle").textContent=
-"No prediction available.";
+predictionsContainer.innerHTML="";
 
-return;
+snapshot.forEach(async(docSnap)=>{
+
+const prediction=docSnap.data();
+
+const predictionId=docSnap.id;
+
+const user=auth.currentUser;
+
+let alreadyVoted=false;
+
+let votedOption="";
+
+if(user){
+
+const voteRef=doc(
+
+db,
+
+"predictionVotes",
+
+`${predictionId}_${user.uid}`
+
+);
+
+const voteSnap=await getDoc(voteRef);
+
+if(voteSnap.exists()){
+
+alreadyVoted=true;
+
+votedOption=voteSnap.data().choice;
 
 }
 
-const predictionDoc=snapshot.docs[0];
+}
 
-selectedPrediction={
-id:predictionDoc.id,
-...predictionDoc.data()
-};
+const closed=
 
-document.getElementById("predictionTitle").textContent=
-selectedPrediction.title;
+prediction.closesAt.toDate()<new Date();
 
-const optionsDiv=
-document.getElementById("predictionOptions");
+predictionsContainer.innerHTML+=`
 
-optionsDiv.innerHTML="";
+<div class="card">
 
-selectedPrediction.options.forEach(option=>{
+<div class="chip">
 
-optionsDiv.innerHTML+=`
+Prediction
+
+</div>
+
+<h3>
+
+${prediction.title}
+
+</h3>
+
+${
+prediction.options.map(option=>`
 
 <label>
 
 <input
+
 type="radio"
-name="predictionOption"
-value="${option}">
+
+name="prediction-${predictionId}"
+
+value="${option}"
+
+${alreadyVoted||closed?"disabled":""}
+
+>
 
 ${option}
 
@@ -79,17 +120,60 @@ ${option}
 
 <br><br>
 
+`).join("")
+}
+
+${
+alreadyVoted?
+
+`<p style="color:lime;">
+✅ You voted:
+<strong>${votedOption}</strong>
+</p>`
+
+:
+
+closed?
+
+`<p style="color:red;">
+Voting Closed
+</p>`
+
+:
+
+`<button
+
+class="btn primary submitPredictionBtn"
+
+data-id="${predictionId}"
+
+>
+
+Submit Prediction
+
+</button>`
+
+}
+
+</div>
+
 `;
 
 });
 
 }
 
-loadPrediction();
+loadPredictions();
 
-document
-.getElementById("submitPredictionBtn")
-.addEventListener("click",async()=>{
+document.addEventListener(
+
+"click",
+
+async(e)=>{
+
+if(!e.target.classList.contains("submitPredictionBtn"))
+
+return;
 
 const user=auth.currentUser;
 
@@ -101,66 +185,71 @@ return;
 
 }
 
-if(!selectedPrediction){
+const predictionId=
 
-return;
+e.target.dataset.id;
 
-}
+const selected=
 
-const choice=document.querySelector(
-'input[name="predictionOption"]:checked'
-);
+document.querySelector(
 
-if(!choice){
-
-alert("Select an option.");
-
-return;
-
-}
-
-const alreadyVoted=await getDocs(
-
-query(
-
-collection(db,"predictionVotes"),
-
-where("predictionId","==",selectedPrediction.id),
-
-where("userId","==",user.uid)
-
-)
+`input[name="prediction-${predictionId}"]:checked`
 
 );
 
-if(!alreadyVoted.empty){
+if(!selected){
 
-alert("You have already voted.");
+alert("Choose an option.");
 
 return;
 
 }
 
-await addDoc(
+const voteRef=
 
-collection(db,"predictionVotes"),
+doc(
+
+db,
+
+"predictionVotes",
+
+`${predictionId}_${user.uid}`
+
+);
+
+const exists=
+
+await getDoc(voteRef);
+
+if(exists.exists()){
+
+alert("Already voted.");
+
+return;
+
+}
+
+await setDoc(
+
+voteRef,
 
 {
 
-predictionId:selectedPrediction.id,
+predictionId,
 
 userId:user.uid,
 
-choice:choice.value,
+choice:selected.value,
 
-createdAt:serverTimestamp()
+createdAt:Timestamp.now()
 
 }
 
 );
 
-document.getElementById("predictionStatus")
-.textContent="✅ Prediction submitted.";
+alert("Prediction submitted.");
+
+loadPredictions();
 
 });
 
