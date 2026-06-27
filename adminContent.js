@@ -1,15 +1,16 @@
 import { db, auth } from "./firebase.js";
 
 import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  getDocs,
-  deleteDoc,
-  doc,
-  query,
-  where,
-  Timestamp
+collection,
+addDoc,
+serverTimestamp,
+getDocs,
+deleteDoc,
+doc,
+query,
+where,
+Timestamp,
+updateDoc
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const publishBtn = document.getElementById("publishUpdateBtn");
@@ -351,3 +352,150 @@ alert("Failed.");
 });
 
 }
+const predictionsAdminContainer =
+document.getElementById("predictionsAdminContainer");
+
+async function loadPredictionsAdmin(){
+
+if(!predictionsAdminContainer) return;
+
+const snapshot=await getDocs(
+collection(db,"predictions")
+);
+
+predictionsAdminContainer.innerHTML="";
+
+snapshot.forEach(docSnap=>{
+
+const prediction=docSnap.data();
+
+predictionsAdminContainer.innerHTML+=`
+
+<div class="fact-item">
+
+<strong>
+
+${prediction.title}
+
+</strong>
+
+<br><br>
+
+<button
+class="btn secondary viewVotesBtn"
+data-id="${docSnap.id}">
+
+View Votes
+
+</button>
+
+<button
+class="btn primary declareWinnerBtn"
+data-id="${docSnap.id}">
+
+Declare Winner
+
+</button>
+
+</div>
+
+<br>
+
+`;
+
+});
+
+}
+
+loadPredictionsAdmin();
+
+document.addEventListener(
+
+"click",
+
+async(e)=>{
+
+if(!e.target.classList.contains("viewVotesBtn"))
+
+return;
+
+const predictionId=e.target.dataset.id;
+
+const snapshot=await getDocs(
+
+query(
+
+collection(db,"predictionVotes"),
+
+where("predictionId","==",predictionId)
+
+)
+
+);
+
+let result="";
+
+snapshot.forEach(vote=>{
+
+const data=vote.data();
+
+result+=`
+
+${data.userId}
+
+➡️
+
+${data.choice}
+
+\n
+
+`;
+
+});
+
+alert(result||"No votes yet.");
+
+});
+
+
+document.addEventListener(
+
+"click",
+
+async(e)=>{
+
+if(!e.target.classList.contains("declareWinnerBtn"))
+
+return;
+
+const predictionId=e.target.dataset.id;
+
+const answer=
+
+prompt(
+
+"Enter the winning option exactly."
+
+);
+
+if(!answer) return;
+
+await updateDoc(
+
+doc(db,"predictions",predictionId),
+
+{
+
+correctOption:answer,
+
+active:false
+
+}
+
+);
+
+alert("Winner saved.");
+
+loadPredictionsAdmin();
+
+});
