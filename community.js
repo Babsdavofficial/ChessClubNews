@@ -15,7 +15,9 @@ import {
   serverTimestamp,
   deleteDoc,
   writeBatch,
-  limit
+  limit,
+  Timestamp
+
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const predictionsContainer =
