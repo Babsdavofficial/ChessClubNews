@@ -678,17 +678,19 @@ triviaAdminContainer.innerHTML+=`
 <button
 class="btn secondary viewTriviaAnswersBtn"
 data-id="${docSnap.id}">
-
 👁 View Answers
-
 </button>
 
 <button
 class="btn primary declareTriviaWinnerBtn"
 data-id="${docSnap.id}">
-
 🏆 Declare Answer
+</button>
 
+<button
+class="btn secondary deleteTriviaBtn"
+data-id="${docSnap.id}">
+🗑 Delete Trivia
 </button>
 
 </div>
@@ -838,5 +840,62 @@ alert(
 );
 
 loadTriviaAdmin();
+
+});
+// =========================
+// DELETE TRIVIA
+// =========================
+
+document.addEventListener("click", async (e) => {
+
+if(!e.target.classList.contains("deleteTriviaBtn"))
+return;
+
+if(!confirm("Delete this trivia and all answers?"))
+return;
+
+const triviaId=e.target.dataset.id;
+
+try{
+
+// Delete all answers
+
+const answers=await getDocs(
+
+query(
+
+collection(db,"triviaAnswers"),
+
+where("triviaId","==",triviaId)
+
+)
+
+);
+
+for(const answer of answers.docs){
+
+await deleteDoc(answer.ref);
+
+}
+
+// Delete trivia
+
+await deleteDoc(
+
+doc(db,"trivia",triviaId)
+
+);
+
+alert("✅ Trivia deleted.");
+
+loadTriviaAdmin();
+
+}catch(error){
+
+console.error(error);
+
+alert("Delete failed.");
+
+}
 
 });
