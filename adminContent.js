@@ -10,7 +10,8 @@ doc,
 query,
 where,
 Timestamp,
-updateDoc
+updateDoc,
+increment
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 const publishBtn = document.getElementById("publishUpdateBtn");
