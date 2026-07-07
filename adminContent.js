@@ -458,43 +458,72 @@ alert(result||"No votes yet.");
 });
 
 
-document.addEventListener(
-
-"click",
-
-async(e)=>{
+document.addEventListener("click", async (e) => {
 
 if(!e.target.classList.contains("declareWinnerBtn"))
-
 return;
 
 const predictionId=e.target.dataset.id;
 
-const answer=
-
-prompt(
-
+const answer=prompt(
 "Enter the winning option exactly."
-
 );
 
 if(!answer) return;
 
+// Save winner
+await updateDoc(
+doc(db,"predictions",predictionId),
+{
+correctOption:answer,
+active:false
+}
+);
+
+// Find everyone that voted
+const votes=await getDocs(
+
+query(
+collection(db,"predictionVotes"),
+where("predictionId","==",predictionId)
+)
+
+);
+
+let winners=0;
+
+for(const vote of votes.docs){
+
+const data=vote.data();
+
+if(
+data.choice.toLowerCase()===
+answer.toLowerCase()
+){
+
 await updateDoc(
 
-doc(db,"predictions",predictionId),
+doc(db,"users",data.userId),
 
 {
 
-correctOption:answer,
+predictionScore:increment(1),
 
-active:false
+fantasyPoints:increment(5)
 
 }
 
 );
 
-alert("Winner saved.");
+winners++;
+
+}
+
+}
+
+alert(`✅ Winner declared.
+
+${winners} player(s) rewarded.`);
 
 loadPredictionsAdmin();
 
