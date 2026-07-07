@@ -578,3 +578,71 @@ document.addEventListener("click", async (e) => {
     }
 
 });
+const createTriviaBtn =
+document.getElementById("createTriviaBtn");
+
+if(createTriviaBtn){
+
+createTriviaBtn.addEventListener("click",async()=>{
+
+const question=
+document.getElementById("triviaQuestion").value.trim();
+
+const option1=
+document.getElementById("triviaOption1").value.trim();
+
+const option2=
+document.getElementById("triviaOption2").value.trim();
+
+const option3=
+document.getElementById("triviaOption3").value.trim();
+
+const option4=
+document.getElementById("triviaOption4").value.trim();
+
+const closeDate=
+document.getElementById("triviaCloseDate").value;
+
+if(
+!question||
+!option1||
+!option2||
+!option3||
+!option4||
+!closeDate
+){
+alert("Fill all fields.");
+return;
+}
+
+await addDoc(
+collection(db,"trivia"),
+{
+question,
+options:[
+option1,
+option2,
+option3,
+option4
+],
+correctAnswer:"",
+active:true,
+createdAt:serverTimestamp(),
+closesAt:Timestamp.fromDate(
+new Date(closeDate)
+)
+}
+);
+
+alert("Trivia created.");
+
+document.getElementById("triviaQuestion").value="";
+document.getElementById("triviaOption1").value="";
+document.getElementById("triviaOption2").value="";
+document.getElementById("triviaOption3").value="";
+document.getElementById("triviaOption4").value="";
+document.getElementById("triviaCloseDate").value="";
+
+});
+
+}
