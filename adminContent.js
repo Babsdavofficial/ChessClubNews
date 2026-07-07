@@ -702,3 +702,141 @@ data-id="${docSnap.id}">
 }
 
 loadTriviaAdmin();
+
+document.addEventListener(
+
+"click",
+
+async(e)=>{
+
+if(!e.target.classList.contains("viewTriviaAnswersBtn"))
+return;
+
+const triviaId=e.target.dataset.id;
+
+const snapshot=await getDocs(
+
+query(
+
+collection(db,"triviaAnswers"),
+
+where("triviaId","==",triviaId)
+
+)
+
+);
+
+let text="";
+
+snapshot.forEach(answer=>{
+
+const data=answer.data();
+
+text+=`
+
+${data.userId}
+
+➡️
+
+${data.answer}
+
+`;
+
+});
+
+alert(text||"No answers yet.");
+
+});
+
+document.addEventListener(
+
+"click",
+
+async(e)=>{
+
+if(!e.target.classList.contains("declareTriviaWinnerBtn"))
+return;
+
+const triviaId=e.target.dataset.id;
+
+const answer=prompt(
+
+"Enter the correct answer exactly."
+
+);
+
+if(!answer) return;
+
+// Save answer
+
+await updateDoc(
+
+doc(db,"trivia",triviaId),
+
+{
+
+correctAnswer:answer,
+
+active:false
+
+}
+
+);
+
+// Find everyone that answered
+
+const answers=await getDocs(
+
+query(
+
+collection(db,"triviaAnswers"),
+
+where("triviaId","==",triviaId)
+
+)
+
+);
+
+let winners=0;
+
+for(const ans of answers.docs){
+
+const data=ans.data();
+
+if(
+
+data.answer.toLowerCase()===
+
+answer.toLowerCase()
+
+){
+
+await updateDoc(
+
+doc(db,"users",data.userId),
+
+{
+
+triviaCorrect:increment(1),
+
+fantasyPoints:increment(5)
+
+}
+
+);
+
+winners++;
+
+}
+
+}
+
+alert(
+
+`✅ ${winners} player(s) rewarded.`
+
+);
+
+loadTriviaAdmin();
+
+});
