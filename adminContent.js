@@ -529,3 +529,50 @@ ${winners} player(s) rewarded.`);
 loadPredictionsAdmin();
 
 });
+
+// =========================
+// DELETE PREDICTION
+// =========================
+
+document.addEventListener("click", async (e) => {
+
+    if (!e.target.classList.contains("deletePredictionBtn"))
+        return;
+
+    if (!confirm("Delete this prediction and all votes?"))
+        return;
+
+    const predictionId = e.target.dataset.id;
+
+    try {
+
+        // Delete all votes first
+        const votesSnapshot = await getDocs(
+            query(
+                collection(db, "predictionVotes"),
+                where("predictionId", "==", predictionId)
+            )
+        );
+
+        for (const vote of votesSnapshot.docs) {
+            await deleteDoc(vote.ref);
+        }
+
+        // Delete prediction
+        await deleteDoc(
+            doc(db, "predictions", predictionId)
+        );
+
+        alert("✅ Prediction deleted.");
+
+        loadPredictionsAdmin();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Failed to delete prediction.");
+
+    }
+
+});
