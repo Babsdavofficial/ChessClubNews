@@ -347,3 +347,161 @@ if (createPredictionBtn) {
   );
 
 }
+// =========================
+// LOAD TRIVIA
+// =========================
+
+let selectedTrivia = null;
+
+async function loadTrivia(){
+
+const snapshot = await getDocs(
+
+query(
+
+collection(db,"trivia"),
+
+where("active","==",true),
+
+orderBy("createdAt","desc"),
+
+limit(1)
+
+)
+
+);
+
+if(snapshot.empty){
+
+document.getElementById("triviaContainer").textContent =
+"No trivia available.";
+
+return;
+
+}
+
+const triviaDoc = snapshot.docs[0];
+
+selectedTrivia = {
+
+id: triviaDoc.id,
+
+...triviaDoc.data()
+
+};
+
+document.getElementById("triviaContainer").innerHTML =
+
+`<h3>${selectedTrivia.question}</h3>`;
+
+const optionsDiv =
+document.getElementById("triviaOptions");
+
+optionsDiv.innerHTML = "";
+
+selectedTrivia.options.forEach(option=>{
+
+optionsDiv.innerHTML += `
+
+<label>
+
+<input
+type="radio"
+name="triviaOption"
+value="${option}">
+
+${option}
+
+</label>
+
+<br><br>
+
+`;
+
+});
+
+}
+
+loadTrivia();
+
+// =========================
+// SUBMIT TRIVIA
+// =========================
+
+document
+
+.getElementById("submitTriviaBtn")
+
+.addEventListener("click",async()=>{
+
+const user = auth.currentUser;
+
+if(!user){
+
+alert("Login first.");
+
+return;
+
+}
+
+if(!selectedTrivia) return;
+
+const answer = document.querySelector(
+
+'input[name="triviaOption"]:checked'
+
+);
+
+if(!answer){
+
+alert("Choose an answer.");
+
+return;
+
+}
+
+const alreadyAnswered = await getDocs(
+
+query(
+
+collection(db,"triviaAnswers"),
+
+where("triviaId","==",selectedTrivia.id),
+
+where("userId","==",user.uid)
+
+)
+
+);
+
+if(!alreadyAnswered.empty){
+
+alert("You already answered.");
+
+return;
+
+}
+
+await addDoc(
+
+collection(db,"triviaAnswers"),
+
+{
+
+triviaId:selectedTrivia.id,
+
+userId:user.uid,
+
+answer:answer.value,
+
+createdAt:serverTimestamp()
+
+}
+
+);
+
+document.getElementById("triviaStatus")
+
+.textContent = "✅ Answer submitted.";
+
+});
