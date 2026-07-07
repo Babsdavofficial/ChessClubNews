@@ -355,6 +355,8 @@ let selectedTrivia = null;
 
 async function loadTrivia(){
 
+try{
+
 const snapshot = await getDocs(
 
 query(
@@ -371,6 +373,8 @@ limit(1)
 
 );
 
+console.log(snapshot.size);
+
 if(snapshot.empty){
 
 document.getElementById("triviaContainer").textContent =
@@ -380,28 +384,26 @@ return;
 
 }
 
-const triviaDoc = snapshot.docs[0];
+const triviaDoc=snapshot.docs[0];
 
-selectedTrivia = {
-
-id: triviaDoc.id,
-
+selectedTrivia={
+id:triviaDoc.id,
 ...triviaDoc.data()
-
 };
 
-document.getElementById("triviaContainer").innerHTML =
+console.log(selectedTrivia);
+
+document.getElementById("triviaContainer").innerHTML=
 
 `<h3>${selectedTrivia.question}</h3>`;
 
-const optionsDiv =
-document.getElementById("triviaOptions");
+const optionsDiv=document.getElementById("triviaOptions");
 
-optionsDiv.innerHTML = "";
+optionsDiv.innerHTML="";
 
 selectedTrivia.options.forEach(option=>{
 
-optionsDiv.innerHTML += `
+optionsDiv.innerHTML+=`
 
 <label>
 
@@ -419,6 +421,12 @@ ${option}
 `;
 
 });
+
+}catch(error){
+
+console.error(error);
+
+}
 
 }
 
