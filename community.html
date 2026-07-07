@@ -102,35 +102,31 @@ Submit Prediction
     </div>
 
     <!-- Chess Trivia -->
-    <div class="card">
-      <div class="chip">Weekly Chess Trivia</div>
-      <h3>Question #1</h3>
+<div class="card">
 
-      <p>
-        Which opening starts with:<br>
-        <strong>1.e4 e5 2.Nf3 Nc6 3.Bb5 ?</strong>
-      </p>
+<div class="chip">Weekly Chess Trivia</div>
 
-      <br>
+<div id="triviaContainer">
 
-      <input
-        type="text"
-        placeholder="Type your answer..."
-        style="width:100%;padding:12px;border:none;border-radius:12px;margin-bottom:12px;"
-      >
+Loading trivia...
 
-      <button class="btn primary">Submit Answer</button>
-
-  
-<hr style="margin:15px 0;opacity:.2;">
-
-<div style="display:flex;justify-content:space-between;align-items:center;">
-  <span>👍 <strong>18</strong> Likes</span>
-  <button class="btn secondary">❤️ Like</button>
 </div>
 
+<div id="triviaOptions"></div>
 
-    </div>
+<br>
+
+<button
+id="submitTriviaBtn"
+class="btn primary">
+
+Submit Answer
+
+</button>
+
+<p id="triviaStatus"></p>
+
+</div>
 
     <!-- Puzzle -->
     <div class="card">
