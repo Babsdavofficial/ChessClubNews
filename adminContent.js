@@ -385,17 +385,19 @@ ${prediction.title}
 <button
 class="btn secondary viewVotesBtn"
 data-id="${docSnap.id}">
-
-View Votes
-
+👁 View Votes
 </button>
 
 <button
 class="btn primary declareWinnerBtn"
 data-id="${docSnap.id}">
+🏆 Declare Winner
+</button>
 
-Declare Winner
-
+<button
+class="btn secondary deletePredictionBtn"
+data-id="${docSnap.id}">
+🗑 Delete Prediction
 </button>
 
 </div>
