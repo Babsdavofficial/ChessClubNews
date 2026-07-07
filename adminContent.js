@@ -646,3 +646,59 @@ document.getElementById("triviaCloseDate").value="";
 });
 
 }
+// =========================
+// LOAD TRIVIA (ADMIN)
+// =========================
+
+const triviaAdminContainer =
+document.getElementById("triviaAdminContainer");
+
+async function loadTriviaAdmin(){
+
+if(!triviaAdminContainer) return;
+
+const snapshot=await getDocs(
+collection(db,"trivia")
+);
+
+triviaAdminContainer.innerHTML="";
+
+snapshot.forEach(docSnap=>{
+
+const trivia=docSnap.data();
+
+triviaAdminContainer.innerHTML+=`
+
+<div class="fact-item">
+
+<strong>${trivia.question}</strong>
+
+<br><br>
+
+<button
+class="btn secondary viewTriviaAnswersBtn"
+data-id="${docSnap.id}">
+
+👁 View Answers
+
+</button>
+
+<button
+class="btn primary declareTriviaWinnerBtn"
+data-id="${docSnap.id}">
+
+🏆 Declare Answer
+
+</button>
+
+</div>
+
+<br>
+
+`;
+
+});
+
+}
+
+loadTriviaAdmin();
