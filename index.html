@@ -9,261 +9,295 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="topbar panel">
-      <div class="brand">
-        <div class="logo" style="font-weight: bolder;">CNH</div>
-        <div class="titlebox">
+  
+<div class="wrap">
 
-          <h1>Chess News Hub</h1>
-          <p>Bright, playful news and events dashboard</p>
+    <!-- ================= HEADER ================= -->
+
+    <header class="topbar">
+
+        <div class="brand">
+            <div class="logo">♟</div>
+
+            <div class="titlebox">
+                <h1>Chess News Hub</h1>
+                <p>Your Gateway to the World of Chess</p>
+            </div>
         </div>
-      </div>
-      <nav class="nav">
-        <a href="index.html">Top Story</a>
-        <a href="matches.html">Matches</a>
-        <a href="standings.html">Standings</a>
-        <a href="#">Updates</a>
-        <a href="#">Community</a>
-        <a href="players.html">Players</a>
 
-      </nav>
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="matches.html">Matches</a>
+            <a href="standings.html">Standings</a>
+            <a href="updates.html">Updates</a>
+            <a href="community.html">Community</a>
+        </nav>
+
     </header>
 
+
+
+    <!-- ================= HERO ================= -->
+
     <section class="hero">
-      <div class="panel hero-main">
-        
 
-        <div class="hero-grid">
-          <div>
-            <h2 class="headline">From Sacrifices to Checkmates: The Story of the Tournament So Far</h2>
-            <p class="lead">
-          
+        <div class="panel hero-main">
 
-The tournament has been defined by aggressive play, tactical battles, and constant attacks on the king. Astronomer23 has emerged as one of the standout players, regularly sacrificing pieces and creating dangerous attacking chances that have put opponents under immense pressure.
-
-HayZedd has taken a different approach, relying on patience and gradual pressure to break down opponents, while Gee_Prime has earned a reputation as a resilient defender capable of surviving difficult attacks and holding tough positions.
-
-Davekeyz has produced some of the tournament's most exciting attacking moments, including a brilliant checkmate against Major, but has also struggled when forced onto the defensive. Meanwhile, Major has shown growth throughout the event, evolving into a dangerous counter-attacking player capable of punishing mistakes with decisive attacks.
-
-For Humblelear, the tournament has been a challenging experience, with several strong opponents successfully exploiting defensive weaknesses under sustained pressure.
-
-So far, the biggest lesson of the tournament is simple: king safety has been the deciding factor. The players who successfully exposed their opponent's king have usually emerged victorious, making this a competition filled with excitement, attacking chess, and memorable tactical moments.
-
-
-
-
-            <div class="cta-row">
-              <button class="btn primary" onclick="document.getElementById('top-story').scrollIntoView({behavior:'smooth'})">Read Top Story</button>
-              <button class="btn secondary" onclick="toggleSection('moreIntro')">Show More</button>
+            <div class="badge-row">
+                <span class="badge">♟ Welcome</span>
+                <span class="badge">Live Coverage</span>
+                <span class="badge">Global Chess</span>
             </div>
 
-            <div id="moreIntro" class="card hidden" style="margin-top:16px;">
-              <h3>What this page includes</h3>
-              <p>
-                Top story, current matches, future matches, latest updates, upcoming events, rules and regulations,
-                standings for games and players, clickable player cards, and expandable content for anything that gets bigger later.
-              </p>
-            </div>
-          </div>
+            <div class="hero-grid">
 
-          <div class="hero-art">
-            <span class="cover-pill">Today’s spotlight</span>
-            <div class="art-card">
-              <h3>Breaking: Astronomer23 and Davekeyz performance ratings at the peak.</h3>
-              <p>
-               This was reviewed by the chess.com engine. Even their matches against each other was 2045 for Astronomer23 and 1900 for Davekeyz
-              </p>
+                <div>
+
+                    <h1 class="headline">
+                        Welcome to Chess News Hub
+                    </h1>
+
+                    <p class="lead">
+                        Stay connected with tournaments, rankings, breaking news,
+                        exciting games, puzzles, community discussions and everything
+                        happening in the world of chess.
+                    </p>
+
+                    <div class="cta-row">
+
+                        <button class="btn primary">
+                            Explore News
+                        </button>
+
+                        <button class="btn secondary">
+                            Join Community
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-art">
+
+                    <div class="cover-pill">
+                        Featured Today
+                    </div>
+
+                    <div class="art-card">
+
+                        <h3>World Championship</h3>
+
+                        <p>
+                            This area can later display your latest featured article,
+                            tournament, player spotlight or announcement.
+                        </p>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="stats">
-              <div class="stat">
-                <div class="num">03</div>
-                <div class="label">Updates</div>
-              </div>
-              <div class="stat">
-                <div class="num">08</div>
-                <div class="label">Players</div>
-              </div>
-              <div class="stat">
-                <div class="num">01</div>
-                <div class="label">Edition</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-side">
-        <div class="panel mini-card">
-          <div class="section-head" style="margin-bottom:10px;">
-            <div>
-              <h2 style="font-size:22px;margin-bottom:4px;">Present Event</h2>
-              <p><img src="Nextevent.png" alt="" style="width:30%"></p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="chip">Completed now</div>
-            <h3 style="margin-top:10px;">Rapid Clash First edition</h3>
-            <p>
-             Through Jungle Challenges
-            </p>
-          </div>
         </div>
 
-        <div class="panel mini-card">
-          <div class="section-head" style="margin-bottom:10px;">
-            <div>
-              <h2 style="font-size:22px;margin-bottom:4px;">Upcoming Event</h2>
-              <div style:float:right;>
-                 <p> <img src="Nextevent2.png" alt="" style="width:30%">  --<img src="Nextevent3.png" alt="" style="width:30%">
-                  
-              --<img src="NextEvent4.png" alt="" style="width:30%"> 
-              <br> <img src="Nextevent5.png" alt="" style="width:30%">  --<img src="Nextevent6.png" alt="" style="width:30%">--<img src="Nextevent7.png" alt="" style="width:30%"></p>
-              <p></p>
-              </div>
-             
-
-            </div>
-          </div>
-          <div class="card">
-            <div class="chip">Coming soon</div>
-            <h3 style="margin-top:10px;">List of event</h3>
-            <p>
-             
-             - Speed Championship
-             - Blitz Knockout
-             - Champions Battle
-             - Conference Game
-             - Chess 960 Knockout
-             - Rapid Clash 2nd Edition
-            </p>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <section id="top-story" class="panel section">
-      <div class="section-head">
-        <div>
-          <h2>Top Story</h2>
-          <p>Ending gradually</p>
-        </div>
-        
-      </div>
 
-      <div class="story-grid">
-        <div class="story">
-          <h3>How each players showed dominance</h3>
-          <p>
 
-          </p>
-
-            (<a href="https://www.chess.com/live/game/169661135926">Astronomer23/Davekeyz</a>) Astronomer23 sacrificed a knight to pull White's king into the open. After 7.Kxf2 Qf6+, Davekeyz king was exposed for the rest of the game. Although the game ended on time, this sacrifice gave Black the initiative and put White on the defensive permanently.
-            <br><br>(<a href="https://www.chess.com/live/game/169662736628">Astronomer23/GeePrime</a>) Astronomer23 launched another aggressive sacrifice to attack the king. However, Gee_Prime stayed calm and defended accurately. When the attack failed to gain enough momentum, Black's compensation disappeared and White took control.
-            <br><br>(<a href="https://www.chess.com/live/game/169664263516">Humblelear/Astronomer23</a>) Astronomer23 gained space in the center and pushed Black's pieces backwards. This move gave White long-term control of the position and allowed him to slowly improve while humblelear became increasingly passive.
-            <br><br>( <a href="https://www.chess.com/live/game/169703473912">Davekeyz/Major</a>) Davekeyz vs Major This bishop sacrifice opened the path to White's king and started a devastating attack. Just two moves later, the queen arrived on **b2** for checkmate. Once the attack began, White had no way to stop it.
-           <br><br><br><button class="btn secondary" onclick="toggleSection('topMore')">Show More</button>
-<p class="hidden" id="topMore">
-          (<a href="https://www.chess.com/live/game/169667709154">HayZedd/Humblelear</a>)HayZedd started a powerful kingside pawn storm. The advancing pawns gradually restricted Black's pieces and exposed the king. The pressure kept building until it finally ended with the checkmate **48.Rxf8#**.
-          <br><br>(<a href="https://www.chess.com/live/game/169714251576">Gee_Prime/Hayzedd</a>)Gee_Prime grabbed a central pawn and forced an early queen exchange. This simplified the game and led both players into a long, balanced endgame. Despite several passed pawns and promotion threats later on, neither side could create a decisive advantage, leading to a draw.
-          <br><br>(<a href="https://www.chess.com/live/game/169845063860">Lah/Major</a>)ABDUL1st's knight jumped into White's position with check, forcing the king into an uncomfortable position. The follow-up 13...Nxd2 won more material and gave Black active pieces.From that point onward, LAH001 looked dangerous on the queenside, but ABDUL1st's rook and queen were quietly preparing an attack against the exposed king. The decisive phase came with 21...Rxb2, allowing Black's heavy pieces to invade.
-          </p>
-          
-        </div>
-        <div class="thumb"><img src="Nextevent.png" alt="" srcset="" style="width:100%; height:100%"></div>
-      </div>
-      
-    </section>
-
-    
-    
+    <!-- ================= ABOUT ================= -->
 
     <section class="panel section">
-      <div class="section-head">
-        <div>
-          <h2>Players participating</h2>
-          <p>Rapid Clash players info</p>
-        </div>
-      
-      </div>
 
-      <div class="grid-3">
-        <div class="player-card" onclick="openPlayer('GeePrime', '960-1703, Rapid- 1150', 'Top-Best: 4')">
-          <div class="avatar">G</div>
-          <h4>GeePrime</h4>
-          <div class="small">Rating: 1150</div>
-          <div class="meta"><span>Top-Best: 4</span><span>Click for details</span></div>
-        </div>
-        <div class="player-card" onclick="openPlayer('Humblelear', '960-1474, Rapid- 1063', 'Top-Best: 8')">
-          <div class="avatar">H</div>
-          <h4>Humblelear</h4>
-          <div class="small">Rating: 1063</div>
-          <div class="meta"><span>Top-Best: 8</span><span>Click for details</span></div>
-        </div>
-        <div class="player-card" onclick="openPlayer('Davekeyz', '960-1700, Rapid- 1941', 'Top-Best: 2')">
-          <div class="avatar">D</div>
-          <h4>Davekeyz</h4>
-          <div class="small">Rating: 1941</div>
-          <div class="meta"><span>Top-Best: 2</span><span>Click for details</span></div>
-        </div>
-         <div class="player-card" onclick="openPlayer('Abayomi', 'Rapid- 906', 'Top-Best: 9')">
-          <div class="avatar">A</div>
-          <h4>Abayomi</h4>
-          <div class="small">Rating: 906</div>
-          <div class="meta"><span>Top-Best: 9</span><span>Click for details</span></div>
-        </div>
-         <div class="player-card" onclick="openPlayer('Major', 'Rapid- 1572', 'Top-Best: 5')">
-          <div class="avatar">M</div>
-          <h4>Major</h4>
-          <div class="small">Rating: 1572</div>
-          <div class="meta"><span>Top-Best: 5</span><span>Click for details</span></div>
-        </div>
-         <div class="player-card" onclick="openPlayer('Astronomer23', '960-1801, Rapid- 1957', 'Top-Best: 1')">
-          <div class="avatar">A</div>
-          <h4>Astronomer23</h4>
-          <div class="small">Rating: 1957</div>
-          <div class="meta"><span>Top-Best: 1</span><span>Click for details</span></div>
-        </div>
-      </div>
-      
-      <br><br>
-        <button class="btn secondary" onclick="toggleSection('playerMore')">Show More</button>
+        <div class="section-head">
 
-      <div id="playerMore" class="hidden" style="margin-top:12px;">
-        <div class="grid-3">
-        
-        <div class="player-card" onclick="openPlayer('HayZedd', 'Rapid-1121', 'Top-Best: 6')">
-          <div class="avatar">H</div>
-          <h4>HayZedd</h4>
-          <div class="small">Rating: 1121</div>
-          <div class="meta"><span>Top-Best: 6</span><span>Click for details</span></div>
+            <h2>About Chess News Hub</h2>
+
+            <p>Your daily destination for chess.</p>
+
         </div>
-        <div class="player-card" onclick="openPlayer('Lah', '960-1456 Rapid-1203', 'Top-Best: 7')">
-          <div class="avatar">L</div>
-          <h4>Lah</h4>
-          <div class="small">Rating: 1203</div>
-          <div class="meta"><span>Top-Best: 7</span><span>Click for details</span></div>
+
+        <div class="story-grid">
+
+            <div class="story">
+
+                <h3>Everything Chess In One Place</h3>
+
+                <p>
+
+                    Replace this paragraph with information about your website.
+                    Explain why visitors should use Chess News Hub and what makes
+                    it different.
+
+                </p>
+
+                <button class="btn primary">
+                    Learn More
+                </button>
+
+            </div>
+
+            <div class="thumb"></div>
+
         </div>
-        </div>
-      </div>
+
     </section>
 
-    <div class="footer">Chess News Hub - coded by Davekeyz and his friends</div>
-  </div>
 
-  <div class="modal-backdrop" id="playerModal" onclick="closePlayer(event)">
-    <div class="modal">
-      <div class="modal-head">
-        <div>
-          <h3 id="playerName">Player Name</h3>
-          <p id="playerRating">Rating</p>
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="panel section">
+
+        <div class="section-head">
+
+            <h2>What You'll Find</h2>
+
+            <p>Explore every part of the website.</p>
+
         </div>
-        <button class="close" onclick="hideModal()">×</button>
-      </div>
-      <p id="playerDesc"></p>
-    </div>
-  </div>
+
+        <div class="grid-3">
+
+            <div class="player-card">
+
+                <div class="avatar">📰</div>
+
+                <h4>Latest News</h4>
+
+                <p>
+                    Breaking chess stories from around the world.
+                </p>
+
+            </div>
+
+            <div class="player-card">
+
+                <div class="avatar">🏆</div>
+
+                <h4>Major Tournaments</h4>
+
+                <p>
+                    Follow live events and championship coverage.
+                </p>
+
+            </div>
+
+            <div class="player-card">
+
+                <div class="avatar">👥</div>
+
+                <h4>Community</h4>
+
+                <p>
+                    Join discussions, predictions and weekly puzzles.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= WHY US ================= -->
+
+    <section class="panel section">
+
+        <div class="section-head">
+
+            <h2>Why Chess News Hub?</h2>
+
+        </div>
+
+        <div class="stack">
+
+            <div class="card">
+
+                <h3>Fast Updates</h3>
+
+                <p>
+                    Placeholder description for this feature.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Trusted Information</h3>
+
+                <p>
+                    Placeholder description for this feature.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Growing Community</h3>
+
+                <p>
+                    Placeholder description for this feature.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CALL TO ACTION ================= -->
+
+    <section class="panel section">
+
+        <div class="hero-grid">
+
+            <div>
+
+                <h2>Ready To Begin?</h2>
+
+                <p class="lead">
+
+                    Discover everything from tournament coverage and player rankings
+                    to community discussions and exciting chess puzzles.
+
+                </p>
+
+            </div>
+
+            <div class="cta-row">
+
+                <button class="btn primary">
+
+                    Start Exploring
+
+                </button>
+
+                <button class="btn secondary">
+
+                    Visit Community
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        © 2026 Chess News Hub • Built for Chess Lovers Worldwide
+
+    </footer>
+
+</div>
 
   <script>
     function toggleSection(id){
