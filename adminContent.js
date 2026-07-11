@@ -899,6 +899,7 @@ alert("Delete failed.");
 }
 
 
+});
 
   // =========================
 // CREATE PUZZLE
@@ -983,4 +984,3 @@ document.getElementById("puzzleCloseDate").value="";
 
 }
 
-});
