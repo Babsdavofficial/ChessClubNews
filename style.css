@@ -28,23 +28,52 @@
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
   body{
+    margin:0;
+    padding:0;
 
-background:
-radial-gradient(circle at top left,
-rgba(255,255,255,.04),
-transparent 25%),
+    font-family:'Outfit', sans-serif;
+    color:#fff;
 
-radial-gradient(circle at 85% 20%,
-rgba(255,255,255,.03),
-transparent 20%),
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(255,255,255,.04),
+            transparent 25%
+        ),
 
-linear-gradient(
-135deg,
-#000000,
-#1a0202 45%,
-#420605 100%
-);
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(255,255,255,.03),
+            transparent 20%
+        ),
 
+        linear-gradient(
+            135deg,
+            #000000 0%,
+            #120101 30%,
+            #2b0303 65%,
+            #420605 100%
+        );
+
+    background-attachment:fixed;
+    min-height:100vh;
+
+    line-height:1.7;
+
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+h1,h2,h3,h4,h5,h6,
+p,
+span,
+a,
+li,
+label,
+button,
+small,
+strong,
+b{
+    color:inherit;
 }
     body::before{
       content:"NEWS • MATCHES • UPDATES • FUN FACTS •";
@@ -60,7 +89,14 @@ linear-gradient(
       pointer-events:none;
       z-index:0;
     }
+a{
+    color:#fff;
+    text-decoration:none;
+}
 
+a:hover{
+    color:#f0dcdc;
+}
     .wrap{
       position:relative;
       z-index:1;
@@ -408,7 +444,7 @@ rgba(66,6,5,.65)
 }
 input::placeholder,
 textarea::placeholder{
-  color: rgba(255,255,255,.55);
+  color:white
 }
 .fact-item{
     max-width:250px;
@@ -450,7 +486,7 @@ textarea::placeholder{
 
     .card p{
       margin:0;
-      color:var(--muted);
+    color:white;
       line-height:1.6;
     }
 
@@ -492,7 +528,7 @@ color:#f3dede;
 
     .small{
       font-size:13px;
-      color:var(--muted);
+      color:white;
       margin-top:6px;
       line-height:1.5;
     }
@@ -551,7 +587,7 @@ color:#f3dede;
 
 .player-name.right{
     text-align:right;
-    color:black;
+    color:white;
 }
 .profile-menu {
   position: relative;
