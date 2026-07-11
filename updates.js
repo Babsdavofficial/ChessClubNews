@@ -529,7 +529,7 @@ async function deleteOldCommunityMessages() {
   }
 
 }
-
+deleteOldCommunityMessages();
 function loadCommunityMessages() {
 
   if (!communityContainer) return;
