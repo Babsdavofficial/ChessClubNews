@@ -513,3 +513,149 @@ document.getElementById("triviaStatus")
 .textContent = "✅ Answer submitted.";
 
 });
+// =========================
+// LOAD PUZZLE
+// =========================
+
+let selectedPuzzle = null;
+
+async function loadPuzzle(){
+
+const snapshot = await getDocs(
+
+query(
+
+collection(db,"puzzles"),
+
+where("active","==",true),
+
+orderBy("createdAt","desc"),
+
+limit(1)
+
+)
+
+);
+
+if(snapshot.empty){
+
+document.getElementById("puzzleContainer").innerHTML =
+"No puzzle available.";
+
+return;
+
+}
+
+const puzzleDoc = snapshot.docs[0];
+
+selectedPuzzle = {
+
+id:puzzleDoc.id,
+
+...puzzleDoc.data()
+
+};
+
+document.getElementById("puzzleContainer").innerHTML = `
+
+<h3>${selectedPuzzle.title}</h3>
+
+<img
+src="${selectedPuzzle.imageUrl}"
+style="width:100%;border-radius:12px;margin:15px 0;">
+
+`;
+
+document.getElementById("puzzleAnswerArea").innerHTML = `
+
+<input
+type="text"
+id="puzzleMove"
+placeholder="Enter your best move..."
+style="width:100%;padding:12px;border-radius:10px;">
+
+`;
+
+}
+
+loadPuzzle();
+
+// =========================
+// SUBMIT PUZZLE
+// =========================
+
+document
+.getElementById("submitPuzzleBtn")
+.addEventListener("click", async()=>{
+
+const user = auth.currentUser;
+
+if(!user){
+
+alert("Login first.");
+
+return;
+
+}
+
+if(!selectedPuzzle) return;
+
+const move =
+document.getElementById("puzzleMove")
+.value
+.trim();
+
+if(!move){
+
+alert("Enter your move.");
+
+return;
+
+}
+
+// Prevent multiple submissions
+
+const alreadySolved = await getDocs(
+
+query(
+
+collection(db,"puzzleAnswers"),
+
+where("puzzleId","==",selectedPuzzle.id),
+
+where("userId","==",user.uid)
+
+)
+
+);
+
+if(!alreadySolved.empty){
+
+alert("You already submitted this puzzle.");
+
+return;
+
+}
+
+await addDoc(
+
+collection(db,"puzzleAnswers"),
+
+{
+
+puzzleId:selectedPuzzle.id,
+
+userId:user.uid,
+
+answer:move,
+
+createdAt:serverTimestamp()
+
+}
+
+);
+
+document.getElementById("puzzleStatus")
+.textContent="✅ Puzzle submitted.";
+
+});
