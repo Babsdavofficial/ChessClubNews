@@ -984,3 +984,239 @@ document.getElementById("puzzleCloseDate").value="";
 
 }
 
+
+
+// =========================
+// LOAD PUZZLES (ADMIN)
+// =========================
+
+const puzzleAdminContainer =
+document.getElementById("puzzleAdminContainer");
+
+async function loadPuzzleAdmin(){
+
+if(!puzzleAdminContainer) return;
+
+const snapshot=await getDocs(
+collection(db,"puzzles")
+);
+
+puzzleAdminContainer.innerHTML="";
+
+snapshot.forEach(docSnap=>{
+
+const puzzle=docSnap.data();
+
+puzzleAdminContainer.innerHTML+=`
+
+<div class="fact-item">
+
+<strong>${puzzle.title}</strong>
+
+<br>
+
+Reward:
+${puzzle.reward} FP
+
+<br><br>
+
+<button
+class="btn secondary viewPuzzleAnswersBtn"
+data-id="${docSnap.id}">
+👁 View Answers
+</button>
+
+<button
+class="btn primary declarePuzzleWinnerBtn"
+data-id="${docSnap.id}">
+🏆 Declare Winner
+</button>
+
+<button
+class="btn secondary deletePuzzleBtn"
+data-id="${docSnap.id}">
+🗑 Delete
+</button>
+
+</div>
+
+<br>
+
+`;
+
+});
+
+}
+
+loadPuzzleAdmin();
+
+
+// =========================
+// VIEW PUZZLE ANSWERS
+// =========================
+
+document.addEventListener("click",async(e)=>{
+
+if(!e.target.classList.contains("viewPuzzleAnswersBtn"))
+return;
+
+const puzzleId=e.target.dataset.id;
+
+const snapshot=await getDocs(
+
+query(
+
+collection(db,"puzzleAnswers"),
+
+where("puzzleId","==",puzzleId)
+
+)
+
+);
+
+let text="";
+
+snapshot.forEach(answer=>{
+
+const data=answer.data();
+
+text+=`
+
+${data.userId}
+
+➡️
+
+${data.answer}
+
+`;
+
+});
+
+alert(text||"No answers yet.");
+
+});
+
+
+// =========================
+// DECLARE PUZZLE WINNER
+// =========================
+
+document.addEventListener("click",async(e)=>{
+
+if(!e.target.classList.contains("declarePuzzleWinnerBtn"))
+return;
+
+const puzzleId=e.target.dataset.id;
+
+const move=prompt("Enter the correct move exactly.");
+
+if(!move) return;
+
+await updateDoc(
+
+doc(db,"puzzles",puzzleId),
+
+{
+
+correctMove:move,
+
+active:false
+
+}
+
+);
+
+const answers=await getDocs(
+
+query(
+
+collection(db,"puzzleAnswers"),
+
+where("puzzleId","==",puzzleId)
+
+)
+
+);
+
+let winners=0;
+
+for(const ans of answers.docs){
+
+const data=ans.data();
+
+if(
+
+data.answer.trim().toLowerCase()===
+
+move.trim().toLowerCase()
+
+){
+
+await updateDoc(
+
+doc(db,"users",data.userId),
+
+{
+
+fantasyPoints:increment(2)
+
+}
+
+);
+
+winners++;
+
+}
+
+}
+
+alert(`✅ ${winners} player(s) rewarded.`);
+
+loadPuzzleAdmin();
+
+});
+
+
+// =========================
+// DELETE PUZZLE
+// =========================
+
+document.addEventListener("click",async(e)=>{
+
+if(!e.target.classList.contains("deletePuzzleBtn"))
+return;
+
+if(!confirm("Delete this puzzle and all submissions?"))
+return;
+
+const puzzleId=e.target.dataset.id;
+
+const answers=await getDocs(
+
+query(
+
+collection(db,"puzzleAnswers"),
+
+where("puzzleId","==",puzzleId)
+
+)
+
+);
+
+for(const ans of answers.docs){
+
+await deleteDoc(ans.ref);
+
+}
+
+await deleteDoc(
+
+doc(db,"puzzles",puzzleId)
+
+);
+
+alert("Puzzle deleted.");
+
+loadPuzzleAdmin();
+
+});
