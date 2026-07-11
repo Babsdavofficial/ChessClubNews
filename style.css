@@ -315,6 +315,16 @@ a:hover{
       font-size:13px;
       color:#fff;
     }
+.puzzle-note{
+    font-size:13px;
+    color:var(--muted);
+    margin:10px 0 15px;
+    line-height:1.5;
+    background:rgba(255,255,255,.05);
+    padding:10px 12px;
+    border-left:4px solid var(--accent);
+    border-radius:8px;
+}
 
     .art-card{
        background:rgba(66,6,5,.28);
