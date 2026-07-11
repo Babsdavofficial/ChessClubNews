@@ -898,4 +898,89 @@ alert("Delete failed.");
 
 }
 
+
+
+  // =========================
+// CREATE PUZZLE
+// =========================
+
+const createPuzzleBtn =
+document.getElementById("createPuzzleBtn");
+
+if(createPuzzleBtn){
+
+createPuzzleBtn.addEventListener("click",async()=>{
+
+const title=
+document.getElementById("puzzleTitle").value.trim();
+
+const image=
+document.getElementById("puzzleImage").value.trim();
+
+const move=
+document.getElementById("correctMove").value.trim();
+
+const reward=
+Number(document.getElementById("puzzleReward").value);
+
+const closeDate=
+document.getElementById("puzzleCloseDate").value;
+
+if(
+!title||
+!image||
+!move||
+!closeDate
+){
+
+alert("Fill all fields.");
+
+return;
+
+}
+
+const imageUrl=
+
+"https://babsdavofficial.github.io/ChessClubNews/images/"+image;
+
+await addDoc(
+
+collection(db,"puzzles"),
+
+{
+
+title,
+
+imageUrl,
+
+correctMove:move,
+
+reward,
+
+active:true,
+
+closesAt:Timestamp.fromDate(
+
+new Date(closeDate)
+
+),
+
+createdAt:serverTimestamp()
+
+}
+
+);
+
+alert("✅ Puzzle Created.");
+
+document.getElementById("puzzleTitle").value="";
+document.getElementById("puzzleImage").value="";
+document.getElementById("correctMove").value="";
+document.getElementById("puzzleReward").value=2;
+document.getElementById("puzzleCloseDate").value="";
+
+});
+
+}
+
 });
