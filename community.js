@@ -659,3 +659,163 @@ document.getElementById("puzzleStatus")
 .textContent="✅ Puzzle submitted.";
 
 });
+// =========================
+// LEADERBOARD
+// =========================
+
+async function loadLeaderboard(){
+
+const fantasyDiv=
+document.getElementById("fantasyLeaderboard");
+
+const triviaDiv=
+document.getElementById("triviaLeaderboard");
+
+const predictionDiv=
+document.getElementById("predictionLeaderboard");
+
+if(
+!fantasyDiv||
+!triviaDiv||
+!predictionDiv
+)return;
+
+
+// Fantasy
+
+const fantasySnapshot=await getDocs(
+
+query(
+
+collection(db,"users"),
+
+orderBy("fantasyPoints","desc"),
+
+limit(10)
+
+)
+
+);
+
+fantasyDiv.innerHTML="";
+
+let rank=1;
+
+fantasySnapshot.forEach(docSnap=>{
+
+const user=docSnap.data();
+
+fantasyDiv.innerHTML+=`
+
+<p>
+
+${rank}. ${user.username}
+
+<span style="float:right;">
+
+${user.fantasyPoints||0}
+
+</span>
+
+</p>
+
+`;
+
+rank++;
+
+});
+
+
+// Trivia
+
+const triviaSnapshot=await getDocs(
+
+query(
+
+collection(db,"users"),
+
+orderBy("triviaCorrect","desc"),
+
+limit(10)
+
+)
+
+);
+
+triviaDiv.innerHTML="";
+
+rank=1;
+
+triviaSnapshot.forEach(docSnap=>{
+
+const user=docSnap.data();
+
+triviaDiv.innerHTML+=`
+
+<p>
+
+${rank}. ${user.username}
+
+<span style="float:right;">
+
+${user.triviaCorrect||0}
+
+</span>
+
+</p>
+
+`;
+
+rank++;
+
+});
+
+
+
+// Prediction
+
+const predictionSnapshot=await getDocs(
+
+query(
+
+collection(db,"users"),
+
+orderBy("predictionScore","desc"),
+
+limit(10)
+
+)
+
+);
+
+predictionDiv.innerHTML="";
+
+rank=1;
+
+predictionSnapshot.forEach(docSnap=>{
+
+const user=docSnap.data();
+
+predictionDiv.innerHTML+=`
+
+<p>
+
+${rank}. ${user.username}
+
+<span style="float:right;">
+
+${user.predictionScore||0}
+
+</span>
+
+</p>
+
+`;
+
+rank++;
+
+});
+
+}
+
+loadLeaderboard();
