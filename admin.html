@@ -208,14 +208,60 @@ Create Trivia
 
       <!-- Puzzle -->
       <div class="card">
-        <div class="chip">🧩 Puzzle</div>
-        <h3>Daily Puzzle</h3>
-        <p>Upload a new puzzle image and answer.</p>
-        <br>
-        <button id="openPuzzlePanel" class="btn primary">
-          Upload Puzzle
-        </button>
-      </div>
+
+<div class="chip">🧩 Daily Puzzle</div>
+
+<h3>Create Puzzle</h3>
+
+<label>Puzzle Title</label>
+
+<input
+type="text"
+id="puzzleTitle"
+placeholder="e.g. Mate in 2"
+style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;">
+
+<label>Image Filename</label>
+
+<input
+type="text"
+id="puzzleImage"
+placeholder="e.g. puzzle1.jpg"
+style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;">
+
+<label>Correct Move</label>
+
+<input
+type="text"
+id="correctMove"
+placeholder="e.g. Qh7+"
+style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;">
+
+<label>Reward Points</label>
+
+<input
+type="number"
+id="puzzleReward"
+value="2"
+style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;">
+
+<label>Closing Date</label>
+
+<input
+type="datetime-local"
+id="puzzleCloseDate"
+style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;">
+
+<button
+id="createPuzzleBtn"
+class="btn primary"
+style="width:100%;">
+
+🧩 Create Puzzle
+
+</button>
+
+</div>
 
       <!-- Leaderboard -->
       <div class="card">
