@@ -13,11 +13,11 @@
 
     <header class="topbar panel">
       <div class="brand">
-        <div class="logo">FET</div>
+        <div class="logo">♞</div>
         <div class="titlebox">
 
           <h1>Chess News Hub</h1>
-          <p>Bright, playful news and events dashboard</p>
+          <p>Predictions, puzzles and chess community challenges</p>
         </div>
       </div>
       <nav class="nav">
@@ -36,7 +36,7 @@
 
   <div id="profileDropdown" class="profile-dropdown" style= "float:right;">
     <p><strong id="profileName">Guest</strong></p>
-    
+
 
     <hr>
     <p id="profileEmail">Not logged in</p>
@@ -88,7 +88,7 @@
 
     <br>
 
-   
+
 
     <p id="predictionStatus" style="color:white;"></p>
 
@@ -158,7 +158,7 @@
 
             <h4>🔥 Fantasy Points</h4>
 
-            <div id="fantasyLeaderboard">
+            <div id="fantasyLeaderboard" class="leaderboard-row">
                 Loading...
             </div>
 
@@ -188,23 +188,104 @@
 
 </div>
   <!-- Community Chat -->
-  
+
 
   <br><br>
 
   <!-- Hall of Fame & Tournament Discussion -->
-  <div class="grid-3">
+<!-- Hall of Fame -->
+<div class="grid-3">
 
-  
+  <!-- Brilliant Moves -->
+  <div class="card" style="color:white;">
+    <div class="chip">✨ Hall of Fame</div>
 
-   
+    <h3>Most Brilliant Moves</h3>
 
+    <table class="hall-table">
+      <tr>
+        <th>Player</th>
+        <th>Brilliant</th>
+      </tr>
+
+      <tr><td>Humblelear</td><td>1</td></tr>
+    </table>
   </div>
+
+  <!-- Great Moves -->
+  <div class="card" style="color:white;">
+    <div class="chip">🔥 Hall of Fame</div>
+
+    <h3>Most Great Moves</h3>
+
+    <table class="hall-table">
+      <tr>
+        <th>Player</th>
+        <th>Great</th>
+      </tr>
+
+      <tr><td>Creedaville0</td><td>6</td></tr>
+      <tr><td>Architect</td><td>6</td></tr>
+      <tr><td>Lah</td><td>5</td></tr>
+      <tr><td>Davekeyz</td><td>4</td></tr>
+      <tr><td>GeePrime</td><td>3</td></tr>
+      <tr><td>Major</td><td>2</td></tr>
+      <tr><td>Humblelear</td><td>1</td></tr>
+
+    </table>
+  </div>
+
+  <!-- Accuracy -->
+  <div class="card" style="color:white;">
+    <div class="chip">🎯 Hall of Fame</div>
+
+    <h3>Highest Accuracy 80% -above</h3>
+
+    <table class="hall-table">
+      <tr>
+        <th>Player</th>
+        <th>Accuracy</th>
+        <th>#</th>
+      </tr>
+
+      <tr><td>Major</td><td>90.2%</td><td>✓</td></tr>
+      <tr><td>Davekeyz</td><td>88.5%</td><td>✓</td></tr>
+      <tr><td>Humblelear</td><td>88.4%</td><td>✓</td></tr>
+      <tr><td>GeePrime</td><td>83.9%</td><td>✓</td></tr>
+      <tr><td>Creedaville0</td><td>82.5%</td><td>✓</td></tr>
+      <tr><td>Lah</td><td>81.8%</td><td>✓</td></tr>
+
+    </table>
+  </div>
+
+</div>
+
+<br><br>
+
+<!-- Extra Hall of Fame -->
+<div class="card" style="color:white;">
+
+    <div class="chip">♔ Checkmate Kings</div>
+
+    <h3>Most Checkmates</h3>
+
+    <table class="hall-table">
+      <tr>
+        <th>Player</th>
+        <th>Checkmates</th>
+      </tr>
+
+      <tr><td>Davekeyz</td><td>1</td></tr>
+      <tr><td>Major</td><td>1</td></tr>
+      <tr><td>Architect</td><td>1</td></tr>
+    </table>
+
+</div>
 
 </section>
 
 
-            
+
 </div>
 <script type="module" src="auth.js"></script>
 <script type="module" src="community.js"></script>
