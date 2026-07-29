@@ -13,7 +13,7 @@
 
     <header class="topbar panel">
       <div class="brand">
-        <div class="logo">♞</div>
+        <div class="logo">♟♙</div>
         <div class="titlebox">
 
           <h1>Chess News Hub</h1>
@@ -80,17 +80,17 @@
 
     <div class="chip">Prediction Center</div>
 
-    <div id="predictionsContainer" style="color:white;">
+    <div id="predictionsContainer" style="color:var(--text);">
       Loading predictions...
     </div>
 
-    <div id="predictionOptions"style="color:white;"></div>
+    <div id="predictionOptions"style="color:var(--text);"></div>
 
     <br>
 
 
 
-    <p id="predictionStatus" style="color:white;"></p>
+    <p id="predictionStatus" style="color:var(--text);"></p>
 
   </div>
 
@@ -99,11 +99,11 @@
 
     <div class="chip">Weekly Chess Trivia</div>
 
-    <div id="triviaContainer" style="color:white;">
+    <div id="triviaContainer" style="color:var(--text);">
       Loading trivia...
     </div>
 
-    <div id="triviaOptions" style="color:white;"></div>
+    <div id="triviaOptions" style="color:var(--text);"></div>
 
     <br>
 
@@ -113,12 +113,12 @@
       Submit Answer
     </button>
 
-    <p id="triviaStatus" style="color:white;"></p>
+    <p id="triviaStatus" style="color:var(--text);"></p>
 
   </div>
 
   <!-- Puzzle -->
-  <div class="card" style="color:white;">
+  <div class="card" style="color:var(--text);">
 
     <div class="chip">🧩 Daily Puzzle</div>
 
@@ -146,7 +146,7 @@
 </div>
 <br><br>
   <!-- Fantasy Board -->
-<div class="card" style="color:white;">
+<div class="card" style="color:var(--text);">
 
     <div class="chip">Fantasy Leaderboard</div>
 
@@ -158,7 +158,7 @@
 
             <h4>🔥 Fantasy Points</h4>
 
-            <div id="fantasyLeaderboard" >
+            <div id="fantasyLeaderboard" class="leaderboard-row">
                 Loading...
             </div>
 
@@ -197,7 +197,7 @@
 <div class="grid-3">
 
   <!-- Brilliant Moves -->
-  <div class="card" style="color:white;">
+  <div class="card" style="color:var(--text);">
     <div class="chip">✨ Hall of Fame</div>
 
     <h3>Most Brilliant Moves</h3>
@@ -207,13 +207,13 @@
         <th>Player</th>
         <th>Brilliant</th>
       </tr>
-
+      <tr><td>Astronomer23</td><td>3</td></tr>
       <tr><td>Humblelear</td><td>1</td></tr>
     </table>
   </div>
 
   <!-- Great Moves -->
-  <div class="card" style="color:white;">
+  <div class="card" style="color:var(--text);">
     <div class="chip">🔥 Hall of Fame</div>
 
     <h3>Most Great Moves</h3>
@@ -223,20 +223,24 @@
         <th>Player</th>
         <th>Great</th>
       </tr>
-
+      <tr><td>Shroomy</td><td>14</td></tr>
+      <tr><td>Daniel</td><td>14 </td></tr>
+      <tr><td>Davekeyz</td><td>11</td></tr>
+      <tr><td>Lah</td><td>10</td></tr>
+      <tr><td>Astronomer23</td><td>9</td></tr>
+      <tr><td>Major</td><td>8</td></tr>
+      <tr><td>GeePrime</td><td>7</td></tr>
       <tr><td>Creedaville0</td><td>6</td></tr>
       <tr><td>Architect</td><td>6</td></tr>
-      <tr><td>Lah</td><td>5</td></tr>
-      <tr><td>Davekeyz</td><td>4</td></tr>
-      <tr><td>GeePrime</td><td>3</td></tr>
-      <tr><td>Major</td><td>2</td></tr>
-      <tr><td>Humblelear</td><td>1</td></tr>
+      <tr><td>YahDelight</td><td>5</td></tr>
+      <tr><td>Folami</td><td>3</td></tr>
+      <tr><td>Humblelear</td><td>3</td></tr>
 
     </table>
   </div>
 
   <!-- Accuracy -->
-  <div class="card" style="color:white;">
+  <div class="card" style="color:var(--text);">
     <div class="chip">🎯 Hall of Fame</div>
 
     <h3>Highest Accuracy 80% -above</h3>
@@ -247,11 +251,14 @@
         <th>Accuracy</th>
         <th>#</th>
       </tr>
-
+      <tr><td>Astronomer23</td><td>96.3%</td><td>✓</td></tr>
+      <tr><td>Humblelear</td><td>93.3%</td><td>✓</td></tr>
+      <tr><td>Daniel</td><td>92.2%</td><td>✓</td></tr>
+      <tr><td>Davekeyz</td><td>91.2%</td><td>✓</td></tr>
+      <tr><td>Shroomy</td><td>90.9%</td><td>✓</td></tr>
       <tr><td>Major</td><td>90.2%</td><td>✓</td></tr>
-      <tr><td>Davekeyz</td><td>88.5%</td><td>✓</td></tr>
-      <tr><td>Humblelear</td><td>88.4%</td><td>✓</td></tr>
-      <tr><td>GeePrime</td><td>83.9%</td><td>✓</td></tr>
+      <tr><td>GeePrime</td><td>84.1%</td><td>✓</td></tr>
+      <tr><td>YahDelight</td><td>83.6%</td><td>✓</td></tr>
       <tr><td>Creedaville0</td><td>82.5%</td><td>✓</td></tr>
       <tr><td>Lah</td><td>81.8%</td><td>✓</td></tr>
 
@@ -263,7 +270,7 @@
 <br><br>
 
 <!-- Extra Hall of Fame -->
-<div class="card" style="color:white;">
+<div class="card" style="color:var(--text);">
 
     <div class="chip">♔ Checkmate Kings</div>
 
@@ -275,12 +282,43 @@
         <th>Checkmates</th>
       </tr>
 
-      <tr><td>Davekeyz</td><td>1</td></tr>
-      <tr><td>Major</td><td>1</td></tr>
-      <tr><td>Architect</td><td>1</td></tr>
+      <tr><td>Davekeyz</td><td>5</td></tr>
+      <tr><td>Major</td><td>2</td></tr>
+      <tr><td>Architect</td><td>2</td></tr>
+      <tr><td>GeePrime</td><td>2</td></tr>
+      <tr><td>Astronomer23</td><td>2</td></tr>
+      <tr><td>Daniel</td><td>2</td></tr>
+      <tr><td>Shroomy</td><td>2</td></tr>
+      <tr><td>YahDelight</td><td>1</td></tr>
     </table>
+    </div>
+    <div class="card" style="color:var(--text);">
+    <div class="chip">🎯 Hall of Fame</div>
+
+    <h3>Numbers Of Achievement</h3>
+
+    <table class="hall-table">
+      <tr>
+        <th>Player</th>
+        <th>Achievement</th>
+        <th>#</th>
+      </tr>
+       <tr><td>Davekeyz</td><td>9</td><td>✓</td></tr>
+      <tr><td>Astronomer23</td><td>7</td><td>✓</td></tr>
+      <tr><td>Architect</td><td>6</td><td>✓</td></tr>
+      <tr><td>Daniel</td><td>4</td><td>✓</td></tr>
+      <tr><td>Humblelear</td><td>3</td><td>✓</td></tr>
+      <tr><td>Major</td><td>3</td><td>✓</td></tr>
+      <tr><td>Shroomy</td><td>2</td><td>✓</td></tr>
+      <tr><td>GeePrime</td><td>1</td><td>✓</td></tr>
+      <tr><td>Creedaville0</td><td>1</td><td>✓</td></tr>
+
+    </table>
+  </div>
 
 </div>
+
+
 
 </section>
 
