@@ -85,7 +85,7 @@ prediction.closesAt.toDate()<new Date();
 
 predictionsContainer.innerHTML+=`
 
-<div class="card">
+<div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35); color:white;">
 
 <div class="chip">
 
