@@ -1383,3 +1383,446 @@ box-shadow:
     text-align:left;
 
 }
+/* =====================================================
+   🏆 FANTASY TEAM — COMMUNITY DESIGN
+   ===================================================== */
+
+#fantasyEventTitle {
+  font-size: 1.8rem;
+  margin: 8px 0 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* Main Fantasy Card */
+.card:has(#fantasyEventTitle) {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-radius: 24px !important;
+
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(59, 130, 246, 0.22),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(139, 92, 246, 0.22),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(15, 23, 42, 0.96),
+      rgba(30, 41, 59, 0.96)
+    ) !important;
+
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(16px);
+}
+
+
+/* Decorative glow */
+.card:has(#fantasyEventTitle)::before {
+  content: "";
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  right: -80px;
+  top: -80px;
+
+  background: rgba(59, 130, 246, 0.20);
+
+  border-radius: 50%;
+
+  filter: blur(10px);
+
+  pointer-events: none;
+}
+
+
+/* Fantasy Chip */
+.card:has(#fantasyEventTitle) .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 7px 13px;
+
+  border-radius: 999px;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.20),
+      rgba(139,92,246,.25)
+    );
+
+  border: 1px solid rgba(139,92,246,.30);
+
+  color: #c4b5fd;
+
+  box-shadow:
+    0 5px 20px rgba(99,102,241,.15);
+}
+
+
+/* Budget Information */
+.card:has(#fantasyEventTitle) > p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 15px;
+
+  margin: 9px 0;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,.045);
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  color: rgba(255,255,255,.78);
+}
+
+.card:has(#fantasyEventTitle) > p strong {
+  color: white;
+  font-weight: 800;
+}
+
+
+/* Fantasy Points */
+#myFantasyPoints {
+  color: #a78bfa;
+
+  font-size: 1.05rem;
+
+  text-shadow:
+    0 0 15px rgba(167,139,250,.35);
+}
+
+
+/* Remaining Budget */
+#fantasyRemainingBudget {
+  color: #60a5fa;
+}
+
+
+/* Divider */
+.card:has(#fantasyEventTitle) hr {
+  border: 0;
+
+  height: 1px;
+
+  margin: 24px 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(148,163,184,.25),
+      transparent
+    );
+}
+
+
+/* =====================================================
+   PLAYER LIST
+   ===================================================== */
+
+#fantasyPlayersContainer {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(230px, 1fr));
+
+  gap: 14px;
+}
+
+
+/* Individual Player Card */
+#fantasyPlayersContainer .fact-item {
+
+  position: relative;
+
+  margin: 0 !important;
+
+  padding: 17px;
+
+  border-radius: 17px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.065),
+      rgba(255,255,255,.025)
+    );
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+
+}
+
+
+/* Hover */
+#fantasyPlayersContainer .fact-item:hover {
+
+  transform: translateY(-3px);
+
+  border-color:
+    rgba(96,165,250,.45);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.20);
+
+}
+
+
+/* Player Checkbox */
+.fantasyPlayerCheckbox {
+
+  width: 19px;
+  height: 19px;
+
+  accent-color: #6366f1;
+
+  cursor: pointer;
+}
+
+
+/* Player Name */
+#fantasyPlayersContainer label span {
+
+  line-height: 1.5;
+}
+
+#fantasyPlayersContainer label span strong {
+
+  font-size: 1rem;
+
+  color: white;
+}
+
+
+/* Price + Points */
+#fantasyPlayersContainer label span br + * {
+  color: rgba(255,255,255,.7);
+}
+
+
+/* =====================================================
+   SELECTED TEAM
+   ===================================================== */
+
+#selectedFantasyPlayers {
+
+  display: grid;
+
+  gap: 8px;
+
+  margin-top: 12px;
+
+}
+
+
+/* Selected Player */
+#selectedFantasyPlayers p {
+
+  margin: 0;
+
+  padding: 11px 14px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(99,102,241,.10);
+
+  border:
+    1px solid rgba(99,102,241,.20);
+
+  color: rgba(255,255,255,.85);
+
+}
+
+
+/* Selected Team Container */
+.card:has(#fantasyEventTitle) .fact-item:has(#selectedFantasyPlayers) {
+
+  margin-top: 22px;
+
+  padding: 20px;
+
+  border-radius: 19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59,130,246,.09),
+      rgba(139,92,246,.09)
+    );
+
+  border:
+    1px solid rgba(139,92,246,.20);
+
+}
+
+
+/* Selected Team Heading */
+#selectedFantasyPlayers
+  + * {
+  color: white;
+}
+
+
+/* =====================================================
+   SUBMIT BUTTON
+   ===================================================== */
+
+#submitFantasyTeamBtn {
+
+  position: relative;
+
+  border: 0;
+
+  border-radius: 15px;
+
+  padding: 14px 18px;
+
+  font-size: 1rem;
+
+  font-weight: 800;
+
+  letter-spacing: .2px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+
+  color: white;
+
+  box-shadow:
+    0 10px 30px rgba(79,70,229,.28);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    opacity .2s ease;
+
+}
+
+
+/* Button Hover */
+#submitFantasyTeamBtn:hover:not(:disabled) {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 15px 35px rgba(79,70,229,.40);
+
+}
+
+
+/* Button Click */
+#submitFantasyTeamBtn:active:not(:disabled) {
+
+  transform: translateY(0);
+
+}
+
+
+/* Disabled */
+#submitFantasyTeamBtn:disabled {
+
+  opacity: .45;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+
+}
+
+
+/* Status */
+#fantasyTeamStatus {
+
+  margin-top: 14px;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  text-align: center;
+
+  font-size: .9rem;
+
+  color: #a7f3d0;
+
+  background: rgba(16,185,129,.08);
+
+  border: 1px solid rgba(16,185,129,.15);
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+  .card:has(#fantasyEventTitle) {
+
+    padding: 19px;
+
+    border-radius: 20px !important;
+
+  }
+
+
+  #fantasyEventTitle {
+
+    font-size: 1.45rem;
+
+  }
+
+
+  #fantasyPlayersContainer {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .card:has(#fantasyEventTitle) > p {
+
+    font-size: .9rem;
+
+  }
+
+
+  #submitFantasyTeamBtn {
+
+    padding: 13px;
+
+  }
+
+}
