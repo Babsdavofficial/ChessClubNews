@@ -1,5 +1,9 @@
 import { db, auth } from "./firebase.js";
 import {
+  getAchievementLevel
+} from "./achievement.js";
+
+import {
  collection,
   query,
   orderBy,
