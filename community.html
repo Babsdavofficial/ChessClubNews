@@ -202,104 +202,69 @@
 
 <br><br>
 
-<section id="fantasyTeamSection" class="card"
-  style="
-    background:linear-gradient(
-      135deg,
-      rgba(239,68,68,.18),
-      rgba(124,58,237,.20),
-      rgba(37,99,235,.18)
-    );
-    border:1px solid rgba(139,92,246,.35);
-  "
->
+<!-- =========================
+     FANTASY TEAM
+========================= -->
+
+<div class="card"
+  style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18));
+  border:1px solid rgba(139,92,246,.35);">
 
   <div class="chip">🏆 Fantasy Team</div>
 
-  <h2>Build Your Fantasy Team</h2>
+  <h3 id="fantasyEventTitle">
+    Loading Fantasy Event...
+  </h3>
 
   <p>
-    Select exactly <strong>3 players</strong> while staying within your
-    Fantasy budget.
+    💰 Starting Budget:
+    <strong id="fantasyBudgetDisplay">0</strong>
   </p>
 
-  <!-- Active Event -->
-  <div id="fantasyEventContainer">
+  <p>
+    💰 Remaining Budget:
+    <strong id="fantasyRemainingBudget">0</strong>
+  </p>
 
-    <p style="opacity:.7;">
-      Loading Fantasy Event...
-    </p>
+  <p>
+    👥 Select exactly
+    <strong>3 players</strong>
+  </p>
 
-  </div>
-
+  <hr>
 
   <!-- Players -->
-  <div id="fantasyPlayersContainer"
-       style="margin-top:20px;">
-
-    <p style="opacity:.7;">
-      Loading Fantasy Players...
-    </p>
-
+  <div id="fantasyPlayersContainer">
+    Loading Fantasy Players...
   </div>
 
+  <br>
 
-  <!-- Team Summary -->
-  <div
-    id="fantasyTeamSummary"
-    style="
-      margin-top:25px;
-      padding:20px;
-      border-radius:15px;
-      background:rgba(0,0,0,.18);
-    "
-  >
+  <!-- Selected Team -->
+  <div class="fact-item">
 
-    <h3>📋 Your Fantasy Team</h3>
+    <h3>⚔️ Your Fantasy Team</h3>
 
-    <p>
-      👥 Selected:
-      <strong>
-        <span id="fantasySelectedCount">0</span>/3
-      </strong>
-    </p>
-
-    <p>
-      💰 Budget:
-      <strong>
-        <span id="fantasySpent">0</span>
-        /
-        <span id="fantasyBudgetDisplay">0</span>
-      </strong>
-    </p>
-
-    <p>
-      💵 Remaining:
-      <strong>
-        <span id="fantasyRemaining">0</span>
-      </strong>
-    </p>
-
-    <div id="fantasySelectedPlayers">
-      <p style="opacity:.7;">
-        No players selected yet.
-      </p>
+    <div id="selectedFantasyPlayers">
+      No players selected.
     </div>
 
-    <button
-      id="submitFantasyTeamBtn"
-      class="btn primary"
-      style="width:100%;margin-top:15px;"
-      disabled
-    >
-      🏆 Submit Fantasy Team
-    </button>
-
-    <p id="fantasyTeamStatus"></p>
-
   </div>
 
-</section>
+  <br>
+
+  <button
+    id="submitFantasyTeamBtn"
+    class="btn primary"
+    style="width:100%;">
+
+    🏆 Submit Fantasy Team
+
+  </button>
+
+  <p id="fantasyTeamStatus"></p>
+
+</div>
 <div class="grid-3">
 
   <!-- Brilliant Moves -->
