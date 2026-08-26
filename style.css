@@ -1826,3 +1826,50 @@ box-shadow:
   }
 
 }
+
+/* =====================================================
+   FANTASY ACHIEVEMENT — PROFILE
+   ===================================================== */
+
+.profile-achievement {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  transition: .3s ease;
+}
+
+.achievement-badge {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 23px;
+  background: rgba(255,255,255,.1);
+}
+
+.achievement-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.achievement-info strong {
+  font-size: 15px;
+}
+
+.achievement-info span {
+  font-size: 12px;
+  opacity: .75;
+}
+
+.achievement-info small {
+  font-size: 11px;
+  opacity: .7;
+}
