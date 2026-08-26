@@ -177,7 +177,50 @@ Create Trivia
 
   <br><br>
 
-  <div id="fantasyEventAdminContainer"></div>
+  <div id="fantasyEventAdminContainer">
+
+    <div id="fantasyPlayerForm" style="display:none; margin-top:20px;">
+
+  <hr>
+
+  <h3>➕ Add Fantasy Player</h3>
+
+  <label>Player Name</label>
+
+  <input
+    type="text"
+    id="fantasyPlayerName"
+    placeholder="e.g. G Prime"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <label>Fantasy Price</label>
+
+  <input
+    type="number"
+    id="fantasyPlayerPrice"
+    placeholder="e.g. 40"
+    min="1"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <button
+    id="addFantasyPlayerBtn"
+    class="btn primary"
+    style="width:100%;">
+
+    ➕ Add Player
+
+  </button>
+
+</div>
+
+<div
+  id="fantasyPlayersAdminContainer"
+  style="margin-top:20px;">
+</div>
+    
+  </div>
 
 </div>
 
