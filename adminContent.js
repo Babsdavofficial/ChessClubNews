@@ -1478,7 +1478,9 @@ document.addEventListener("click", async (e) => {
   if (
     !confirm(
       "End this Fantasy Event?\n\n" +
-      "This will end the event and its fantasy competition."
+      "This will remove the Fantasy Teams and Fantasy Players " +
+      "belonging to this event.\n\n" +
+      "Your personal Achievement Fantasy Points will NOT be affected."
     )
   ) {
     return;
@@ -1486,22 +1488,145 @@ document.addEventListener("click", async (e) => {
 
   try {
 
-    await updateDoc(
+    // =================================================
+    // CREATE BATCH
+    // =================================================
+
+    const batch =
+      writeBatch(db);
+
+
+    // =================================================
+    // FIND FANTASY TEAMS FOR THIS EVENT
+    // =================================================
+
+    const teamsSnapshot =
+      await getDocs(
+
+        query(
+
+          collection(
+            db,
+            "fantasyTeams"
+          ),
+
+          where(
+            "eventId",
+            "==",
+            eventId
+          )
+
+        )
+
+      );
+
+
+    // =================================================
+    // DELETE FANTASY TEAMS
+    // =================================================
+
+    teamsSnapshot.forEach(
+      (teamDoc) => {
+
+        batch.delete(
+          teamDoc.ref
+        );
+
+      }
+    );
+
+
+    // =================================================
+    // FIND FANTASY PLAYERS FOR THIS EVENT
+    // =================================================
+
+    const playersSnapshot =
+      await getDocs(
+
+        query(
+
+          collection(
+            db,
+            "fantasyPlayers"
+          ),
+
+          where(
+            "eventId",
+            "==",
+            eventId
+          )
+
+        )
+
+      );
+
+
+    // =================================================
+    // DELETE FANTASY PLAYERS
+    // =================================================
+
+    playersSnapshot.forEach(
+      (playerDoc) => {
+
+        batch.delete(
+          playerDoc.ref
+        );
+
+      }
+    );
+
+
+    // =================================================
+    // END FANTASY EVENT
+    // =================================================
+
+    batch.update(
+
       doc(
         db,
         "fantasyEvents",
         eventId
       ),
+
       {
-        active: false
+        active: false,
+        endedAt: serverTimestamp()
       }
+
     );
+
+
+    // =================================================
+    // SAVE EVERYTHING
+    // =================================================
+
+    await batch.commit();
+
+
+    // =================================================
+    // SUCCESS
+    // =================================================
 
     alert(
-      "✅ Fantasy Event ended."
+
+      "✅ Fantasy Event ended successfully!\n\n" +
+
+      `Fantasy Teams removed: ${teamsSnapshot.size}\n` +
+
+      `Fantasy Players removed: ${playersSnapshot.size}\n\n` +
+
+      "🏅 Your personal Achievement Points were not affected."
+
     );
 
+
+    // Refresh event section
+
     loadFantasyEventAdmin();
+
+    // Refresh player section
+
+    loadFantasyPlayersAdmin();
 
   }
 
@@ -1513,7 +1638,8 @@ document.addEventListener("click", async (e) => {
     );
 
     alert(
-      "❌ Failed to end Fantasy Event."
+      "❌ Failed to end Fantasy Event.\n\n" +
+      error.message
     );
 
   }
