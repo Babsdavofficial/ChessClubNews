@@ -674,234 +674,275 @@ document.getElementById("puzzleStatus")
 // LEADERBOARD
 // =========================
 
-async function loadLeaderboard(){
+// =========================
+// LEADERBOARD
+// =========================
 
-const fantasyDiv=
-document.getElementById("fantasyLeaderboard");
+async function loadLeaderboard() {
 
-const triviaDiv=
-document.getElementById("triviaLeaderboard");
+  const fantasyDiv =
+    document.getElementById("fantasyLeaderboard");
 
-const predictionDiv=
-document.getElementById("predictionLeaderboard");
+  const triviaDiv =
+    document.getElementById("triviaLeaderboard");
 
-if(
-!fantasyDiv||
-!triviaDiv||
-!predictionDiv
-)return;
+  const predictionDiv =
+    document.getElementById("predictionLeaderboard");
 
-
-// Fantasy
-
-// =====================================================
-// FANTASY LEADERBOARD
-// =====================================================
-
-const fantasySnapshot = await getDocs(
-
-  query(
-
-    collection(db, "fantasyTeams"),
-
-    orderBy("fantasyPoints", "desc"),
-
-    limit(10)
-
-  )
-
-);
-
-fantasyDiv.innerHTML = "";
-
-let rank = 1;
+  if (
+    !fantasyDiv ||
+    !triviaDiv ||
+    !predictionDiv
+  ) return;
 
 
-// -----------------------------------------
-// LOAD EACH FANTASY TEAM
-// -----------------------------------------
+  // =====================================================
+  // FANTASY LEADERBOARD
+  // =====================================================
 
-for (const teamDoc of fantasySnapshot.docs) {
+  const fantasySnapshot = await getDocs(
 
-  const team = teamDoc.data();
+    query(
 
-  let username = "Player";
+      collection(db, "fantasyTeams"),
+
+      orderBy("fantasyPoints", "desc"),
+
+      limit(10)
+
+    )
+
+  );
+
+  fantasyDiv.innerHTML = "";
+
+  let rank = 1;
 
 
   // -----------------------------------------
-  // GET USER
+  // LOAD EACH FANTASY TEAM
   // -----------------------------------------
 
-  if (team.userId) {
+  for (const teamDoc of fantasySnapshot.docs) {
 
-    const userRef =
-      doc(
-        db,
-        "users",
-        team.userId
-      );
+    const team = teamDoc.data();
 
-    const userSnap =
-      await getDoc(userRef);
+    let username = "Player";
 
-    if (userSnap.exists()) {
+    let fantasyPoints = team.fantasyPoints || 0;
 
-      const userData =
-        userSnap.data();
+    let achievement = getAchievementLevel(0);
 
-      username =
-        userData.username ||
-        userData.fullname ||
-        "Player";
+
+    // -----------------------------------------
+    // GET USER
+    // -----------------------------------------
+
+    if (team.userId) {
+
+      const userRef =
+        doc(
+          db,
+          "users",
+          team.userId
+        );
+
+      const userSnap =
+        await getDoc(userRef);
+
+      if (userSnap.exists()) {
+
+        const userData =
+          userSnap.data();
+
+        username =
+          userData.username ||
+          userData.fullname ||
+          "Player";
+
+
+        // -----------------------------------------
+        // GET USER ACHIEVEMENT
+        // -----------------------------------------
+
+        achievement =
+          getAchievementLevel(
+            userData.fantasyPoints || 0
+          );
+
+      }
 
     }
+
+
+    // -----------------------------------------
+    // DISPLAY
+    // -----------------------------------------
+
+    fantasyDiv.innerHTML += `
+
+      <p class="achievement-row ${achievement.className}">
+
+        <strong>
+          ${rank}.
+          ${achievement.icon}
+          ${username}
+        </strong>
+
+        <span>
+          🏆 ${fantasyPoints} FP
+        </span>
+
+      </p>
+
+    `;
+
+    rank++;
 
   }
 
 
   // -----------------------------------------
-  // DISPLAY
+  // NO FANTASY TEAMS
   // -----------------------------------------
 
-  fantasyDiv.innerHTML += `
+  if (fantasySnapshot.empty) {
 
-    <p>
+    fantasyDiv.innerHTML = `
 
-      <strong>
-        ${rank}.
-        ${username}
-      </strong>
+      <p style="opacity:.7;">
+        No Fantasy Teams yet.
+      </p>
 
-      <span style="float:right;">
+    `;
 
-        🏆 ${team.fantasyPoints || 0} FP
+  }
 
-      </span>
 
-    </p>
+  // =====================================================
+  // TRIVIA LEADERBOARD
+  // =====================================================
 
-  `;
+  const triviaSnapshot =
+    await getDocs(
 
-  rank++;
+      query(
 
-}
+        collection(db, "users"),
 
+        orderBy("triviaCorrect", "desc"),
 
-// -----------------------------------------
-// NO FANTASY TEAMS
-// -----------------------------------------
+        limit(10)
 
-if (fantasySnapshot.empty) {
+      )
 
-  fantasyDiv.innerHTML = `
+    );
 
-    <p style="opacity:.7;">
+  triviaDiv.innerHTML = "";
 
-      No Fantasy Teams yet.
+  rank = 1;
 
-    </p>
 
-  `;
+  for (const docSnap of triviaSnapshot.docs) {
 
-}
+    const user =
+      docSnap.data();
 
+    const fantasyPoints =
+      user.fantasyPoints || 0;
 
+    const achievement =
+      getAchievementLevel(
+        fantasyPoints
+      );
 
 
-// Trivia
+    triviaDiv.innerHTML += `
 
-const triviaSnapshot=await getDocs(
+      <p class="achievement-row ${achievement.className}">
 
-query(
+        <strong>
+          ${rank}.
+          ${achievement.icon}
+          ${user.username || "Player"}
+        </strong>
 
-collection(db,"users"),
+        <span>
+          🧠 ${user.triviaCorrect || 0}
+        </span>
 
-orderBy("triviaCorrect","desc"),
+      </p>
 
-limit(10)
+    `;
 
-)
+    rank++;
 
-);
+  }
 
-triviaDiv.innerHTML="";
 
-rank=1;
+  // =====================================================
+  // PREDICTION LEADERBOARD
+  // =====================================================
 
-triviaSnapshot.forEach(docSnap=>{
+  const predictionSnapshot =
+    await getDocs(
 
-const user=docSnap.data();
+      query(
 
-triviaDiv.innerHTML+=`
+        collection(db, "users"),
 
-<p>
+        orderBy("predictionScore", "desc"),
 
-${rank}. ${user.username}
+        limit(10)
 
-<span style="float:right;">
+      )
 
-${user.triviaCorrect||0}
+    );
 
-</span>
+  predictionDiv.innerHTML = "";
 
-</p>
+  rank = 1;
 
-`;
 
-rank++;
+  for (const docSnap of predictionSnapshot.docs) {
 
-});
+    const user =
+      docSnap.data();
 
+    const fantasyPoints =
+      user.fantasyPoints || 0;
 
+    const achievement =
+      getAchievementLevel(
+        fantasyPoints
+      );
 
-// Prediction
 
-const predictionSnapshot=await getDocs(
+    predictionDiv.innerHTML += `
 
-query(
+      <p class="achievement-row ${achievement.className}">
 
-collection(db,"users"),
+        <strong>
+          ${rank}.
+          ${achievement.icon}
+          ${user.username || "Player"}
+        </strong>
 
-orderBy("predictionScore","desc"),
+        <span>
+          🎯 ${user.predictionScore || 0}
+        </span>
 
-limit(10)
+      </p>
 
-)
+    `;
 
-);
+    rank++;
 
-predictionDiv.innerHTML="";
-
-rank=1;
-
-predictionSnapshot.forEach(docSnap=>{
-
-const user=docSnap.data();
-
-predictionDiv.innerHTML+=`
-
-<p>
-
-${rank}. ${user.username}
-
-<span style="float:right;">
-
-${user.predictionScore||0}
-
-</span>
-
-</p>
-
-`;
-
-rank++;
-
-});
+  }
 
 }
 
 loadLeaderboard();
-
 // =====================================================
 // FANTASY TEAM — COMMUNITY
 // =====================================================
