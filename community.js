@@ -683,45 +683,116 @@ if(
 
 // Fantasy
 
-const fantasySnapshot=await getDocs(
+// =====================================================
+// FANTASY LEADERBOARD
+// =====================================================
 
-query(
+const fantasySnapshot = await getDocs(
 
-collection(db,"users"),
+  query(
 
-orderBy("fantasyPoints","desc"),
+    collection(db, "fantasyTeams"),
 
-limit(10)
+    orderBy("fantasyPoints", "desc"),
 
-)
+    limit(10)
+
+  )
 
 );
 
-fantasyDiv.innerHTML="";
+fantasyDiv.innerHTML = "";
 
-let rank=1;
+let rank = 1;
 
-fantasySnapshot.forEach(docSnap=>{
 
-const user=docSnap.data();
+// -----------------------------------------
+// LOAD EACH FANTASY TEAM
+// -----------------------------------------
 
-fantasyDiv.innerHTML+=`
+for (const teamDoc of fantasySnapshot.docs) {
 
-<p>
+  const team = teamDoc.data();
 
-${rank}. ${user.username}
+  let username = "Player";
 
-<span style="float:right;">
 
-${user.fantasyPoints||0}
+  // -----------------------------------------
+  // GET USER
+  // -----------------------------------------
 
-</span>
+  if (team.userId) {
 
-</p>
+    const userRef =
+      doc(
+        db,
+        "users",
+        team.userId
+      );
 
-`;
+    const userSnap =
+      await getDoc(userRef);
 
-rank++;
+    if (userSnap.exists()) {
+
+      const userData =
+        userSnap.data();
+
+      username =
+        userData.username ||
+        userData.fullname ||
+        "Player";
+
+    }
+
+  }
+
+
+  // -----------------------------------------
+  // DISPLAY
+  // -----------------------------------------
+
+  fantasyDiv.innerHTML += `
+
+    <p>
+
+      <strong>
+        ${rank}.
+        ${username}
+      </strong>
+
+      <span style="float:right;">
+
+        🏆 ${team.fantasyPoints || 0} FP
+
+      </span>
+
+    </p>
+
+  `;
+
+  rank++;
+
+}
+
+
+// -----------------------------------------
+// NO FANTASY TEAMS
+// -----------------------------------------
+
+if (fantasySnapshot.empty) {
+
+  fantasyDiv.innerHTML = `
+
+    <p style="opacity:.7;">
+
+      No Fantasy Teams yet.
+
+    </p>
+
+  `;
+
+}
 
 });
 
