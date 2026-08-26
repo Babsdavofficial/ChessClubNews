@@ -137,7 +137,10 @@ Create Trivia
 
 
       <!-- Fantasy Team -->
-<div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
+<div
+  class="card"
+  style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);"
+>
 
   <div class="chip">🏆 Fantasy Team</div>
 
@@ -169,57 +172,74 @@ Create Trivia
   <button
     id="createFantasyEventBtn"
     class="btn primary"
-    style="width:100%;margin-top:10px;">
-
+    style="width:100%;margin-top:10px;"
+  >
     🏆 Create Fantasy Event
-
   </button>
 
-  <br><br>
 
-  <div id="fantasyEventAdminContainer">
+  <!-- ========================= -->
+  <!-- FANTASY EVENT ADMIN AREA -->
+  <!-- ========================= -->
 
-    <div id="fantasyPlayerForm" style="display:none; margin-top:20px;">
+  <div
+    id="fantasyEventAdminContainer"
+    style="margin-top:20px;"
+  >
+  </div>
 
-  <hr>
 
-  <h3>➕ Add Fantasy Player</h3>
+  <!-- ========================= -->
+  <!-- ADD FANTASY PLAYER -->
+  <!-- ========================= -->
 
-  <label>Player Name</label>
-
-  <input
-    type="text"
-    id="fantasyPlayerName"
-    placeholder="e.g. G Prime"
-    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  <div
+    id="fantasyPlayerForm"
+    style="display:none;margin-top:20px;"
   >
 
-  <label>Fantasy Price</label>
+    <hr>
 
-  <input
-    type="number"
-    id="fantasyPlayerPrice"
-    placeholder="e.g. 40"
-    min="1"
-    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+    <h3>➕ Add Fantasy Player</h3>
+
+    <label>Player Name</label>
+
+    <input
+      type="text"
+      id="fantasyPlayerName"
+      placeholder="e.g. G Prime"
+      style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+    >
+
+    <label>Fantasy Price</label>
+
+    <input
+      type="number"
+      id="fantasyPlayerPrice"
+      placeholder="e.g. 40"
+      min="1"
+      style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+    >
+
+    <button
+      id="addFantasyPlayerBtn"
+      class="btn primary"
+      style="width:100%;"
+    >
+      ➕ Add Player
+    </button>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- FANTASY PLAYERS LIST -->
+  <!-- ========================= -->
+
+  <div
+    id="fantasyPlayersAdminContainer"
+    style="margin-top:20px;"
   >
-
-  <button
-    id="addFantasyPlayerBtn"
-    class="btn primary"
-    style="width:100%;">
-
-    ➕ Add Player
-
-  </button>
-
-</div>
-
-<div
-  id="fantasyPlayersAdminContainer"
-  style="margin-top:20px;">
-</div>
-    
   </div>
 
 </div>
