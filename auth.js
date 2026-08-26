@@ -307,11 +307,31 @@ onAuthStateChanged(auth, async (user) => {
   const logoutBtn = document.getElementById("logoutBtn");
 
   const profileName = document.getElementById("profileName");
-  const profileEmail = document.getElementById("profileEmail");
-  const fantasyPoints = document.getElementById("fantasyPoints");
-  const triviaScore = document.getElementById("triviaScore");
-  const predictionScore = document.getElementById("predictionScore");
-  const adminPanelBtn = document.getElementById("adminPanelBtn");
+const profileEmail = document.getElementById("profileEmail");
+
+const fantasyPoints =
+  document.getElementById("fantasyPoints");
+
+const profileAchievement =
+  document.getElementById("profileAchievement");
+
+const profileAchievementBadge =
+  document.getElementById("profileAchievementBadge");
+
+const profileAchievementName =
+  document.getElementById("profileAchievementName");
+
+const profileAchievementLevel =
+  document.getElementById("profileAchievementLevel");
+
+const triviaScore =
+  document.getElementById("triviaScore");
+
+const predictionScore =
+  document.getElementById("predictionScore");
+
+const adminPanelBtn =
+  document.getElementById("adminPanelBtn");
 
   if (user) {
 
@@ -340,6 +360,65 @@ onSnapshot(userRef, (userSnap) => {
 // UPDATE FANTASY ACHIEVEMENT
 // =====================================================
 updateProfileAchievement(userData);
+  // =====================================================
+// UPDATE PROFILE ACHIEVEMENT
+// =====================================================
+
+const currentFantasyPoints =
+  Number(userData.fantasyPoints) || 0;
+
+const achievement =
+  getAchievementLevel(currentFantasyPoints);
+
+
+// Fantasy Points
+
+if (fantasyPoints) {
+
+  fantasyPoints.textContent =
+    currentFantasyPoints;
+
+}
+
+
+// Achievement Icon
+
+if (profileAchievementBadge) {
+
+  profileAchievementBadge.textContent =
+    achievement.icon;
+
+}
+
+
+// Achievement Name
+
+if (profileAchievementName) {
+
+  profileAchievementName.textContent =
+    achievement.name;
+
+}
+
+
+// Achievement Level
+
+if (profileAchievementLevel) {
+
+  profileAchievementLevel.textContent =
+    `Level ${achievement.level}`;
+
+}
+
+
+// Achievement Background Class
+
+if (profileAchievement) {
+
+  profileAchievement.className =
+    `profile-achievement ${achievement.className}`;
+
+}
 
     if (triviaScore)
         triviaScore.textContent = userData.triviaCorrect || 0;
