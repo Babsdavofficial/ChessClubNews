@@ -1891,3 +1891,225 @@ async function loadFantasyPlayersAdmin() {
 
 loadFantasyPlayersAdmin();
 
+// =====================================================
+// FANTASY TEAM — UPDATE PLAYER POINTS
+// =====================================================
+
+document.addEventListener("click", async (e) => {
+
+  if (
+    !e.target.classList.contains(
+      "updateFantasyPointsBtn"
+    )
+  ) {
+    return;
+  }
+
+  const playerId =
+    e.target.dataset.id;
+
+  try {
+
+    // -----------------------------------------
+    // GET PLAYER
+    // -----------------------------------------
+
+    const playerRef =
+      doc(
+        db,
+        "fantasyPlayers",
+        playerId
+      );
+
+    const playerSnap =
+      await getDoc(playerRef);
+
+    if (!playerSnap.exists()) {
+
+      alert(
+        "Fantasy Player not found."
+      );
+
+      return;
+
+    }
+
+    const player =
+      playerSnap.data();
+
+
+    // -----------------------------------------
+    // ASK ADMIN FOR POINTS
+    // -----------------------------------------
+
+    const pointsInput =
+      prompt(
+        `Update Fantasy Points for ${player.name}\n\n` +
+        `Current Points: ${player.fantasyPoints || 0}\n\n` +
+        `Enter points to ADD:`
+      );
+
+
+    // Cancelled
+
+    if (
+      pointsInput === null
+    ) {
+      return;
+    }
+
+
+    const points =
+      Number(pointsInput);
+
+
+    // -----------------------------------------
+    // VALIDATE POINTS
+    // -----------------------------------------
+
+    if (
+      !Number.isFinite(points) ||
+      points <= 0
+    ) {
+
+      alert(
+        "Please enter a valid positive number."
+      );
+
+      return;
+
+    }
+
+
+    // -----------------------------------------
+    // FIND ALL TEAMS CONTAINING PLAYER
+    // -----------------------------------------
+
+    const teamsSnapshot =
+      await getDocs(
+
+        query(
+
+          collection(
+            db,
+            "fantasyTeams"
+          ),
+
+          where(
+            "eventId",
+            "==",
+            player.eventId
+          ),
+
+          where(
+            "playerIds",
+            "array-contains",
+            playerId
+          )
+
+        )
+
+      );
+
+
+    // -----------------------------------------
+    // BATCH UPDATE
+    // -----------------------------------------
+
+    const batch =
+      writeBatch(db);
+
+
+    // Update Fantasy Player
+
+    batch.update(
+      playerRef,
+      {
+
+        fantasyPoints:
+          increment(points),
+
+        updatedAt:
+          serverTimestamp()
+
+      }
+    );
+
+
+    // -----------------------------------------
+    // UPDATE EVERY TEAM THAT
+    // SELECTED THIS PLAYER
+    // -----------------------------------------
+
+    teamsSnapshot.forEach(
+      (teamDoc) => {
+
+        batch.update(
+
+          teamDoc.ref,
+
+          {
+
+            fantasyPoints:
+              increment(points),
+
+            updatedAt:
+              serverTimestamp()
+
+          }
+
+        );
+
+      }
+    );
+
+
+    // -----------------------------------------
+    // SAVE EVERYTHING
+    // -----------------------------------------
+
+    await batch.commit();
+
+
+    // -----------------------------------------
+    // SUCCESS MESSAGE
+    // -----------------------------------------
+
+    alert(
+
+      `✅ ${player.name} received +${points} Fantasy Points.\n\n` +
+
+      `Player Points: ${
+        (player.fantasyPoints || 0) + points
+      }\n` +
+
+      `Teams Updated: ${
+        teamsSnapshot.size
+      }`
+
+    );
+
+
+    // -----------------------------------------
+    // REFRESH ADMIN PLAYERS
+    // -----------------------------------------
+
+    loadFantasyPlayersAdmin();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Update Fantasy Points error:",
+      error
+    );
+
+    alert(
+      "❌ Failed to update Fantasy Points."
+    );
+
+  }
+
+});
+
