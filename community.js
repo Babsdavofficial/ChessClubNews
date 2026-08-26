@@ -164,6 +164,65 @@ function getAchievementLevel(points) {
   };
 
 }
+
+// =====================================================
+// DISPLAY USER ACHIEVEMENT IN PROFILE
+// =====================================================
+
+function updateProfileAchievement(userData) {
+
+  const achievementDiv =
+    document.getElementById("profileAchievement");
+
+  const badgeDiv =
+    document.getElementById("profileAchievementBadge");
+
+  const nameDiv =
+    document.getElementById("profileAchievementName");
+
+  const levelDiv =
+    document.getElementById("profileAchievementLevel");
+
+  const pointsDiv =
+    document.getElementById("fantasyPoints");
+
+  if (
+    !achievementDiv ||
+    !badgeDiv ||
+    !nameDiv ||
+    !levelDiv
+  ) {
+    return;
+  }
+
+  const points =
+    Number(userData?.fantasyPoints) || 0;
+
+  const achievement =
+    getAchievementLevel(points);
+
+  // Badge
+  badgeDiv.textContent =
+    achievement.icon;
+
+  // Name
+  nameDiv.textContent =
+    achievement.name;
+
+  // Level
+  levelDiv.textContent =
+    `Level ${achievement.level}`;
+
+  // Fantasy Points
+  if (pointsDiv) {
+    pointsDiv.textContent =
+      points;
+  }
+
+  // Save the league class
+  achievementDiv.className =
+    `profile-achievement ${achievement.className}`;
+}
 const predictionsContainer =
 document.getElementById("predictionsContainer");
 
