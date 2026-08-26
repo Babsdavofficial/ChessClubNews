@@ -138,6 +138,15 @@ onSnapshot(userRef, (userSnap) => {
 
     if (fantasyPoints)
         fantasyPoints.textContent = userData.fantasyPoints || 0;
+  // =====================================================
+// UPDATE FANTASY ACHIEVEMENT
+// =====================================================
+
+if (typeof updateProfileAchievement === "function") {
+
+    updateProfileAchievement(userData);
+
+}
 
     if (triviaScore)
         triviaScore.textContent = userData.triviaCorrect || 0;
