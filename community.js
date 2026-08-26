@@ -794,7 +794,7 @@ if (fantasySnapshot.empty) {
 
 }
 
-});
+
 
 
 // Trivia
