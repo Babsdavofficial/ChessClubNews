@@ -517,7 +517,16 @@ textarea::placeholder{
     .card{
       padding:18px;
       border-radius:22px;
-      background:white;
+          background:
+    radial-gradient(circle at top left,#EF4444 0%,transparent 32%),
+    radial-gradient(circle at center,#7C3AED 0%,transparent 38%),
+    radial-gradient(circle at bottom right,#2563EB 0%,transparent 35%),
+    linear-gradient(
+        135deg,
+        #1A0B12 0%,
+        #24113F 45%,
+        #0B1D3A 100%
+    );
 
 border:1px solid rgba(240,90,157,.12);
 
