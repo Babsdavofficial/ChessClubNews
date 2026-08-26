@@ -213,25 +213,73 @@
      ACHIEVEMENT RANKINGS
 ===================================================== -->
 
-<div class="card achievement-rankings-card">
+<!-- =====================================================
+     ACHIEVEMENT RANKINGS
+===================================================== -->
 
-  <div class="chip">🏅 Achievement Rankings</div>
+<br><br>
 
-  <h3>🏆 Community Achievement Levels</h3>
+<div
+  class="card achievement-rankings-card"
+  style="
+    background:
+      linear-gradient(
+        135deg,
+        rgba(239,68,68,.18),
+        rgba(124,58,237,.20),
+        rgba(37,99,235,.18)
+      );
+    border:1px solid rgba(139,92,246,.35);
+  "
+>
 
-  <p>
-    Check the players who have reached each Fantasy Point level.
+  <div class="chip">
+    🏅 Achievement Rankings
+  </div>
+
+  <h3>
+    🏆 Community Achievement Levels
+  </h3>
+
+  <p style="color:var(--text);">
+    Explore players by their personal Fantasy Points achievement level.
   </p>
 
-  <!-- Achievement Level Selector -->
 
-  <div class="achievement-filter">
+  <!-- Achievement Selector -->
 
-    <label for="achievementLevelFilter">
-      🏅 Select Level:
+  <div
+    class="achievement-filter"
+    style="
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(139,92,246,.30);
+      padding:15px;
+      border-radius:12px;
+    "
+  >
+
+    <label
+      for="achievementLevelFilter"
+      style="font-weight:600;"
+    >
+      🏅 Check Achievement Level
     </label>
 
-    <select id="achievementLevelFilter">
+    <br><br>
+
+    <select
+      id="achievementLevelFilter"
+      style="
+        width:100%;
+        padding:11px;
+        border-radius:10px;
+        border:1px solid rgba(139,92,246,.40);
+        background:#151525;
+        color:white;
+        font-weight:600;
+        cursor:pointer;
+      "
+    >
 
       <option value="all">
         🌎 All Levels
@@ -300,6 +348,27 @@
     </select>
 
   </div>
+
+  <br>
+
+  <!-- Ranking Results -->
+
+  <div
+    id="achievementLeaderboard"
+    style="
+      background:rgba(0,0,0,.15);
+      padding:12px;
+      border-radius:12px;
+    "
+  >
+
+    <p style="color:var(--text);">
+      Loading achievement rankings...
+    </p>
+
+  </div>
+
+</div>
 
   <br>
 
