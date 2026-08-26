@@ -1220,3 +1220,282 @@ alert("Puzzle deleted.");
 loadPuzzleAdmin();
 
 });
+
+// =====================================================
+// FANTASY TEAM — CREATE EVENT
+// =====================================================
+
+const createFantasyEventBtn =
+  document.getElementById("createFantasyEventBtn");
+
+if (createFantasyEventBtn) {
+
+  createFantasyEventBtn.addEventListener("click", async () => {
+
+    const eventName =
+      document
+        .getElementById("fantasyEventName")
+        .value
+        .trim();
+
+    const budget =
+      Number(
+        document
+          .getElementById("fantasyBudget")
+          .value
+      );
+
+    // -------------------------
+    // VALIDATION
+    // -------------------------
+
+    if (!eventName) {
+
+      alert("Please enter the Fantasy Event name.");
+
+      return;
+
+    }
+
+    if (!budget || budget <= 0) {
+
+      alert("Please enter a valid starting budget.");
+
+      return;
+
+    }
+
+    try {
+
+      // -------------------------
+      // CREATE EVENT
+      // -------------------------
+
+      await addDoc(
+        collection(db, "fantasyEvents"),
+        {
+
+          name: eventName,
+
+          budget: budget,
+
+          maxPlayers: 3,
+
+          active: true,
+
+          createdAt: serverTimestamp(),
+
+          createdBy:
+            auth.currentUser
+              ? auth.currentUser.uid
+              : "admin"
+
+        }
+      );
+
+      alert(
+        "🏆 Fantasy Event created successfully!"
+      );
+
+      // -------------------------
+      // CLEAR FORM
+      // -------------------------
+
+      document.getElementById(
+        "fantasyEventName"
+      ).value = "";
+
+      document.getElementById(
+        "fantasyBudget"
+      ).value = "";
+
+      // Reload active event
+
+      loadFantasyEventAdmin();
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "Fantasy event creation error:",
+        error
+      );
+
+      alert(
+        "❌ Failed to create Fantasy Event."
+      );
+
+    }
+
+  });
+
+}
+
+
+
+
+
+// =====================================================
+// FANTASY TEAM — LOAD EVENT
+// =====================================================
+
+const fantasyEventAdminContainer =
+  document.getElementById(
+    "fantasyEventAdminContainer"
+  );
+
+
+async function loadFantasyEventAdmin() {
+
+  if (!fantasyEventAdminContainer) return;
+
+  fantasyEventAdminContainer.innerHTML =
+    "Loading Fantasy Event...";
+
+  try {
+
+    const snapshot = await getDocs(
+
+      query(
+
+        collection(db, "fantasyEvents"),
+
+        where("active", "==", true)
+
+      )
+
+    );
+
+    if (snapshot.empty) {
+
+      fantasyEventAdminContainer.innerHTML = `
+        <p style="opacity:.7;">
+          No active Fantasy Event.
+        </p>
+      `;
+
+      return;
+
+    }
+
+    const eventDoc =
+      snapshot.docs[0];
+
+    const event =
+      eventDoc.data();
+
+    fantasyEventAdminContainer.innerHTML = `
+
+      <div class="fact-item">
+
+        <h3>
+          🏆 ${event.name}
+        </h3>
+
+        <p>
+          💰 Budget:
+          <strong>${event.budget}</strong>
+        </p>
+
+        <p>
+          👥 Players per team:
+          <strong>${event.maxPlayers}</strong>
+        </p>
+
+        <p style="color:lime;">
+          ● Active
+        </p>
+
+        <button
+          class="btn secondary deleteFantasyEventBtn"
+          data-id="${eventDoc.id}">
+
+          🗑 End Fantasy Event
+
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Failed to load Fantasy Event:",
+      error
+    );
+
+    fantasyEventAdminContainer.innerHTML =
+      "<p>Failed to load Fantasy Event.</p>";
+
+  }
+
+}
+
+
+loadFantasyEventAdmin();
+
+// =====================================================
+// FANTASY TEAM — END EVENT
+// =====================================================
+
+document.addEventListener("click", async (e) => {
+
+  if (
+    !e.target.classList.contains(
+      "deleteFantasyEventBtn"
+    )
+  ) {
+    return;
+  }
+
+  const eventId =
+    e.target.dataset.id;
+
+  if (
+    !confirm(
+      "End this Fantasy Event?\n\n" +
+      "This will end the event and its fantasy competition."
+    )
+  ) {
+    return;
+  }
+
+  try {
+
+    await updateDoc(
+      doc(
+        db,
+        "fantasyEvents",
+        eventId
+      ),
+      {
+        active: false
+      }
+    );
+
+    alert(
+      "✅ Fantasy Event ended."
+    );
+
+    loadFantasyEventAdmin();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Failed to end Fantasy Event:",
+      error
+    );
+
+    alert(
+      "❌ Failed to end Fantasy Event."
+    );
+
+  }
+
+});
