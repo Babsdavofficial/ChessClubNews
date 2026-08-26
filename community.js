@@ -1449,14 +1449,26 @@ if (submitFantasyTeamBtn) {
 // LOAD USER'S EXISTING FANTASY TEAM
 // =====================================================
 
+// =====================================================
+// LOAD USER'S EXISTING FANTASY TEAM
+// =====================================================
+
 async function loadMyFantasyTeam() {
 
   const user =
     auth.currentUser;
 
+  const pointsDiv =
+    document.getElementById(
+      "myFantasyPoints"
+    );
+
+  if (pointsDiv) {
+    pointsDiv.textContent = "0 FP";
+  }
+
   if (!user || !activeFantasyEvent)
     return;
-
 
   try {
 
@@ -1467,25 +1479,44 @@ async function loadMyFantasyTeam() {
         `${activeFantasyEvent.id}_${user.uid}`
       );
 
-
     const teamSnap =
       await getDoc(teamRef);
 
+    // -----------------------------------------
+    // NO TEAM YET
+    // -----------------------------------------
 
-    if (!teamSnap.exists())
+    if (!teamSnap.exists()) {
+
+      if (pointsDiv) {
+        pointsDiv.textContent = "0 FP";
+      }
+
       return;
 
+    }
 
     const team =
       teamSnap.data();
 
 
     // -----------------------------------------
-    // Restore selected players
+    // SHOW FANTASY POINTS
+    // -----------------------------------------
+
+    if (pointsDiv) {
+
+      pointsDiv.textContent =
+        `${team.fantasyPoints || 0} FP`;
+
+    }
+
+
+    // -----------------------------------------
+    // RESTORE SELECTED PLAYERS
     // -----------------------------------------
 
     selectedFantasyPlayers = [];
-
 
     team.playerIds.forEach(
       playerId => {
@@ -1507,7 +1538,9 @@ async function loadMyFantasyTeam() {
     );
 
 
-    // Check boxes
+    // -----------------------------------------
+    // CHECK SELECTED PLAYERS
+    // -----------------------------------------
 
     document
       .querySelectorAll(
@@ -1532,8 +1565,16 @@ async function loadMyFantasyTeam() {
       );
 
 
+    // -----------------------------------------
+    // UPDATE TEAM DISPLAY
+    // -----------------------------------------
+
     updateFantasyTeamDisplay();
 
+
+    // -----------------------------------------
+    // DISABLE SUBMIT BUTTON
+    // -----------------------------------------
 
     const submitBtn =
       document.getElementById(
@@ -1547,6 +1588,10 @@ async function loadMyFantasyTeam() {
 
     }
 
+
+    // -----------------------------------------
+    // STATUS
+    // -----------------------------------------
 
     const status =
       document.getElementById(
@@ -1569,11 +1614,16 @@ async function loadMyFantasyTeam() {
       error
     );
 
+    if (pointsDiv) {
+
+      pointsDiv.textContent =
+        "0 FP";
+
+    }
+
   }
 
 }
-
-
 // =====================================================
 // START FANTASY SYSTEM
 // =====================================================
