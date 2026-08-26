@@ -1454,7 +1454,7 @@ if (playerForm) {
 
 
 loadFantasyEventAdmin();
-loadFantasyPlayersAdmin();
+
 
 // =====================================================
 // FANTASY TEAM — END EVENT
@@ -1890,3 +1890,4 @@ async function loadFantasyPlayersAdmin() {
 
 
 loadFantasyPlayersAdmin();
+
