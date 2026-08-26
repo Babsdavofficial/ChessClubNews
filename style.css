@@ -2689,3 +2689,269 @@ box-shadow:
   box-shadow:
     0 0 18px rgba(245, 158, 11, .4);
 }
+
+
+/* =====================================================
+   ACHIEVEMENT LEADERBOARD ROWS
+   ===================================================== */
+
+.achievement-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 8px 0;
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  font-weight: 600;
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  transition: transform 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.achievement-row:hover {
+  transform: translateX(3px);
+}
+
+
+/* =====================================================
+   WOOD
+   ===================================================== */
+
+.achievement-row.league-wood {
+  background: linear-gradient(
+    135deg,
+    #4b2e1e,
+    #8b5a3c
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   STONE
+   ===================================================== */
+
+.achievement-row.league-stone {
+  background: linear-gradient(
+    135deg,
+    #4b5563,
+    #9ca3af
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   BRONZE
+   ===================================================== */
+
+.achievement-row.league-bronze {
+  background: linear-gradient(
+    135deg,
+    #7c3f1d,
+    #cd7f32
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   IRON
+   ===================================================== */
+
+.achievement-row.league-iron {
+  background: linear-gradient(
+    135deg,
+    #252a31,
+    #626b76
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   SILVER
+   ===================================================== */
+
+.achievement-row.league-silver {
+  background: linear-gradient(
+    135deg,
+    #6b7280,
+    #d1d5db
+  );
+
+  color: #111;
+}
+
+
+/* =====================================================
+   HUNTER
+   ===================================================== */
+
+.achievement-row.league-hunter {
+  background: linear-gradient(
+    135deg,
+    #28543a,
+    #6fa66f
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   GOLD
+   ===================================================== */
+
+.achievement-row.league-gold {
+  background: linear-gradient(
+    135deg,
+    #8a6100,
+    #d4a514,
+    #ffd700
+  );
+
+  color: #17120a;
+
+  box-shadow:
+    0 0 8px rgba(255, 215, 0, 0.25);
+}
+
+
+/* =====================================================
+   PLATINUM
+   ===================================================== */
+
+.achievement-row.league-platinum {
+  background: linear-gradient(
+    135deg,
+    #486b80,
+    #a9d6e8
+  );
+
+  color: #10202b;
+}
+
+
+/* =====================================================
+   DIAMOND
+   ===================================================== */
+
+.achievement-row.league-diamond {
+  background: linear-gradient(
+    135deg,
+    #1261a0,
+    #45c7f0
+  );
+
+  color: white;
+
+  box-shadow:
+    0 0 9px rgba(69, 199, 240, 0.25);
+}
+
+
+/* =====================================================
+   ELITE
+   ===================================================== */
+
+.achievement-row.league-elite {
+  background: linear-gradient(
+    135deg,
+    #7c2500,
+    #ff6a00
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   MASTER
+   ===================================================== */
+
+.achievement-row.league-master {
+  background: linear-gradient(
+    135deg,
+    #54219a,
+    #a855f7
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   GRANDMASTER
+   ===================================================== */
+
+.achievement-row.league-grandmaster {
+  background: linear-gradient(
+    135deg,
+    #183b56,
+    #2563eb
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   CHAMPION
+   ===================================================== */
+
+.achievement-row.league-champion {
+  background: linear-gradient(
+    135deg,
+    #7f1d1d,
+    #ef4444
+  );
+
+  color: white;
+}
+
+
+/* =====================================================
+   IMMORTAL
+   ===================================================== */
+
+.achievement-row.league-immortal {
+  background: linear-gradient(
+    135deg,
+    #312e81,
+    #8b5cf6
+  );
+
+  color: white;
+
+  box-shadow:
+    0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+
+/* =====================================================
+   LEGENDARY
+   ===================================================== */
+
+.achievement-row.league-legendary {
+  background: linear-gradient(
+    135deg,
+    #7f1d1d,
+    #d97706,
+    #f59e0b
+  );
+
+  color: white;
+
+  box-shadow:
+    0 0 12px rgba(245, 158, 11, 0.45);
+}
