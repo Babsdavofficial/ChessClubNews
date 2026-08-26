@@ -819,3 +819,763 @@ rank++;
 }
 
 loadLeaderboard();
+
+// =====================================================
+// FANTASY TEAM — COMMUNITY
+// =====================================================
+
+let activeFantasyEvent = null;
+let fantasyPlayers = [];
+let selectedFantasyPlayers = [];
+
+
+// =====================================================
+// LOAD ACTIVE FANTASY EVENT
+// =====================================================
+
+async function loadFantasyEvent() {
+
+  const titleDiv =
+    document.getElementById("fantasyEventTitle");
+
+  const budgetDiv =
+    document.getElementById("fantasyBudgetDisplay");
+
+  const remainingDiv =
+    document.getElementById("fantasyRemainingBudget");
+
+  const playersDiv =
+    document.getElementById("fantasyPlayersContainer");
+
+  if (
+    !titleDiv ||
+    !budgetDiv ||
+    !remainingDiv ||
+    !playersDiv
+  ) {
+    return;
+  }
+
+  try {
+
+    const snapshot = await getDocs(
+
+      query(
+
+        collection(db, "fantasyEvents"),
+
+        where("active", "==", true),
+
+        limit(1)
+
+      )
+
+    );
+
+    if (snapshot.empty) {
+
+      titleDiv.textContent =
+        "No Fantasy Event Available";
+
+      budgetDiv.textContent = "0";
+      remainingDiv.textContent = "0";
+
+      playersDiv.innerHTML =
+        "<p>No active Fantasy Event at the moment.</p>";
+
+      return;
+    }
+
+    const eventDoc =
+      snapshot.docs[0];
+
+    activeFantasyEvent = {
+      id: eventDoc.id,
+      ...eventDoc.data()
+    };
+
+    titleDiv.textContent =
+      `🏆 ${activeFantasyEvent.name}`;
+
+    budgetDiv.textContent =
+      activeFantasyEvent.budget;
+
+    remainingDiv.textContent =
+      activeFantasyEvent.budget;
+
+    await loadFantasyPlayers();
+
+    await loadMyFantasyTeam();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Fantasy Event error:",
+      error
+    );
+
+    titleDiv.textContent =
+      "Failed to load Fantasy Event.";
+
+  }
+
+}
+
+
+// =====================================================
+// LOAD FANTASY PLAYERS
+// =====================================================
+
+async function loadFantasyPlayers() {
+
+  const container =
+    document.getElementById(
+      "fantasyPlayersContainer"
+    );
+
+  if (!container || !activeFantasyEvent)
+    return;
+
+  container.innerHTML =
+    "Loading Fantasy Players...";
+
+  try {
+
+    const snapshot =
+      await getDocs(
+
+        query(
+
+          collection(
+            db,
+            "fantasyPlayers"
+          ),
+
+          where(
+            "eventId",
+            "==",
+            activeFantasyEvent.id
+          )
+
+        )
+
+      );
+
+    fantasyPlayers = [];
+
+    snapshot.forEach(
+      (docSnap) => {
+
+        fantasyPlayers.push({
+
+          id: docSnap.id,
+
+          ...docSnap.data()
+
+        });
+
+      }
+    );
+
+    if (!fantasyPlayers.length) {
+
+      container.innerHTML =
+        "<p>No Fantasy Players available yet.</p>";
+
+      return;
+
+    }
+
+    container.innerHTML = "";
+
+    fantasyPlayers.forEach(
+      (player) => {
+
+        container.innerHTML += `
+
+          <div
+            class="fact-item"
+            style="margin-bottom:12px;">
+
+            <label
+              style="
+                display:flex;
+                align-items:center;
+                gap:10px;
+                cursor:pointer;
+              ">
+
+              <input
+                type="checkbox"
+                class="fantasyPlayerCheckbox"
+                data-id="${player.id}"
+                value="${player.id}">
+
+              <span>
+
+                <strong>
+                  ${player.name}
+                </strong>
+
+                <br>
+
+                💰 ${player.price}
+
+                &nbsp;&nbsp;
+
+                🏆 ${player.fantasyPoints || 0} FP
+
+              </span>
+
+            </label>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Fantasy Players error:",
+      error
+    );
+
+    container.innerHTML =
+      "<p>Failed to load Fantasy Players.</p>";
+
+  }
+
+}
+
+
+// =====================================================
+// PLAYER SELECTION
+// =====================================================
+
+document.addEventListener(
+  "change",
+  (e) => {
+
+    if (
+      !e.target.classList.contains(
+        "fantasyPlayerCheckbox"
+      )
+    ) {
+      return;
+    }
+
+    const playerId =
+      e.target.dataset.id;
+
+    const player =
+      fantasyPlayers.find(
+        p => p.id === playerId
+      );
+
+    if (!player) return;
+
+
+    // -----------------------------------------
+    // CHECK MAXIMUM 3 PLAYERS
+    // -----------------------------------------
+
+    if (
+      e.target.checked &&
+      selectedFantasyPlayers.length >= 3
+    ) {
+
+      e.target.checked = false;
+
+      alert(
+        "You can only select 3 players."
+      );
+
+      return;
+
+    }
+
+
+    // -----------------------------------------
+    // ADD PLAYER
+    // -----------------------------------------
+
+    if (e.target.checked) {
+
+      selectedFantasyPlayers.push(player);
+
+    }
+
+    // -----------------------------------------
+    // REMOVE PLAYER
+    // -----------------------------------------
+
+    else {
+
+      selectedFantasyPlayers =
+        selectedFantasyPlayers.filter(
+          p => p.id !== playerId
+        );
+
+    }
+
+    updateFantasyTeamDisplay();
+
+  }
+);
+
+
+// =====================================================
+// UPDATE TEAM DISPLAY
+// =====================================================
+
+function updateFantasyTeamDisplay() {
+
+  const selectedDiv =
+    document.getElementById(
+      "selectedFantasyPlayers"
+    );
+
+  const remainingDiv =
+    document.getElementById(
+      "fantasyRemainingBudget"
+    );
+
+  if (!selectedDiv || !remainingDiv)
+    return;
+
+
+  const totalCost =
+    selectedFantasyPlayers.reduce(
+      (total, player) =>
+        total + Number(player.price),
+      0
+    );
+
+
+  const remaining =
+    Number(activeFantasyEvent.budget) -
+    totalCost;
+
+
+  remainingDiv.textContent =
+    remaining;
+
+
+  // -----------------------------------------
+  // Budget exceeded
+  // -----------------------------------------
+
+  if (remaining < 0) {
+
+    remainingDiv.style.color =
+      "red";
+
+  }
+
+  else {
+
+    remainingDiv.style.color =
+      "";
+
+  }
+
+
+  // -----------------------------------------
+  // No players
+  // -----------------------------------------
+
+  if (!selectedFantasyPlayers.length) {
+
+    selectedDiv.innerHTML =
+      "No players selected.";
+
+    return;
+
+  }
+
+
+  // -----------------------------------------
+  // Display selected players
+  // -----------------------------------------
+
+  selectedDiv.innerHTML = "";
+
+  selectedFantasyPlayers.forEach(
+    (player, index) => {
+
+      selectedDiv.innerHTML += `
+
+        <p>
+
+          ${index + 1}.
+          <strong>
+            ${player.name}
+          </strong>
+
+          — 💰 ${player.price}
+
+        </p>
+
+      `;
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// SUBMIT FANTASY TEAM
+// =====================================================
+
+const submitFantasyTeamBtn =
+  document.getElementById(
+    "submitFantasyTeamBtn"
+  );
+
+if (submitFantasyTeamBtn) {
+
+  submitFantasyTeamBtn.addEventListener(
+    "click",
+    async () => {
+
+      const user =
+        auth.currentUser;
+
+      if (!user) {
+
+        alert(
+          "Please login first."
+        );
+
+        return;
+
+      }
+
+      if (!activeFantasyEvent) {
+
+        alert(
+          "No active Fantasy Event."
+        );
+
+        return;
+
+      }
+
+
+      // -----------------------------------------
+      // EXACTLY 3 PLAYERS
+      // -----------------------------------------
+
+      if (
+        selectedFantasyPlayers.length !== 3
+      ) {
+
+        alert(
+          "You must select exactly 3 players."
+        );
+
+        return;
+
+      }
+
+
+      // -----------------------------------------
+      // CALCULATE COST
+      // -----------------------------------------
+
+      const totalCost =
+        selectedFantasyPlayers.reduce(
+          (total, player) =>
+            total + Number(player.price),
+          0
+        );
+
+
+      if (
+        totalCost >
+        Number(activeFantasyEvent.budget)
+      ) {
+
+        alert(
+          "Your selected players exceed the Fantasy budget."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        // -----------------------------------------
+        // TEAM DOCUMENT
+        // -----------------------------------------
+
+        const teamId =
+          `${activeFantasyEvent.id}_${user.uid}`;
+
+
+        // -----------------------------------------
+        // CHECK EXISTING TEAM
+        // -----------------------------------------
+
+        const existingTeam =
+          await getDoc(
+
+            doc(
+              db,
+              "fantasyTeams",
+              teamId
+            )
+
+          );
+
+
+        if (existingTeam.exists()) {
+
+          alert(
+            "You have already submitted your Fantasy Team for this event."
+          );
+
+          return;
+
+        }
+
+
+        // -----------------------------------------
+        // SAVE TEAM
+        // -----------------------------------------
+
+        await setDoc(
+
+          doc(
+            db,
+            "fantasyTeams",
+            teamId
+          ),
+
+          {
+
+            eventId:
+              activeFantasyEvent.id,
+
+            userId:
+              user.uid,
+
+            playerIds:
+              selectedFantasyPlayers.map(
+                player => player.id
+              ),
+
+            playerNames:
+              selectedFantasyPlayers.map(
+                player => player.name
+              ),
+
+            totalCost,
+
+            fantasyPoints: 0,
+
+            createdAt:
+              serverTimestamp()
+
+          }
+
+        );
+
+
+        // -----------------------------------------
+        // SUCCESS
+        // -----------------------------------------
+
+        alert(
+          "🏆 Fantasy Team submitted successfully!"
+        );
+
+        document.getElementById(
+          "fantasyTeamStatus"
+        ).textContent =
+          "✅ Your Fantasy Team has been saved.";
+
+
+        // Disable all selections
+
+        document
+          .querySelectorAll(
+            ".fantasyPlayerCheckbox"
+          )
+          .forEach(
+            checkbox => {
+
+              checkbox.disabled = true;
+
+            }
+          );
+
+        submitFantasyTeamBtn.disabled =
+          true;
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Fantasy Team error:",
+          error
+        );
+
+        alert(
+          "❌ Failed to submit Fantasy Team."
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// LOAD USER'S EXISTING FANTASY TEAM
+// =====================================================
+
+async function loadMyFantasyTeam() {
+
+  const user =
+    auth.currentUser;
+
+  if (!user || !activeFantasyEvent)
+    return;
+
+
+  try {
+
+    const teamRef =
+      doc(
+        db,
+        "fantasyTeams",
+        `${activeFantasyEvent.id}_${user.uid}`
+      );
+
+
+    const teamSnap =
+      await getDoc(teamRef);
+
+
+    if (!teamSnap.exists())
+      return;
+
+
+    const team =
+      teamSnap.data();
+
+
+    // -----------------------------------------
+    // Restore selected players
+    // -----------------------------------------
+
+    selectedFantasyPlayers = [];
+
+
+    team.playerIds.forEach(
+      playerId => {
+
+        const player =
+          fantasyPlayers.find(
+            p => p.id === playerId
+          );
+
+        if (player) {
+
+          selectedFantasyPlayers.push(
+            player
+          );
+
+        }
+
+      }
+    );
+
+
+    // Check boxes
+
+    document
+      .querySelectorAll(
+        ".fantasyPlayerCheckbox"
+      )
+      .forEach(
+        checkbox => {
+
+          if (
+            team.playerIds.includes(
+              checkbox.dataset.id
+            )
+          ) {
+
+            checkbox.checked = true;
+
+          }
+
+          checkbox.disabled = true;
+
+        }
+      );
+
+
+    updateFantasyTeamDisplay();
+
+
+    const submitBtn =
+      document.getElementById(
+        "submitFantasyTeamBtn"
+      );
+
+    if (submitBtn) {
+
+      submitBtn.disabled =
+        true;
+
+    }
+
+
+    const status =
+      document.getElementById(
+        "fantasyTeamStatus"
+      );
+
+    if (status) {
+
+      status.textContent =
+        "🔒 Your Fantasy Team is already locked for this event.";
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Load Fantasy Team error:",
+      error
+    );
+
+  }
+
+}
+
+
+// =====================================================
+// START FANTASY SYSTEM
+// =====================================================
+
+loadFantasyEvent();
