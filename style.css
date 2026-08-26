@@ -1873,3 +1873,457 @@ box-shadow:
   font-size: 11px;
   opacity: .7;
 }
+
+/* =====================================================
+   PROFILE ACHIEVEMENT
+   ===================================================== */
+
+.profile-achievement {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 10px 0 14px;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+}
+
+.profile-achievement .achievement-badge {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 25px;
+  background: rgba(255,255,255,.15);
+}
+
+.profile-achievement .achievement-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-achievement .achievement-info strong {
+  font-size: 16px;
+}
+
+.profile-achievement .achievement-info span {
+  font-size: 12px;
+  opacity: .8;
+}
+
+.profile-achievement .achievement-info small {
+  font-size: 11px;
+  opacity: .75;
+}
+
+
+/* WOOD */
+
+.profile-achievement.league-wood {
+  background: linear-gradient(
+    135deg,
+    #5a321c,
+    #9a6038
+  );
+  color: white;
+}
+
+
+/* STONE */
+
+.profile-achievement.league-stone {
+  background: linear-gradient(
+    135deg,
+    #4b5563,
+    #9ca3af
+  );
+  color: white;
+}
+
+
+/* BRONZE */
+
+.profile-achievement.league-bronze {
+  background: linear-gradient(
+    135deg,
+    #7c3f1d,
+    #cd7f32
+  );
+  color: white;
+}
+
+
+/* IRON */
+
+.profile-achievement.league-iron {
+  background: linear-gradient(
+    135deg,
+    #30343b,
+    #69727d
+  );
+  color: white;
+}
+
+
+/* SILVER */
+
+.profile-achievement.league-silver {
+  background: linear-gradient(
+    135deg,
+    #737373,
+    #d4d4d4
+  );
+  color: #111;
+}
+
+
+/* HUNTER */
+
+.profile-achievement.league-hunter {
+  background: linear-gradient(
+    135deg,
+    #315c35,
+    #6fa66f
+  );
+  color: white;
+}
+
+
+/* GOLD */
+
+.profile-achievement.league-gold {
+  background: linear-gradient(
+    135deg,
+    #927000,
+    #ffd700
+  );
+  color: #171717;
+}
+
+
+/* PLATINUM */
+
+.profile-achievement.league-platinum {
+  background: linear-gradient(
+    135deg,
+    #53758c,
+    #b9e6ff
+  );
+  color: #10202b;
+}
+
+
+/* DIAMOND */
+
+.profile-achievement.league-diamond {
+  background: linear-gradient(
+    135deg,
+    #1267a5,
+    #67d5ff
+  );
+  color: white;
+}
+
+
+/* ELITE */
+
+.profile-achievement.league-elite {
+  background: linear-gradient(
+    135deg,
+    #8b2500,
+    #ff6a00
+  );
+  color: white;
+}
+
+
+/* MASTER */
+
+.profile-achievement.league-master {
+  background: linear-gradient(
+    135deg,
+    #5b21b6,
+    #a855f7
+  );
+  color: white;
+}
+
+
+/* GRANDMASTER */
+
+.profile-achievement.league-grandmaster {
+  background: linear-gradient(
+    135deg,
+    #183b56,
+    #3b82f6
+  );
+  color: white;
+}
+
+
+/* CHAMPION */
+
+.profile-achievement.league-champion {
+  background: linear-gradient(
+    135deg,
+    #7c2d12,
+    #ef4444
+  );
+  color: white;
+}
+
+
+/* IMMORTAL */
+
+.profile-achievement.league-immortal {
+  background: linear-gradient(
+    135deg,
+    #312e81,
+    #8b5cf6
+  );
+  color: white;
+}
+
+
+/* LEGENDARY */
+
+.profile-achievement.league-legendary {
+  background: linear-gradient(
+    135deg,
+    #7f1d1d,
+    #f59e0b
+  );
+  color: white;
+  box-shadow:
+    0 0 18px rgba(245,158,11,.5);
+}
+
+/* =====================================================
+   PROFILE ACHIEVEMENT
+   ===================================================== */
+
+.profile-achievement {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin: 10px 0 14px;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+}
+
+.profile-achievement .achievement-badge {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 25px;
+  background: rgba(255,255,255,.15);
+}
+
+.profile-achievement .achievement-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-achievement .achievement-info strong {
+  font-size: 16px;
+}
+
+.profile-achievement .achievement-info span {
+  font-size: 12px;
+  opacity: .8;
+}
+
+.profile-achievement .achievement-info small {
+  font-size: 11px;
+  opacity: .75;
+}
+
+
+/* WOOD */
+
+.profile-achievement.league-wood {
+  background: linear-gradient(
+    135deg,
+    #5a321c,
+    #9a6038
+  );
+  color: white;
+}
+
+
+/* STONE */
+
+.profile-achievement.league-stone {
+  background: linear-gradient(
+    135deg,
+    #4b5563,
+    #9ca3af
+  );
+  color: white;
+}
+
+
+/* BRONZE */
+
+.profile-achievement.league-bronze {
+  background: linear-gradient(
+    135deg,
+    #7c3f1d,
+    #cd7f32
+  );
+  color: white;
+}
+
+
+/* IRON */
+
+.profile-achievement.league-iron {
+  background: linear-gradient(
+    135deg,
+    #30343b,
+    #69727d
+  );
+  color: white;
+}
+
+
+/* SILVER */
+
+.profile-achievement.league-silver {
+  background: linear-gradient(
+    135deg,
+    #737373,
+    #d4d4d4
+  );
+  color: #111;
+}
+
+
+/* HUNTER */
+
+.profile-achievement.league-hunter {
+  background: linear-gradient(
+    135deg,
+    #315c35,
+    #6fa66f
+  );
+  color: white;
+}
+
+
+/* GOLD */
+
+.profile-achievement.league-gold {
+  background: linear-gradient(
+    135deg,
+    #927000,
+    #ffd700
+  );
+  color: #171717;
+}
+
+
+/* PLATINUM */
+
+.profile-achievement.league-platinum {
+  background: linear-gradient(
+    135deg,
+    #53758c,
+    #b9e6ff
+  );
+  color: #10202b;
+}
+
+
+/* DIAMOND */
+
+.profile-achievement.league-diamond {
+  background: linear-gradient(
+    135deg,
+    #1267a5,
+    #67d5ff
+  );
+  color: white;
+}
+
+
+/* ELITE */
+
+.profile-achievement.league-elite {
+  background: linear-gradient(
+    135deg,
+    #8b2500,
+    #ff6a00
+  );
+  color: white;
+}
+
+
+/* MASTER */
+
+.profile-achievement.league-master {
+  background: linear-gradient(
+    135deg,
+    #5b21b6,
+    #a855f7
+  );
+  color: white;
+}
+
+
+/* GRANDMASTER */
+
+.profile-achievement.league-grandmaster {
+  background: linear-gradient(
+    135deg,
+    #183b56,
+    #3b82f6
+  );
+  color: white;
+}
+
+
+/* CHAMPION */
+
+.profile-achievement.league-champion {
+  background: linear-gradient(
+    135deg,
+    #7c2d12,
+    #ef4444
+  );
+  color: white;
+}
+
+
+/* IMMORTAL */
+
+.profile-achievement.league-immortal {
+  background: linear-gradient(
+    135deg,
+    #312e81,
+    #8b5cf6
+  );
+  color: white;
+}
+
+
+/* LEGENDARY */
+
+.profile-achievement.league-legendary {
+  background: linear-gradient(
+    135deg,
+    #7f1d1d,
+    #f59e0b
+  );
+  color: white;
+  box-shadow:
+    0 0 18px rgba(245,158,11,.5);
+}
