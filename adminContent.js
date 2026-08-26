@@ -1890,7 +1890,6 @@ async function loadFantasyPlayersAdmin() {
 
 
 loadFantasyPlayersAdmin();
-
 // =====================================================
 // FANTASY TEAM — UPDATE PLAYER POINTS
 // =====================================================
@@ -1949,22 +1948,21 @@ document.addEventListener("click", async (e) => {
         `Enter points to ADD:`
       );
 
-
-    // Cancelled
-
-    if (
-      pointsInput === null
-    ) {
+    if (pointsInput === null) {
       return;
     }
 
+
+    // -----------------------------------------
+    // CONVERT TO NUMBER
+    // -----------------------------------------
 
     const points =
       Number(pointsInput);
 
 
     // -----------------------------------------
-    // VALIDATE POINTS
+    // VALIDATE
     // -----------------------------------------
 
     if (
@@ -1982,45 +1980,16 @@ document.addEventListener("click", async (e) => {
 
 
     // -----------------------------------------
-    // FIND ALL TEAMS CONTAINING PLAYER
-    // -----------------------------------------
-
-    const teamsSnapshot =
-      await getDocs(
-
-        query(
-
-          collection(
-            db,
-            "fantasyTeams"
-          ),
-
-          where(
-            "eventId",
-            "==",
-            player.eventId
-          ),
-
-          where(
-            "playerIds",
-            "array-contains",
-            playerId
-          )
-
-        )
-
-      );
-
-
-    // -----------------------------------------
-    // BATCH UPDATE
+    // CREATE BATCH
     // -----------------------------------------
 
     const batch =
       writeBatch(db);
 
 
-    // Update Fantasy Player
+    // -----------------------------------------
+    // UPDATE PLAYER'S FANTASY POINTS
+    // -----------------------------------------
 
     batch.update(
       playerRef,
@@ -2037,61 +2006,110 @@ document.addEventListener("click", async (e) => {
 
 
     // -----------------------------------------
-    // UPDATE EVERY TEAM THAT
-    // SELECTED THIS PLAYER
+    // FIND TEAMS THAT SELECTED THIS PLAYER
     // -----------------------------------------
 
-    teamsSnapshot.forEach(
-      (teamDoc) => {
+    if (player.eventId) {
 
-        batch.update(
+      const teamsSnapshot =
+        await getDocs(
 
-          teamDoc.ref,
+          query(
 
-          {
+            collection(
+              db,
+              "fantasyTeams"
+            ),
 
-            fantasyPoints:
-              increment(points),
+            where(
+              "eventId",
+              "==",
+              player.eventId
+            ),
 
-            updatedAt:
-              serverTimestamp()
+            where(
+              "playerIds",
+              "array-contains",
+              playerId
+            )
 
-          }
+          )
 
         );
 
-      }
-    );
+
+      // -----------------------------------------
+      // UPDATE TEAM FANTASY POINTS
+      // -----------------------------------------
+
+      teamsSnapshot.forEach(
+        (teamDoc) => {
+
+          batch.update(
+            teamDoc.ref,
+            {
+
+              fantasyPoints:
+                increment(points),
+
+              updatedAt:
+                serverTimestamp()
+
+            }
+          );
+
+        }
+      );
+
+
+      // -----------------------------------------
+      // SAVE EVERYTHING
+      // -----------------------------------------
+
+      await batch.commit();
+
+
+      alert(
+
+        `✅ ${player.name} received +${points} Fantasy Points.\n\n` +
+
+        `Player Points: ${
+          (player.fantasyPoints || 0) + points
+        }\n` +
+
+        `Teams Updated: ${
+          teamsSnapshot.size
+        }`
+
+      );
+
+    }
+
+    else {
+
+      // -----------------------------------------
+      // PLAYER HAS NO EVENT ID
+      // -----------------------------------------
+
+      await batch.commit();
+
+      alert(
+
+        `✅ ${player.name} received +${points} Fantasy Points.\n\n` +
+
+        `Player Points: ${
+          (player.fantasyPoints || 0) + points
+        }\n\n` +
+
+        `⚠️ This player is not connected to a Fantasy Event.`
+
+      );
+
+    }
 
 
     // -----------------------------------------
-    // SAVE EVERYTHING
-    // -----------------------------------------
-
-    await batch.commit();
-
-
-    // -----------------------------------------
-    // SUCCESS MESSAGE
-    // -----------------------------------------
-
-    alert(
-
-      `✅ ${player.name} received +${points} Fantasy Points.\n\n` +
-
-      `Player Points: ${
-        (player.fantasyPoints || 0) + points
-      }\n` +
-
-      `Teams Updated: ${
-        teamsSnapshot.size
-      }`
-
-    );
-
-
-    // -----------------------------------------
-    // REFRESH ADMIN PLAYERS
+    // REFRESH PLAYERS
     // -----------------------------------------
 
     loadFantasyPlayersAdmin();
@@ -2105,11 +2123,12 @@ document.addEventListener("click", async (e) => {
       error
     );
 
+    // Show the REAL Firebase error
     alert(
-      "❌ Failed to update Fantasy Points."
+      "❌ Failed to update Fantasy Points.\n\n" +
+      error.message
     );
 
   }
 
 });
-
