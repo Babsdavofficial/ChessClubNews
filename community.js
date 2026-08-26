@@ -1711,3 +1711,262 @@ async function loadMyFantasyTeam() {
 // =====================================================
 
 loadFantasyEvent();
+
+
+
+// =====================================================
+// ACHIEVEMENT RANKINGS
+// =====================================================
+
+const achievementLeaderboard =
+  document.getElementById("achievementLeaderboard");
+
+const achievementLevelFilter =
+  document.getElementById("achievementLevelFilter");
+
+
+// -----------------------------------------------------
+// LOAD ACHIEVEMENT RANKINGS
+// -----------------------------------------------------
+
+async function loadAchievementRankings() {
+
+  if (!achievementLeaderboard) {
+    return;
+  }
+
+  achievementLeaderboard.innerHTML =
+    "<p>Loading achievement rankings...</p>";
+
+  try {
+
+    // -----------------------------------------
+    // GET ALL USERS
+    // -----------------------------------------
+
+    const usersSnapshot =
+      await getDocs(
+        collection(db, "users")
+      );
+
+
+    // -----------------------------------------
+    // CREATE PLAYER LIST
+    // -----------------------------------------
+
+    let players = [];
+
+
+    usersSnapshot.forEach((userDoc) => {
+
+      const userData =
+        userDoc.data();
+
+      const fantasyPoints =
+        Number(userData.fantasyPoints) || 0;
+
+      const achievement =
+        getAchievementLevel(
+          fantasyPoints
+        );
+
+
+      players.push({
+
+        id: userDoc.id,
+
+        username:
+          userData.username ||
+          "Unknown Player",
+
+        fantasyPoints:
+          fantasyPoints,
+
+        achievement:
+          achievement
+
+      });
+
+    });
+
+
+    // -----------------------------------------
+    // GET SELECTED LEVEL
+    // -----------------------------------------
+
+    const selectedLevel =
+      achievementLevelFilter
+        ? achievementLevelFilter.value
+        : "all";
+
+
+    // -----------------------------------------
+    // FILTER BY LEVEL
+    // -----------------------------------------
+
+    if (selectedLevel !== "all") {
+
+      players =
+        players.filter(
+          (player) =>
+            player.achievement.name ===
+            selectedLevel
+        );
+
+    }
+
+
+    // -----------------------------------------
+    // SORT BY FANTASY POINTS
+    // HIGHEST FIRST
+    // -----------------------------------------
+
+    players.sort(
+      (a, b) =>
+        b.fantasyPoints -
+        a.fantasyPoints
+    );
+
+
+    // -----------------------------------------
+    // NO PLAYERS
+    // -----------------------------------------
+
+    if (players.length === 0) {
+
+      achievementLeaderboard.innerHTML = `
+
+        <div class="achievement-empty">
+
+          <div class="achievement-empty-icon">
+            🏆
+          </div>
+
+          <strong>
+            No player has reached this level yet.
+          </strong>
+
+          <p>
+            Keep playing and earning Fantasy Points!
+          </p>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    // -----------------------------------------
+    // DISPLAY PLAYERS
+    // -----------------------------------------
+
+    achievementLeaderboard.innerHTML = "";
+
+
+    players.forEach(
+      (player, index) => {
+
+        const achievement =
+          player.achievement;
+
+
+        let positionIcon =
+          `${index + 1}`;
+
+
+        if (index === 0) {
+          positionIcon = "🥇";
+        }
+
+        else if (index === 1) {
+          positionIcon = "🥈";
+        }
+
+        else if (index === 2) {
+          positionIcon = "🥉";
+        }
+
+
+        achievementLeaderboard.innerHTML += `
+
+          <div
+            class="achievement-player-row ${achievement.className}">
+
+            <div class="achievement-player-position">
+              ${positionIcon}
+            </div>
+
+
+            <div class="achievement-player-info">
+
+              <strong>
+                ${achievement.icon}
+                ${player.username}
+              </strong>
+
+              <span>
+                Level ${achievement.level}
+                • ${achievement.name}
+              </span>
+
+            </div>
+
+
+            <div class="achievement-player-points">
+
+              ${player.fantasyPoints}
+              FP
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Achievement rankings error:",
+      error
+    );
+
+    achievementLeaderboard.innerHTML = `
+
+      <p>
+        ❌ Failed to load achievement rankings.
+      </p>
+
+    `;
+
+  }
+
+}
+
+
+// =====================================================
+// ACHIEVEMENT FILTER
+// =====================================================
+
+if (achievementLevelFilter) {
+
+  achievementLevelFilter.addEventListener(
+    "change",
+    loadAchievementRankings
+  );
+
+}
+
+
+// =====================================================
+// INITIAL LOAD
+// =====================================================
+
+loadAchievementRankings();
