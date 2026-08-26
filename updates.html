@@ -4,20 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Test News Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
 
 
-
     <header class="topbar panel">
       <div class="brand">
-<div class="logo">♟♙</div>
+        <div class="logo">♟♙</div>
         <div class="titlebox">
 
           <h1>Chess News Hub</h1>
-          <p>Live chess updates, tournaments and community discussions</p>
+          <p>Predictions, puzzles and chess community challenges</p>
         </div>
       </div>
       <nav class="nav">
@@ -40,9 +40,28 @@
 
     <hr>
     <p id="profileEmail">Not logged in</p>
-    <p>🏆 Fantasy Points: <span id="fantasyPoints">0</span></p>
-    <p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>
-    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
+    <!-- Fantasy Achievement -->
+<div id="profileAchievement" class="profile-achievement">
+  <div id="profileAchievementBadge" class="achievement-badge">
+    🪵
+  </div>
+
+  <div class="achievement-info">
+    <strong id="profileAchievementName">
+      Wood
+    </strong>
+
+    <span id="profileAchievementLevel">
+      Level 1
+    </span>
+
+    <small>
+      🏆 <span id="fantasyPoints">0</span> Fantasy Points
+    </small>
+  </div>
+</div>
+
+<p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
 
     <hr>
 
@@ -62,6 +81,15 @@
   </div>
 </div>
     </header>
+
+<section id="facts" class="panel section">
+
+  <div class="section-head">
+    <div>
+      <h2>🏆 Community Hub</h2>
+      <p>Predictions, puzzles, fantasy rankings and player discussions.</p>
+    </div>
+  </div>
 
 
 <section id="updates" class="panel section">
