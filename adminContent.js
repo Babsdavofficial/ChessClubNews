@@ -1369,21 +1369,38 @@ async function loadFantasyEventAdmin() {
 
     if (snapshot.empty) {
 
-      fantasyEventAdminContainer.innerHTML = `
-        <p style="opacity:.7;">
-          No active Fantasy Event.
-        </p>
-      `;
+  fantasyEventAdminContainer.innerHTML = `
+    <p style="opacity:.7;">
+      No active Fantasy Event.
+    </p>
+  `;
 
-      return;
+  const playerForm =
+    document.getElementById(
+      "fantasyPlayerForm"
+    );
 
-    }
+  if (playerForm) {
+    playerForm.style.display = "none";
+  }
+
+  return;
+
+}
 
     const eventDoc =
       snapshot.docs[0];
 
     const event =
       eventDoc.data();
+    const playerForm =
+  document.getElementById(
+    "fantasyPlayerForm"
+  );
+
+if (playerForm) {
+  playerForm.style.display = "block";
+}
 
     fantasyEventAdminContainer.innerHTML = `
 
@@ -1437,6 +1454,7 @@ async function loadFantasyEventAdmin() {
 
 
 loadFantasyEventAdmin();
+loadFantasyPlayersAdmin();
 
 // =====================================================
 // FANTASY TEAM — END EVENT
@@ -1499,3 +1517,376 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
+
+// =====================================================
+// FANTASY TEAM — ADD PLAYER
+// =====================================================
+
+const addFantasyPlayerBtn =
+  document.getElementById("addFantasyPlayerBtn");
+
+if (addFantasyPlayerBtn) {
+
+  addFantasyPlayerBtn.addEventListener(
+    "click",
+    async () => {
+
+      const name =
+        document
+          .getElementById("fantasyPlayerName")
+          .value
+          .trim();
+
+      const price =
+        Number(
+          document
+            .getElementById("fantasyPlayerPrice")
+            .value
+        );
+
+      if (!name) {
+
+        alert("Please enter the player name.");
+
+        return;
+
+      }
+
+      if (!price || price <= 0) {
+
+        alert("Please enter a valid player price.");
+
+        return;
+
+      }
+
+      try {
+
+        // Find active Fantasy Event
+
+        const eventSnapshot =
+          await getDocs(
+
+            query(
+
+              collection(
+                db,
+                "fantasyEvents"
+              ),
+
+              where(
+                "active",
+                "==",
+                true
+              )
+
+            )
+
+          );
+
+        if (eventSnapshot.empty) {
+
+          alert(
+            "There is no active Fantasy Event."
+          );
+
+          return;
+
+        }
+
+        const eventDoc =
+          eventSnapshot.docs[0];
+
+        const eventId =
+          eventDoc.id;
+
+        const event =
+          eventDoc.data();
+
+        // Make sure player price
+        // doesn't exceed budget
+
+        if (price > event.budget) {
+
+          alert(
+            `Player price cannot be higher than the event budget (${event.budget}).`
+          );
+
+          return;
+
+        }
+
+        // Check if this player
+        // already exists in this event
+
+        const existingPlayers =
+          await getDocs(
+
+            query(
+
+              collection(
+                db,
+                "fantasyPlayers"
+              ),
+
+              where(
+                "eventId",
+                "==",
+                eventId
+              ),
+
+              where(
+                "name",
+                "==",
+                name
+              )
+
+            )
+
+          );
+
+        if (!existingPlayers.empty) {
+
+          alert(
+            "This player is already in the Fantasy Event."
+          );
+
+          return;
+
+        }
+
+        // Create Fantasy Player
+
+        await addDoc(
+
+          collection(
+            db,
+            "fantasyPlayers"
+          ),
+
+          {
+
+            eventId,
+
+            name,
+
+            price,
+
+            fantasyPoints: 0,
+
+            updatedAt:
+              serverTimestamp(),
+
+            createdAt:
+              serverTimestamp(),
+
+            createdBy:
+              auth.currentUser
+                ? auth.currentUser.uid
+                : "admin"
+
+          }
+
+        );
+
+        alert(
+          `✅ ${name} added to Fantasy Event.`
+        );
+
+        // Clear form
+
+        document.getElementById(
+          "fantasyPlayerName"
+        ).value = "";
+
+        document.getElementById(
+          "fantasyPlayerPrice"
+        ).value = "";
+
+        loadFantasyPlayersAdmin();
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Add Fantasy Player error:",
+          error
+        );
+
+        alert(
+          "❌ Failed to add Fantasy Player."
+        );
+
+      }
+
+    }
+
+  );
+
+}
+
+// =====================================================
+// FANTASY TEAM — LOAD PLAYERS
+// =====================================================
+
+const fantasyPlayersAdminContainer =
+  document.getElementById(
+    "fantasyPlayersAdminContainer"
+  );
+
+
+async function loadFantasyPlayersAdmin() {
+
+  if (!fantasyPlayersAdminContainer)
+    return;
+
+  fantasyPlayersAdminContainer.innerHTML =
+    "Loading Fantasy Players...";
+
+  try {
+
+    // Find active event
+
+    const eventSnapshot =
+      await getDocs(
+
+        query(
+
+          collection(
+            db,
+            "fantasyEvents"
+          ),
+
+          where(
+            "active",
+            "==",
+            true
+          )
+
+        )
+
+      );
+
+    if (eventSnapshot.empty) {
+
+      fantasyPlayersAdminContainer.innerHTML =
+        "<p>No active Fantasy Event.</p>";
+
+      return;
+
+    }
+
+    const eventId =
+      eventSnapshot.docs[0].id;
+
+    // Get players
+
+    const playersSnapshot =
+      await getDocs(
+
+        query(
+
+          collection(
+            db,
+            "fantasyPlayers"
+          ),
+
+          where(
+            "eventId",
+            "==",
+            eventId
+          )
+
+        )
+
+      );
+
+    if (playersSnapshot.empty) {
+
+      fantasyPlayersAdminContainer.innerHTML = `
+        <p style="opacity:.7;">
+          No Fantasy Players added yet.
+        </p>
+      `;
+
+      return;
+
+    }
+
+    fantasyPlayersAdminContainer.innerHTML = "";
+
+    playersSnapshot.forEach(
+      (playerDoc) => {
+
+        const player =
+          playerDoc.data();
+
+        fantasyPlayersAdminContainer.innerHTML += `
+
+          <div
+            class="fact-item"
+            style="margin-bottom:12px;">
+
+            <strong>
+              ${player.name}
+            </strong>
+
+            <br>
+
+            💰 Price:
+            <strong>
+              ${player.price}
+            </strong>
+
+            <br>
+
+            🏆 Fantasy Points:
+            <strong>
+              ${player.fantasyPoints || 0}
+            </strong>
+
+            <br><br>
+
+            <button
+              class="btn primary updateFantasyPointsBtn"
+              data-id="${playerDoc.id}">
+
+              ➕ Update Points
+
+            </button>
+
+            <button
+              class="btn secondary deleteFantasyPlayerBtn"
+              data-id="${playerDoc.id}">
+
+              🗑 Delete
+
+            </button>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Load Fantasy Players error:",
+      error
+    );
+
+    fantasyPlayersAdminContainer.innerHTML =
+      "<p>Failed to load Fantasy Players.</p>";
+
+  }
+
+}
+
+
+loadFantasyPlayersAdmin();
