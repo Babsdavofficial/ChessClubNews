@@ -133,7 +133,53 @@ Create Trivia
 <div id="triviaAdminContainer"></div>
 </div>
 
-      <!-- Prediction -->
+      <!-- fantasyteam-->
+
+
+      <!-- Fantasy Team -->
+<div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
+
+  <div class="chip">🏆 Fantasy Team</div>
+
+  <h3>Create Fantasy Event</h3>
+
+  <label>Event Name</label>
+
+  <input
+    type="text"
+    id="fantasyEventName"
+    placeholder="e.g. Speed Championship Fantasy"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <label>Starting Budget</label>
+
+  <input
+    type="number"
+    id="fantasyBudget"
+    placeholder="e.g. 100"
+    min="1"
+    style="width:100%;padding:12px;border:none;border-radius:12px;margin:10px 0;"
+  >
+
+  <p style="font-size:0.9em;opacity:0.8;">
+    👥 Every user will select exactly <strong>3 players</strong>.
+  </p>
+
+  <button
+    id="createFantasyEventBtn"
+    class="btn primary"
+    style="width:100%;margin-top:10px;">
+
+    🏆 Create Fantasy Event
+
+  </button>
+
+  <br><br>
+
+  <div id="fantasyEventAdminContainer"></div>
+
+</div>
 
 
 <!-- Prediction -->
