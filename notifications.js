@@ -183,29 +183,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
 
-onAuthStateChanged(
-  auth,
-  async (user) => {
 
-    if (!user) {
-
-      console.log(
-        "👤 No logged-in user."
-      );
-
-      return;
-
-    }
-
-    console.log(
-      "👤 Logged in:",
-      user.uid
-    );
-
-    await enableNotifications();
-
-  }
-);
 
 
 // =====================================================
