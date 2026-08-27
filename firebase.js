@@ -3,6 +3,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
+import { getMessaging } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-messaging.js";
+
 // Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyA_QXqMN00OrYJNAg-RbH0Y0hHMEoUOTxk",
@@ -19,7 +21,8 @@ const app = initializeApp(firebaseConfig);
 // Create Firebase services
 const db = getFirestore(app);
 const auth = getAuth(app);
+const messaging = getMessaging(app);
 
 // Export them so we can use them in other files later
-export { db, auth };
+export { db, auth, messaging };
 console.log("🔥 Firebase Connected Successfully!");
