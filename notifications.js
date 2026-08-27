@@ -10,7 +10,9 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 // =====================================================
 // YOUR VAPID PUBLIC KEY
 // =====================================================
@@ -154,15 +156,31 @@ async function enableNotifications() {
 // WAIT FOR LOGIN
 // =====================================================
 
-auth.onAuthStateChanged = undefined;
 
+// =====================================================
+// WAIT FOR USER LOGIN
+// =====================================================
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+
+    console.log("👤 No logged-in user.");
+
+    return;
+
+  }
+
+  console.log("👤 Logged in:", user.uid);
+
+  await enableNotifications();
+
+});
 
 // Instead of modifying your existing auth.js,
 // listen to the authentication state here.
 
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
 
 
 onAuthStateChanged(
