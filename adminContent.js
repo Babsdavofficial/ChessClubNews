@@ -48,6 +48,22 @@ if (publishBtn) {
         createdAt: serverTimestamp()
       });
 
+      await fetch(
+  "https://chess-news-notifications.babsdave22.workers.dev",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: title,
+      message: content,
+      topic: "chess-news",
+      icon: imageUrl || "/icon-192.png"
+    })
+  }
+);
+
       alert("✅ Update published successfully!");
 
       // Clear form
