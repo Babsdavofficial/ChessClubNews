@@ -12,29 +12,78 @@
   
 <div class="wrap">
 
-    <!-- ================= HEADER ================= -->
 
-    <header class="topbar">
+    <header class="topbar panel">
+      <div class="brand">
+        <div class="logo">♟♙</div>
+        <div class="titlebox">
 
-        <div class="brand">
-            <div class="logo">♟♙</div>
-
-            <div class="titlebox">
-                <h1>Chess News Hub</h1>
-                <p>Your Gateway to the World of Chess</p>
-            </div>
+          <h1>Chess News Hub</h1>
+          <p>Predictions, puzzles and chess community challenges</p>
         </div>
-
-        <nav class="nav">
-                   <a href="index.html">Home</a>
+      </div>
+      <nav class="nav">
+                <a href="index.html">Home</a>
         <a href="matches.html">Matches</a>
         <a href="standings.html">Standings</a>
         <a href="updates.html">Updates</a>
         <a href="community.html">Community</a>
  <a href="players.html">Players</a>
-        </nav>
+      </nav>
 
+  <div class="profile-menu">
+  <button id="profileBtn" class="btn secondary">
+    <span id="userDisplay">👤 Guest</span> ▼
+  </button>
+
+  <div id="profileDropdown" class="profile-dropdown" style= "float:right;">
+    <p><strong id="profileName">Guest</strong></p>
+
+
+    <hr>
+    <p id="profileEmail">Not logged in</p>
+    <!-- Fantasy Achievement -->
+<div id="profileAchievement" class="profile-achievement">
+  <div id="profileAchievementBadge" class="achievement-badge">
+    🪵
+  </div>
+
+  <div class="achievement-info">
+    <strong id="profileAchievementName">
+      Wood
+    </strong>
+
+    <span id="profileAchievementLevel">
+      Level 1
+    </span>
+
+    <small>
+      🏆 <span id="fantasyPoints">0</span> Fantasy Points
+    </small>
+  </div>
+</div>
+
+<p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
+
+    <hr>
+
+   <button
+  id="adminPanelBtn"
+  class="btn primary"
+  style="width:100%;display:none;margin-bottom:8px;">
+  👑 Admin Dashboard
+</button>
+
+    <button
+      id="logoutBtn"
+      class="btn secondary"
+      style="width:100%;">
+      🚪 Logout
+    </button>
+  </div>
+</div>
     </header>
+
 
 
 
