@@ -1,11 +1,6 @@
-// =====================================================
-// FIREBASE PUSH NOTIFICATIONS
-// =====================================================
-
-import { auth, db } from "./firebase.js";
+import { auth, db, messaging } from "./firebase.js";
 
 import {
-  getMessaging,
   getToken,
   onMessage
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-messaging.js";
@@ -16,12 +11,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
-// Firebase Messaging
-const messaging = getMessaging();
-
-
 // =====================================================
-// VAPID PUBLIC KEY
+// YOUR VAPID PUBLIC KEY
 // =====================================================
 
 const VAPID_KEY =
@@ -36,36 +27,53 @@ async function enableNotifications() {
 
   try {
 
+    console.log("🔔 Requesting notification permission...");
+
     const permission =
       await Notification.requestPermission();
 
     if (permission !== "granted") {
 
-      console.log("🔕 Notification permission not granted.");
+      console.log(
+        "❌ Notification permission was not granted."
+      );
 
       return;
 
     }
 
-    console.log("🔔 Notification permission granted.");
+    console.log(
+      "✅ Notification permission granted."
+    );
+
+
+    // =================================================
+    // GET SERVICE WORKER REGISTRATION
+    // =================================================
+
+    const registration =
+      await navigator.serviceWorker.ready;
 
 
     // =================================================
     // GET FCM TOKEN
     // =================================================
 
-    const token = await getToken(
-      messaging,
-      {
-        vapidKey: VAPID_KEY
-      }
-    );
+    const token =
+      await getToken(messaging, {
+
+        vapidKey: VAPID_KEY,
+
+        serviceWorkerRegistration:
+          registration
+
+      });
 
 
     if (!token) {
 
       console.log(
-        "⚠️ No FCM token received."
+        "❌ No FCM registration token available."
       );
 
       return;
@@ -74,40 +82,59 @@ async function enableNotifications() {
 
 
     console.log(
-      "✅ FCM Token:",
+      "🔥 FCM TOKEN:",
       token
     );
 
 
     // =================================================
-    // SAVE TOKEN TO USER
+    // SAVE TOKEN TO FIRESTORE
     // =================================================
 
-    if (auth.currentUser) {
+    const user =
+      auth.currentUser;
 
-      await setDoc(
-
-        doc(
-          db,
-          "users",
-          auth.currentUser.uid
-        ),
-
-        {
-          fcmToken: token
-        },
-
-        {
-          merge: true
-        }
-
-      );
+    if (!user) {
 
       console.log(
-        "✅ Notification token saved."
+        "⚠️ User is not logged in."
       );
 
+      return;
+
     }
+
+
+    await setDoc(
+
+      doc(
+        db,
+        "users",
+        user.uid
+      ),
+
+      {
+
+        notificationToken:
+          token,
+
+        notificationsEnabled:
+          true
+
+      },
+
+      {
+
+        merge: true
+
+      }
+
+    );
+
+
+    console.log(
+      "✅ Notification token saved to Firestore."
+    );
 
   }
 
@@ -124,7 +151,47 @@ async function enableNotifications() {
 
 
 // =====================================================
-// RECEIVE NOTIFICATIONS WHILE WEBSITE IS OPEN
+// WAIT FOR LOGIN
+// =====================================================
+
+auth.onAuthStateChanged = undefined;
+
+
+// Instead of modifying your existing auth.js,
+// listen to the authentication state here.
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
+onAuthStateChanged(
+  auth,
+  async (user) => {
+
+    if (!user) {
+
+      console.log(
+        "👤 No logged-in user."
+      );
+
+      return;
+
+    }
+
+    console.log(
+      "👤 Logged in:",
+      user.uid
+    );
+
+    await enableNotifications();
+
+  }
+);
+
+
+// =====================================================
+// FOREGROUND MESSAGE
 // =====================================================
 
 onMessage(
@@ -132,34 +199,21 @@ onMessage(
   (payload) => {
 
     console.log(
-      "🔔 Notification received:",
+      "🔔 Foreground notification:",
       payload
     );
 
-    if (
-      payload.notification
-    ) {
+    const title =
+      payload.notification?.title ||
+      "Chess News Hub";
 
-      new Notification(
-        payload.notification.title ||
-        "Chess News Hub",
-        {
-          body:
-            payload.notification.body ||
-            "You have a new update."
-        }
-      );
+    const body =
+      payload.notification?.body ||
+      "You have a new update.";
 
-    }
+    alert(
+      `${title}\n\n${body}`
+    );
 
   }
 );
-
-
-// =====================================================
-// EXPORT
-// =====================================================
-
-export {
-  enableNotifications
-};
