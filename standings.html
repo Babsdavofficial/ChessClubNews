@@ -16,7 +16,7 @@
         <div class="titlebox">
 
           <h1>Chess News Hub</h1>
-          <p>Community Game rankings and player performance</p>
+          <p>Predictions, puzzles and chess community challenges</p>
         </div>
       </div>
       <nav class="nav">
@@ -27,7 +27,60 @@
         <a href="community.html">Community</a>
  <a href="players.html">Players</a>
       </nav>
+
+  <div class="profile-menu">
+  <button id="profileBtn" class="btn secondary">
+    <span id="userDisplay">👤 Guest</span> ▼
+  </button>
+
+  <div id="profileDropdown" class="profile-dropdown" style= "float:right;">
+    <p><strong id="profileName">Guest</strong></p>
+
+
+    <hr>
+    <p id="profileEmail">Not logged in</p>
+    <!-- Fantasy Achievement -->
+<div id="profileAchievement" class="profile-achievement">
+  <div id="profileAchievementBadge" class="achievement-badge">
+    🪵
+  </div>
+
+  <div class="achievement-info">
+    <strong id="profileAchievementName">
+      Wood
+    </strong>
+
+    <span id="profileAchievementLevel">
+      Level 1
+    </span>
+
+    <small>
+      🏆 <span id="fantasyPoints">0</span> Fantasy Points
+    </small>
+  </div>
+</div>
+
+<p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
+
+    <hr>
+
+   <button
+  id="adminPanelBtn"
+  class="btn primary"
+  style="width:100%;display:none;margin-bottom:8px;">
+  👑 Admin Dashboard
+</button>
+
+    <button
+      id="logoutBtn"
+      class="btn secondary"
+      style="width:100%;">
+      🚪 Logout
+    </button>
+  </div>
+</div>
     </header>
+
     <section id="standings" class="panel section">
 
   <div class="section-head">
