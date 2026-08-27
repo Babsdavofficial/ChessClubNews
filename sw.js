@@ -2,7 +2,7 @@
 // CHESS NEWS HUB — SERVICE WORKER
 // =====================================================
 
-const CACHE_NAME = "chess-news-hub-v2";
+const CACHE_NAME = "chess-news-hub-v3";
 
 const FILES_TO_CACHE = [
   "./",
@@ -119,8 +119,17 @@ importScripts(
 // Do NOT guess or copy random values.
 
 const firebaseConfig = {
-  // We will add your existing Firebase config here.
+  apiKey: "AIzaSyA_QXqMN00OrYJNAg-RbH0Y0hHMEoUOTxk",
+  authDomain: "chess-news-hub.firebaseapp.com",
+  projectId: "chess-news-hub",
+  storageBucket: "chess-news-hub.firebasestorage.app",
+  messagingSenderId: "494413852029",
+  appId: "1:494413852029:web:9255a597bda885d9823014"
 };
+
+firebase.initializeApp(firebaseConfig);
+
+const messaging = firebase.messaging();
 
 
 // Initialize Firebase
