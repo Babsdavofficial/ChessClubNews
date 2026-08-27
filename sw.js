@@ -134,13 +134,7 @@ const messaging = firebase.messaging();
 
 // Initialize Firebase
 
-firebase.initializeApp(firebaseConfig);
 
-
-// Firebase Messaging
-
-const messaging =
-  firebase.messaging();
 
 
 // =====================================================
