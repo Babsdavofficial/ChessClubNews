@@ -3,7 +3,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-import { getMessaging } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-messaging.js";
+
+import { getMessaging, getToken, onMessage } 
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-messaging.js";
 
 // Your Firebase configuration
 const firebaseConfig = {
