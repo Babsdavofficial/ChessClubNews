@@ -8,11 +8,18 @@ const FILES_TO_CACHE = [
   "./standings.html",
   "./updates.html",
   "./players.html",
+  "./admin.html",
+
   "./style.css",
+  "./manifest.json",
+
   "./firebase.js",
   "./auth.js",
   "./community.js",
-  "./achievement.js"
+  "./achievement.js",
+  "./updates.js",
+  "./admin.js",
+  "./adminContent.js"
 ];
 
 self.addEventListener("install", (event) => {
