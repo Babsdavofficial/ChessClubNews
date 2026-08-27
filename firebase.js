@@ -6,7 +6,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth
 
 import { getMessaging, getToken, onMessage } 
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-messaging.js";
-
+const messaging = getMessaging(app);
 // Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyA_QXqMN00OrYJNAg-RbH0Y0hHMEoUOTxk",
