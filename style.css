@@ -490,7 +490,7 @@ textarea::placeholder{
   color:var(--text);
 }
 .fact-item{
-    max-width:250px;
+    max-width:350px;
 }
 .comments-box {
     max-height: 800px;
