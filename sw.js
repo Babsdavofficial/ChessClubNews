@@ -2,7 +2,7 @@
 // CHESS NEWS HUB — SERVICE WORKER
 // =====================================================
 
-const CACHE_NAME = "chess-news-hub-v3";
+const CACHE_NAME = "chess-news-hub-v4";
 
 const FILES_TO_CACHE = [
   "./",
@@ -99,8 +99,6 @@ self.addEventListener("fetch", (event) => {
 // FIREBASE PUSH NOTIFICATIONS
 // =====================================================
 
-// Import Firebase Messaging libraries
-
 importScripts(
   "https://www.gstatic.com/firebasejs/12.0.0/firebase-app-compat.js"
 );
@@ -114,10 +112,6 @@ importScripts(
 // FIREBASE CONFIGURATION
 // =====================================================
 
-// IMPORTANT:
-// We will put your Firebase configuration here next.
-// Do NOT guess or copy random values.
-
 const firebaseConfig = {
   apiKey: "AIzaSyA_QXqMN00OrYJNAg-RbH0Y0hHMEoUOTxk",
   authDomain: "chess-news-hub.firebaseapp.com",
@@ -130,11 +124,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
-
-
-// Initialize Firebase
-
-
 
 
 // =====================================================
@@ -162,10 +151,14 @@ messaging.onBackgroundMessage((payload) => {
       "./icons/icon-192.png",
 
     badge:
-      "./icons/icon-192.png"
+      "./icons/icon-192.png",
+
+    // Store the page to open
+    data: {
+      url: "./index.html"
+    }
 
   };
-
 
   self.registration.showNotification(
     notificationTitle,
@@ -173,3 +166,58 @@ messaging.onBackgroundMessage((payload) => {
   );
 
 });
+
+
+// =====================================================
+// NOTIFICATION CLICK
+// =====================================================
+
+self.addEventListener(
+  "notificationclick",
+  (event) => {
+
+    event.notification.close();
+
+    const urlToOpen =
+      event.notification.data?.url ||
+      "./index.html";
+
+    event.waitUntil(
+
+      clients.matchAll({
+        type: "window",
+        includeUncontrolled: true
+      }).then((clientList) => {
+
+        // If Chess Hub is already open,
+        // focus on it
+        for (const client of clientList) {
+
+          if (
+            client.url.includes(
+              "babsdavofficial.github.io/ChessClubNews"
+            ) &&
+            "focus" in client
+          ) {
+
+            return client.focus();
+
+          }
+
+        }
+
+        // Otherwise open Chess Hub
+        if (clients.openWindow) {
+
+          return clients.openWindow(
+            urlToOpen
+          );
+
+        }
+
+      })
+
+    );
+
+  }
+);
