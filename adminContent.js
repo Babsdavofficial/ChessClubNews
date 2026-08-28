@@ -80,13 +80,15 @@ try {
 
         body: JSON.stringify({
 
-          title: title,
+  title: title,
 
-          message: content,
+  message: content,
 
-          icon: imageUrl
+  icon: imageUrl,
 
-        })
+  type: "news"
+
+})
 
       }
     );
