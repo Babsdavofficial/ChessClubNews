@@ -40,31 +40,81 @@ if (publishBtn) {
 
     try {
       await addDoc(collection(db, "updates"), {
-        title: title,
-        content: content,
-        imageUrl: imageUrl,
-        author: auth.currentUser ? auth.currentUser.uid : "admin",
-        likes: 0,
-        createdAt: serverTimestamp()
-      });
+  title: title,
+  content: content,
+  imageUrl: imageUrl,
+  author: auth.currentUser ? auth.currentUser.uid : "admin",
+  likes: 0,
+  createdAt: serverTimestamp()
+});
 
-      await fetch(
-  "https://chess-news-notifications.babsdave22.workers.dev",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      title: title,
-      message: content,
-      topic: "chess-news",
-      icon: imageUrl || "/icon-192.png"
-    })
+
+// ==========================================
+// SEND PUSH NOTIFICATION
+// ==========================================
+
+try {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("Admin is not logged in.");
   }
-);
 
-      alert("✅ Update published successfully!");
+  // Get secure Firebase login token
+  const idToken =
+    await user.getIdToken();
+
+  const response =
+    await fetch(
+      "https://chess-news-notifications.babsdave22.workers.dev",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+
+          "Authorization":
+            `Bearer ${idToken}`
+        },
+
+        body: JSON.stringify({
+
+          title: title,
+
+          message: content,
+
+          icon: imageUrl
+
+        })
+
+      }
+    );
+
+  const result =
+    await response.json();
+
+  console.log(
+    "Notification result:",
+    result
+  );
+
+}
+catch (notificationError) {
+
+  console.error(
+    "Notification error:",
+    notificationError
+  );
+
+}
+
+
+// ==========================================
+// SUCCESS MESSAGE
+// ==========================================
+
+alert("✅ Update published successfully!");
 
       // Clear form
       document.getElementById("updateTitle").value = "";
