@@ -405,6 +405,11 @@ correctAnswer:""
 });
 
 alert("✅ Prediction created.");
+await sendAppNotification(
+  "🔮 New Prediction!",
+  title
+);
+  
 
 document.getElementById("predictionTitle").value="";
 document.getElementById("predictionOption1").value="";
@@ -705,6 +710,12 @@ new Date(closeDate)
 );
 
 alert("Trivia created.");
+await sendAppNotification(
+  "🧠 New Trivia Challenge!",
+  question
+);
+  
+                                 
 
 document.getElementById("triviaQuestion").value="";
 document.getElementById("triviaOption1").value="";
@@ -1043,6 +1054,12 @@ createdAt:serverTimestamp()
 );
 
 alert("✅ Puzzle Created.");
+  alert("✅ Puzzle Created.");
+
+await sendAppNotification(
+  "🧩 New Chess Puzzle!",
+  title
+);
 
 document.getElementById("puzzleTitle").value="";
 document.getElementById("puzzleImage").value="";
@@ -1366,6 +1383,11 @@ if (createFantasyEventBtn) {
       alert(
         "🏆 Fantasy Event created successfully!"
       );
+
+      await sendAppNotification(
+  "🏆 New Fantasy Team Event!",
+  `${eventName} is now live. Build your team and compete!`
+);
 
       // -------------------------
       // CLEAR FORM
@@ -2328,3 +2350,55 @@ document.addEventListener("click", async (e) => {
   }
 
 });
+
+
+
+// =====================================================
+// SEND APP NOTIFICATION
+// =====================================================
+
+async function sendAppNotification(title, message, icon = "") {
+
+  try {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.error("No admin user logged in.");
+      return;
+    }
+
+    const idToken = await user.getIdToken();
+
+    const response = await fetch(
+      "https://chess-news-notifications.babsdave22.workers.dev",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
+        },
+
+        body: JSON.stringify({
+          title: title,
+          message: message,
+          icon: icon
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    console.log("Notification result:", result);
+
+  } catch (error) {
+
+    console.error(
+      "Notification error:",
+      error
+    );
+
+  }
+
+}
