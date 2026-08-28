@@ -63,7 +63,7 @@ try {
 
   // Get secure Firebase login token
   const idToken =
-    await user.getIdToken();
+  await user.getIdToken(true);
 
   const response =
     await fetch(
