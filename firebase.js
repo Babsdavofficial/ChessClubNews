@@ -42,7 +42,7 @@ export async function enableNotifications() {
 
     const registration =
       await navigator.serviceWorker.register(
-        "/firebase-messaging-sw.js"
+        "/sw.js"
       );
 
     const token = await getToken(messaging, {
