@@ -6,6 +6,7 @@ import {
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
@@ -160,6 +161,60 @@ if (loginBtn) {
     }
 
   });
+}
+
+// =====================================================
+// FORGOT PASSWORD
+// =====================================================
+
+const forgotPasswordBtn =
+  document.getElementById("forgotPasswordBtn");
+
+if (forgotPasswordBtn) {
+
+  forgotPasswordBtn.addEventListener("click", async () => {
+
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
+    if (!email) {
+
+      alert(
+        "Please enter your email address first."
+      );
+
+      return;
+
+    }
+
+    try {
+
+      await sendPasswordResetEmail(
+        auth,
+        email
+      );
+
+      alert(
+        "📧 Password reset link sent!\n\n" +
+        "Check your email and follow the instructions to create a new password."
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Password reset error:",
+        error
+      );
+
+      alert(
+        "❌ Could not send password reset email.\n\n" +
+        error.message
+      );
+
+    }
+
+  });
+
 }
 
 // KEEP USER LOGGED IN
