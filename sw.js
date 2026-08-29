@@ -13,6 +13,7 @@ const FILES_TO_CACHE = [
   "./updates.html",
   "./players.html",
   "./admin.html",
+  "./login.html",
 
   "./style.css",
   "./manifest.json",
