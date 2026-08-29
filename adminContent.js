@@ -1188,78 +1188,114 @@ alert(text||"No answers yet.");
 // DECLARE PUZZLE WINNER
 // =========================
 
-document.addEventListener("click",async(e)=>{
+document.addEventListener("click", async (e) => {
 
-if(!e.target.classList.contains("declarePuzzleWinnerBtn"))
-return;
+  if (!e.target.classList.contains("declarePuzzleWinnerBtn"))
+    return;
 
-const puzzleId=e.target.dataset.id;
+  const puzzleId = e.target.dataset.id;
 
-const move=prompt("Enter the correct move exactly.");
+  const move = prompt("Enter the correct move exactly.");
 
-if(!move) return;
+  if (!move) return;
 
-await updateDoc(
+  try {
 
-doc(db,"puzzles",puzzleId),
+    await updateDoc(
+      doc(db, "puzzles", puzzleId),
+      {
+        correctMove: move,
+        active: false
+      }
+    );
 
-{
+    const answers = await getDocs(
 
-correctMove:move,
+      query(
 
-active:false
+        collection(db, "puzzleAnswers"),
 
-}
+        where("puzzleId", "==", puzzleId)
 
-);
+      )
 
-const answers=await getDocs(
+    );
 
-query(
+    let winners = 0;
+    let missingUsers = 0;
 
-collection(db,"puzzleAnswers"),
+    for (const ans of answers.docs) {
 
-where("puzzleId","==",puzzleId)
+      const data = ans.data();
 
-)
+      if (
+        data.answer &&
+        data.answer.trim().toLowerCase() ===
+        move.trim().toLowerCase()
+      ) {
 
-);
+        const userRef =
+          doc(db, "users", data.userId);
 
-let winners=0;
+        // Check if user document exists
+        const userSnap =
+          await getDoc(userRef);
 
-for(const ans of answers.docs){
+        if (!userSnap.exists()) {
 
-const data=ans.data();
+          console.warn(
+            "User document not found:",
+            data.userId
+          );
 
-if(
+          missingUsers++;
 
-data.answer.trim().toLowerCase()===
+          // Continue to the next player
+          continue;
 
-move.trim().toLowerCase()
+        }
 
-){
+        await updateDoc(
 
-await updateDoc(
+          userRef,
 
-doc(db,"users",data.userId),
+          {
+            fantasyPoints: increment(2)
+          }
 
-{
+        );
 
-fantasyPoints:increment(2)
+        winners++;
 
-}
+      }
 
-);
+    }
 
-winners++;
+    alert(
 
-}
+      `✅ ${winners} player(s) rewarded.` +
 
-}
+      (missingUsers > 0
+        ? `\n\n⚠️ ${missingUsers} account(s) could not be rewarded because their user profile is missing.`
+        : "")
 
-alert(`✅ ${winners} player(s) rewarded.`);
+    );
 
-loadPuzzleAdmin();
+    loadPuzzleAdmin();
+
+  } catch (error) {
+
+    console.error(
+      "Declare puzzle winner error:",
+      error
+    );
+
+    alert(
+      "❌ Something went wrong while rewarding players.\n\n" +
+      error.message
+    );
+
+  }
 
 });
 
