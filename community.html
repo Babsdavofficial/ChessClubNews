@@ -1,635 +1,919 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Test News Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="community-layout.css">
-  
+
+  <title>Community | Chess News Hub</title>
+
+  <!-- Main website CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Community page layout CSS -->
+  <link rel="stylesheet" href="community-layout.css">
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 </head>
+
 <body>
+
 <div class="wrap">
 
+  <!-- =====================================================
+       TOP HEADER
+  ====================================================== -->
 
-    <header class="topbar panel">
-      <div class="brand">
-        <div class="logo">♟♙</div>
-        <div class="titlebox">
+  <header class="topbar panel">
 
-          <h1>Chess News Hub</h1>
-          <p>Predictions, puzzles and chess community challenges</p>
-        </div>
+    <div class="brand">
+
+      <div class="logo">
+        ♟♙
       </div>
-      <nav class="nav">
-                <a href="index.html">Home</a>
-        <a href="matches.html">Matches</a>
-        <a href="standings.html">Standings</a>
-        <a href="updates.html">Updates</a>
-        <a href="community.html">Community</a>
- <a href="players.html">Players</a>
-      </nav>
 
-  <div class="profile-menu">
-  <button id="profileBtn" class="btn secondary">
-    <span id="userDisplay">👤 Guest</span> ▼
-  </button>
+      <div class="titlebox">
 
-  <div id="profileDropdown" class="profile-dropdown" style= "float:right;">
-    <p><strong id="profileName">Guest</strong></p>
+        <h1>
+          Chess News Hub
+        </h1>
 
+        <p>
+          Predictions, puzzles and chess community challenges
+        </p>
 
-    <hr>
-    <p id="profileEmail">Not logged in</p>
-    <!-- Fantasy Achievement -->
-<div id="profileAchievement" class="profile-achievement">
-  <div id="profileAchievementBadge" class="achievement-badge">
-    🪵
-  </div>
+      </div>
 
-  <div class="achievement-info">
-    <strong id="profileAchievementName">
-      Wood
-    </strong>
-
-    <span id="profileAchievementLevel">
-      Level 1
-    </span>
-
-    <small>
-      🏆 <span id="fantasyPoints">0</span> Fantasy Points
-    </small>
-  </div>
-</div>
-
-<p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
-
-    <hr>
-
-   <button
-  id="adminPanelBtn"
-  class="btn primary"
-  style="width:100%;display:none;margin-bottom:8px;">
-  👑 Admin Dashboard
-</button>
-
-    <button
-      id="logoutBtn"
-      class="btn secondary"
-      style="width:100%;">
-      🚪 Logout
-    </button>
-  </div>
-</div>
-    </header>
-
-<section id="facts" class="panel section">
-
-  <div class="section-head">
-    <div>
-      <h2>🏆 Community Hub</h2>
-      <p>Predictions, puzzles, fantasy rankings and player discussions.</p>
-    </div>
-  </div>
-
-  <!-- Top Row -->
-<div class="grid-3">
-
-  <!-- Prediction -->
-  <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-
-    <div class="chip">Prediction Center</div>
-
-    <div id="predictionsContainer"  style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-      Loading predictions...
     </div>
 
-    <div id="predictionOptions" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35); color:black;"></div>
 
-    <br>
+    <!-- ===================================================
+         NAVIGATION
+    ==================================================== -->
+
+    <nav class="nav">
+
+      <a href="index.html">
+        🏠 Home
+      </a>
+
+      <a href="matches.html">
+        ♟️ Matches
+      </a>
+
+      <a href="standings.html">
+        🏆 Standings
+      </a>
+
+      <a href="updates.html">
+        📰 Updates
+      </a>
+
+      <a
+        href="community.html"
+        class="active"
+      >
+        👥 Community
+      </a>
+
+      <a href="players.html">
+        👤 Players
+      </a>
+
+    </nav>
 
 
+    <!-- ===================================================
+         PROFILE
+    ==================================================== -->
 
-    <p id="predictionStatus" style="color:var(--text);"></p>
+    <div class="profile-menu">
 
-  </div>
+      <button
+        id="profileBtn"
+        class="btn secondary profile-toggle"
+      >
 
-  <!-- Trivia -->
-  <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
+        <span id="userDisplay">
+          👤 Guest
+        </span>
 
-    <div class="chip">Weekly Chess Trivia</div>
+        ▼
 
-    <div id="triviaContainer" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-      Loading trivia...
-    </div>
+      </button>
 
-    <div id="triviaOptions" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);"></div>
 
-    <br>
+      <!-- PROFILE DROPDOWN -->
 
-    <button
-      id="submitTriviaBtn"
-      class="btn primary">
-      Submit Answer
-    </button>
+      <div
+        id="profileDropdown"
+        class="profile-dropdown"
+      >
 
-    <p id="triviaStatus" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);"></p>
+        <div class="profile-header">
 
-  </div>
+          <p>
+            <strong id="profileName">
+              Guest
+            </strong>
+          </p>
 
-  <!-- Puzzle -->
-  <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-
-    <div class="chip">🧩 Daily Puzzle</div>
-
-<p class="puzzle-note">
-    <strong>Answer Format:</strong> Enter only one move in standard chess notation (e.g., <strong>e4</strong>, <strong>Nf3</strong>, <strong>Qxd5</strong>, <strong>O-O</strong>, <strong>Qh7#</strong>).
-</p>
-    <div id="puzzleContainer">
-      Loading puzzle...
-    </div>
-
-    <div id="puzzleAnswerArea"></div>
-
-    <br>
-
-    <button
-      id="submitPuzzleBtn"
-      class="btn primary">
-      Submit Move
-    </button>
-
-    <p id="puzzleStatus"></p>
-
-  </div>
-
-</div>
-<br><br>
-  <!-- Fantasy Board -->
-<div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-
-    <div class="chip">Fantasy Leaderboard</div>
-
-    <h3>🏅 Community Rankings</h3>
-
-    <div class="grid-3" style="margin-top:15px;">
-
-        <div class="fact-item">
-
-            <h4>🔥 Fantasy Team Points</h4>
-
-            <div id="fantasyLeaderboard" class="leaderboard-row" style="color:white;" >
-                Loading...
-            </div>
+          <p
+            id="profileEmail"
+            class="profile-email"
+          >
+            Not logged in
+          </p>
 
         </div>
 
-        <div class="fact-item">
 
-            <h4>🧠 Trivia Masters</h4>
+        <hr>
 
-            <div id="triviaLeaderboard">
-                Loading...
-            </div>
+
+        <!-- =================================================
+             ACHIEVEMENT
+        ================================================== -->
+
+        <div
+          id="profileAchievement"
+          class="profile-achievement"
+        >
+
+          <div
+            id="profileAchievementBadge"
+            class="achievement-badge"
+          >
+            🪵
+          </div>
+
+          <div class="achievement-info">
+
+            <strong id="profileAchievementName">
+              Wood
+            </strong>
+
+            <span id="profileAchievementLevel">
+              Level 1
+            </span>
+
+            <small>
+
+              🏆
+              <span id="fantasyPoints">
+                0
+              </span>
+              Fantasy Points
+
+            </small>
+
+          </div>
 
         </div>
 
-        <div class="fact-item">
 
-            <h4>🎯 Prediction Leaders</h4>
+        <div class="profile-stat">
 
-            <div id="predictionLeaderboard">
-                Loading...
-            </div>
+          🧠 Trivia Correct:
+
+          <strong id="triviaScore">
+            0
+          </strong>
 
         </div>
+
+
+        <div class="profile-stat">
+
+          🎯 Predictions:
+
+          <strong id="predictionScore">
+            0
+          </strong>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- ADMIN -->
+
+        <button
+          id="adminPanelBtn"
+          class="btn primary"
+          style="width:100%;display:none;margin-bottom:8px;"
+        >
+          👑 Admin Dashboard
+        </button>
+
+
+        <!-- LOGOUT -->
+
+        <button
+          id="logoutBtn"
+          class="btn secondary"
+          style="width:100%;"
+        >
+          🚪 Logout
+        </button>
+
+      </div>
 
     </div>
 
-</div>
-  <!-- Community Chat -->
-<br><br>
-
-<!-- =====================================================
-     ACHIEVEMENT RANKINGS
-===================================================== -->
-
-<!-- =====================================================
-     ACHIEVEMENT RANKINGS
-===================================================== -->
-
-<br><br>
-
-<div
-  class="card achievement-rankings-card"
-  style="
-    background:
-      linear-gradient(
-        135deg,
-        rgba(239,68,68,.18),
-        rgba(124,58,237,.20),
-        rgba(37,99,235,.18)
-      );
-    border:1px solid rgba(139,92,246,.35);
-  "
->
-
-  <div class="chip">
-    🏅 Achievement Rankings
-  </div>
-
-  <h3>
-    🏆 Community Achievement Levels
-  </h3>
-
-  <p style="color:var(--text);">
-    Explore players by their personal Fantasy Points achievement level.
-  </p>
+  </header>
 
 
-  <!-- Achievement Selector -->
+  <!-- =====================================================
+       COMMUNITY CONTENT
+  ====================================================== -->
 
-  <div
-    class="achievement-filter"
-    style="
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(139,92,246,.30);
-      padding:15px;
-      border-radius:12px;
-    "
+  <section
+    id="facts"
+    class="panel section community-page"
   >
 
-    <label
-      for="achievementLevelFilter"
-      style="font-weight:600;"
-    >
-      🏅 Check Achievement Level
-    </label>
 
-    <br><br>
+    <!-- ===================================================
+         COMMUNITY INTRO
+    ==================================================== -->
 
-    <select
-      id="achievementLevelFilter"
-      style="
-        width:100%;
-        padding:11px;
-        border-radius:10px;
-        border:1px solid rgba(139,92,246,.40);
-        background:#151525;
-        color:white;
-        font-weight:600;
-        cursor:pointer;
-      "
-    >
+    <div class="section-head community-intro">
 
-      <option value="all">
-        🌎 All Levels
-      </option>
+      <div>
 
-      <option value="Wood">
-        🪵 Wood
-      </option>
+        <span class="section-kicker">
+          ♟️ CHESS COMMUNITY
+        </span>
 
-      <option value="Stone">
-        🪨 Stone
-      </option>
+        <h2>
+          🏆 Community Hub
+        </h2>
 
-      <option value="Bronze">
-        🥉 Bronze
-      </option>
+        <p>
+          Predict matches, solve puzzles, test your chess knowledge,
+          build your Fantasy Team and compete with the community.
+        </p>
 
-      <option value="Iron">
-        ⚔️ Iron
-      </option>
+      </div>
 
-      <option value="Silver">
-        🥈 Silver
-      </option>
-
-      <option value="Hunter">
-        🏹 Hunter
-      </option>
-
-      <option value="Gold">
-        🥇 Gold
-      </option>
-
-      <option value="Platinum">
-        💠 Platinum
-      </option>
-
-      <option value="Diamond">
-        💎 Diamond
-      </option>
-
-      <option value="Elite">
-        🔥 Elite
-      </option>
-
-      <option value="Master">
-        👑 Master
-      </option>
-
-      <option value="Grandmaster">
-        🐉 Grandmaster
-      </option>
-
-      <option value="Champion">
-        ⚡ Champion
-      </option>
-
-      <option value="Immortal">
-        🌟 Immortal
-      </option>
-
-      <option value="Legendary">
-        👑 Legendary
-      </option>
-
-    </select>
-
-  </div>
-
-  <br>
-
-  <!-- Ranking Results -->
-
-  <div
-    id="achievementLeaderboard"
-    style="
-      background:rgba(0,0,0,.15);
-      padding:12px;
-      border-radius:12px;
-    "
-  >
-
-    <p style="color:var(--text);">
-      Loading achievement rankings...
-    </p>
-
-  </div>
-
-</div>
-
-  <br>
-
-  <!-- Results -->
-
-  <div id="achievementLeaderboard">
-
-    <p>
-      Loading achievement rankings...
-    </p>
-
-  </div>
-
-</div>
-
-  <br><br>
-
-  <!-- Hall of Fame & Tournament Discussion -->
-<!-- Hall of Fame -->
-
-
-  <!-- ========================= -->
-<!-- FANTASY TEAM -->
-<!-- ========================= -->
-
-<br><br>
-
-<!-- =========================
-     FANTASY TEAM
-========================= -->
-
-<div class="card"
-  style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18));
-  border:1px solid rgba(139,92,246,.35);">
-
-  <div class="chip">🏆 Fantasy Team</div>
-
-  <h3 id="fantasyEventTitle">
-    Loading Fantasy Event...
-  </h3>
-<p>
-  🏆 Your Fantasy Points:
-  <strong id="myFantasyPoints">0 FP</strong>
-</p>
-  <p>
-    💰 Starting Budget:
-    <strong id="fantasyBudgetDisplay">0</strong>
-  </p>
-
-  <p>
-    💰 Remaining Budget:
-    <strong id="fantasyRemainingBudget">0</strong>
-  </p>
-
-  <p>
-    👥 Select exactly
-    <strong>3 players</strong>
-  </p>
-
-  <hr>
-
-  <!-- Players -->
-  <div id="fantasyPlayersContainer">
-    Loading Fantasy Players...
-  </div>
-
-  <br>
-
-  <!-- Selected Team -->
-  <div class="fact-item">
-
-    <h3>⚔️ Your Fantasy Team</h3>
-
-    <div id="selectedFantasyPlayers">
-      No players selected.
     </div>
 
-  </div>
 
-  <br>
+    <!-- ===================================================
+         COMMUNITY PLAY ZONE
+    ==================================================== -->
 
-  <button
-    id="submitFantasyTeamBtn"
-    class="btn primary"
-    style="width:100%;">
+    <section class="community-zone">
 
-    🏆 Submit Fantasy Team
+      <div class="zone-heading">
 
-  </button>
+        <div>
 
-  <p id="fantasyTeamStatus"></p>
+          <h3>
+            ⚔️ Play & Challenge
+          </h3>
+
+          <p>
+            Take part in the latest community activities.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="grid-3 community-game-grid">
+
+
+        <!-- =================================================
+             PREDICTION CENTER
+        ================================================== -->
+
+        <article class="card community-feature-card">
+
+          <div class="feature-icon">
+            🔮
+          </div>
+
+          <div class="chip">
+            Prediction Center
+          </div>
+
+          <h3>
+            Predict the Winner
+          </h3>
+
+          <p class="feature-description">
+            Predict the outcome of upcoming matches and earn
+            Fantasy Points when you get it right.
+          </p>
+
+
+          <div
+            id="predictionsContainer"
+            class="feature-content"
+          >
+            Loading predictions...
+          </div>
+
+
+          <div
+            id="predictionOptions"
+            class="feature-options"
+          >
+          </div>
+
+
+          <p
+            id="predictionStatus"
+            class="feature-status"
+          >
+          </p>
+
+        </article>
+
+
+
+        <!-- =================================================
+             TRIVIA
+        ================================================== -->
+
+        <article class="card community-feature-card">
+
+          <div class="feature-icon">
+            🧠
+          </div>
+
+          <div class="chip">
+            Weekly Chess Trivia
+          </div>
+
+          <h3>
+            Test Your Knowledge
+          </h3>
+
+          <p class="feature-description">
+            Answer chess questions and discover how much
+            you really know about the game.
+          </p>
+
+
+          <div
+            id="triviaContainer"
+            class="feature-content"
+          >
+            Loading trivia...
+          </div>
+
+
+          <div
+            id="triviaOptions"
+            class="feature-options"
+          >
+          </div>
+
+
+          <button
+            id="submitTriviaBtn"
+            class="btn primary feature-action"
+          >
+            Submit Answer
+          </button>
+
+
+          <p
+            id="triviaStatus"
+            class="feature-status"
+          >
+          </p>
+
+        </article>
+
+
+
+        <!-- =================================================
+             DAILY PUZZLE
+        ================================================== -->
+
+        <article class="card community-feature-card">
+
+          <div class="feature-icon">
+            🧩
+          </div>
+
+          <div class="chip">
+            Daily Puzzle
+          </div>
+
+          <h3>
+            Solve the Position
+          </h3>
+
+
+          <p class="puzzle-note">
+
+            <strong>
+              Answer Format:
+            </strong>
+
+            Enter only one move in standard chess notation.
+
+            Examples:
+
+            <strong>
+              e4
+            </strong>,
+
+            <strong>
+              Nf3
+            </strong>,
+
+            <strong>
+              Qxd5
+            </strong>,
+
+            <strong>
+              O-O
+            </strong>,
+
+            <strong>
+              Qh7#
+            </strong>.
+
+          </p>
+
+
+          <div
+            id="puzzleContainer"
+            class="feature-content puzzle-content"
+          >
+            Loading puzzle...
+          </div>
+
+
+          <div
+            id="puzzleAnswerArea"
+            class="feature-options"
+          >
+          </div>
+
+
+          <button
+            id="submitPuzzleBtn"
+            class="btn primary feature-action"
+          >
+            Submit Move
+          </button>
+
+
+          <p
+            id="puzzleStatus"
+            class="feature-status"
+          >
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         RANKINGS
+    ==================================================== -->
+
+    <section class="community-zone">
+
+      <div class="zone-heading">
+
+        <div>
+
+          <h3>
+            🏅 Community Rankings
+          </h3>
+
+          <p>
+            See who is leading the different activity categories.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="card community-rankings-card"
+      >
+
+        <div class="grid-3 community-rank-grid">
+
+
+          <!-- FANTASY -->
+
+          <div class="fact-item ranking-card">
+
+            <div class="ranking-icon">
+              🔥
+            </div>
+
+            <h4>
+              Fantasy Team Points
+            </h4>
+
+            <div
+              id="fantasyLeaderboard"
+              class="leaderboard-row"
+            >
+              Loading...
+            </div>
+
+          </div>
+
+
+          <!-- TRIVIA -->
+
+          <div class="fact-item ranking-card">
+
+            <div class="ranking-icon">
+              🧠
+            </div>
+
+            <h4>
+              Trivia Masters
+            </h4>
+
+            <div
+              id="triviaLeaderboard"
+              class="leaderboard-row"
+            >
+              Loading...
+            </div>
+
+          </div>
+
+
+          <!-- PREDICTIONS -->
+
+          <div class="fact-item ranking-card">
+
+            <div class="ranking-icon">
+              🎯
+            </div>
+
+            <h4>
+              Prediction Leaders
+            </h4>
+
+            <div
+              id="predictionLeaderboard"
+              class="leaderboard-row"
+            >
+              Loading...
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         ACHIEVEMENT RANKINGS
+    ==================================================== -->
+
+    <section class="community-zone">
+
+      <div
+        class="card achievement-rankings-card"
+      >
+
+        <div class="zone-heading">
+
+          <div>
+
+            <div class="chip">
+              🏅 Achievement Rankings
+            </div>
+
+            <h3>
+              Community Achievement Levels
+            </h3>
+
+            <p>
+              Explore players by their personal Fantasy Points
+              achievement level.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- FILTER -->
+
+        <div
+          class="achievement-filter"
+        >
+
+          <label
+            for="achievementLevelFilter"
+          >
+            🏅 Check Achievement Level
+          </label>
+
+
+          <select
+            id="achievementLevelFilter"
+          >
+
+            <option value="all">
+              🌎 All Levels
+            </option>
+
+            <option value="Wood">
+              🪵 Wood
+            </option>
+
+            <option value="Stone">
+              🪨 Stone
+            </option>
+
+            <option value="Bronze">
+              🥉 Bronze
+            </option>
+
+            <option value="Iron">
+              ⚔️ Iron
+            </option>
+
+            <option value="Silver">
+              🥈 Silver
+            </option>
+
+            <option value="Hunter">
+              🏹 Hunter
+            </option>
+
+            <option value="Gold">
+              🥇 Gold
+            </option>
+
+            <option value="Platinum">
+              💠 Platinum
+            </option>
+
+            <option value="Diamond">
+              💎 Diamond
+            </option>
+
+            <option value="Elite">
+              🔥 Elite
+            </option>
+
+            <option value="Master">
+              👑 Master
+            </option>
+
+            <option value="Grandmaster">
+              🐉 Grandmaster
+            </option>
+
+            <option value="Champion">
+              ⚡ Champion
+            </option>
+
+            <option value="Immortal">
+              🌟 Immortal
+            </option>
+
+            <option value="Legendary">
+              👑 Legendary
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- RANKING RESULTS -->
+
+        <div
+          id="achievementLeaderboard"
+          class="achievement-leaderboard"
+        >
+
+          <p>
+            Loading achievement rankings...
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         FANTASY TEAM
+    ==================================================== -->
+
+    <section class="community-zone fantasy-zone">
+
+      <div class="zone-heading">
+
+        <div>
+
+          <h3>
+            🏆 Fantasy Team
+          </h3>
+
+          <p>
+            Build your team and compete for Fantasy Points.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="card fantasy-team-card">
+
+
+        <div class="fantasy-header">
+
+          <div>
+
+            <div class="chip">
+              🏆 Fantasy Team
+            </div>
+
+            <h3 id="fantasyEventTitle">
+              Loading Fantasy Event...
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <!-- PLAYER STATS -->
+
+        <div class="fantasy-summary">
+
+          <div class="fantasy-stat">
+
+            <span>
+              🏆 Your Points
+            </span>
+
+            <strong id="myFantasyPoints">
+              0 FP
+            </strong>
+
+          </div>
+
+
+          <div class="fantasy-stat">
+
+            <span>
+              💰 Starting Budget
+            </span>
+
+            <strong id="fantasyBudgetDisplay">
+              0
+            </strong>
+
+          </div>
+
+
+          <div class="fantasy-stat">
+
+            <span>
+              💰 Remaining Budget
+            </span>
+
+            <strong id="fantasyRemainingBudget">
+              0
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="fantasy-selection-info">
+
+          👥 Select exactly
+          <strong>
+            3 players
+          </strong>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- AVAILABLE PLAYERS -->
+
+        <div class="fantasy-player-area">
+
+          <h4>
+            👥 Available Players
+          </h4>
+
+          <div
+            id="fantasyPlayersContainer"
+          >
+            Loading Fantasy Players...
+          </div>
+
+        </div>
+
+
+        <br>
+
+
+        <!-- SELECTED TEAM -->
+
+        <div
+          class="fact-item selected-fantasy-card"
+        >
+
+          <h3>
+            ⚔️ Your Fantasy Team
+          </h3>
+
+          <div
+            id="selectedFantasyPlayers"
+          >
+            No players selected.
+          </div>
+
+        </div>
+
+
+        <br>
+
+
+        <!-- SUBMIT -->
+
+        <button
+          id="submitFantasyTeamBtn"
+          class="btn primary fantasy-submit-btn"
+        >
+          🏆 Submit Fantasy Team
+        </button>
+
+
+        <p
+          id="fantasyTeamStatus"
+          class="feature-status"
+        >
+        </p>
+
+      </div>
+
+    </section>
+
+
+  </section>
 
 </div>
-<div class="grid-3">
-
-  <!-- Brilliant Moves -->
-  <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-    <div class="chip">✨ Hall of Fame</div>
-
-    <h3>Most Brilliant Moves</h3>
-
-    <table class="hall-table">
-      <tr>
-        <th>Player</th>
-        <th>Brilliant</th>
-      </tr>
-      <tr><td>Astronomer23</td><td>3</td></tr>
-      <tr><td>Humblelear</td><td>1</td></tr>
-    </table>
-  </div>
-
-  <!-- Great Moves -->
-  <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-    <div class="chip">🔥 Hall of Fame</div>
-
-    <h3>Most Great Moves</h3>
-
-    <table class="hall-table">
-      <tr>
-        <th>Player</th>
-        <th>Great</th>
-      </tr>
-      <tr><td>Daniel</td><td>21</td></tr>
-      <tr><td>Shroomy</td><td>18</td></tr>
-      <tr><td>Lah</td><td>13</td></tr>
-      <tr><td>Davekeyz</td><td>11</td></tr>
-      <tr><td>Architect</td><td>10</td></tr>
-      <tr><td>Astronomer23</td><td>9</td></tr>
-      <tr><td>Major</td><td>8</td></tr>
-      <tr><td>GeePrime</td><td>7</td></tr>
-      <tr><td>Jahweh</td><td>7</td></tr>
-      <tr><td>Creedaville0</td><td>7</td></tr>
-      
-      <tr><td>YahDelight</td><td>5</td></tr>
-      <tr><td>Folami</td><td>3</td></tr>
-      <tr><td>Humblelear</td><td>4</td></tr>
-
-    </table>
-  </div>
-
-  <!-- Accuracy -->
-  <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-    <div class="chip">🎯 Hall of Fame</div>
-
-    <h3>Highest Accuracy 80% -above</h3>
-
-    <table class="hall-table">
-      <tr>
-        <th>Player</th>
-        <th>Accuracy</th>
-        <th>#</th>
-      </tr>
-      <tr><td>Jahweh</td><td>97.4%</td><td>✓</td></tr>
-      <tr><td>Astronomer23</td><td>96.3%</td><td>✓</td></tr>
-      <tr><td>Humblelear</td><td>93.3%</td><td>✓</td></tr>
-      <tr><td>Shroomy</td><td>92.4%</td><td>✓</td></tr>
-      <tr><td>Daniel</td><td>92.2%</td><td>✓</td></tr>
-      <tr><td>Lah</td><td>92.1%</td><td>✓</td></tr>
-      <tr><td>Davekeyz</td><td>91.2%</td><td>✓</td></tr>
-      <tr><td>Major</td><td>90.2%</td><td>✓</td></tr>
-      <tr><td>Creedaville0</td><td>89.8%</td><td>✓</td></tr>
-      <tr><td>GeePrime</td><td>84.1%</td><td>✓</td></tr>
-      <tr><td>YahDelight</td><td>83.6%</td><td>✓</td></tr>
-      
-      
-    </table>
-  </div>
-
-</div>
-
-<br><br>
-
-<!-- Extra Hall of Fame -->
-<div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-
-    <div class="chip">♔ Checkmate Kings</div>
-
-    <h3>Most Checkmates</h3>
-
-    <table class="hall-table">
-      <tr>
-        <th>Player</th>
-        <th>Checkmates</th>
-      </tr>
-
-      <tr><td>Davekeyz</td><td>5</td></tr>
-      <tr><td>Shroomy</td><td>5</td></tr>
-      <tr><td>Daniel</td><td>4</td></tr>
-      <tr><td>Major</td><td>2</td></tr>
-      <tr><td>Architect</td><td>2</td></tr>
-      <tr><td>GeePrime</td><td>2</td></tr>
-      <tr><td>Astronomer23</td><td>2</td></tr>
-      <tr><td>Jahweh</td><td>2</td></tr>
-      <tr><td>Creedaville0</td><td>1</td></tr>
-      <tr><td>YahDelight</td><td>1</td></tr>
-      <tr><td>Joules</td><td>1</td></tr>
-    </table>
-    </div>
-    <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-    <div class="chip">🎯 Hall of Fame</div>
-
-    <h3>Numbers Of Achievement</h3>
-
-    <table class="hall-table">
-      <tr>
-        <th>Player</th>
-        <th>Achievement</th>
-        <th>#</th>
-      </tr>
-       <tr><td>Davekeyz</td><td>9</td><td>✓</td></tr>
-       <tr><td>Shroomy</td><td>9</td><td>✓</td></tr>
-       <tr><td>Daniel</td><td>9</td><td>✓</td></tr>
-      <tr><td>Astronomer23</td><td>7</td><td>✓</td></tr>
-      <tr><td>Jahweh23</td><td>7</td><td>✓</td></tr>
-      <tr><td>Architect</td><td>6</td><td>✓</td></tr>
-      <tr><td>Humblelear</td><td>3</td><td>✓</td></tr>
-      <tr><td>Major</td><td>3</td><td>✓</td></tr>
-      <tr><td>Creedaville0</td><td>3</td><td>✓</td></tr>
-      <tr><td>GeePrime</td><td>1</td><td>✓</td></tr>
-      
-
-    </table>
-  </div>
-
-</div>
 
 
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
 
-</section>
+<script
+  type="module"
+  src="auth.js"
+></script>
+
+<script
+  type="module"
+  src="community.js"
+></script>
+
+<script
+  type="module"
+  src="notifications.js"
+></script>
 
 
-
-</div>
-<script type="module" src="auth.js"></script>
-<script type="module" src="community.js"></script>
-  <script type="module" src="notifications.js"></script>
 </body>
-<script>
-    function toggleSection(id){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.classList.toggle('hidden');
-    }
-
-    function openPlayer(name, rating, tag, desc){
-      document.getElementById('playerName').textContent = name;
-      document.getElementById('playerRating').textContent = `Rating: ${rating} • ${tag}`;
-      document.getElementById('playerDesc').textContent = desc;
-      document.getElementById('playerModal').style.display = 'flex';
-    }
-
-    function hideModal(){
-      document.getElementById('playerModal').style.display = 'none';
-    }
-
-    function closePlayer(event){
-      if(event.target.id === 'playerModal'){
-        hideModal();
-      }
-    }
-  </script>
 </html>
