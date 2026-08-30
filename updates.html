@@ -2,8 +2,13 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <title>Test News Hub</title>
 
@@ -15,6 +20,7 @@
 
   <!-- Main website CSS -->
   <link rel="stylesheet" href="style.css">
+
 
   <!-- =====================================================
        PAGE-ONLY NAVIGATION CSS
@@ -29,7 +35,9 @@
     ====================================================== */
 
     .page-navigation {
+
       display: flex;
+
       align-items: center;
       justify-content: center;
 
@@ -40,10 +48,16 @@
       padding: 10px;
 
       border-radius: 14px;
+
+      box-sizing: border-box;
+
     }
 
+
     .page-navigation a {
+
       display: flex;
+
       align-items: center;
       justify-content: center;
 
@@ -58,11 +72,16 @@
       font-size: 0.85rem;
 
       white-space: nowrap;
+
+      box-sizing: border-box;
+
     }
+
 
     .page-navigation a span {
       font-size: 1rem;
     }
+
 
     .page-navigation a small {
       font-size: 0.78rem;
@@ -76,12 +95,27 @@
 
     @media (max-width: 760px) {
 
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+
       .page-navigation {
+
         position: fixed;
 
         left: 8px;
         right: 8px;
+
         bottom: 8px;
+
+        width: calc(100% - 16px);
+
+        max-width: calc(100vw - 16px);
+
+        box-sizing: border-box;
 
         z-index: 5000;
 
@@ -90,23 +124,40 @@
         grid-template-columns:
           repeat(6, minmax(0, 1fr));
 
-        gap: 3px;
+        gap: 2px;
 
         margin: 0;
 
-        padding: 5px;
+        padding: 4px;
 
         border-radius: 14px;
 
-        background: rgba(20, 20, 20, 0.96);
+        background:
+          linear-gradient(
+            135deg,
+            rgba(20,15,35,.94),
+            rgba(36,17,63,.94),
+            rgba(11,29,58,.94)
+          );
+
+        border:
+          1px solid
+          rgba(139,92,246,.28);
 
         box-shadow:
-          0 10px 30px rgba(0, 0, 0, 0.3);
+          0 10px 30px
+          rgba(0,0,0,.25);
 
         backdrop-filter: blur(10px);
+
       }
 
+
       .page-navigation a {
+
+        min-width: 0;
+        width: 100%;
+
         display: flex;
 
         flex-direction: column;
@@ -116,38 +167,142 @@
 
         gap: 2px;
 
-        min-width: 0;
-        min-height: 48px;
+        min-height: 46px;
 
-        padding: 4px 2px;
+        padding: 4px 1px;
 
         text-align: center;
 
-        font-size: 0.6rem;
+        font-size: 0.58rem;
 
-        border-radius: 10px;
+        border-radius: 9px;
 
         overflow: hidden;
+
+        box-sizing: border-box;
+
       }
+
 
       .page-navigation a span {
-        font-size: 1rem;
+
+        display: block;
+
+        font-size: 0.95rem;
+
         line-height: 1;
+
       }
 
+
       .page-navigation a small {
-        font-size: 0.55rem;
+
+        display: block;
+
+        width: 100%;
+
+        min-width: 0;
+
+        font-size: 0.48rem;
+
+        line-height: 1;
 
         white-space: nowrap;
 
         overflow: hidden;
 
         text-overflow: ellipsis;
+
       }
 
-      /* Prevent bottom navigation from covering content */
+
+      /* Active page */
+
+      .page-navigation a.active {
+
+        background:
+          linear-gradient(
+            135deg,
+            rgba(239,68,68,.28),
+            rgba(124,58,237,.34),
+            rgba(37,99,235,.28)
+          );
+
+        border:
+          1px solid
+          rgba(139,92,246,.25);
+
+      }
+
+
+      /* Space for bottom navigation */
+
       .wrap {
-        padding-bottom: 80px;
+
+        padding-bottom: 78px;
+
+        box-sizing: border-box;
+
+        max-width: 100%;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       VERY SMALL PHONES
+    ====================================================== */
+
+    @media (max-width: 420px) {
+
+      .page-navigation {
+
+        left: 6px;
+        right: 6px;
+
+        width: calc(100% - 12px);
+
+        max-width: calc(100vw - 12px);
+
+        bottom: 6px;
+
+        gap: 1px;
+
+        padding: 4px;
+
+        border-radius: 13px;
+
+      }
+
+
+      .page-navigation a {
+
+        min-height: 44px;
+
+        padding: 3px 1px;
+
+      }
+
+
+      .page-navigation a span {
+
+        font-size: 0.9rem;
+
+      }
+
+
+      .page-navigation a small {
+
+        font-size: 0.43rem;
+
+      }
+
+
+      .wrap {
+
+        padding-bottom: 74px;
+
       }
 
     }
@@ -168,6 +323,7 @@
   ====================================================== -->
 
   <header class="topbar panel">
+
 
     <!-- BRAND -->
 
@@ -374,7 +530,10 @@
     </a>
 
 
-    <a href="updates.html" class="active">
+    <a
+      href="updates.html"
+      class="active"
+    >
 
       <span>
         📰
@@ -416,7 +575,7 @@
 
 
   <!-- =====================================================
-       COMMUNITY HEADER
+       PAGE HEADER
   ====================================================== -->
 
   <section
@@ -429,11 +588,11 @@
       <div>
 
         <h2>
-          🏆 Community Hub
+          📰 Chess News & Updates
         </h2>
 
         <p>
-          Predictions, puzzles, fantasy rankings and player discussions.
+          Stay up to date with tournaments, announcements and the latest chess news.
         </p>
 
       </div>
@@ -543,7 +702,7 @@
 
 
         <!-- =================================================
-             RIGHT SIDEBAR AREA
+             RIGHT SIDEBAR
         ================================================== -->
 
         <div>
@@ -593,7 +752,7 @@
 
 
             <!-- =================================================
-                 FEATURED DISCUSSION
+                 FEATURED EVENT
             ================================================== -->
 
             <div
@@ -631,12 +790,11 @@
                       Present Event
                     </h2>
 
-
                     <p>
 
                       <img
                         src="Nextevent5.png"
-                        alt=""
+                        alt="Present Event"
                         style="width:30%"
                       >
 
@@ -749,8 +907,6 @@
               <br>
 
 
-              <!-- SEND -->
-
               <button
                 id="sendCommunityMessage"
                 class="btn primary"
@@ -828,9 +984,13 @@
 
     toggleBtn.addEventListener("click", () => {
 
-      sidebar.classList.add("show-sidebar");
+      if (sidebar) {
+        sidebar.classList.add("show-sidebar");
+      }
 
-      overlay.classList.add("show-overlay");
+      if (overlay) {
+        overlay.classList.add("show-overlay");
+      }
 
     });
 
@@ -902,31 +1062,23 @@
 
 
     if (playerName) {
-
       playerName.textContent = name;
-
     }
 
 
     if (playerRating) {
-
       playerRating.textContent =
         `Rating: ${rating} • ${tag}`;
-
     }
 
 
     if (playerDesc) {
-
       playerDesc.textContent = desc;
-
     }
 
 
     if (playerModal) {
-
       playerModal.style.display = "flex";
-
     }
 
   }
@@ -938,9 +1090,7 @@
       document.getElementById("playerModal");
 
     if (playerModal) {
-
       playerModal.style.display = "none";
-
     }
 
   }
