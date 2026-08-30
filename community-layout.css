@@ -1,0 +1,321 @@
+/* =====================================================
+   COMMUNITY PAGE — LAYOUT ONLY
+===================================================== */
+
+/* Main page spacing */
+
+#facts {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+
+/* =====================================================
+   COMMUNITY HEADER
+===================================================== */
+
+#facts > .section-head {
+  margin-bottom: 25px;
+}
+
+#facts > .section-head h2 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  margin-bottom: 8px;
+}
+
+#facts > .section-head p {
+  max-width: 650px;
+  line-height: 1.6;
+}
+
+
+/* =====================================================
+   PLAY ZONE
+===================================================== */
+
+.community-game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.community-game-grid > .card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.community-game-grid .chip {
+  width: fit-content;
+  margin-bottom: 18px;
+}
+
+
+/* Make question content breathe */
+
+.community-game-grid #predictionsContainer,
+.community-game-grid #triviaContainer,
+.community-game-grid #puzzleContainer {
+  flex: 1;
+  margin-bottom: 12px;
+}
+
+
+/* Buttons stay nicely positioned */
+
+.community-game-grid button {
+  margin-top: auto;
+}
+
+
+/* =====================================================
+   LEADERBOARDS
+===================================================== */
+
+.community-rank-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.community-rank-grid .fact-item {
+  min-height: 180px;
+}
+
+.community-rank-grid h4 {
+  margin-top: 0;
+}
+
+
+/* =====================================================
+   ACHIEVEMENT SECTION
+===================================================== */
+
+.achievement-rankings-card {
+  max-width: 100%;
+}
+
+.achievement-filter {
+  margin-top: 20px;
+}
+
+
+/* =====================================================
+   FANTASY TEAM
+===================================================== */
+
+#fantasyPlayersContainer {
+  display: grid;
+  gap: 12px;
+}
+
+#selectedFantasyPlayers {
+  min-height: 50px;
+}
+
+
+/* =====================================================
+   HALL OF FAME
+===================================================== */
+
+.hall-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.hall-grid > .card {
+  min-width: 0;
+}
+
+.hall-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hall-table th,
+.hall-table td {
+  padding: 12px 8px;
+  text-align: left;
+}
+
+
+/* =====================================================
+   PROFILE MENU
+===================================================== */
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-dropdown {
+  z-index: 1000;
+  min-width: 280px;
+}
+
+
+/* =====================================================
+   TABLE SCROLL ON SMALL SCREENS
+===================================================== */
+
+.card {
+  min-width: 0;
+}
+
+.card:has(.hall-table) {
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .community-game-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .community-game-grid > .card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .community-rank-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .community-rank-grid > .fact-item:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .hall-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .wrap {
+    padding-bottom: 90px;
+  }
+
+  /* Header */
+
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .titlebox h1 {
+    font-size: 1.35rem;
+  }
+
+  .titlebox p {
+    font-size: 0.85rem;
+  }
+
+
+  /* Hide normal nav style on mobile */
+
+  .nav {
+    order: 3;
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
+  .nav a {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+
+  /* Profile */
+
+  .profile-menu {
+    width: 100%;
+  }
+
+  #profileBtn {
+    width: 100%;
+  }
+
+  .profile-dropdown {
+    width: 100%;
+    right: 0;
+    left: 0;
+  }
+
+
+  /* Main play cards */
+
+  .community-game-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .community-game-grid > .card:last-child {
+    grid-column: auto;
+  }
+
+
+  /* Rankings */
+
+  .community-rank-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .community-rank-grid > .fact-item:last-child {
+    grid-column: auto;
+  }
+
+
+  /* Hall of Fame */
+
+  .hall-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* General card spacing */
+
+  .card {
+    padding: 18px;
+  }
+
+
+  /* Section spacing */
+
+  #facts {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+
+  /* Tables */
+
+  .hall-table {
+    font-size: 0.9rem;
+  }
+
+  .hall-table th,
+  .hall-table td {
+    padding: 10px 6px;
+  }
+
+}
