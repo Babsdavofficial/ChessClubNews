@@ -1,7 +1,14 @@
 /* =====================================================
    CHESS NEWS HUB — COMMUNITY PAGE LAYOUT
-   LAYOUT VERSION 1
-   Colors will be handled later
+   CLEAN VERSION
+   IMPORTANT:
+   style.css controls:
+   - Header
+   - Navigation
+   - Profile menu
+   - Profile dropdown
+
+   This file controls ONLY the Community page.
 ===================================================== */
 
 
@@ -26,23 +33,23 @@
    COMMUNITY INTRO
 ===================================================== */
 
-.community-intro {
+.community-page .community-intro {
   margin-bottom: 28px;
 }
 
-.community-intro h2 {
+.community-page .community-intro h2 {
   margin: 8px 0;
   font-size: clamp(1.8rem, 4vw, 2.7rem);
   line-height: 1.15;
 }
 
-.community-intro p {
+.community-page .community-intro p {
   max-width: 700px;
   line-height: 1.6;
   margin: 0;
 }
 
-.section-kicker {
+.community-page .section-kicker {
   display: inline-block;
   font-size: 0.78rem;
   font-weight: 700;
@@ -55,21 +62,21 @@
    ZONE HEADINGS
 ===================================================== */
 
-.community-zone {
+.community-page .community-zone {
   margin-top: 34px;
   margin-bottom: 34px;
 }
 
-.zone-heading {
+.community-page .zone-heading {
   margin-bottom: 18px;
 }
 
-.zone-heading h3 {
+.community-page .zone-heading h3 {
   margin: 0 0 6px;
   font-size: 1.35rem;
 }
 
-.zone-heading p {
+.community-page .zone-heading p {
   margin: 0;
   opacity: 0.72;
   line-height: 1.5;
@@ -80,7 +87,7 @@
    PLAY / CHALLENGE GRID
 ===================================================== */
 
-.community-game-grid {
+.community-page .community-game-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
@@ -92,7 +99,7 @@
    FEATURE CARDS
 ===================================================== */
 
-.community-feature-card {
+.community-page .community-feature-card {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -101,46 +108,50 @@
   position: relative;
 }
 
-.feature-icon {
+.community-page .feature-icon {
   width: 54px;
   height: 54px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 16px;
   font-size: 1.65rem;
+
   margin-bottom: 14px;
-  background: rgba(255,255,255,.07);
+
+  background: rgba(255, 255, 255, .07);
 }
 
-.community-feature-card h3 {
+.community-page .community-feature-card h3 {
   margin: 14px 0 8px;
   font-size: 1.3rem;
 }
 
-.feature-description {
+.community-page .feature-description {
   margin: 0 0 18px;
   line-height: 1.55;
   opacity: 0.75;
   font-size: 0.92rem;
 }
 
-.feature-content {
+.community-page .feature-content {
   flex: 1;
   min-width: 0;
 }
 
-.feature-options {
+.community-page .feature-options {
   min-width: 0;
   margin-top: 10px;
 }
 
-.feature-action {
+.community-page .feature-action {
   width: 100%;
   margin-top: 18px;
 }
 
-.feature-status {
+.community-page .feature-status {
   min-height: 24px;
   margin: 12px 0 0;
   font-size: 0.9rem;
@@ -151,22 +162,24 @@
    PUZZLE
 ===================================================== */
 
-.puzzle-note {
+.community-page .puzzle-note {
   line-height: 1.55;
   font-size: 0.85rem;
   opacity: 0.75;
   margin-bottom: 18px;
 }
 
-.puzzle-content {
+.community-page .puzzle-content {
   overflow: hidden;
 }
 
-#puzzleContainer img {
+.community-page #puzzleContainer img {
   width: 100%;
   max-width: 100%;
   height: auto;
+
   display: block;
+
   border-radius: 14px;
   margin: 0 auto;
 }
@@ -176,35 +189,36 @@
    RANKINGS
 ===================================================== */
 
-.community-rankings-card {
+.community-page .community-rankings-card {
   padding: 20px;
 }
 
-.community-rank-grid {
+.community-page .community-rank-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
-.ranking-card {
+.community-page .ranking-card {
   min-width: 0;
   min-height: 190px;
   padding: 18px;
+
   display: flex;
   flex-direction: column;
 }
 
-.ranking-icon {
+.community-page .ranking-icon {
   font-size: 1.5rem;
   margin-bottom: 8px;
 }
 
-.ranking-card h4 {
+.community-page .ranking-card h4 {
   margin: 0 0 14px;
   font-size: 1rem;
 }
 
-.leaderboard-row {
+.community-page .leaderboard-row {
   flex: 1;
   min-width: 0;
 }
@@ -214,37 +228,41 @@
    ACHIEVEMENT RANKINGS
 ===================================================== */
 
-.achievement-rankings-card {
+.community-page .achievement-rankings-card {
   width: 100%;
   overflow: hidden;
 }
 
-.achievement-filter {
+.community-page .achievement-filter {
   width: 100%;
   margin-top: 18px;
   padding: 16px;
   border-radius: 14px;
 }
 
-.achievement-filter label {
+.community-page .achievement-filter label {
   display: block;
   margin-bottom: 10px;
 }
 
-.achievement-filter select,
-#achievementLevelFilter {
+.community-page .achievement-filter select,
+.community-page #achievementLevelFilter {
   width: 100%;
   min-height: 46px;
   padding: 11px 13px;
+
   border-radius: 10px;
+
   font: inherit;
 }
 
-.achievement-leaderboard {
+.community-page .achievement-leaderboard {
   width: 100%;
   margin-top: 18px;
   padding: 12px;
+
   border-radius: 14px;
+
   overflow-x: auto;
 }
 
@@ -253,208 +271,85 @@
    FANTASY TEAM
 ===================================================== */
 
-.fantasy-team-card {
+.community-page .fantasy-team-card {
   width: 100%;
   overflow: hidden;
 }
 
-.fantasy-header {
+.community-page .fantasy-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
   gap: 15px;
 }
 
-.fantasy-header h3 {
+.community-page .fantasy-header h3 {
   margin: 12px 0 0;
   font-size: 1.4rem;
 }
 
-.fantasy-summary {
+.community-page .fantasy-summary {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+
   gap: 12px;
   margin-top: 20px;
 }
 
-.fantasy-stat {
+.community-page .fantasy-stat {
   padding: 15px;
   border-radius: 14px;
-  background: rgba(255,255,255,.05);
+
+  background: rgba(255, 255, 255, .05);
+
   min-width: 0;
 }
 
-.fantasy-stat span {
+.community-page .fantasy-stat span {
   display: block;
+
   font-size: 0.8rem;
   opacity: 0.7;
+
   margin-bottom: 7px;
 }
 
-.fantasy-stat strong {
+.community-page .fantasy-stat strong {
   font-size: 1.1rem;
   word-break: break-word;
 }
 
-.fantasy-selection-info {
+.community-page .fantasy-selection-info {
   margin-top: 15px;
   padding: 13px 15px;
+
   border-radius: 12px;
-  background: rgba(255,255,255,.04);
+
+  background: rgba(255, 255, 255, .04);
 }
 
-.fantasy-player-area {
+.community-page .fantasy-player-area {
   min-width: 0;
 }
 
-.fantasy-player-area h4 {
+.community-page .fantasy-player-area h4 {
   margin-bottom: 15px;
 }
 
-#fantasyPlayersContainer {
+.community-page #fantasyPlayersContainer {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+
   gap: 12px;
 }
 
-.selected-fantasy-card {
+.community-page .selected-fantasy-card {
   margin-top: 4px;
 }
 
-.fantasy-submit-btn {
+.community-page .fantasy-submit-btn {
   width: 100%;
-}
-
-
-/* =====================================================
-   PROFILE
-===================================================== */
-
-.profile-menu {
-  position: relative;
-  z-index: 1100;
-}
-
-.profile-toggle {
-  min-width: 150px;
-}
-
-.profile-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  width: 300px;
-  max-width: calc(100vw - 24px);
-  padding: 18px;
-  border-radius: 16px;
-  z-index: 1200;
-  box-shadow: 0 18px 45px rgba(0,0,0,.3);
-  overflow: hidden;
-}
-
-.profile-header {
-  margin-bottom: 10px;
-}
-
-.profile-header p {
-  margin: 5px 0;
-}
-
-.profile-email {
-  opacity: 0.65;
-  font-size: 0.85rem;
-  overflow-wrap: anywhere;
-}
-
-.profile-stat {
-  margin: 10px 0;
-  font-size: 0.92rem;
-}
-
-.profile-achievement {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  margin: 12px 0;
-}
-
-.achievement-badge {
-  width: 45px;
-  height: 45px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.35rem;
-  flex-shrink: 0;
-}
-
-.achievement-info {
-  min-width: 0;
-}
-
-.achievement-info strong,
-.achievement-info span,
-.achievement-info small {
-  display: block;
-}
-
-.achievement-info span {
-  opacity: 0.7;
-  font-size: 0.82rem;
-  margin-top: 2px;
-}
-
-.achievement-info small {
-  margin-top: 4px;
-  opacity: 0.8;
-}
-
-
-/* =====================================================
-   HEADER / DESKTOP
-===================================================== */
-
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  z-index: 1000;
-}
-
-.brand {
-  min-width: 0;
-  flex-shrink: 0;
-}
-
-.titlebox {
-  min-width: 0;
-}
-
-.titlebox h1 {
-  margin-bottom: 4px;
-}
-
-.titlebox p {
-  margin: 0;
-  line-height: 1.4;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.nav a {
-  text-decoration: none;
-  white-space: nowrap;
 }
 
 
@@ -479,23 +374,29 @@
 
 @media (max-width: 1100px) {
 
-  .community-game-grid {
+  .community-page .community-game-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .community-game-grid .community-feature-card:last-child {
+  .community-page
+  .community-game-grid
+  .community-feature-card:last-child {
     grid-column: 1 / -1;
   }
 
-  .community-rank-grid {
+
+  .community-page .community-rank-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .community-rank-grid .ranking-card:last-child {
+  .community-page
+  .community-rank-grid
+  .ranking-card:last-child {
     grid-column: 1 / -1;
   }
 
-  .fantasy-summary {
+
+  .community-page .fantasy-summary {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -508,122 +409,6 @@
 
 @media (max-width: 760px) {
 
-  body {
-    overflow-x: hidden;
-  }
-
-  .wrap {
-    padding-bottom: 88px;
-  }
-
-
-  /* -----------------------------------------------
-     HEADER
-  ------------------------------------------------ */
-
-  .topbar {
-    display: block;
-    padding: 14px;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-
-  .logo {
-    flex-shrink: 0;
-  }
-
-  .titlebox h1 {
-    font-size: 1.2rem;
-  }
-
-  .titlebox p {
-    font-size: 0.75rem;
-  }
-
-
-  /* -----------------------------------------------
-     PROFILE ON MOBILE
-  ------------------------------------------------ */
-
-  .profile-menu {
-    position: static;
-    margin-bottom: 8px;
-  }
-
-  .profile-toggle {
-    width: 100%;
-    min-height: 44px;
-  }
-
-  .profile-dropdown {
-    position: absolute;
-    top: auto;
-    left: 12px;
-    right: 12px;
-    width: auto;
-    max-width: none;
-    margin-top: 8px;
-  }
-
-
-  /* -----------------------------------------------
-     BOTTOM NAVIGATION
-  ------------------------------------------------ */
-
-  .nav {
-    position: fixed;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    z-index: 2000;
-
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-
-    gap: 4px;
-
-    padding: 8px;
-
-    border-radius: 18px;
-
-    background: rgba(10,10,10,.95);
-
-    box-shadow:
-      0 12px 35px rgba(0,0,0,.35);
-
-    backdrop-filter: blur(12px);
-
-    border: 1px solid rgba(255,255,255,.08);
-  }
-
-  .nav a {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    min-width: 0;
-    min-height: 54px;
-
-    padding: 6px 3px;
-
-    text-align: center;
-
-    font-size: 0.65rem;
-    line-height: 1.15;
-
-    border-radius: 12px;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-
   /* -----------------------------------------------
      COMMUNITY CONTENT
   ------------------------------------------------ */
@@ -633,15 +418,16 @@
     padding-right: 10px;
   }
 
-  .community-intro {
+
+  .community-page .community-intro {
     padding-top: 8px;
   }
 
-  .community-intro h2 {
+  .community-page .community-intro h2 {
     font-size: 1.75rem;
   }
 
-  .community-intro p {
+  .community-page .community-intro p {
     font-size: 0.88rem;
   }
 
@@ -650,16 +436,16 @@
      ZONES
   ------------------------------------------------ */
 
-  .community-zone {
+  .community-page .community-zone {
     margin-top: 26px;
     margin-bottom: 26px;
   }
 
-  .zone-heading h3 {
+  .community-page .zone-heading h3 {
     font-size: 1.15rem;
   }
 
-  .zone-heading p {
+  .community-page .zone-heading p {
     font-size: 0.85rem;
   }
 
@@ -668,32 +454,35 @@
      FEATURE CARDS
   ------------------------------------------------ */
 
-  .community-game-grid {
+  .community-page .community-game-grid {
     grid-template-columns: 1fr;
     gap: 14px;
   }
 
-  .community-game-grid .community-feature-card:last-child {
+  .community-page
+  .community-game-grid
+  .community-feature-card:last-child {
     grid-column: auto;
   }
 
-  .community-feature-card {
+  .community-page .community-feature-card {
     min-height: auto;
     padding: 16px;
   }
 
-  .feature-icon {
+  .community-page .feature-icon {
     width: 48px;
     height: 48px;
+
     border-radius: 14px;
     font-size: 1.4rem;
   }
 
-  .community-feature-card h3 {
+  .community-page .community-feature-card h3 {
     font-size: 1.15rem;
   }
 
-  .feature-description {
+  .community-page .feature-description {
     font-size: 0.85rem;
   }
 
@@ -702,20 +491,22 @@
      RANKINGS
   ------------------------------------------------ */
 
-  .community-rankings-card {
+  .community-page .community-rankings-card {
     padding: 14px;
   }
 
-  .community-rank-grid {
+  .community-page .community-rank-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
-  .community-rank-grid .ranking-card:last-child {
+  .community-page
+  .community-rank-grid
+  .ranking-card:last-child {
     grid-column: auto;
   }
 
-  .ranking-card {
+  .community-page .ranking-card {
     min-height: 145px;
     padding: 15px;
   }
@@ -725,11 +516,11 @@
      ACHIEVEMENTS
   ------------------------------------------------ */
 
-  .achievement-rankings-card {
+  .community-page .achievement-rankings-card {
     padding: 16px;
   }
 
-  .achievement-filter {
+  .community-page .achievement-filter {
     padding: 12px;
   }
 
@@ -738,34 +529,25 @@
      FANTASY TEAM
   ------------------------------------------------ */
 
-  .fantasy-team-card {
+  .community-page .fantasy-team-card {
     padding: 16px;
   }
 
-  .fantasy-summary {
+  .community-page .fantasy-summary {
     grid-template-columns: 1fr;
     gap: 9px;
   }
 
-  .fantasy-stat {
+  .community-page .fantasy-stat {
     padding: 12px;
   }
 
-  #fantasyPlayersContainer {
+  .community-page #fantasyPlayersContainer {
     grid-template-columns: 1fr;
   }
 
-  .fantasy-selection-info {
+  .community-page .fantasy-selection-info {
     font-size: 0.88rem;
-  }
-
-
-  /* -----------------------------------------------
-     PROFILE DROPDOWN
-  ------------------------------------------------ */
-
-  .profile-dropdown {
-    padding: 15px;
   }
 
 
@@ -773,7 +555,7 @@
      TABLES / LONG CONTENT
   ------------------------------------------------ */
 
-  .achievement-leaderboard {
+  .community-page .achievement-leaderboard {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -787,32 +569,15 @@
 
 @media (max-width: 420px) {
 
-  .wrap {
-    padding-bottom: 84px;
-  }
-
   .community-page {
     padding-left: 8px;
     padding-right: 8px;
   }
 
-  .community-feature-card,
-  .fantasy-team-card,
-  .achievement-rankings-card {
+  .community-page .community-feature-card,
+  .community-page .fantasy-team-card,
+  .community-page .achievement-rankings-card {
     padding: 14px;
-  }
-
-  .nav {
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
-    padding: 6px;
-    border-radius: 16px;
-  }
-
-  .nav a {
-    min-height: 50px;
-    font-size: 0.58rem;
   }
 
 }
@@ -824,16 +589,14 @@
 
 @media (hover: none) {
 
-  .nav a,
-  button,
-  select {
+  .community-page button,
+  .community-page select {
     -webkit-tap-highlight-color: transparent;
   }
 
 }
 
-button,
-.nav a,
-select {
+.community-page button,
+.community-page select {
   touch-action: manipulation;
 }
