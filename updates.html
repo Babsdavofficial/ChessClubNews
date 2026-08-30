@@ -1,249 +1,967 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Test News Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="style.css">
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Main website CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- =====================================================
+       PAGE-ONLY NAVIGATION CSS
+       Does NOT modify style.css
+  ====================================================== -->
+
+  <style>
+
+    /* =====================================================
+       PAGE NAVIGATION
+       DESKTOP
+    ====================================================== */
+
+    .page-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      margin: 12px 0 20px;
+
+      padding: 10px;
+
+      border-radius: 14px;
+    }
+
+    .page-navigation a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 6px;
+
+      padding: 9px 13px;
+
+      border-radius: 10px;
+
+      text-decoration: none;
+
+      font-size: 0.85rem;
+
+      white-space: nowrap;
+    }
+
+    .page-navigation a span {
+      font-size: 1rem;
+    }
+
+    .page-navigation a small {
+      font-size: 0.78rem;
+    }
+
+
+    /* =====================================================
+       MOBILE NAVIGATION
+       FIXED TO BOTTOM
+    ====================================================== */
+
+    @media (max-width: 760px) {
+
+      .page-navigation {
+        position: fixed;
+
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+
+        z-index: 5000;
+
+        display: grid;
+
+        grid-template-columns:
+          repeat(6, minmax(0, 1fr));
+
+        gap: 3px;
+
+        margin: 0;
+
+        padding: 5px;
+
+        border-radius: 14px;
+
+        background: rgba(20, 20, 20, 0.96);
+
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.3);
+
+        backdrop-filter: blur(10px);
+      }
+
+      .page-navigation a {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 2px;
+
+        min-width: 0;
+        min-height: 48px;
+
+        padding: 4px 2px;
+
+        text-align: center;
+
+        font-size: 0.6rem;
+
+        border-radius: 10px;
+
+        overflow: hidden;
+      }
+
+      .page-navigation a span {
+        font-size: 1rem;
+        line-height: 1;
+      }
+
+      .page-navigation a small {
+        font-size: 0.55rem;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+      }
+
+      /* Prevent bottom navigation from covering content */
+      .wrap {
+        padding-bottom: 80px;
+      }
+
+    }
+
+  </style>
+
 </head>
+
+
 <body>
+
 <div class="wrap">
 
 
-    <header class="topbar panel">
-      <div class="brand">
-        <div class="logo">♟♙</div>
-        <div class="titlebox">
+  <!-- =====================================================
+       TOP HEADER
+       Chess News Hub + Profile
+  ====================================================== -->
 
-          <h1>Chess News Hub</h1>
-          <p>Predictions, puzzles and chess community challenges</p>
-        </div>
+  <header class="topbar panel">
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div class="logo">
+        ♟♙
       </div>
-      <nav class="nav">
-                <a href="index.html">Home</a>
-        <a href="matches.html">Matches</a>
-        <a href="standings.html">Standings</a>
-        <a href="updates.html">Updates</a>
-        <a href="community.html">Community</a>
- <a href="players.html">Players</a>
-      </nav>
 
-  <div class="profile-menu">
-  <button id="profileBtn" class="btn secondary">
-    <span id="userDisplay">👤 Guest</span> ▼
-  </button>
+      <div class="titlebox">
 
-  <div id="profileDropdown" class="profile-dropdown" style= "float:right;">
-    <p><strong id="profileName">Guest</strong></p>
+        <h1>
+          Chess News Hub
+        </h1>
 
+        <p>
+          Predictions, puzzles and chess community challenges
+        </p>
 
-    <hr>
-    <p id="profileEmail">Not logged in</p>
-    <!-- Fantasy Achievement -->
-<div id="profileAchievement" class="profile-achievement">
-  <div id="profileAchievementBadge" class="achievement-badge">
-    🪵
-  </div>
+      </div>
 
-  <div class="achievement-info">
-    <strong id="profileAchievementName">
-      Wood
-    </strong>
-
-    <span id="profileAchievementLevel">
-      Level 1
-    </span>
-
-    <small>
-      🏆 <span id="fantasyPoints">0</span> Fantasy Points
-    </small>
-  </div>
-</div>
-
-<p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
-
-    <hr>
-
-   <button
-  id="adminPanelBtn"
-  class="btn primary"
-  style="width:100%;display:none;margin-bottom:8px;">
-  👑 Admin Dashboard
-</button>
-
-    <button
-      id="logoutBtn"
-      class="btn secondary"
-      style="width:100%;">
-      🚪 Logout
-    </button>
-  </div>
-</div>
-    </header>
-
-<section id="facts" class="panel section">
-
-  <div class="section-head">
-    <div>
-      <h2>🏆 Community Hub</h2>
-      <p>Predictions, puzzles, fantasy rankings and player discussions.</p>
     </div>
-  </div>
 
 
-<section id="updates" class="panel section">
+    <!-- ===================================================
+         PROFILE
+    ==================================================== -->
 
-  <div class="section-head">
-    <div>
-      <h2 style="color:var(--text);">📢 Tournament Updates</h2>
-      <p>Latest news, announcements and community reactions.</p>
+    <div class="profile-menu">
+
+      <button
+        id="profileBtn"
+        class="btn secondary"
+      >
+
+        <span id="userDisplay">
+          👤 Guest
+        </span>
+
+        ▼
+
+      </button>
+
+
+      <!-- PROFILE DROPDOWN -->
+
+      <div
+        id="profileDropdown"
+        class="profile-dropdown"
+      >
+
+        <p>
+          <strong id="profileName">
+            Guest
+          </strong>
+        </p>
+
+
+        <hr>
+
+
+        <p id="profileEmail">
+          Not logged in
+        </p>
+
+
+        <!-- =================================================
+             FANTASY ACHIEVEMENT
+        ================================================== -->
+
+        <div
+          id="profileAchievement"
+          class="profile-achievement"
+        >
+
+          <div
+            id="profileAchievementBadge"
+            class="achievement-badge"
+          >
+            🪵
+          </div>
+
+
+          <div class="achievement-info">
+
+            <strong id="profileAchievementName">
+              Wood
+            </strong>
+
+            <span id="profileAchievementLevel">
+              Level 1
+            </span>
+
+            <small>
+
+              🏆
+
+              <span id="fantasyPoints">
+                0
+              </span>
+
+              Fantasy Points
+
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <p>
+          🧠 Trivia Correct:
+
+          <span id="triviaScore">
+            0
+          </span>
+        </p>
+
+
+        <p>
+          🎯 Predictions:
+
+          <span id="predictionScore">
+            0
+          </span>
+        </p>
+
+
+        <hr>
+
+
+        <!-- ADMIN -->
+
+        <button
+          id="adminPanelBtn"
+          class="btn primary"
+          style="width:100%;display:none;margin-bottom:8px;"
+        >
+          👑 Admin Dashboard
+        </button>
+
+
+        <!-- LOGOUT -->
+
+        <button
+          id="logoutBtn"
+          class="btn secondary"
+          style="width:100%;"
+        >
+          🚪 Logout
+        </button>
+
+      </div>
+
     </div>
-  </div>
 
- <div class="updates-layout">
+  </header>
 
-  <!-- LEFT COLUMN -->
-  <div class="updates-main">
 
-    <section class="panel section" style="background:linear-gradient(135deg, rgba(239,68,68,.12), rgba(124,58,237,.16), rgba(37,99,235,.14)); border:1px solid rgba(139,92,246,.30);">
+  <!-- =====================================================
+       PAGE NAVIGATION
+       DESKTOP: UNDER HEADER
+       MOBILE: BOTTOM OF SCREEN
+  ====================================================== -->
+
+  <nav class="page-navigation">
+
+    <a href="index.html">
+
+      <span>
+        🏠
+      </span>
+
+      <small>
+        Home
+      </small>
+
+    </a>
+
+
+    <a href="matches.html">
+
+      <span>
+        ♟️
+      </span>
+
+      <small>
+        Matches
+      </small>
+
+    </a>
+
+
+    <a href="standings.html">
+
+      <span>
+        🏆
+      </span>
+
+      <small>
+        Standings
+      </small>
+
+    </a>
+
+
+    <a href="updates.html" class="active">
+
+      <span>
+        📰
+      </span>
+
+      <small>
+        Updates
+      </small>
+
+    </a>
+
+
+    <a href="community.html">
+
+      <span>
+        👥
+      </span>
+
+      <small>
+        Community
+      </small>
+
+    </a>
+
+
+    <a href="players.html">
+
+      <span>
+        👤
+      </span>
+
+      <small>
+        Players
+      </small>
+
+    </a>
+
+  </nav>
+
+
+  <!-- =====================================================
+       COMMUNITY HEADER
+  ====================================================== -->
+
+  <section
+    id="facts"
+    class="panel section"
+  >
+
+    <div class="section-head">
+
+      <div>
+
+        <h2>
+          🏆 Community Hub
+        </h2>
+
+        <p>
+          Predictions, puzzles, fantasy rankings and player discussions.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         TOURNAMENT UPDATES
+    ==================================================== -->
+
+    <section
+      id="updates"
+      class="panel section"
+    >
+
       <div class="section-head">
+
         <div>
-          <h2 style="color:var(--text);">📰 Latest Chess Updates</h2>
-          <p>Tournament news, announcements and community posts.</p>
+
+          <h2 style="color:var(--text);">
+            📢 Tournament Updates
+          </h2>
+
+          <p>
+            Latest news, announcements and community reactions.
+          </p>
+
         </div>
+
       </div>
 
-      <div id="updatesContainer" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);" >
-        <!-- Firestore updates -->
+
+      <!-- =================================================
+           UPDATES LAYOUT
+      ================================================== -->
+
+      <div class="updates-layout">
+
+
+        <!-- =================================================
+             LEFT COLUMN
+        ================================================== -->
+
+        <div class="updates-main">
+
+          <section
+            class="panel section"
+            style="
+              background:
+                linear-gradient(
+                  135deg,
+                  rgba(239,68,68,.12),
+                  rgba(124,58,237,.16),
+                  rgba(37,99,235,.14)
+                );
+
+              border:
+                1px solid
+                rgba(139,92,246,.30);
+            "
+          >
+
+            <div class="section-head">
+
+              <div>
+
+                <h2 style="color:var(--text);">
+                  📰 Latest Chess Updates
+                </h2>
+
+                <p>
+                  Tournament news, announcements and community posts.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <!-- FIRESTORE UPDATES -->
+
+            <div
+              id="updatesContainer"
+              style="
+                background:
+                  linear-gradient(
+                    135deg,
+                    rgba(239,68,68,.18),
+                    rgba(124,58,237,.20),
+                    rgba(37,99,235,.18)
+                  );
+
+                border:
+                  1px solid
+                  rgba(139,92,246,.35);
+              "
+            >
+
+              <!-- Firestore updates will appear here -->
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT SIDEBAR AREA
+        ================================================== -->
+
+        <div>
+
+
+          <!-- =================================================
+               MOBILE TOGGLE BUTTON
+          ================================================== -->
+
+          <button
+            id="sidebarToggle"
+            class="sidebar-toggle"
+          >
+            💬 Discussions
+          </button>
+
+
+          <!-- =================================================
+               SIDEBAR OVERLAY
+          ================================================== -->
+
+          <div
+            id="sidebarOverlay"
+            class="sidebar-overlay"
+          ></div>
+
+
+          <!-- =================================================
+               RIGHT SIDEBAR
+          ================================================== -->
+
+          <aside
+            id="rightSidebar"
+            class="right-sidebar"
+          >
+
+            <button
+              id="closeSidebar"
+              class="btn secondary"
+            >
+              ✖ Close
+            </button>
+
+
+            <br>
+            <br>
+
+
+            <!-- =================================================
+                 FEATURED DISCUSSION
+            ================================================== -->
+
+            <div
+              class="hero-side"
+              style="
+                background:
+                  linear-gradient(
+                    135deg,
+                    rgba(239,68,68,.18),
+                    rgba(124,58,237,.20),
+                    rgba(37,99,235,.18)
+                  );
+
+                border:
+                  1px solid
+                  rgba(139,92,246,.35);
+              "
+            >
+
+              <div class="panel mini-card">
+
+                <div
+                  class="section-head"
+                  style="margin-bottom:10px;"
+                >
+
+                  <div>
+
+                    <h2
+                      style="
+                        font-size:22px;
+                        margin-bottom:4px;
+                      "
+                    >
+                      Present Event
+                    </h2>
+
+
+                    <p>
+
+                      <img
+                        src="Nextevent5.png"
+                        alt=""
+                        style="width:30%"
+                      >
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                <!-- EVENT CARD -->
+
+                <div
+                  class="card"
+                  style="
+                    background:
+                      linear-gradient(
+                        135deg,
+                        rgba(239,68,68,.18),
+                        rgba(124,58,237,.20),
+                        rgba(37,99,235,.18)
+                      );
+
+                    border:
+                      1px solid
+                      rgba(139,92,246,.35);
+                  "
+                >
+
+                  <div class="chip">
+                    Ongoing now
+                  </div>
+
+                  <h3 style="margin-top:10px;">
+                    Conference Game
+                  </h3>
+
+                  <p>
+                    Rise. Play. Win.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LIVE COMMUNITY CHAT
+            ================================================== -->
+
+            <div
+              class="card"
+              style="
+                background:
+                  linear-gradient(
+                    135deg,
+                    rgba(239,68,68,.18),
+                    rgba(124,58,237,.20),
+                    rgba(37,99,235,.18)
+                  );
+
+                border:
+                  1px solid
+                  rgba(139,92,246,.35);
+              "
+            >
+
+              <div class="comments-box">
+
+                <div class="chip">
+                  💬 Live Community
+                  (Be nice in your chatting)
+                </div>
+
+
+                <br>
+                <br>
+
+
+                <div
+                  id="communityMessages"
+                  class="fact-list"
+                >
+                </div>
+
+
+                <br>
+
+              </div>
+
+
+              <!-- MESSAGE INPUT -->
+
+              <textarea
+                id="communityMessageInput"
+                rows="3"
+                placeholder="Write a message..."
+                style="
+                  width:100%;
+                  padding:10px;
+                  border-radius:12px;
+                  resize:none;
+                "
+              ></textarea>
+
+
+              <br>
+              <br>
+
+
+              <!-- SEND -->
+
+              <button
+                id="sendCommunityMessage"
+                class="btn primary"
+              >
+                Send
+              </button>
+
+            </div>
+
+
+            <br>
+
+          </aside>
+
+        </div>
+
       </div>
+
     </section>
 
-  </div>
+  </section>
 
-  <!-- RIGHT COLUMN -->     
-
-    <!-- RIGHT SIDEBAR -->
-   <!-- Mobile Toggle Button -->
-<button id="sidebarToggle" class="sidebar-toggle">
-  💬 Discussions
-</button>
-
-<!-- Sidebar Overlay -->
-<div id="sidebarOverlay" class="sidebar-overlay"></div>
-
-<!-- RIGHT SIDEBAR -->
-<aside id="rightSidebar" class="right-sidebar">
-<button id="closeSidebar" class="btn secondary">
-  ✖ Close
-</button>
-
-<br><br>
-      <!-- Featured Discussion -->
-
-      <div class="hero-side" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-        <div class="panel mini-card">
-          <div class="section-head" style="margin-bottom:10px;">
-            <div>
-              <h2 style="font-size:22px;margin-bottom:4px;">Present Event</h2>
-              <p><img src="Nextevent5.png" alt="" style="width:30%"></p>
-            </div>
-          </div>
-          <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-            <div class="chip">Ongoing now</div>
-            <h3 style="margin-top:10px;">Conference Game</h3>
-            <p>
-              Rise. Play. Win.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Community Chat -->
-      <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
-        <div class="comments-box">
-        <div class="chip">💬 Live Community (Be nice in your chatting) </div>
-            <br><br>
-        <div id="communityMessages" class="fact-list">
 </div>
 
-<br>
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script
+  type="module"
+  src="auth.js"
+></script>
 
 
-        </div>
-        <textarea
-  id="communityMessageInput"
-  rows="3"
-  placeholder="Write a message..."
-  style="width:100%;padding:10px;border-radius:12px;resize:none;">
-</textarea>
-
-<br><br>
-
-<button
-  id="sendCommunityMessage"
-  class="btn primary">
-  Send
-</button>
-      </div>
-
-      <br>
-
-    </div>
-
-  </div>
-
-</section>
+<script
+  type="module"
+  src="updates.js"
+></script>
 
 
-
-
-</aside>
-<script type="module" src="auth.js"></script>
-<script type="module" src="updates.js"></script>
-    <script>
-const sidebar = document.getElementById("rightSidebar");
-const toggleBtn = document.getElementById("sidebarToggle");
-const overlay = document.getElementById("sidebarOverlay");
-const closeBtn = document.getElementById("closeSidebar");
-
-function closeSidebar() {
-  sidebar.classList.remove("show-sidebar");
-  overlay.classList.remove("show-overlay");
-}
-
-toggleBtn.addEventListener("click", () => {
-  sidebar.classList.add("show-sidebar");
-  overlay.classList.add("show-overlay");
-});
-
-overlay.addEventListener("click", closeSidebar);
-
-closeBtn.addEventListener("click", closeSidebar);
-</script>
-</body>
 <script>
-    function toggleSection(id){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.classList.toggle('hidden');
+
+  /* =====================================================
+     SIDEBAR
+  ====================================================== */
+
+  const sidebar =
+    document.getElementById("rightSidebar");
+
+  const toggleBtn =
+    document.getElementById("sidebarToggle");
+
+  const overlay =
+    document.getElementById("sidebarOverlay");
+
+  const closeBtn =
+    document.getElementById("closeSidebar");
+
+
+  function closeSidebar() {
+
+    if (sidebar) {
+      sidebar.classList.remove("show-sidebar");
     }
 
-    function openPlayer(name, rating, tag, desc){
-      document.getElementById('playerName').textContent = name;
-      document.getElementById('playerRating').textContent = `Rating: ${rating} • ${tag}`;
-      document.getElementById('playerDesc').textContent = desc;
-      document.getElementById('playerModal').style.display = 'flex';
+    if (overlay) {
+      overlay.classList.remove("show-overlay");
     }
 
-    function hideModal(){
-      document.getElementById('playerModal').style.display = 'none';
+  }
+
+
+  if (toggleBtn) {
+
+    toggleBtn.addEventListener("click", () => {
+
+      sidebar.classList.add("show-sidebar");
+
+      overlay.classList.add("show-overlay");
+
+    });
+
+  }
+
+
+  if (overlay) {
+
+    overlay.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+  }
+
+
+  if (closeBtn) {
+
+    closeBtn.addEventListener(
+      "click",
+      closeSidebar
+    );
+
+  }
+
+</script>
+
+
+<script>
+
+  /* =====================================================
+     GENERAL SECTION HELPERS
+  ====================================================== */
+
+  function toggleSection(id) {
+
+    const el =
+      document.getElementById(id);
+
+    if (!el) return;
+
+    el.classList.toggle("hidden");
+
+  }
+
+
+  /* =====================================================
+     PLAYER MODAL FUNCTIONS
+  ====================================================== */
+
+  function openPlayer(
+    name,
+    rating,
+    tag,
+    desc
+  ) {
+
+    const playerName =
+      document.getElementById("playerName");
+
+    const playerRating =
+      document.getElementById("playerRating");
+
+    const playerDesc =
+      document.getElementById("playerDesc");
+
+    const playerModal =
+      document.getElementById("playerModal");
+
+
+    if (playerName) {
+
+      playerName.textContent = name;
+
     }
 
-    function closePlayer(event){
-      if(event.target.id === 'playerModal'){
-        hideModal();
-      }
+
+    if (playerRating) {
+
+      playerRating.textContent =
+        `Rating: ${rating} • ${tag}`;
+
     }
-  </script>
+
+
+    if (playerDesc) {
+
+      playerDesc.textContent = desc;
+
+    }
+
+
+    if (playerModal) {
+
+      playerModal.style.display = "flex";
+
+    }
+
+  }
+
+
+  function hideModal() {
+
+    const playerModal =
+      document.getElementById("playerModal");
+
+    if (playerModal) {
+
+      playerModal.style.display = "none";
+
+    }
+
+  }
+
+
+  function closePlayer(event) {
+
+    if (
+      event.target &&
+      event.target.id === "playerModal"
+    ) {
+
+      hideModal();
+
+    }
+
+  }
+
+</script>
+
+
+</body>
+
 </html>
