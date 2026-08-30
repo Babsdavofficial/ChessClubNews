@@ -535,78 +535,122 @@ alert(result||"No votes yet.");
 
 });
 
-
 document.addEventListener("click", async (e) => {
 
-if(!e.target.classList.contains("declareWinnerBtn"))
-return;
+  if (!e.target.classList.contains("declareWinnerBtn"))
+    return;
 
-const predictionId=e.target.dataset.id;
+  const predictionId = e.target.dataset.id;
 
-const answer=prompt(
-"Enter the winning option exactly."
-);
+  const answer = prompt(
+    "Enter the winning option exactly."
+  );
 
-if(!answer) return;
+  if (!answer) return;
 
-// Save winner
-await updateDoc(
-doc(db,"predictions",predictionId),
-{
-correctOption:answer,
-active:false
-}
-);
+  try {
 
-// Find everyone that voted
-const votes=await getDocs(
+    // Save winner
+    await updateDoc(
+      doc(db, "predictions", predictionId),
+      {
+        correctOption: answer,
+        active: false
+      }
+    );
 
-query(
-collection(db,"predictionVotes"),
-where("predictionId","==",predictionId)
-)
+    // Find everyone that voted
+    const votes = await getDocs(
 
-);
+      query(
+        collection(db, "predictionVotes"),
+        where("predictionId", "==", predictionId)
+      )
 
-let winners=0;
+    );
 
-for(const vote of votes.docs){
+    let winners = 0;
+    let missingUsers = [];
 
-const data=vote.data();
+    for (const vote of votes.docs) {
 
-if(
-data.choice.toLowerCase()===
-answer.toLowerCase()
-){
+      const data = vote.data();
 
-await updateDoc(
+      if (
+        data.choice &&
+        data.choice.trim().toLowerCase() ===
+        answer.trim().toLowerCase()
+      ) {
 
-doc(db,"users",data.userId),
+        const userRef =
+          doc(db, "users", data.userId);
 
-{
+        const userSnap =
+          await getDoc(userRef);
 
-predictionScore:increment(1),
+        // User profile missing
+        if (!userSnap.exists()) {
 
-fantasyPoints:increment(5)
+          console.warn(
+            "❌ Missing prediction user:",
+            {
+              userId: data.userId,
+              choice: data.choice,
+              fullVoteData: data
+            }
+          );
 
-}
+          missingUsers.push(data.userId);
 
-);
+          continue;
 
-winners++;
+        }
 
-}
+        // Reward user
+        await updateDoc(
+          userRef,
+          {
+            predictionScore: increment(1),
+            fantasyPoints: increment(5)
+          }
+        );
 
-}
+        winners++;
 
-alert(`✅ Winner declared.
+      }
 
-${winners} player(s) rewarded.`);
+    }
 
-loadPredictionsAdmin();
+    let message =
+      `✅ Winner declared.\n\n${winners} player(s) rewarded.`;
+
+    if (missingUsers.length > 0) {
+
+      message +=
+        `\n\n⚠️ ${missingUsers.length} user(s) could not be rewarded because their user profile was not found.\n\n` +
+        `User ID(s):\n${missingUsers.join("\n")}`;
+
+    }
+
+    alert(message);
+
+    loadPredictionsAdmin();
+
+  } catch (error) {
+
+    console.error(
+      "Prediction winner error:",
+      error
+    );
+
+    alert(
+      "❌ Failed to declare prediction winner.\n\n" +
+      error.message
+    );
+
+  }
 
 });
-
 // =========================
 // DELETE PREDICTION
 // =========================
@@ -831,96 +875,123 @@ alert(text||"No answers yet.");
 
 });
 
-document.addEventListener(
 
-"click",
 
-async(e)=>{
 
-if(!e.target.classList.contains("declareTriviaWinnerBtn"))
-return;
+document.addEventListener("click", async (e) => {
 
-const triviaId=e.target.dataset.id;
+  if (!e.target.classList.contains("declareTriviaWinnerBtn"))
+    return;
 
-const answer=prompt(
+  const triviaId = e.target.dataset.id;
 
-"Enter the correct answer exactly."
+  const answer = prompt(
+    "Enter the correct answer exactly."
+  );
 
-);
+  if (!answer) return;
 
-if(!answer) return;
+  try {
 
-// Save answer
+    // Save correct answer
+    await updateDoc(
+      doc(db, "trivia", triviaId),
+      {
+        correctAnswer: answer,
+        active: false
+      }
+    );
 
-await updateDoc(
+    // Find everyone that answered
+    const answers = await getDocs(
 
-doc(db,"trivia",triviaId),
+      query(
+        collection(db, "triviaAnswers"),
+        where("triviaId", "==", triviaId)
+      )
 
-{
+    );
 
-correctAnswer:answer,
+    let winners = 0;
+    let missingUsers = [];
 
-active:false
+    for (const ans of answers.docs) {
 
-}
+      const data = ans.data();
 
-);
+      if (
+        data.answer &&
+        data.answer.trim().toLowerCase() ===
+        answer.trim().toLowerCase()
+      ) {
 
-// Find everyone that answered
+        const userRef =
+          doc(db, "users", data.userId);
 
-const answers=await getDocs(
+        const userSnap =
+          await getDoc(userRef);
 
-query(
+        // User profile missing
+        if (!userSnap.exists()) {
 
-collection(db,"triviaAnswers"),
+          console.warn(
+            "❌ Missing trivia user:",
+            {
+              userId: data.userId,
+              answer: data.answer,
+              fullAnswerData: data
+            }
+          );
 
-where("triviaId","==",triviaId)
+          missingUsers.push(data.userId);
 
-)
+          continue;
 
-);
+        }
 
-let winners=0;
+        // Reward user
+        await updateDoc(
+          userRef,
+          {
+            triviaCorrect: increment(1),
+            fantasyPoints: increment(5)
+          }
+        );
 
-for(const ans of answers.docs){
+        winners++;
 
-const data=ans.data();
+      }
 
-if(
+    }
 
-data.answer.toLowerCase()===
+    let message =
+      `✅ ${winners} player(s) rewarded.`;
 
-answer.toLowerCase()
+    if (missingUsers.length > 0) {
 
-){
+      message +=
+        `\n\n⚠️ ${missingUsers.length} user(s) could not be rewarded because their user profile was not found.\n\n` +
+        `User ID(s):\n${missingUsers.join("\n")}`;
 
-await updateDoc(
+    }
 
-doc(db,"users",data.userId),
+    alert(message);
 
-{
+    loadTriviaAdmin();
 
-triviaCorrect:increment(1),
+  } catch (error) {
 
-fantasyPoints:increment(5)
+    console.error(
+      "Trivia winner error:",
+      error
+    );
 
-}
+    alert(
+      "❌ Failed to declare trivia answer.\n\n" +
+      error.message
+    );
 
-);
-
-winners++;
-
-}
-
-}
-
-alert(
-
-`✅ ${winners} player(s) rewarded.`
-
-);
-
-loadTriviaAdmin();
+  }
 
 });
 // =========================
@@ -1201,6 +1272,7 @@ document.addEventListener("click", async (e) => {
 
   try {
 
+    // Close puzzle and save correct move
     await updateDoc(
       doc(db, "puzzles", puzzleId),
       {
@@ -1209,6 +1281,7 @@ document.addEventListener("click", async (e) => {
       }
     );
 
+    // Get all puzzle answers
     const answers = await getDocs(
 
       query(
@@ -1222,39 +1295,49 @@ document.addEventListener("click", async (e) => {
     );
 
     let winners = 0;
-    let missingUsers = 0;
+    let missingUsers = [];
 
+    // Check every answer
     for (const ans of answers.docs) {
 
       const data = ans.data();
 
+      // Check if answer is correct
       if (
+
         data.answer &&
         data.answer.trim().toLowerCase() ===
         move.trim().toLowerCase()
+
       ) {
 
         const userRef =
           doc(db, "users", data.userId);
 
-        // Check if user document exists
+        // Check if user's Firestore profile exists
         const userSnap =
           await getDoc(userRef);
 
+        // User document is missing
         if (!userSnap.exists()) {
 
           console.warn(
-            "User document not found:",
-            data.userId
+            "❌ Missing user document:",
+            {
+              userId: data.userId,
+              answer: data.answer,
+              fullAnswerData: data
+            }
           );
 
-          missingUsers++;
+          missingUsers.push(data.userId);
 
-          // Continue to the next player
+          // Don't stop. Continue rewarding others.
           continue;
 
         }
 
+        // Reward the user
         await updateDoc(
 
           userRef,
@@ -1271,16 +1354,23 @@ document.addEventListener("click", async (e) => {
 
     }
 
-    alert(
+    // Success message
+    let message =
+      `✅ ${winners} player(s) rewarded successfully.`;
 
-      `✅ ${winners} player(s) rewarded.` +
+    if (missingUsers.length > 0) {
 
-      (missingUsers > 0
-        ? `\n\n⚠️ ${missingUsers} account(s) could not be rewarded because their user profile is missing.`
-        : "")
+      message +=
 
-    );
+        `\n\n⚠️ ${missingUsers.length} user(s) could not be rewarded because their user profile was not found.\n\n` +
 
+        `User ID(s):\n${missingUsers.join("\n")}`;
+
+    }
+
+    alert(message);
+
+    // Refresh admin list
     loadPuzzleAdmin();
 
   } catch (error) {
@@ -1291,14 +1381,13 @@ document.addEventListener("click", async (e) => {
     );
 
     alert(
-      "❌ Something went wrong while rewarding players.\n\n" +
+      "❌ Failed to declare puzzle winner.\n\n" +
       error.message
     );
 
   }
 
 });
-
 
 // =========================
 // DELETE PUZZLE
