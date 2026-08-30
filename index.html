@@ -1,419 +1,1089 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
   <title>Chess News Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#36689e">
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Main website CSS -->
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <!-- PWA -->
+  <link
+    rel="manifest"
+    href="manifest.json"
+  >
+
+  <meta
+    name="theme-color"
+    content="#36689e"
+  >
+
+  <!-- =====================================================
+       PAGE NAVIGATION ONLY
+       Does NOT modify style.css
+  ====================================================== -->
+
+  <style>
+
+    .page-navigation {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      margin: 12px 0 20px;
+
+      padding: 10px;
+
+      border-radius: 14px;
+    }
+
+
+    .page-navigation a {
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 6px;
+
+      padding: 9px 13px;
+
+      border-radius: 10px;
+
+      text-decoration: none;
+
+      font-size: 0.85rem;
+
+      white-space: nowrap;
+
+    }
+
+
+    .page-navigation a span {
+      font-size: 1rem;
+    }
+
+
+    .page-navigation a small {
+      font-size: 0.78rem;
+    }
+
+
+    /* ================================================
+       MOBILE
+    ================================================= */
+
+    @media (max-width: 760px) {
+
+      .page-navigation {
+
+        position: fixed;
+
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+
+        z-index: 5000;
+
+        display: grid;
+
+        grid-template-columns:
+          repeat(6, minmax(0, 1fr));
+
+        gap: 3px;
+
+        margin: 0;
+
+        padding: 5px;
+
+        border-radius: 14px;
+
+        background: rgba(20, 20, 20, 0.96);
+
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.3);
+
+        backdrop-filter: blur(10px);
+
+      }
+
+
+      .page-navigation a {
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 2px;
+
+        min-width: 0;
+        min-height: 48px;
+
+        padding: 4px 2px;
+
+        text-align: center;
+
+        font-size: 0.6rem;
+
+        border-radius: 10px;
+
+        overflow: hidden;
+
+      }
+
+
+      .page-navigation a span {
+
+        font-size: 1rem;
+
+        line-height: 1;
+
+      }
+
+
+      .page-navigation a small {
+
+        font-size: 0.55rem;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+      }
+
+
+      .wrap {
+        padding-bottom: 80px;
+      }
+
+    }
+
+  </style>
 
 </head>
+
+
 <body>
-  
+
+
 <div class="wrap">
 
 
-    <header class="topbar panel">
-      <div class="brand">
-        <div class="logo">♟♙</div>
-        <div class="titlebox">
+  <!-- =====================================================
+       TOP HEADER
+       Chess News Hub + Profile
+  ====================================================== -->
 
-          <h1>Chess News Hub</h1>
-          <p>Predictions, puzzles and chess community challenges</p>
-        </div>
+  <header class="topbar panel">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div class="logo">
+        ♟♙
       </div>
-      <nav class="nav">
-                <a href="index.html">Home</a>
-        <a href="matches.html">Matches</a>
-        <a href="standings.html">Standings</a>
-        <a href="updates.html">Updates</a>
-        <a href="community.html">Community</a>
- <a href="players.html">Players</a>
-      </nav>
 
-  <div class="profile-menu">
-  <button id="profileBtn" class="btn secondary">
-    <span id="userDisplay">👤 Guest</span> ▼
-  </button>
+      <div class="titlebox">
 
-  <div id="profileDropdown" class="profile-dropdown" style= "float:right;">
-    <p><strong id="profileName">Guest</strong></p>
-
-
-    <hr>
-    <p id="profileEmail">Not logged in</p>
-    <!-- Fantasy Achievement -->
-<div id="profileAchievement" class="profile-achievement">
-  <div id="profileAchievementBadge" class="achievement-badge">
-    🪵
-  </div>
-
-  <div class="achievement-info">
-    <strong id="profileAchievementName">
-      Wood
-    </strong>
-
-    <span id="profileAchievementLevel">
-      Level 1
-    </span>
-
-    <small>
-      🏆 <span id="fantasyPoints">0</span> Fantasy Points
-    </small>
-  </div>
-</div>
-
-<p>🧠 Trivia Correct: <span id="triviaScore">0</span></p>    <p>🎯 Predictions: <span id="predictionScore">0</span></p>
-
-    <hr>
-
-   <button
-  id="adminPanelBtn"
-  class="btn primary"
-  style="width:100%;display:none;margin-bottom:8px;">
-  👑 Admin Dashboard
-</button>
-
-    <button
-      id="logoutBtn"
-      class="btn secondary"
-      style="width:100%;">
-      🚪 Logout
-    </button>
-  </div>
-</div>
-    </header>
-
-
-
-
-    <!-- ================= HERO ================= -->
-
-   <div class="badge-row">
-    <span class="badge">♞ Welcome to Chess News Hub</span>
-</div>
-
-<div class="hero-grid">
-
-    <!-- LEFT SIDE -->
-    <div>
-
-        <h1 class="headline">
-            Your Ultimate Destination for Everything Chess
+        <h1>
+          Chess News Hub
         </h1>
 
-        <p class="lead">
-            Stay updated with the latest chess news, live tournament coverage,
-            player rankings, match results, puzzles, and community discussions—
-            all in one place. Whether you're a beginner or a grandmaster fan,
-            Chess News Hub keeps you connected to the game you love.
+        <p>
+          Predictions, puzzles and chess community challenges
         </p>
 
-        <div class="cta-row">
+      </div>
 
-            <a href="updates.html" class="btn primary">
-    Explore Latest Updates
-</a>
+    </div>
 
-            <button class="btn secondary">
-<a href="community.html">Join the Community</a>
-               
-            </button>
+
+    <!-- ===================================================
+         PROFILE
+    ==================================================== -->
+
+    <div class="profile-menu">
+
+      <button
+        id="profileBtn"
+        class="btn secondary"
+      >
+
+        <span id="userDisplay">
+          👤 Guest
+        </span>
+
+        ▼
+
+      </button>
+
+
+      <div
+        id="profileDropdown"
+        class="profile-dropdown"
+      >
+
+        <p>
+          <strong id="profileName">
+            Guest
+          </strong>
+        </p>
+
+
+        <hr>
+
+
+        <p id="profileEmail">
+          Not logged in
+        </p>
+
+
+        <!-- FANTASY ACHIEVEMENT -->
+
+        <div
+          id="profileAchievement"
+          class="profile-achievement"
+        >
+
+          <div
+            id="profileAchievementBadge"
+            class="achievement-badge"
+          >
+            🪵
+          </div>
+
+
+          <div class="achievement-info">
+
+            <strong id="profileAchievementName">
+              Wood
+            </strong>
+
+            <span id="profileAchievementLevel">
+              Level 1
+            </span>
+
+            <small>
+
+              🏆
+
+              <span id="fantasyPoints">
+                0
+              </span>
+
+              Fantasy Points
+
+            </small>
+
+          </div>
 
         </div>
 
+
+        <p>
+          🧠 Trivia Correct:
+
+          <span id="triviaScore">
+            0
+          </span>
+        </p>
+
+
+        <p>
+          🎯 Predictions:
+
+          <span id="predictionScore">
+            0
+          </span>
+        </p>
+
+
+        <hr>
+
+
+        <!-- ADMIN -->
+
+        <button
+          id="adminPanelBtn"
+          class="btn primary"
+          style="
+            width:100%;
+            display:none;
+            margin-bottom:8px;
+          "
+        >
+          👑 Admin Dashboard
+        </button>
+
+
+        <!-- LOGOUT -->
+
+        <button
+          id="logoutBtn"
+          class="btn secondary"
+          style="width:100%;"
+        >
+          🚪 Logout
+        </button>
+
+      </div>
+
     </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       NAVIGATION
+       DESKTOP: UNDER HEADER
+       MOBILE: BOTTOM
+  ====================================================== -->
+
+  <nav class="page-navigation">
+
+
+    <a
+      href="index.html"
+      class="active"
+    >
+
+      <span>
+        🏠
+      </span>
+
+      <small>
+        Home
+      </small>
+
+    </a>
+
+
+    <a href="matches.html">
+
+      <span>
+        ♟️
+      </span>
+
+      <small>
+        Matches
+      </small>
+
+    </a>
+
+
+    <a href="standings.html">
+
+      <span>
+        🏆
+      </span>
+
+      <small>
+        Standings
+      </small>
+
+    </a>
+
+
+    <a href="updates.html">
+
+      <span>
+        📰
+      </span>
+
+      <small>
+        Updates
+      </small>
+
+    </a>
+
+
+    <a href="community.html">
+
+      <span>
+        👥
+      </span>
+
+      <small>
+        Community
+      </small>
+
+    </a>
+
+
+    <a href="players.html">
+
+      <span>
+        👤
+      </span>
+
+      <small>
+        Players
+      </small>
+
+    </a>
+
+  </nav>
+
+
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+
+  <div class="badge-row">
+
+    <span class="badge">
+      ♞ Welcome to Chess News Hub
+    </span>
+
+  </div>
+
+
+  <div class="hero-grid">
+
+
+    <!-- LEFT SIDE -->
+
+    <div>
+
+      <h1 class="headline">
+
+        Your Ultimate Destination for Everything Chess
+
+      </h1>
+
+
+      <p class="lead">
+
+        Stay updated with the latest chess news, live tournament coverage,
+        player rankings, match results, puzzles, and community discussions—
+        all in one place. Whether you're a beginner or a grandmaster fan,
+        Chess News Hub keeps you connected to the game you love.
+
+      </p>
+
+
+      <div class="cta-row">
+
+
+        <a
+          href="updates.html"
+          class="btn primary"
+        >
+          Explore Latest Updates
+        </a>
+
+
+        <a
+          href="community.html"
+          class="btn secondary"
+        >
+          Join the Community
+        </a>
+
+      </div>
+
+    </div>
+
 
     <!-- RIGHT SIDE -->
+
     <div class="hero-art">
 
-        <div class="cover-pill">
-            Featured Tournament
-        </div>
 
-        <div class="art-card">
+      <div class="cover-pill">
+        Featured Tournament
+      </div>
 
-            <h3>World Championship 2026</h3>
 
-            <p>
-                Follow the biggest chess events from around the world with live
-                standings, match highlights, player statistics, and exclusive
-                tournament coverage.
-            </p>
+      <div class="art-card">
 
-            <button class="btn primary" style="margin-top:15px;">
-<a href="standings.html">View Tournament</a>
-               
-            </button>
+        <h3>
+          World Championship 2026
+        </h3>
 
-        </div>
+
+        <p>
+
+          Follow the biggest chess events from around the world with live
+          standings, match highlights, player statistics, and exclusive
+          tournament coverage.
+
+        </p>
+
+
+        <a
+          href="standings.html"
+          class="btn primary"
+          style="margin-top:15px; display:inline-flex;"
+        >
+          View Tournament
+        </a>
+
+      </div>
 
     </div>
 
-</div>
+  </div>
 
 
-    <!-- ================= ABOUT ================= -->
+  <!-- =====================================================
+       ABOUT
+  ====================================================== -->
 
-    <section class="panel section">
+  <section class="panel section">
+
 
     <div class="section-head">
-        <h2>About Chess News Hub</h2>
-        <p>Discover. Learn. Connect.</p>
+
+      <div>
+
+        <h2>
+          About Chess News Hub
+        </h2>
+
+        <p>
+          Discover. Learn. Connect.
+        </p>
+
+      </div>
+
     </div>
+
 
     <div class="story-grid">
 
-        <div class="story">
 
-            <h3>Your Complete Chess Companion</h3>
+      <div class="story">
 
-            <p>
-                Chess News Hub is your one-stop destination for everything happening
-                in the world of chess. From breaking news and tournament coverage
-                to player rankings, match results, puzzles, and community discussions,
-                we bring every chess enthusiast together on one platform.
-            </p>
 
-            <p>
-                Whether you're following the world's best grandmasters, improving
-                your own skills, or simply enjoying the game, Chess News Hub keeps
-                you informed, engaged, and connected every day.
-            </p>
+        <h3>
+          Your Complete Chess Companion
+        </h3>
 
-            <button class="btn primary">
 
-        <a href="community.html">Learn More</a>        
-            </button>
+        <p>
 
-        </div>
+          Chess News Hub is your one-stop destination for everything happening
+          in the world of chess. From breaking news and tournament coverage
+          to player rankings, match results, puzzles, and community discussions,
+          we bring every chess enthusiast together on one platform.
 
-       <div class="thumb">
-<img src="https://cdn.pixabay.com/photo/2023/01/15/16/00/chess-7720463_1280.jpg" 
-alt="Chess Tournament"
-loading="lazy">
+        </p>
+
+
+        <p>
+
+          Whether you're following the world's best grandmasters, improving
+          your own skills, or simply enjoying the game, Chess News Hub keeps
+          you informed, engaged, and connected every day.
+
+        </p>
+
+
+        <a
+          href="community.html"
+          class="btn primary"
+        >
+          Learn More
+        </a>
+
+
+      </div>
+
+
+      <div class="thumb">
+
+        <img
+          src="https://cdn.pixabay.com/photo/2023/01/15/16/00/chess-7720463_1280.jpg"
+          alt="Chess Tournament"
+          loading="lazy"
+        >
+
+      </div>
+
+
     </div>
 
-</section>
+  </section>
 
 
+  <!-- =====================================================
+       FEATURES
+  ====================================================== -->
 
-    <!-- ================= FEATURES ================= -->
+  <section class="panel section">
 
-    
-<section class="panel section">
 
     <div class="section-head">
-        <h2>What We Offer</h2>
-        <p>Everything a chess enthusiast needs in one place.</p>
+
+      <div>
+
+        <h2>
+          What We Offer
+        </h2>
+
+        <p>
+          Everything a chess enthusiast needs in one place.
+        </p>
+
+      </div>
+
     </div>
+
 
     <div class="grid-3">
 
-        <div class="player-card">
 
-            <div class="avatar">📰</div>
+      <!-- NEWS -->
 
-            <h4>Latest Chess News</h4>
+      <div class="player-card">
 
-            <p>
-                Stay informed with breaking news, tournament reports,
-                player interviews, and major announcements from the
-                world of chess.
-            </p>
-
+        <div class="avatar">
+          📰
         </div>
 
-        <div class="player-card">
 
-            <div class="avatar">🏆</div>
+        <h4>
+          Latest Chess News
+        </h4>
 
-            <h4>Live Matches & Standings</h4>
 
-            <p>
-                Follow ongoing tournaments, match schedules,
-                live scores, standings, and detailed results
-                from top competitions around the world.
-            </p>
+        <p>
 
+          Stay informed with breaking news, tournament reports,
+          player interviews, and major announcements from the
+          world of chess.
+
+        </p>
+
+      </div>
+
+
+      <!-- MATCHES -->
+
+      <div class="player-card">
+
+        <div class="avatar">
+          🏆
         </div>
 
-        <div class="player-card">
 
-            <div class="avatar">👥</div>
+        <h4>
+          Live Matches & Standings
+        </h4>
 
-            <h4>Community & Fun</h4>
 
-            <p>
-                Join discussions, participate in weekly puzzles,
-                make predictions, compete in fantasy rankings,
-                and connect with fellow chess lovers.
-            </p>
+        <p>
 
+          Follow ongoing tournaments, match schedules,
+          live scores, standings, and detailed results
+          from top competitions around the world.
+
+        </p>
+
+      </div>
+
+
+      <!-- COMMUNITY -->
+
+      <div class="player-card">
+
+        <div class="avatar">
+          👥
         </div>
+
+
+        <h4>
+          Community & Fun
+        </h4>
+
+
+        <p>
+
+          Join discussions, participate in weekly puzzles,
+          make predictions, compete in fantasy rankings,
+          and connect with fellow chess lovers.
+
+        </p>
+
+      </div>
+
 
     </div>
 
-</section>
+  </section>
 
 
-    <!-- ================= WHY US ================= -->
+  <!-- =====================================================
+       WHY US
+  ====================================================== -->
 
-<section class="panel section">
+  <section class="panel section">
+
 
     <div class="section-head">
-        <h2>Why Choose Chess News Hub?</h2>
-        <p>Everything you need, all in one place.</p>
+
+      <div>
+
+        <h2>
+          Why Choose Chess News Hub?
+        </h2>
+
+        <p>
+          Everything you need, all in one place.
+        </p>
+
+      </div>
+
     </div>
+
 
     <div class="grid-3">
 
-        <div class="player-card">
 
-            <div class="avatar">⚡</div>
+      <div class="player-card">
 
-            <h4>Fast & Reliable</h4>
-
-            <p>
-                Receive the latest chess news, tournament updates,
-                and match results quickly and accurately.
-            </p>
-
+        <div class="avatar">
+          ⚡
         </div>
 
-        <div class="player-card">
 
-            <div class="avatar">🌍</div>
+        <h4>
+          Fast & Reliable
+        </h4>
 
-            <h4>Complete Chess Coverage</h4>
 
-            <p>
-                From local competitions to world championships,
-                we cover every level of competitive chess.
-            </p>
+        <p>
 
+          Receive the latest chess news, tournament updates,
+          and match results quickly and accurately.
+
+        </p>
+
+      </div>
+
+
+      <div class="player-card">
+
+        <div class="avatar">
+          🌍
         </div>
 
-        <div class="player-card">
 
-            <div class="avatar">🤝</div>
+        <h4>
+          Complete Chess Coverage
+        </h4>
 
-            <h4>Built for the Community</h4>
 
-            <p>
-                Join discussions, solve puzzles, make predictions,
-                compete in fantasy rankings, and connect with fellow
-                chess enthusiasts.
-            </p>
+        <p>
 
+          From local competitions to world championships,
+          we cover every level of competitive chess.
+
+        </p>
+
+      </div>
+
+
+      <div class="player-card">
+
+        <div class="avatar">
+          🤝
         </div>
+
+
+        <h4>
+          Built for the Community
+        </h4>
+
+
+        <p>
+
+          Join discussions, solve puzzles, make predictions,
+          compete in fantasy rankings, and connect with fellow
+          chess enthusiasts.
+
+        </p>
+
+      </div>
+
 
     </div>
 
-</section>
+  </section>
 
 
-<section class="panel section">
+  <!-- =====================================================
+       READY TO BEGIN
+  ====================================================== -->
+
+  <section class="panel section">
+
 
     <div class="section-head">
-        <h2>Ready to Begin?</h2>
-        <p>Become part of the Chess News Hub community today.</p>
+
+      <div>
+
+        <h2>
+          Ready to Begin?
+        </h2>
+
+        <p>
+          Become part of the Chess News Hub community today.
+        </p>
+
+      </div>
+
     </div>
+
 
     <div class="story">
 
-        <h3>Join Thousands of Chess Enthusiasts</h3>
 
-        <p>
-            Create your free account to unlock exclusive features including
-            community discussions, fantasy rankings, weekly puzzles,
-            tournament predictions, personalized updates, and much more.
-        </p>
+      <h3>
+        Join Thousands of Chess Enthusiasts
+      </h3>
 
-        <p>
-            Already have an account? Sign in to continue following your
-            favorite tournaments, players, and community activities.
-        </p>
 
-        <div class="cta-row">
+      <p>
 
-            <a href="signup.html">
-                <button class="btn primary">
-                    Create Account
-                </button>
-            </a>
+        Create your free account to unlock exclusive features including
+        community discussions, fantasy rankings, weekly puzzles,
+        tournament predictions, personalized updates, and much more.
 
-            <a href="login.html">
-                <button class="btn secondary">
-                    Sign In
-                </button>
-            </a>
+      </p>
 
-        </div>
+
+      <p>
+
+        Already have an account? Sign in to continue following your
+        favorite tournaments, players, and community activities.
+
+      </p>
+
+
+      <div class="cta-row">
+
+
+        <a href="signup.html">
+
+          <button class="btn primary">
+            Create Account
+          </button>
+
+        </a>
+
+
+        <a href="login.html">
+
+          <button class="btn secondary">
+            Sign In
+          </button>
+
+        </a>
+
+
+      </div>
 
     </div>
 
-</section>
-    <!-- ================= FOOTER ================= -->
+  </section>
 
-    <footer class="footer">
 
-        © 2026 Chess News Hub • Built for Chess Lovers Worldwide
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
 
-    </footer>
+  <footer class="footer">
+
+    © 2026 Chess News Hub • Built for Chess Lovers Worldwide
+
+  </footer>
+
 
 </div>
 
-  <script type="module" src="auth.js"></script>
-<script type="module" src="community.js"></script>
-<script type="module" src="notifications.js"></script>
 
-  <script>
-    function toggleSection(id){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.classList.toggle('hidden');
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script
+  type="module"
+  src="auth.js"
+></script>
+
+<script
+  type="module"
+  src="community.js"
+></script>
+
+<script
+  type="module"
+  src="notifications.js"
+></script>
+
+
+<script>
+
+  function toggleSection(id) {
+
+    const el =
+      document.getElementById(id);
+
+    if (!el) return;
+
+    el.classList.toggle("hidden");
+
+  }
+
+
+  function openPlayer(
+    name,
+    rating,
+    tag,
+    desc
+  ) {
+
+    const playerName =
+      document.getElementById("playerName");
+
+    const playerRating =
+      document.getElementById("playerRating");
+
+    const playerDesc =
+      document.getElementById("playerDesc");
+
+    const playerModal =
+      document.getElementById("playerModal");
+
+
+    if (playerName) {
+
+      playerName.textContent = name;
+
     }
 
-    function openPlayer(name, rating, tag, desc){
-      document.getElementById('playerName').textContent = name;
-      document.getElementById('playerRating').textContent = `Rating: ${rating} • ${tag}`;
-      document.getElementById('playerDesc').textContent = desc;
-      document.getElementById('playerModal').style.display = 'flex';
+
+    if (playerRating) {
+
+      playerRating.textContent =
+        `Rating: ${rating} • ${tag}`;
+
     }
 
-    function hideModal(){
-      document.getElementById('playerModal').style.display = 'none';
+
+    if (playerDesc) {
+
+      playerDesc.textContent = desc;
+
     }
 
-    function closePlayer(event){
-      if(event.target.id === 'playerModal'){
-        hideModal();
-      }
-    }
-  </script>
 
-  <script>
+    if (playerModal) {
+
+      playerModal.style.display = "flex";
+
+    }
+
+  }
+
+
+  function hideModal() {
+
+    const playerModal =
+      document.getElementById("playerModal");
+
+    if (playerModal) {
+
+      playerModal.style.display = "none";
+
+    }
+
+  }
+
+
+  function closePlayer(event) {
+
+    if (
+      event.target &&
+      event.target.id === "playerModal"
+    ) {
+
+      hideModal();
+
+    }
+
+  }
+
+</script>
+
+
+<!-- =====================================================
+     SERVICE WORKER
+====================================================== -->
+
+<script>
+
   if ("serviceWorker" in navigator) {
+
     window.addEventListener("load", () => {
+
       navigator.serviceWorker
         .register("./sw.js")
+
         .then((registration) => {
+
           console.log(
             "✅ Service Worker registered:",
             registration.scope
           );
+
         })
+
         .catch((error) => {
+
           console.error(
             "❌ Service Worker registration failed:",
             error
           );
+
         });
+
     });
+
   }
+
 </script>
+
+
 </body>
 </html>
