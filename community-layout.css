@@ -600,3 +600,140 @@
 .community-page select {
   touch-action: manipulation;
 }
+
+
+/* =====================================================
+   COMMUNITY PAGE NAVIGATION
+   Independent from main style.css
+===================================================== */
+
+.community-bottom-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin: 12px 0 20px;
+
+  padding: 10px;
+
+  border-radius: 14px;
+}
+
+
+.community-bottom-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 9px 13px;
+
+  text-decoration: none;
+
+  border-radius: 10px;
+
+  font-size: 0.85rem;
+
+  white-space: nowrap;
+}
+
+
+.community-bottom-nav a span {
+  font-size: 1rem;
+}
+
+
+.community-bottom-nav a small {
+  font-size: 0.78rem;
+}
+
+
+/* =====================================================
+   MOBILE BOTTOM NAVIGATION
+===================================================== */
+
+@media (max-width: 760px) {
+
+  .community-bottom-nav {
+    position: fixed;
+
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+
+    z-index: 5000;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(6, minmax(0, 1fr));
+
+    gap: 3px;
+
+    margin: 0;
+
+    padding: 5px;
+
+    border-radius: 14px;
+
+    background: rgba(20, 20, 20, 0.96);
+
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.3);
+
+    backdrop-filter: blur(10px);
+  }
+
+
+  .community-bottom-nav a {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 2px;
+
+    min-width: 0;
+    min-height: 48px;
+
+    padding: 4px 2px;
+
+    text-align: center;
+
+    font-size: 0.6rem;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+  }
+
+
+  .community-bottom-nav a span {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+
+  .community-bottom-nav a small {
+    font-size: 0.55rem;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+
+  /* Prevent navigation from covering page content */
+
+  .community-page {
+    padding-bottom: 80px;
+  }
+
+}
