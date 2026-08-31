@@ -13,7 +13,7 @@ query,
 writeBatch,
 where,
 Timestamp,
-orderby,
+orderBy,
 updateDoc,
 increment
 }
