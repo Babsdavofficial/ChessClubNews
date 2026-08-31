@@ -699,296 +699,612 @@ document.addEventListener("click", async (e) => {
     }
 
 });
+// =====================================================
+// CREATE TRIVIA
+// =====================================================
+
 const createTriviaBtn =
-document.getElementById("createTriviaBtn");
+  document.getElementById("createTriviaBtn");
 
-if(createTriviaBtn){
+if (createTriviaBtn) {
 
-createTriviaBtn.addEventListener("click",async()=>{
+  createTriviaBtn.addEventListener("click", async () => {
 
-const question=
-document.getElementById("triviaQuestion").value.trim();
+    const question =
+      document.getElementById("triviaQuestion").value.trim();
 
-const option1=
-document.getElementById("triviaOption1").value.trim();
+    const option1 =
+      document.getElementById("triviaOption1").value.trim();
 
-const option2=
-document.getElementById("triviaOption2").value.trim();
+    const option2 =
+      document.getElementById("triviaOption2").value.trim();
 
-const option3=
-document.getElementById("triviaOption3").value.trim();
+    const option3 =
+      document.getElementById("triviaOption3").value.trim();
 
-const option4=
-document.getElementById("triviaOption4").value.trim();
+    const option4 =
+      document.getElementById("triviaOption4").value.trim();
 
-const closeDate=
-document.getElementById("triviaCloseDate").value;
+    const closeDate =
+      document.getElementById("triviaCloseDate").value;
 
-if(
-!question||
-!option1||
-!option2||
-!option3||
-!option4||
-!closeDate
-){
-alert("Fill all fields.");
-return;
+
+    // Validate fields
+
+    if (
+      !question ||
+      !option1 ||
+      !option2 ||
+      !option3 ||
+      !option4 ||
+      !closeDate
+    ) {
+
+      alert("Fill all fields.");
+
+      return;
+
+    }
+
+
+    try {
+
+      // Create trivia
+
+      await addDoc(
+        collection(db, "trivia"),
+        {
+
+          question,
+
+          options: [
+            option1,
+            option2,
+            option3,
+            option4
+          ],
+
+          correctAnswer: "",
+
+          active: true,
+
+          createdAt: serverTimestamp(),
+
+          closesAt: Timestamp.fromDate(
+            new Date(closeDate)
+          )
+
+        }
+      );
+
+
+      alert("🧠 Trivia created successfully!");
+
+
+      // Send notification
+
+      await sendAppNotification(
+        "🧠 New Trivia Challenge!",
+        question
+      );
+
+
+      // Clear form
+
+      document.getElementById("triviaQuestion").value = "";
+      document.getElementById("triviaOption1").value = "";
+      document.getElementById("triviaOption2").value = "";
+      document.getElementById("triviaOption3").value = "";
+      document.getElementById("triviaOption4").value = "";
+      document.getElementById("triviaCloseDate").value = "";
+
+
+      // Refresh admin list
+
+      loadTriviaAdmin();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Error creating trivia: " +
+        error.message
+      );
+
+    }
+
+  });
+
 }
 
-await addDoc(
-collection(db,"trivia"),
-{
-question,
-options:[
-option1,
-option2,
-option3,
-option4
-],
-correctAnswer:"",
-active:true,
-createdAt:serverTimestamp(),
-closesAt:Timestamp.fromDate(
-new Date(closeDate)
-)
-}
-);
 
-alert("Trivia created.");
-await sendAppNotification(
-  "🧠 New Trivia Challenge!",
-  question
-);
-  
-                                 
+// =====================================================
+// LOAD TRIVIA (ADMIN)
+// =====================================================
 
-document.getElementById("triviaQuestion").value="";
-document.getElementById("triviaOption1").value="";
-document.getElementById("triviaOption2").value="";
-document.getElementById("triviaOption3").value="";
-document.getElementById("triviaOption4").value="";
-document.getElementById("triviaCloseDate").value="";
+const triviaAdminContainer =
+  document.getElementById(
+    "triviaAdminContainer"
+  );
 
-});
 
-}
-// =========================
-// LOAD TRIVIA
-// =========================
+async function loadTriviaAdmin() {
 
-let selectedTrivia = null;
+  if (!triviaAdminContainer) return;
 
-async function loadTrivia() {
 
   try {
 
     const snapshot = await getDocs(
 
-      query(
-
-        collection(db, "trivia"),
-
-        where("active", "==", true),
-
-        orderBy("createdAt", "desc"),
-
-        limit(1)
-
-      )
+      collection(db, "trivia")
 
     );
 
-    console.log(snapshot.size);
+
+    triviaAdminContainer.innerHTML = "";
+
 
     if (snapshot.empty) {
 
-      document.getElementById("triviaContainer").textContent =
-        "No trivia available.";
+      triviaAdminContainer.innerHTML =
+        "<p>No trivia created yet.</p>";
 
       return;
 
     }
 
-    const triviaDoc = snapshot.docs[0];
 
-    selectedTrivia = {
-      id: triviaDoc.id,
-      ...triviaDoc.data()
-    };
+    snapshot.forEach(docSnap => {
 
-    console.log(selectedTrivia);
+      const trivia =
+        docSnap.data();
 
-    document.getElementById("triviaContainer").innerHTML =
 
-      `<h3>${selectedTrivia.question}</h3>`;
+      triviaAdminContainer.innerHTML += `
 
-    const optionsDiv =
-      document.getElementById("triviaOptions");
+        <div class="fact-item">
 
-    optionsDiv.innerHTML = "";
+          <strong>
+            ${trivia.question}
+          </strong>
 
-    selectedTrivia.options.forEach(option => {
+          <br><br>
 
-      optionsDiv.innerHTML += `
+          <span>
+            Status:
+            ${trivia.active ? "🟢 Active" : "🔴 Closed"}
+          </span>
 
-        <label>
+          <br><br>
 
-          <input
-            type="radio"
-            name="triviaOption"
-            value="${option}">
+          <button
+            class="btn secondary viewTriviaAnswersBtn"
+            data-id="${docSnap.id}"
+          >
+            👁 View Answers
+          </button>
 
-          ${option}
+          <button
+            class="btn primary declareTriviaWinnerBtn"
+            data-id="${docSnap.id}"
+          >
+            🏆 Declare Answer
+          </button>
 
-        </label>
+          <button
+            class="btn secondary deleteTriviaBtn"
+            data-id="${docSnap.id}"
+          >
+            🗑 Delete Trivia
+          </button>
 
-        <br><br>
+        </div>
+
+        <br>
 
       `;
 
     });
 
+
   } catch (error) {
 
     console.error(error);
+
+    triviaAdminContainer.innerHTML =
+      "<p>Error loading trivia.</p>";
 
   }
 
 }
 
-loadTrivia();
+
+loadTriviaAdmin();
 
 
-// =========================
-// SUBMIT TRIVIA
-// =========================
+// =====================================================
+// VIEW TRIVIA ANSWERS
+// =====================================================
 
-const submitTriviaBtn =
-  document.getElementById("submitTriviaBtn");
+document.addEventListener(
+  "click",
+  async (e) => {
 
-submitTriviaBtn.addEventListener("click", async () => {
-
-  const user = auth.currentUser;
-
-  if (!user) {
-
-    alert("Login first.");
-
-    return;
-
-  }
-
-  if (!selectedTrivia) return;
-
-  const answer = document.querySelector(
-
-    'input[name="triviaOption"]:checked'
-
-  );
-
-  if (!answer) {
-
-    alert("Choose an answer.");
-
-    return;
-
-  }
+    if (
+      !e.target.classList.contains(
+        "viewTriviaAnswersBtn"
+      )
+    ) return;
 
 
-  // Disable button immediately
-  // Prevents fast double-click submissions
-
-  submitTriviaBtn.disabled = true;
-
-  submitTriviaBtn.textContent =
-    "Submitting...";
+    const triviaId =
+      e.target.dataset.id;
 
 
-  try {
+    try {
 
-    // Unique document ID
-    // One user can only have one answer
-    // for one particular trivia
+      const snapshot =
+        await getDocs(
 
-    const answerId =
-      `${selectedTrivia.id}_${user.uid}`;
+          query(
+
+            collection(
+              db,
+              "triviaAnswers"
+            ),
+
+            where(
+              "triviaId",
+              "==",
+              triviaId
+            )
+
+          )
+
+        );
 
 
-    const answerRef =
-      doc(db, "triviaAnswers", answerId);
+      let text = "";
 
 
-    // Check if the user already answered
+      snapshot.forEach(answer => {
 
-    const existingAnswer =
-      await getDoc(answerRef);
+        const data =
+          answer.data();
 
 
-    if (existingAnswer.exists()) {
+        text += `
 
-      alert("You already answered this trivia.");
+User ID:
+${data.userId}
 
-      submitTriviaBtn.disabled = false;
+Answer:
+${data.answer}
 
-      submitTriviaBtn.textContent =
-        "Submit Answer";
+--------------------
 
-      return;
+`;
+
+      });
+
+
+      alert(
+        text ||
+        "No answers yet."
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Could not load answers."
+      );
 
     }
 
+  }
+);
 
-    // Save answer
 
-    await setDoc(
+// =====================================================
+// DECLARE TRIVIA WINNER
+// =====================================================
 
-      answerRef,
+document.addEventListener(
+  "click",
+  async (e) => {
 
-      {
+    if (
+      !e.target.classList.contains(
+        "declareTriviaWinnerBtn"
+      )
+    ) return;
 
-        triviaId: selectedTrivia.id,
 
-        userId: user.uid,
+    const triviaId =
+      e.target.dataset.id;
 
-        answer: answer.value,
 
-        createdAt: serverTimestamp()
+    const correctAnswer =
+      prompt(
+        "Enter the correct answer exactly."
+      );
+
+
+    if (!correctAnswer) return;
+
+
+    try {
+
+      // Close trivia and save answer
+
+      await updateDoc(
+
+        doc(
+          db,
+          "trivia",
+          triviaId
+        ),
+
+        {
+
+          correctAnswer:
+            correctAnswer.trim(),
+
+          active:
+            false
+
+        }
+
+      );
+
+
+      // Get all answers
+
+      const answers =
+        await getDocs(
+
+          query(
+
+            collection(
+              db,
+              "triviaAnswers"
+            ),
+
+            where(
+              "triviaId",
+              "==",
+              triviaId
+            )
+
+          )
+
+        );
+
+
+      let winners = 0;
+
+      let missingUsers = 0;
+
+
+      // Check every answer
+
+      for (
+        const answerDoc
+        of answers.docs
+      ) {
+
+        const data =
+          answerDoc.data();
+
+
+        // Check if answer is correct
+
+        if (
+
+          data.answer
+            .trim()
+            .toLowerCase()
+
+          ===
+
+          correctAnswer
+            .trim()
+            .toLowerCase()
+
+        ) {
+
+
+          const userRef =
+            doc(
+              db,
+              "users",
+              data.userId
+            );
+
+
+          // Check whether user document exists
+
+          const userSnap =
+            await getDoc(
+              userRef
+            );
+
+
+          // User document missing
+
+          if (!userSnap.exists()) {
+
+            console.warn(
+              "User document missing:",
+              data.userId
+            );
+
+            missingUsers++;
+
+            continue;
+
+          }
+
+
+          // Reward valid user
+
+          await updateDoc(
+
+            userRef,
+
+            {
+
+              triviaCorrect:
+                increment(1),
+
+              fantasyPoints:
+                increment(5)
+
+            }
+
+          );
+
+
+          winners++;
+
+        }
 
       }
 
-    );
+
+      alert(
+
+        `🏆 Trivia completed!
+
+✅ ${winners} player(s) rewarded.
+
+⚠️ ${missingUsers} user(s) could not be rewarded because their user document was missing.`
+
+      );
 
 
-    document.getElementById("triviaStatus").textContent =
-      "✅ Answer submitted successfully!";
+      loadTriviaAdmin();
 
 
-    submitTriviaBtn.textContent =
-      "Answered ✓";
+    } catch (error) {
 
+      console.error(error);
 
-    // Keep button disabled permanently
-    // because the user has already answered
+      alert(
+        "Error declaring winner: " +
+        error.message
+      );
 
-    submitTriviaBtn.disabled = true;
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("Something went wrong. Please try again.");
-
-    submitTriviaBtn.disabled = false;
-
-    submitTriviaBtn.textContent =
-      "Submit Answer";
+    }
 
   }
+);
 
-});
 
+// =====================================================
+// DELETE TRIVIA
+// =====================================================
+
+document.addEventListener(
+  "click",
+  async (e) => {
+
+    if (
+      !e.target.classList.contains(
+        "deleteTriviaBtn"
+      )
+    ) return;
+
+
+    if (
+      !confirm(
+        "Delete this trivia and all answers?"
+      )
+    ) return;
+
+
+    const triviaId =
+      e.target.dataset.id;
+
+
+    try {
+
+      // Get all answers
+
+      const answers =
+        await getDocs(
+
+          query(
+
+            collection(
+              db,
+              "triviaAnswers"
+            ),
+
+            where(
+              "triviaId",
+              "==",
+              triviaId
+            )
+
+          )
+
+        );
+
+
+      // Delete answers
+
+      for (
+        const answer
+        of answers.docs
+      ) {
+
+        await deleteDoc(
+          answer.ref
+        );
+
+      }
+
+
+      // Delete trivia
+
+      await deleteDoc(
+
+        doc(
+          db,
+          "trivia",
+          triviaId
+        )
+
+      );
+
+
+      alert(
+        "✅ Trivia deleted."
+      );
+
+
+      loadTriviaAdmin();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Delete failed."
+      );
+
+    }
+
+  }
+);
   // =========================
 // CREATE PUZZLE
 // =========================
