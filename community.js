@@ -15,6 +15,7 @@ import {
   increment,
   addDoc,
   where,
+  orderBy,
   onSnapshot,
   serverTimestamp,
   deleteDoc,
@@ -364,166 +365,208 @@ if (createPredictionBtn) {
 
 let selectedTrivia = null;
 
-async function loadTrivia(){
+async function loadTrivia() {
 
-try{
+  try {
 
-const snapshot = await getDocs(
+    const snapshot = await getDocs(
 
-query(
+      query(
 
-collection(db,"trivia"),
+        collection(db, "trivia"),
 
-where("active","==",true),
+        where("active", "==", true),
 
-orderBy("createdAt","desc"),
+        orderBy("createdAt", "desc"),
 
-limit(1)
+        limit(1)
 
-)
+      )
 
-);
+    );
 
-console.log(snapshot.size);
+    console.log(snapshot.size);
 
-if(snapshot.empty){
+    if (snapshot.empty) {
 
-document.getElementById("triviaContainer").textContent =
-"No trivia available.";
+      document.getElementById("triviaContainer").textContent =
+        "No trivia available.";
 
-return;
+      return;
 
-}
+    }
 
-const triviaDoc=snapshot.docs[0];
+    const triviaDoc = snapshot.docs[0];
 
-selectedTrivia={
-id:triviaDoc.id,
-...triviaDoc.data()
-};
+    selectedTrivia = {
+      id: triviaDoc.id,
+      ...triviaDoc.data()
+    };
 
-console.log(selectedTrivia);
+    console.log(selectedTrivia);
 
-document.getElementById("triviaContainer").innerHTML=
+    document.getElementById("triviaContainer").innerHTML =
+      `<h3>${selectedTrivia.question}</h3>`;
 
-`<h3>${selectedTrivia.question}</h3>`;
+    const optionsDiv =
+      document.getElementById("triviaOptions");
 
-const optionsDiv=document.getElementById("triviaOptions");
+    optionsDiv.innerHTML = "";
 
-optionsDiv.innerHTML="";
+    selectedTrivia.options.forEach(option => {
 
-selectedTrivia.options.forEach(option=>{
+      optionsDiv.innerHTML += `
 
-optionsDiv.innerHTML+=`
+        <label>
 
-<label>
+          <input
+            type="radio"
+            name="triviaOption"
+            value="${option}">
 
-<input
-type="radio"
-name="triviaOption"
-value="${option}">
+          ${option}
 
-${option}
+        </label>
 
-</label>
+        <br><br>
 
-<br><br>
+      `;
 
-`;
+    });
 
-});
+  } catch (error) {
 
-}catch(error){
+    console.error(error);
 
-console.error(error);
-
-}
+  }
 
 }
 
 loadTrivia();
 
+
 // =========================
 // SUBMIT TRIVIA
 // =========================
 
-document
+const submitTriviaBtn =
+  document.getElementById("submitTriviaBtn");
 
-.getElementById("submitTriviaBtn")
+if (submitTriviaBtn) {
 
-.addEventListener("click",async()=>{
+  submitTriviaBtn.addEventListener("click", async () => {
 
-const user = auth.currentUser;
+    const user = auth.currentUser;
 
-if(!user){
+    if (!user) {
 
-alert("Login first.");
+      alert("Login first.");
 
-return;
+      return;
+
+    }
+
+    if (!selectedTrivia) return;
+
+    const answer = document.querySelector(
+      'input[name="triviaOption"]:checked'
+    );
+
+    if (!answer) {
+
+      alert("Choose an answer.");
+
+      return;
+
+    }
+
+
+    // Disable immediately to stop fast double clicks
+
+    submitTriviaBtn.disabled = true;
+
+    submitTriviaBtn.textContent =
+      "Submitting...";
+
+
+    try {
+
+      // UNIQUE DOCUMENT ID
+      // One user = one answer per trivia
+
+      const answerId =
+        `${selectedTrivia.id}_${user.uid}`;
+
+
+      const answerRef =
+        doc(db, "triviaAnswers", answerId);
+
+
+      // Check if already answered
+
+      const existingAnswer =
+        await getDoc(answerRef);
+
+
+      if (existingAnswer.exists()) {
+
+        alert("You already answered this trivia.");
+
+        submitTriviaBtn.textContent =
+          "Answered ✓";
+
+        return;
+
+      }
+
+
+      // Save answer
+
+      await setDoc(
+        answerRef,
+        {
+
+          triviaId: selectedTrivia.id,
+
+          userId: user.uid,
+
+          answer: answer.value,
+
+          createdAt: serverTimestamp()
+
+        }
+      );
+
+
+      document.getElementById("triviaStatus").textContent =
+        "✅ Answer submitted successfully!";
+
+
+      submitTriviaBtn.textContent =
+        "Answered ✓";
+
+
+      // Keep disabled because answer is already submitted
+
+      submitTriviaBtn.disabled = true;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Something went wrong. Please try again.");
+
+      submitTriviaBtn.disabled = false;
+
+      submitTriviaBtn.textContent =
+        "Submit Answer";
+
+    }
+
+  });
 
 }
-
-if(!selectedTrivia) return;
-
-const answer = document.querySelector(
-
-'input[name="triviaOption"]:checked'
-
-);
-
-if(!answer){
-
-alert("Choose an answer.");
-
-return;
-
-}
-
-const alreadyAnswered = await getDocs(
-
-query(
-
-collection(db,"triviaAnswers"),
-
-where("triviaId","==",selectedTrivia.id),
-
-where("userId","==",user.uid)
-
-)
-
-);
-
-if(!alreadyAnswered.empty){
-
-alert("You already answered.");
-
-return;
-
-}
-
-await addDoc(
-
-collection(db,"triviaAnswers"),
-
-{
-
-triviaId:selectedTrivia.id,
-
-userId:user.uid,
-
-answer:answer.value,
-
-createdAt:serverTimestamp()
-
-}
-
-);
-
-document.getElementById("triviaStatus")
-
-.textContent = "✅ Answer submitted.";
-
-});
 // =========================
 // LOAD PUZZLE
 // =========================
