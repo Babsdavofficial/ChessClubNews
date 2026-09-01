@@ -1398,13 +1398,12 @@ function updateFantasyTeamDisplay() {
     );
 
 
-  const remaining =
-    Number(activeFantasyEvent.budget) -
-    totalCost;
+ const remaining =
+  Number(activeFantasyEvent.budget) -
+  totalCost;
 
-
-  remainingDiv.textContent =
-    remaining;
+remainingDiv.textContent =
+  Math.max(0, remaining);
 
 
   // -----------------------------------------
