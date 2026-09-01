@@ -1811,232 +1811,284 @@ const achievementLevelFilter =
   document.getElementById("achievementLevelFilter");
 
 
-// -----------------------------------------------------
-// LOAD ACHIEVEMENT RANKINGS
-// -----------------------------------------------------
+// =====================================================
+// STORE LATEST FIRESTORE DATA
+// =====================================================
 
-async function loadAchievementRankings() {
-
-  if (!achievementLeaderboard) {
-    return;
-  }
-
-  achievementLeaderboard.innerHTML =
-    "<p>Loading achievement rankings...</p>";
-
-  try {
-
-    // -----------------------------------------
-    // GET ALL USERS
-    // -----------------------------------------
-
-    const usersSnapshot =
-      await getDocs(
-        collection(db, "users")
-      );
+let latestAchievementSnapshot = null;
 
 
-    // -----------------------------------------
-    // CREATE PLAYER LIST
-    // -----------------------------------------
+// =====================================================
+// RENDER ACHIEVEMENT RANKINGS
+// =====================================================
 
-    let players = [];
+function renderAchievementRankings(snapshot) {
 
+  if (!achievementLeaderboard) return;
 
-    usersSnapshot.forEach((userDoc) => {
+  let players = [];
 
-      const userData =
-        userDoc.data();
+  // -----------------------------------------------------
+  // CREATE PLAYER LIST
+  // -----------------------------------------------------
 
-      const fantasyPoints =
-        Number(userData.fantasyPoints) || 0;
+  snapshot.forEach((userDoc) => {
 
-      const achievement =
-        getAchievementLevel(
-          fantasyPoints
-        );
+    const userData = userDoc.data();
 
+    const fantasyPoints =
+      Number(userData.fantasyPoints) || 0;
 
-      players.push({
+    const achievement =
+      getAchievementLevel(fantasyPoints);
 
-        id: userDoc.id,
+    players.push({
 
-        username:
-          userData.username ||
-          "Unknown Player",
+      id: userDoc.id,
 
-        fantasyPoints:
-          fantasyPoints,
+      username:
+        userData.username ||
+        "Unknown Player",
 
-        achievement:
-          achievement
+      fantasyPoints,
 
-      });
+      achievement
 
     });
 
-
-    // -----------------------------------------
-    // GET SELECTED LEVEL
-    // -----------------------------------------
-
-    const selectedLevel =
-      achievementLevelFilter
-        ? achievementLevelFilter.value
-        : "all";
+  });
 
 
-    // -----------------------------------------
-    // FILTER BY LEVEL
-    // -----------------------------------------
+  // -----------------------------------------------------
+  // GET SELECTED LEVEL
+  // -----------------------------------------------------
 
-    if (selectedLevel !== "all") {
-
-      players =
-        players.filter(
-          (player) =>
-            player.achievement.name ===
-            selectedLevel
-        );
-
-    }
+  const selectedLevel =
+    achievementLevelFilter?.value || "all";
 
 
-    // -----------------------------------------
-    // SORT BY FANTASY POINTS
-    // HIGHEST FIRST
-    // -----------------------------------------
+  // -----------------------------------------------------
+  // FILTER BY ACHIEVEMENT LEVEL
+  // -----------------------------------------------------
 
-    players.sort(
-      (a, b) =>
-        b.fantasyPoints -
-        a.fantasyPoints
-    );
+  if (selectedLevel !== "all") {
+
+    players =
+      players.filter(
+        (player) =>
+          player.achievement.name ===
+          selectedLevel
+      );
+
+  }
 
 
-    // -----------------------------------------
-    // NO PLAYERS
-    // -----------------------------------------
+  // -----------------------------------------------------
+  // SORT BY FANTASY POINTS
+  // HIGHEST FIRST
+  // -----------------------------------------------------
 
-    if (players.length === 0) {
+  players.sort(
+    (a, b) =>
+      b.fantasyPoints -
+      a.fantasyPoints
+  );
 
-      achievementLeaderboard.innerHTML = `
 
-        <div class="achievement-empty">
+  // -----------------------------------------------------
+  // NO PLAYERS
+  // -----------------------------------------------------
 
-          <div class="achievement-empty-icon">
-            🏆
+  if (players.length === 0) {
+
+    achievementLeaderboard.innerHTML = `
+
+      <div class="achievement-empty">
+
+        <div class="achievement-empty-icon">
+          🏆
+        </div>
+
+        <strong>
+          No player has reached this level yet.
+        </strong>
+
+        <p>
+          Keep playing and earning Fantasy Points!
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  // -----------------------------------------------------
+  // DISPLAY PLAYERS
+  // -----------------------------------------------------
+
+  achievementLeaderboard.innerHTML = "";
+
+
+  players.forEach(
+    (player, index) => {
+
+      const achievement =
+        player.achievement;
+
+
+      // -------------------------------------------------
+      // RANK ICON
+      // -------------------------------------------------
+
+      let positionIcon =
+        `${index + 1}`;
+
+
+      if (index === 0) {
+
+        positionIcon = "🥇";
+
+      }
+
+      else if (index === 1) {
+
+        positionIcon = "🥈";
+
+      }
+
+      else if (index === 2) {
+
+        positionIcon = "🥉";
+
+      }
+
+
+      // -------------------------------------------------
+      // CHECK CURRENT USER
+      // -------------------------------------------------
+
+      const isCurrentUser =
+        auth.currentUser &&
+        player.id === auth.currentUser.uid;
+
+
+      // -------------------------------------------------
+      // CREATE ROW
+      // -------------------------------------------------
+
+      achievementLeaderboard.innerHTML += `
+
+        <div
+          class="achievement-player-row ${achievement.className}"
+        >
+
+          <div class="achievement-player-position">
+            ${positionIcon}
           </div>
 
-          <strong>
-            No player has reached this level yet.
-          </strong>
 
-          <p>
-            Keep playing and earning Fantasy Points!
-          </p>
+          <div class="achievement-player-info">
+
+            <strong
+              class="${
+                isCurrentUser
+                  ? "my-leaderboard-name"
+                  : ""
+              }"
+            >
+
+              ${achievement.icon}
+              ${player.username}
+
+            </strong>
+
+
+            <span>
+
+              Level ${achievement.level}
+              • ${achievement.name}
+
+            </span>
+
+          </div>
+
+
+          <div class="achievement-player-points">
+
+            ${player.fantasyPoints}
+            FP
+
+          </div>
 
         </div>
 
       `;
 
-      return;
+    }
+  );
+
+}
+
+
+// =====================================================
+// START REAL-TIME ACHIEVEMENT LEADERBOARD
+// =====================================================
+
+function startAchievementLeaderboard() {
+
+  if (!achievementLeaderboard) return;
+
+
+  achievementLeaderboard.innerHTML =
+    "<p>Loading achievement rankings...</p>";
+
+
+  // -----------------------------------------------------
+  // REAL-TIME USERS LISTENER
+  // -----------------------------------------------------
+
+  onSnapshot(
+
+    collection(db, "users"),
+
+    (snapshot) => {
+
+      // Save latest data
+      latestAchievementSnapshot =
+        snapshot;
+
+
+      // Render immediately
+      renderAchievementRankings(
+        snapshot
+      );
+
+    },
+
+
+    (error) => {
+
+      console.error(
+        "Achievement rankings error:",
+        error
+      );
+
+
+      achievementLeaderboard.innerHTML = `
+
+        <p>
+          ❌ Failed to load achievement rankings.
+        </p>
+
+      `;
 
     }
 
-
-    // -----------------------------------------
-    // DISPLAY PLAYERS
-    // -----------------------------------------
-
-    achievementLeaderboard.innerHTML = "";
-
-
-    players.forEach(
-      (player, index) => {
-
-        const achievement =
-          player.achievement;
-
-
-        let positionIcon =
-          `${index + 1}`;
-
-
-        if (index === 0) {
-          positionIcon = "🥇";
-        }
-
-        else if (index === 1) {
-          positionIcon = "🥈";
-        }
-
-        else if (index === 2) {
-          positionIcon = "🥉";
-        }
-
-
-        achievementLeaderboard.innerHTML += `
-
-          <div
-            class="achievement-player-row ${achievement.className}">
-
-            <div class="achievement-player-position">
-              ${positionIcon}
-            </div>
-
-
-            <div class="achievement-player-info">
-
-              <strong class="${
-  auth.currentUser &&
-  player.id === auth.currentUser.uid
-    ? "my-leaderboard-name"
-    : ""
-}">
-  ${achievement.icon}
-  ${player.username}
-</strong>
-              <span>
-                Level ${achievement.level}
-                • ${achievement.name}
-              </span>
-
-            </div>
-
-
-            <div class="achievement-player-points">
-
-              ${player.fantasyPoints}
-              FP
-
-            </div>
-
-          </div>
-
-        `;
-
-      }
-    );
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "Achievement rankings error:",
-      error
-    );
-
-    achievementLeaderboard.innerHTML = `
-
-      <p>
-        ❌ Failed to load achievement rankings.
-      </p>
-
-    `;
-
-  }
+  );
 
 }
 
@@ -2049,16 +2101,43 @@ if (achievementLevelFilter) {
 
   achievementLevelFilter.addEventListener(
     "change",
-    loadAchievementRankings
+    () => {
+
+      // IMPORTANT:
+      // Changing the filter does NOT fetch
+      // the users again.
+      //
+      // It only filters the data we already
+      // have from Firestore.
+
+      if (latestAchievementSnapshot) {
+
+        renderAchievementRankings(
+          latestAchievementSnapshot
+        );
+
+      }
+
+    }
   );
 
 }
 
 
 // =====================================================
-// INITIAL LOAD
+// INITIALIZE ACHIEVEMENT LEADERBOARD
+// =====================================================
+//
+// IMPORTANT:
+// We intentionally DO NOT wait for
+// onAuthStateChanged here.
+//
+// The leaderboard is a community leaderboard,
+// so it should load independently of login.
+//
+// auth.currentUser is only used to highlight
+// the logged-in user's name.
 // =====================================================
 
-onAuthStateChanged(auth, () => {
-  loadAchievementRankings();
-});
+startAchievementLeaderboard();
+
