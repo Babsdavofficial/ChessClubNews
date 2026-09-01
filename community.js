@@ -1231,6 +1231,7 @@ document.addEventListener(
   "change",
   (e) => {
 
+    // Only handle Fantasy Player checkboxes
     if (
       !e.target.classList.contains(
         "fantasyPlayerCheckbox"
@@ -1239,50 +1240,113 @@ document.addEventListener(
       return;
     }
 
+
     const playerId =
       e.target.dataset.id;
+
 
     const player =
       fantasyPlayers.find(
         p => p.id === playerId
       );
 
+
     if (!player) return;
 
 
-    // -----------------------------------------
-    // CHECK MAXIMUM 3 PLAYERS
-    // -----------------------------------------
-
-    if (
-      e.target.checked &&
-      selectedFantasyPlayers.length >= 3
-    ) {
-
-      e.target.checked = false;
-
-      alert(
-        "You can only select 3 players."
-      );
-
-      return;
-
-    }
-
-
-    // -----------------------------------------
+    // =================================================
     // ADD PLAYER
-    // -----------------------------------------
+    // =================================================
 
     if (e.target.checked) {
 
-      selectedFantasyPlayers.push(player);
+      // -----------------------------------------------
+      // CHECK MAXIMUM 3 PLAYERS
+      // -----------------------------------------------
+
+      if (
+        selectedFantasyPlayers.length >= 3
+      ) {
+
+        e.target.checked = false;
+
+        alert(
+          "You can only select 3 players."
+        );
+
+        return;
+
+      }
+
+
+      // -----------------------------------------------
+      // CALCULATE CURRENT TOTAL
+      // -----------------------------------------------
+
+      const currentTotal =
+        selectedFantasyPlayers.reduce(
+          (total, selectedPlayer) =>
+            total +
+            Number(selectedPlayer.price),
+          0
+        );
+
+
+      // -----------------------------------------------
+      // CALCULATE NEW TOTAL
+      // -----------------------------------------------
+
+      const newTotal =
+        currentTotal +
+        Number(player.price);
+
+
+      // -----------------------------------------------
+      // CHECK BUDGET BEFORE ADDING
+      // -----------------------------------------------
+
+      const budget =
+        Number(
+          activeFantasyEvent?.budget
+        ) || 0;
+
+
+      if (newTotal > budget) {
+
+        // Immediately undo checkbox
+        e.target.checked = false;
+
+        const remaining =
+          budget -
+          currentTotal;
+
+
+        alert(
+          `❌ You cannot select ${player.name}.\n\n` +
+          `Player price: ${player.price}\n` +
+          `Remaining budget: ${remaining}\n\n` +
+          `This player would exceed your Fantasy budget.`
+        );
+
+        return;
+
+      }
+
+
+      // -----------------------------------------------
+      // ADD PLAYER
+      // -----------------------------------------------
+
+      selectedFantasyPlayers.push(
+        player
+      );
 
     }
 
-    // -----------------------------------------
+
+    // =================================================
     // REMOVE PLAYER
-    // -----------------------------------------
+    // =================================================
 
     else {
 
@@ -1293,10 +1357,17 @@ document.addEventListener(
 
     }
 
+
+    // =================================================
+    // UPDATE DISPLAY
+    // =================================================
+
     updateFantasyTeamDisplay();
 
   }
 );
+
+
 
 
 // =====================================================
