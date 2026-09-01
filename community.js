@@ -1986,11 +1986,15 @@ async function loadAchievementRankings() {
 
             <div class="achievement-player-info">
 
-              <strong>
-                ${achievement.icon}
-                ${player.username}
-              </strong>
-
+              <strong class="${
+  auth.currentUser &&
+  player.id === auth.currentUser.uid
+    ? "my-leaderboard-name"
+    : ""
+}">
+  ${achievement.icon}
+  ${player.username}
+</strong>
               <span>
                 Level ${achievement.level}
                 • ${achievement.name}
