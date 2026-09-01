@@ -2,7 +2,9 @@ import { db, auth } from "./firebase.js";
 import {
   getAchievementLevel
 } from "./achievement.js";
-
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import {
  collection,
   query,
@@ -2057,4 +2059,6 @@ if (achievementLevelFilter) {
 // INITIAL LOAD
 // =====================================================
 
-loadAchievementRankings();
+onAuthStateChanged(auth, () => {
+  loadAchievementRankings();
+});
