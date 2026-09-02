@@ -32,19 +32,169 @@
 <div class="wrap">
 
 
+ <style>
+
+    /* =====================================================
+       PAGE NAVIGATION
+       DESKTOP
+    ====================================================== */
+
+    .page-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      margin: 12px 0 20px;
+
+      padding: 10px;
+
+      border-radius: 14px;
+    }
+
+    .page-navigation a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 6px;
+
+      padding: 9px 13px;
+
+      border-radius: 10px;
+
+      text-decoration: none;
+
+      font-size: 0.85rem;
+
+      white-space: nowrap;
+    }
+
+    .page-navigation a span {
+      font-size: 1rem;
+    }
+
+    .page-navigation a small {
+      font-size: 0.78rem;
+    }
+
+
+    /* =====================================================
+       MOBILE NAVIGATION
+       FIXED TO BOTTOM
+    ====================================================== */
+
+    @media (max-width: 760px) {
+
+      .page-navigation {
+        position: fixed;
+
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+
+        z-index: 5000;
+
+        display: grid;
+
+        grid-template-columns:
+          repeat(6, minmax(0, 1fr));
+
+        gap: 3px;
+
+        margin: 0;
+
+        padding: 5px;
+
+        border-radius: 14px;
+
+        background: rgba(20, 20, 20, 0.96);
+
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.3);
+
+        backdrop-filter: blur(10px);
+      }
+
+
+      .page-navigation a {
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 2px;
+
+        min-width: 0;
+        min-height: 48px;
+
+        padding: 4px 2px;
+
+        text-align: center;
+
+        font-size: 0.6rem;
+
+        border-radius: 10px;
+
+        overflow: hidden;
+      }
+
+
+      .page-navigation a span {
+        font-size: 1rem;
+        line-height: 1;
+      }
+
+
+      .page-navigation a small {
+        font-size: 0.55rem;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+      }
+
+
+      /* Prevent bottom navigation
+         from covering content */
+
+      .wrap {
+        padding-bottom: 80px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<div class="wrap">
+
+
   <!-- =====================================================
        TOP HEADER
+       Chess News Hub + Profile
   ====================================================== -->
 
   <header class="topbar panel">
 
+
+    <!-- BRAND -->
 
     <div class="brand">
 
       <div class="logo">
         ♟♙
       </div>
-
 
       <div class="titlebox">
 
@@ -81,6 +231,8 @@
       </button>
 
 
+      <!-- PROFILE DROPDOWN -->
+
       <div
         id="profileDropdown"
         class="profile-dropdown"
@@ -92,14 +244,18 @@
           </strong>
         </p>
 
+
         <hr>
+
 
         <p id="profileEmail">
           Not logged in
         </p>
 
 
-        <!-- FANTASY ACHIEVEMENT -->
+        <!-- =================================================
+             FANTASY ACHIEVEMENT
+        ================================================== -->
 
         <div
           id="profileAchievement"
@@ -142,29 +298,27 @@
 
 
         <p>
-
           🧠 Trivia Correct:
 
           <span id="triviaScore">
             0
           </span>
-
         </p>
 
 
         <p>
-
           🎯 Predictions:
 
           <span id="predictionScore">
             0
           </span>
-
         </p>
 
 
         <hr>
 
+
+        <!-- ADMIN -->
 
         <button
           id="adminPanelBtn"
@@ -178,6 +332,8 @@
           👑 Admin Dashboard
         </button>
 
+
+        <!-- LOGOUT -->
 
         <button
           id="logoutBtn"
@@ -196,6 +352,8 @@
 
   <!-- =====================================================
        PAGE NAVIGATION
+       DESKTOP: UNDER HEADER
+       MOBILE: BOTTOM OF SCREEN
   ====================================================== -->
 
   <nav class="page-navigation">
@@ -203,7 +361,9 @@
 
     <a href="index.html">
 
-      <span>🏠</span>
+      <span>
+        🏠
+      </span>
 
       <small>
         Home
@@ -212,9 +372,14 @@
     </a>
 
 
-    <a href="matches.html">
+    <a
+      href="matches.html"
+      class="active"
+    >
 
-      <span>♟️</span>
+      <span>
+        ♟️
+      </span>
 
       <small>
         Matches
@@ -223,12 +388,11 @@
     </a>
 
 
-    <a
-      href="standings.html"
-      class="active"
-    >
+    <a href="standings.html">
 
-      <span>🏆</span>
+      <span>
+        🏆
+      </span>
 
       <small>
         Standings
@@ -239,7 +403,9 @@
 
     <a href="updates.html">
 
-      <span>📰</span>
+      <span>
+        📰
+      </span>
 
       <small>
         Updates
@@ -250,7 +416,9 @@
 
     <a href="community.html">
 
-      <span>👥</span>
+      <span>
+        👥
+      </span>
 
       <small>
         Community
@@ -261,7 +429,9 @@
 
     <a href="players.html">
 
-      <span>👤</span>
+      <span>
+        👤
+      </span>
 
       <small>
         Players
