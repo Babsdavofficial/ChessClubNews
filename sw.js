@@ -2,7 +2,7 @@
 // CHESS NEWS HUB — SERVICE WORKER
 // =====================================================
 
-const CACHE_NAME = "chess-news-hub-v5.12";
+const CACHE_NAME = "chess-news-hub-v5.13";
 
 const FILES_TO_CACHE = [
   "./",
