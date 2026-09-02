@@ -1,182 +1,27 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <title>Standings | Chess News Hub</title>
 
-  <!-- Font -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   >
 
-  <!-- Main website CSS -->
   <link
     rel="stylesheet"
     href="style.css"
   >
-
-
-  <!-- =====================================================
-       PAGE NAVIGATION ONLY
-       Does NOT modify style.css
-  ====================================================== -->
-
-  <style>
-
-    .page-navigation {
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      gap: 8px;
-
-      margin: 12px 0 20px;
-
-      padding: 10px;
-
-      border-radius: 14px;
-
-    }
-
-
-    .page-navigation a {
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      gap: 6px;
-
-      padding: 9px 13px;
-
-      border-radius: 10px;
-
-      text-decoration: none;
-
-      font-size: 0.85rem;
-
-      white-space: nowrap;
-
-    }
-
-
-    .page-navigation a span {
-      font-size: 1rem;
-    }
-
-
-    .page-navigation a small {
-      font-size: 0.78rem;
-    }
-
-
-    /* ================================================
-       MOBILE
-    ================================================= */
-
-    @media (max-width: 760px) {
-
-      .page-navigation {
-
-        position: fixed;
-
-        left: 8px;
-        right: 8px;
-        bottom: 8px;
-
-        z-index: 5000;
-
-        display: grid;
-
-        grid-template-columns:
-          repeat(6, minmax(0, 1fr));
-
-        gap: 3px;
-
-        margin: 0;
-
-        padding: 5px;
-
-        border-radius: 14px;
-
-        background: rgba(20, 20, 20, 0.96);
-
-        box-shadow:
-          0 10px 30px rgba(0, 0, 0, 0.3);
-
-        backdrop-filter: blur(10px);
-
-      }
-
-
-      .page-navigation a {
-
-        display: flex;
-
-        flex-direction: column;
-
-        align-items: center;
-        justify-content: center;
-
-        gap: 2px;
-
-        min-width: 0;
-        min-height: 48px;
-
-        padding: 4px 2px;
-
-        text-align: center;
-
-        font-size: 0.6rem;
-
-        border-radius: 10px;
-
-        overflow: hidden;
-
-      }
-
-
-      .page-navigation a span {
-
-        font-size: 1rem;
-
-        line-height: 1;
-
-      }
-
-
-      .page-navigation a small {
-
-        font-size: 0.55rem;
-
-        white-space: nowrap;
-
-        overflow: hidden;
-
-        text-overflow: ellipsis;
-
-      }
-
-
-      .wrap {
-        padding-bottom: 80px;
-      }
-
-    }
-
-  </style>
 
 </head>
 
@@ -189,13 +34,10 @@
 
   <!-- =====================================================
        TOP HEADER
-       Chess News Hub + Profile
   ====================================================== -->
 
   <header class="topbar panel">
 
-
-    <!-- BRAND -->
 
     <div class="brand">
 
@@ -225,7 +67,6 @@
 
     <div class="profile-menu">
 
-
       <button
         id="profileBtn"
         class="btn secondary"
@@ -245,18 +86,13 @@
         class="profile-dropdown"
       >
 
-
         <p>
-
           <strong id="profileName">
             Guest
           </strong>
-
         </p>
 
-
         <hr>
-
 
         <p id="profileEmail">
           Not logged in
@@ -284,11 +120,9 @@
               Wood
             </strong>
 
-
             <span id="profileAchievementLevel">
               Level 1
             </span>
-
 
             <small>
 
@@ -332,8 +166,6 @@
         <hr>
 
 
-        <!-- ADMIN -->
-
         <button
           id="adminPanelBtn"
           class="btn primary"
@@ -347,8 +179,6 @@
         </button>
 
 
-        <!-- LOGOUT -->
-
         <button
           id="logoutBtn"
           class="btn secondary"
@@ -356,7 +186,6 @@
         >
           🚪 Logout
         </button>
-
 
       </div>
 
@@ -366,9 +195,7 @@
 
 
   <!-- =====================================================
-       NAVIGATION
-       DESKTOP: UNDER HEADER
-       MOBILE: BOTTOM
+       PAGE NAVIGATION
   ====================================================== -->
 
   <nav class="page-navigation">
@@ -376,9 +203,7 @@
 
     <a href="index.html">
 
-      <span>
-        🏠
-      </span>
+      <span>🏠</span>
 
       <small>
         Home
@@ -389,9 +214,7 @@
 
     <a href="matches.html">
 
-      <span>
-        ♟️
-      </span>
+      <span>♟️</span>
 
       <small>
         Matches
@@ -405,9 +228,7 @@
       class="active"
     >
 
-      <span>
-        🏆
-      </span>
+      <span>🏆</span>
 
       <small>
         Standings
@@ -418,9 +239,7 @@
 
     <a href="updates.html">
 
-      <span>
-        📰
-      </span>
+      <span>📰</span>
 
       <small>
         Updates
@@ -431,9 +250,7 @@
 
     <a href="community.html">
 
-      <span>
-        👥
-      </span>
+      <span>👥</span>
 
       <small>
         Community
@@ -444,9 +261,7 @@
 
     <a href="players.html">
 
-      <span>
-        👤
-      </span>
+      <span>👤</span>
 
       <small>
         Players
@@ -458,7 +273,7 @@
 
 
   <!-- =====================================================
-       TEAM STANDINGS
+       INDIVIDUAL STANDINGS
   ====================================================== -->
 
   <section
@@ -467,515 +282,39 @@
   >
 
 
-    <div class="section-head">
+    <!-- =================================================
+         STANDINGS HEADER
+    ================================================== -->
+
+    <div class="standings-header">
+
 
       <div>
 
+        <span class="section-kicker">
+          🏆 COMMUNITY RANKING
+        </span>
+
         <h2>
-          🏆 Team Standings
+          Player Standings
         </h2>
 
         <p>
-          Three teams. Nine players. One championship.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <!-- =================================================
-         TEAM GRID
-    ================================================== -->
-
-    <div class="grid-3">
-
-
-      <!-- =================================================
-           RED TEAM
-      ================================================== -->
-
-      <div
-        class="card"
-        style="
-          background:
-            linear-gradient(
-              135deg,
-              rgba(239,68,68,.25),
-              rgba(124,58,237,.12)
-            );
-
-          border:
-            2px solid
-            rgba(239,68,68,.55);
-
-          box-shadow:
-            0 15px 35px
-            rgba(239,68,68,.20);
-
-          text-align:center;
-        "
-      >
-
-
-        <!-- TEAM LOGO -->
-
-        <div
-          style="
-            width:85px;
-            height:85px;
-            margin:0 auto 15px;
-            border-radius:50%;
-
-            background:
-              linear-gradient(
-                135deg,
-                #EF4444,
-                #991B1B
-              );
-
-            display:flex;
-            align-items:center;
-            justify-content:center;
-
-            font-size:42px;
-
-            box-shadow:
-              0 10px 25px
-              rgba(239,68,68,.35);
-          "
-        >
-
-          <img
-            src="images/redteam.jpeg"
-            alt="Red Team"
-            style="
-              width:65px;
-              height:65px;
-              object-fit:contain;
-              border-radius:50%;
-            "
-          >
-
-        </div>
-
-
-        <div
-          class="chip"
-          style="
-            background:
-              linear-gradient(
-                135deg,
-                #EF4444,
-                #DC2626
-              );
-
-            color:white;
-          "
-        >
-          🔴 RED TEAM
-        </div>
-
-
-        <h3>
-          Red Warriors
-        </h3>
-
-
-        <div
-          style="
-            font-size:28px;
-            font-weight:700;
-            margin:15px 0;
-          "
-        >
-          6 wins
-        </div>
-
-
-        <div
-          style="
-            font-size:20px;
-            font-weight:600;
-            margin-bottom:20px;
-          "
-        >
-          21 points
-        </div>
-
-
-        <hr>
-
-
-        <p>
-          <strong>
-            1. Architect
-          </strong>
-
-          <br>
-
-          4.5 pts • 1 Wins
-        </p>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            2. Astronomer23
-          </strong>
-
-          <br>
-
-          9 pts • 3 Wins
-
-        </p>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            3. GeePrime
-          </strong>
-
-          <br>
-
-          7.5 pts • 2 Win
-
+          Track chess performance, accuracy and fantasy achievements.
         </p>
 
       </div>
 
 
-      <!-- =================================================
-           PURPLE TEAM
-      ================================================== -->
-
-      <div
-        class="card"
-        style="
-          background:
-            linear-gradient(
-              135deg,
-              rgba(124,58,237,.28),
-              rgba(239,68,68,.12),
-              rgba(37,99,235,.12)
-            );
-
-          border:
-            2px solid
-            rgba(124,58,237,.60);
-
-          box-shadow:
-            0 15px 35px
-            rgba(124,58,237,.25);
-
-          text-align:center;
-        "
-      >
-
-
-        <!-- TEAM LOGO -->
-
-        <div
-          style="
-            width:85px;
-            height:85px;
-            margin:0 auto 15px;
-            border-radius:50%;
-
-            background:
-              linear-gradient(
-                135deg,
-                #7C3AED,
-                #4C1D95
-              );
-
-            display:flex;
-            align-items:center;
-            justify-content:center;
-
-            font-size:42px;
-
-            box-shadow:
-              0 10px 25px
-              rgba(124,58,237,.40);
-          "
-        >
-
-          <img
-            src="images/purpleteam.jpeg"
-            alt="Purple Team"
-            style="
-              width:65px;
-              height:65px;
-              object-fit:contain;
-              border-radius:50%;
-            "
-          >
-
-        </div>
-
-
-        <div
-          class="chip"
-          style="
-            background:
-              linear-gradient(
-                135deg,
-                #EF4444,
-                #7C3AED,
-                #2563EB
-              );
-
-            color:white;
-          "
-        >
-          🟣 PURPLE TEAM
-        </div>
-
-
-        <h3>
-          Purple Kings
-        </h3>
-
-
-        <div
-          style="
-            font-size:28px;
-            font-weight:700;
-            margin:15px 0;
-          "
-        >
-          7 Wins
-        </div>
-
-
-        <div
-          style="
-            font-size:20px;
-            font-weight:600;
-            margin-bottom:20px;
-          "
-        >
-          22.5 Points
-        </div>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            1. Creedaville0
-          </strong>
-
-          <br>
-
-          9 pts • 3 Wins
-
-        </p>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            2. Major
-          </strong>
-
-          <br>
-
-          3 pts • 1 Wins
-
-        </p>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            3. Humblelear
-          </strong>
-
-          <br>
-
-          10.5 pts • 3 Win
-
-        </p>
-
-      </div>
-
-
-      <!-- =================================================
-           BLUE TEAM
-      ================================================== -->
-
-      <div
-        class="card"
-        style="
-          background:
-            linear-gradient(
-              135deg,
-              rgba(37,99,235,.28),
-              rgba(124,58,237,.15)
-            );
-
-          border:
-            2px solid
-            rgba(37,99,235,.60);
-
-          box-shadow:
-            0 15px 35px
-            rgba(37,99,235,.25);
-
-          text-align:center;
-        "
-      >
-
-
-        <!-- TEAM LOGO -->
-
-        <div
-          style="
-            width:85px;
-            height:85px;
-            margin:0 auto 15px;
-            border-radius:50%;
-
-            background:
-              linear-gradient(
-                135deg,
-                #2563EB,
-                #1E3A8A
-              );
-
-            display:flex;
-            align-items:center;
-            justify-content:center;
-
-            font-size:42px;
-
-            box-shadow:
-              0 10px 25px
-              rgba(37,99,235,.40);
-          "
-        >
-
-          <img
-            src="images/blueteam.jpeg"
-            alt="Blue Team"
-            style="
-              width:65px;
-              height:65px;
-              object-fit:contain;
-              border-radius:50%;
-            "
-          >
-
-        </div>
-
-
-        <div
-          class="chip"
-          style="
-            background:
-              linear-gradient(
-                135deg,
-                #2563EB,
-                #1D4ED8
-              );
-
-            color:white;
-          "
-        >
-          🔵 BLUE TEAM
-        </div>
-
-
-        <h3>
-          Blue Knights
-        </h3>
-
-
-        <div
-          style="
-            font-size:28px;
-            font-weight:700;
-            margin:15px 0;
-          "
-        >
-          8 Wins
-        </div>
-
-
-        <div
-          style="
-            font-size:20px;
-            font-weight:600;
-            margin-bottom:20px;
-          "
-        >
-          30 Points
-        </div>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            1. Davekeyz
-          </strong>
-
-          <br>
-
-          13.5 pts • 4 Wins
-
-        </p>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            2. Daniel
-          </strong>
-
-          <br>
-
-          13.5 pts • 4 Wins
-
-        </p>
-
-
-        <hr>
-
-
-        <p>
-
-          <strong>
-            3. Lah
-          </strong>
-
-          <br>
-
-          3 pts • 1 Win
-
-        </p>
+      <div class="standings-summary">
+
+        <strong>
+          7
+        </strong>
+
+        <span>
+          Players
+        </span>
 
       </div>
 
@@ -983,155 +322,751 @@
     </div>
 
 
-    <br>
-    <br>
-
-
     <!-- =================================================
-         OVERALL BATTLE
+         QUICK PERFORMANCE SUMMARY
     ================================================== -->
 
-    <div
-      class="card"
-      style="
-        background:
-          linear-gradient(
-            135deg,
-            rgba(239,68,68,.18),
-            rgba(124,58,237,.22),
-            rgba(37,99,235,.18)
-          );
-
-        border:
-          2px solid
-          rgba(139,92,246,.45);
-
-        text-align:center;
-      "
-    >
+    <div class="standings-highlights">
 
 
-      <div
-        class="chip"
-        style="
-          background:
-            linear-gradient(
-              135deg,
-              #EF4444,
-              #7C3AED,
-              #2563EB
-            );
+      <div class="standing-highlight">
 
-          color:white;
-        "
-      >
-        ⚔️ TEAM STAND-OFF
+        <span>
+          🎯
+        </span>
+
+        <div>
+
+          <strong>
+            Accuracy
+          </strong>
+
+          <small>
+            Game precision
+          </small>
+
+        </div>
+
       </div>
 
 
-      <h2 style="margin-top:18px;">
-        Championship Battle
-      </h2>
+      <div class="standing-highlight">
 
-
-      <div
-        style="
-          display:flex;
-          justify-content:space-around;
-          align-items:center;
-          gap:15px;
-          margin-top:25px;
-          flex-wrap:wrap;
-        "
-      >
-
-
-        <!-- RED -->
+        <span>
+          ♔
+        </span>
 
         <div>
 
-          <div style="font-size:30px;">
-            🔴
-          </div>
-
           <strong>
-            Red Warriors
+            Match Record
           </strong>
 
-          <br>
+          <small>
+            Wins • Draws • Losses
+          </small>
 
-          <span>
-            21 Points
+        </div>
+
+      </div>
+
+
+      <div class="standing-highlight">
+
+        <span>
+          ✨
+        </span>
+
+        <div>
+
+          <strong>
+            Great Moves
+          </strong>
+
+          <small>
+            Quality plays
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <div class="standing-highlight">
+
+        <span>
+          🏆
+        </span>
+
+        <div>
+
+          <strong>
+            Fantasy Points
+          </strong>
+
+          <small>
+            Community achievements
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         TABLE CONTAINER
+    ================================================== -->
+
+    <div class="standings-table-card">
+
+
+      <div class="standings-table-head">
+
+        <div>
+
+          <span class="section-kicker">
+            CURRENT LEADERBOARD
           </span>
+
+          <h3>
+            Overall Performance
+          </h3>
 
         </div>
 
 
-        <!-- VS -->
+        <span class="table-scroll-hint">
+          ↔ Swipe to view
+        </span>
 
-        <div
-          style="
-            font-size:28px;
-            font-weight:700;
-          "
+      </div>
+
+
+      <!-- Horizontal scrolling is handled by CSS -->
+
+      <div class="standings-table-wrap">
+
+
+        <table
+          class="standings-table"
+          id="standingsTable"
         >
-          VS
-        </div>
 
 
-        <!-- PURPLE -->
+          <thead>
 
-        <div>
+            <tr>
 
-          <div style="font-size:30px;">
-            🟣
-          </div>
+              <th>
+                Rank
+              </th>
 
-          <strong>
-            Purple Kings
-          </strong>
+              <th>
+                Player
+              </th>
 
-          <br>
+              <th>
+                Accuracy
+              </th>
 
-          <span>
-            22.5 Points
-          </span>
+              <th>
+                Wins
+              </th>
 
-        </div>
+              <th>
+                Loss
+              </th>
+
+              <th>
+                Draw
+              </th>
+
+              <th>
+                Points
+              </th>
+
+              <th>
+                Fantasy Points
+              </th>
+
+              <th>
+                Great Moves
+              </th>
+
+            </tr>
+
+          </thead>
 
 
-        <!-- VS -->
-
-        <div
-          style="
-            font-size:28px;
-            font-weight:700;
-          "
-        >
-          VS
-        </div>
+          <tbody>
 
 
-        <!-- BLUE -->
+            <!-- =================================================
+                 1. DAVEKEYZ
+            ================================================== -->
 
-        <div>
+            <tr>
 
-          <div style="font-size:30px;">
-            🔵
-          </div>
+              <td class="standing-rank">
+                <span>1</span>
+              </td>
 
-          <strong>
-            Blue Knights
-          </strong>
+              <td class="standing-player">
 
-          <br>
+                <div class="standing-avatar">
+                  D
+                </div>
 
-          <span>
-            30 Points
-          </span>
+                <div>
 
-        </div>
+                  <strong>
+                    Davekeyz
+                  </strong>
 
+                  <small>
+                    Chess Player
+                  </small>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="accuracy-value">
+                  0%
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-win">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-loss">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-draw">
+                  0
+                </span>
+              </td>
+
+              <td class="standing-points">
+                0
+              </td>
+
+              <td class="standing-fantasy">
+                🏆 0
+              </td>
+
+              <td class="great-moves">
+                0
+              </td>
+
+            </tr>
+
+
+            <!-- =================================================
+                 2. GEEPRIME
+            ================================================== -->
+
+            <tr>
+
+              <td class="standing-rank">
+                <span>2</span>
+              </td>
+
+              <td class="standing-player">
+
+                <div class="standing-avatar">
+                  G
+                </div>
+
+                <div>
+
+                  <strong>
+                    GeePrime
+                  </strong>
+
+                  <small>
+                    Chess Player
+                  </small>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="accuracy-value">
+                  0%
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-win">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-loss">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-draw">
+                  0
+                </span>
+              </td>
+
+              <td class="standing-points">
+                0
+              </td>
+
+              <td class="standing-fantasy">
+                🏆 0
+              </td>
+
+              <td class="great-moves">
+                0
+              </td>
+
+            </tr>
+
+
+            <!-- =================================================
+                 3. HUMBLELEAR
+            ================================================== -->
+
+            <tr>
+
+              <td class="standing-rank">
+                <span>3</span>
+              </td>
+
+              <td class="standing-player">
+
+                <div class="standing-avatar">
+                  H
+                </div>
+
+                <div>
+
+                  <strong>
+                    Humblelear
+                  </strong>
+
+                  <small>
+                    Chess Player
+                  </small>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="accuracy-value">
+                  0%
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-win">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-loss">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-draw">
+                  0
+                </span>
+              </td>
+
+              <td class="standing-points">
+                0
+              </td>
+
+              <td class="standing-fantasy">
+                🏆 0
+              </td>
+
+              <td class="great-moves">
+                0
+              </td>
+
+            </tr>
+
+
+            <!-- =================================================
+                 4. LAH
+            ================================================== -->
+
+            <tr>
+
+              <td class="standing-rank">
+                <span>4</span>
+              </td>
+
+              <td class="standing-player">
+
+                <div class="standing-avatar">
+                  L
+                </div>
+
+                <div>
+
+                  <strong>
+                    Lah
+                  </strong>
+
+                  <small>
+                    Chess Player
+                  </small>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="accuracy-value">
+                  0%
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-win">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-loss">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-draw">
+                  0
+                </span>
+              </td>
+
+              <td class="standing-points">
+                0
+              </td>
+
+              <td class="standing-fantasy">
+                🏆 0
+              </td>
+
+              <td class="great-moves">
+                0
+              </td>
+
+            </tr>
+
+
+            <!-- =================================================
+                 5. QUADRATIC
+            ================================================== -->
+
+            <tr>
+
+              <td class="standing-rank">
+                <span>5</span>
+              </td>
+
+              <td class="standing-player">
+
+                <div class="standing-avatar">
+                  Q
+                </div>
+
+                <div>
+
+                  <strong>
+                    Quadratic
+                  </strong>
+
+                  <small>
+                    Chess Player
+                  </small>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="accuracy-value">
+                  0%
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-win">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-loss">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-draw">
+                  0
+                </span>
+              </td>
+
+              <td class="standing-points">
+                0
+              </td>
+
+              <td class="standing-fantasy">
+                🏆 0
+              </td>
+
+              <td class="great-moves">
+                0
+              </td>
+
+            </tr>
+
+
+            <!-- =================================================
+                 6. SHROOMY
+            ================================================== -->
+
+            <tr>
+
+              <td class="standing-rank">
+                <span>6</span>
+              </td>
+
+              <td class="standing-player">
+
+                <div class="standing-avatar">
+                  S
+                </div>
+
+                <div>
+
+                  <strong>
+                    Shroomy
+                  </strong>
+
+                  <small>
+                    Chess Player
+                  </small>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="accuracy-value">
+                  0%
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-win">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-loss">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-draw">
+                  0
+                </span>
+              </td>
+
+              <td class="standing-points">
+                0
+              </td>
+
+              <td class="standing-fantasy">
+                🏆 0
+              </td>
+
+              <td class="great-moves">
+                0
+              </td>
+
+            </tr>
+
+
+            <!-- =================================================
+                 7. SUDAIS
+            ================================================== -->
+
+            <tr>
+
+              <td class="standing-rank">
+                <span>7</span>
+              </td>
+
+              <td class="standing-player">
+
+                <div class="standing-avatar">
+                  S
+                </div>
+
+                <div>
+
+                  <strong>
+                    Sudais
+                  </strong>
+
+                  <small>
+                    Chess Player
+                  </small>
+
+                </div>
+
+              </td>
+
+              <td>
+                <span class="accuracy-value">
+                  0%
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-win">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-loss">
+                  0
+                </span>
+              </td>
+
+              <td>
+                <span class="stat-draw">
+                  0
+                </span>
+              </td>
+
+              <td class="standing-points">
+                0
+              </td>
+
+              <td class="standing-fantasy">
+                🏆 0
+              </td>
+
+              <td class="great-moves">
+                0
+              </td>
+
+            </tr>
+
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- =================================================
+           TABLE FOOTER
+      ================================================== -->
+
+      <div class="standings-table-footer">
+
+        <span>
+          📊 Statistics update as players complete matches.
+        </span>
+
+        <span>
+          ↔ Swipe horizontally to view all statistics.
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         STANDINGS LEGEND
+    ================================================== -->
+
+    <div class="standings-legend">
+
+
+      <div>
+
+        <strong>
+          Points
+        </strong>
+
+        <span>
+          Win = 1 • Draw = 0.5 • Loss = 0
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          Accuracy
+        </strong>
+
+        <span>
+          Average game accuracy
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          Great Moves
+        </strong>
+
+        <span>
+          Total high-quality moves
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          Fantasy Points
+        </strong>
+
+        <span>
+          Community achievement score
+        </span>
 
       </div>
 
@@ -1149,6 +1084,7 @@
 ====================================================== -->
 
 <script>
+
 
   function toggleSection(id) {
 
@@ -1183,31 +1119,23 @@
 
 
     if (playerName) {
-
       playerName.textContent = name;
-
     }
 
 
     if (playerRating) {
-
       playerRating.textContent =
         `Rating: ${rating} • ${tag}`;
-
     }
 
 
     if (playerDesc) {
-
       playerDesc.textContent = desc;
-
     }
 
 
     if (playerModal) {
-
       playerModal.style.display = "flex";
-
     }
 
   }
@@ -1219,9 +1147,7 @@
       document.getElementById("playerModal");
 
     if (playerModal) {
-
       playerModal.style.display = "none";
-
     }
 
   }
@@ -1245,3 +1171,4 @@
 
 </body>
 </html>
+```
