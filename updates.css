@@ -1,0 +1,1164 @@
+/* =========================================================
+   UPDATES PAGE
+   Facebook-style social/news feed
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+
+.page-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin: 12px 0 20px;
+    padding: 10px;
+
+    border-radius: var(--radius);
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.page-navigation a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 9px 13px;
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text-secondary);
+
+    text-decoration: none;
+
+    font-size: .85rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+        background var(--transition),
+        color var(--transition),
+        transform var(--transition);
+}
+
+.page-navigation a span {
+    font-size: 1rem;
+}
+
+.page-navigation a small {
+    font-size: .78rem;
+}
+
+.page-navigation a:hover {
+    background: var(--primary-soft);
+    color: var(--primary);
+
+    transform: translateY(-1px);
+}
+
+.page-navigation a.active {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   PAGE INTRO
+   ========================================================= */
+
+#facts {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
+    padding: 0;
+
+    overflow: visible;
+}
+
+#facts > .section-head {
+    margin-bottom: 18px;
+
+    padding: 0 4px;
+}
+
+#facts > .section-head h2 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+}
+
+#facts > .section-head p {
+    margin-top: 7px;
+
+    color: var(--text-secondary);
+
+    font-size: .9rem;
+}
+
+
+/* =========================================================
+   MAIN UPDATES SECTION
+   ========================================================= */
+
+#updates {
+    margin: 0;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+}
+
+#updates > .section-head {
+    margin-bottom: 18px;
+}
+
+#updates > .section-head h2 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 1.3rem;
+}
+
+#updates > .section-head p {
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: .82rem;
+}
+
+
+/* =========================================================
+   TWO-COLUMN SOCIAL LAYOUT
+   ========================================================= */
+
+.updates-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        330px;
+
+    gap: 22px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   MAIN FEED
+   ========================================================= */
+
+.updates-main {
+    min-width: 0;
+}
+
+
+/* Remove old outer panel appearance */
+
+.updates-main > section {
+    margin: 0;
+
+    padding: 0;
+
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none;
+
+    overflow: visible;
+}
+
+.updates-main > section > .section-head {
+    display: none;
+}
+
+
+/* =========================================================
+   FIRESTORE UPDATE FEED
+   ========================================================= */
+
+#updatesContainer {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    padding: 0;
+
+    background: transparent !important;
+
+    border: none !important;
+}
+
+
+/* =========================================================
+   INDIVIDUAL POST
+   ========================================================= */
+
+#updatesContainer > .card {
+    display: flex;
+
+    flex-direction: column;
+
+    margin: 0;
+
+    padding: 0 !important;
+
+    overflow: hidden;
+
+    background: var(--surface) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius-lg);
+
+    color: var(--text) !important;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        box-shadow var(--transition),
+        transform var(--transition);
+}
+
+#updatesContainer > .card:hover {
+    box-shadow: var(--shadow);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   POST CONTENT ORDER
+   ========================================================= */
+
+/*
+   The JavaScript currently creates:
+
+   image
+   chip
+   title
+   content
+   divider
+   reactions/buttons
+   comments
+
+   We use flex ordering to make it feel more like
+   a social media post.
+*/
+
+#updatesContainer > .card > img {
+    order: 4;
+
+    display: block;
+
+    width: 100% !important;
+
+    max-height: 480px;
+
+    margin: 10px 0 0 !important;
+
+    object-fit: cover;
+
+    border-radius: 0 !important;
+
+    background: var(--surface-3);
+}
+
+
+/* =========================================================
+   POST BADGE
+   ========================================================= */
+
+#updatesContainer > .card > .chip {
+    order: 1;
+
+    align-self: flex-start;
+
+    margin: 18px 20px 4px;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
+
+    color: var(--primary);
+
+    font-size: .68rem;
+    font-weight: 800;
+
+    letter-spacing: .02em;
+}
+
+
+/* =========================================================
+   POST TITLE
+   ========================================================= */
+
+#updatesContainer > .card > h3 {
+    order: 2;
+
+    margin: 8px 20px 0 !important;
+
+    color: var(--text) !important;
+
+    font-size: 1.25rem;
+
+    line-height: 1.3;
+}
+
+
+/* =========================================================
+   POST CONTENT
+   ========================================================= */
+
+#updatesContainer > .card > p {
+    order: 3;
+
+    margin: 9px 20px 14px;
+
+    color: var(--text-secondary) !important;
+
+    font-size: .9rem;
+
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   POST DIVIDER
+   ========================================================= */
+
+#updatesContainer > .card > hr {
+    order: 5;
+
+    width: calc(100% - 40px);
+
+    margin: 0 20px 12px !important;
+
+    border: none;
+
+    border-top: 1px solid var(--border);
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   POST ACTION AREA
+   ========================================================= */
+
+#updatesContainer > .card > hr + div {
+    order: 6;
+
+    display: flex !important;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 0 20px 15px;
+
+    color: var(--muted);
+}
+
+
+/* Like/comment counters */
+
+#updatesContainer > .card > hr + div > div:first-child {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    color: var(--muted);
+
+    font-size: .74rem;
+}
+
+
+/* Action buttons container */
+
+#updatesContainer > .card > hr + div > div:last-child {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   POST BUTTONS
+   ========================================================= */
+
+#updatesContainer .likeBtn,
+#updatesContainer .toggleCommentsBtn,
+#updatesContainer .deleteUpdateBtn {
+    min-height: 34px;
+
+    padding: 7px 11px;
+
+    border-radius: 9px;
+
+    font-size: .72rem;
+}
+
+#updatesContainer .likeBtn {
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    color: var(--text-secondary);
+}
+
+#updatesContainer .likeBtn:hover {
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    border-color: var(--border-strong);
+}
+
+#updatesContainer .toggleCommentsBtn {
+    background: var(--primary);
+
+    color: white;
+
+    border: none;
+}
+
+#updatesContainer .deleteUpdateBtn {
+    background: transparent;
+
+    border: 1px solid var(--border);
+
+    color: var(--danger);
+}
+
+
+/* =========================================================
+   COMMENTS AREA
+   ========================================================= */
+
+#updatesContainer .commentsSection {
+    order: 7;
+
+    margin: 0 !important;
+
+    padding: 15px 20px 20px;
+
+    background: var(--surface-2);
+
+    border-top: 1px solid var(--border);
+}
+
+
+/* =========================================================
+   COMMENTS LIST
+   ========================================================= */
+
+#updatesContainer .comments-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin-bottom: 14px;
+}
+
+#updatesContainer .comment-bubble {
+    padding: 10px 12px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--text-secondary);
+
+    font-size: .78rem;
+
+    line-height: 1.5;
+}
+
+#updatesContainer .comment-bubble strong {
+    color: var(--text);
+
+    font-size: .78rem;
+}
+
+
+/* =========================================================
+   COMMENT INPUT
+   ========================================================= */
+
+#updatesContainer textarea {
+    width: 100% !important;
+
+    min-height: 82px;
+
+    height: auto !important;
+
+    padding: 11px 12px !important;
+
+    resize: vertical !important;
+
+    box-sizing: border-box;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: .8rem;
+
+    outline: none;
+}
+
+#updatesContainer textarea::placeholder {
+    color: var(--muted);
+}
+
+#updatesContainer textarea:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px var(--primary-soft);
+}
+
+#updatesContainer .postCommentBtn {
+    margin-top: 9px;
+
+    min-height: 36px;
+
+    padding: 8px 13px;
+
+    font-size: .75rem;
+}
+
+
+/* =========================================================
+   RIGHT SIDEBAR
+   ========================================================= */
+
+.right-sidebar {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    position: sticky;
+
+    top: 15px;
+}
+
+
+/* Hide desktop close button */
+
+.right-sidebar > #closeSidebar {
+    display: none;
+}
+
+
+/* =========================================================
+   SIDEBAR EVENT
+   ========================================================= */
+
+.hero-side {
+    padding: 0 !important;
+
+    background: transparent !important;
+
+    border: none !important;
+
+    border-radius: 0;
+
+    box-shadow: none;
+}
+
+.hero-side .mini-card {
+    margin: 0;
+
+    padding: 18px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.hero-side .section-head {
+    margin-bottom: 12px !important;
+}
+
+.hero-side h2 {
+    margin: 0 !important;
+
+    color: var(--text);
+
+    font-size: 1.15rem !important;
+}
+
+.hero-side img {
+    display: block;
+
+    width: 100% !important;
+
+    max-height: 160px;
+
+    margin-top: 10px;
+
+    object-fit: cover;
+
+    border-radius: 13px;
+}
+
+
+/* Event card */
+
+.hero-side .card {
+    margin-top: 13px;
+
+    padding: 15px !important;
+
+    background: var(--surface-2) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: 14px;
+
+    box-shadow: none;
+}
+
+.hero-side .card h3 {
+    margin-top: 10px !important;
+
+    color: var(--text);
+
+    font-size: 1rem;
+}
+
+.hero-side .card p {
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   COMMUNITY CHAT CARD
+   ========================================================= */
+
+.right-sidebar > .card {
+    padding: 18px !important;
+
+    background: var(--surface) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius-lg);
+
+    color: var(--text) !important;
+
+    box-shadow: var(--shadow-sm);
+}
+
+.right-sidebar > .card .chip {
+    display: inline-flex;
+
+    padding: 6px 10px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    color: var(--primary);
+
+    font-size: .68rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   COMMUNITY MESSAGES
+   ========================================================= */
+
+#communityMessages {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 13px;
+
+    max-height: 320px;
+
+    overflow-y: auto;
+}
+
+#communityMessages .fact-item {
+    padding: 10px 11px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--text-secondary);
+
+    font-size: .75rem;
+
+    line-height: 1.5;
+}
+
+#communityMessages .fact-item strong {
+    color: var(--text);
+}
+
+
+/* =========================================================
+   COMMUNITY MESSAGE INPUT
+   ========================================================= */
+
+#communityMessageInput {
+    width: 100% !important;
+
+    min-height: 80px;
+
+    padding: 11px !important;
+
+    box-sizing: border-box;
+
+    resize: vertical !important;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: .8rem;
+
+    outline: none;
+}
+
+#communityMessageInput::placeholder {
+    color: var(--muted);
+}
+
+#communityMessageInput:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px var(--primary-soft);
+}
+
+#sendCommunityMessage {
+    width: 100%;
+
+    min-height: 38px;
+}
+
+
+/* =========================================================
+   MOBILE DISCUSSIONS BUTTON
+   ========================================================= */
+
+.sidebar-toggle {
+    display: none;
+
+    width: 100%;
+
+    margin-bottom: 12px;
+
+    padding: 11px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: .8rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* =========================================================
+   SIDEBAR OVERLAY
+   ========================================================= */
+
+.sidebar-overlay {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 8998;
+
+    background: rgba(15, 23, 42, .35);
+
+    backdrop-filter: blur(3px);
+}
+
+
+/* =========================================================
+   LOADING STATE
+   ========================================================= */
+
+#updatesContainer > p {
+    padding: 30px;
+
+    margin: 0;
+
+    text-align: center;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    color: var(--muted);
+
+    font-size: .85rem;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .updates-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .right-sidebar {
+        position: fixed;
+
+        top: 0;
+        right: 0;
+        bottom: 0;
+
+        width: min(360px, 92vw);
+
+        z-index: 8999;
+
+        padding: 20px;
+
+        overflow-y: auto;
+
+        background: var(--bg);
+
+        border-left: 1px solid var(--border);
+
+        box-shadow: var(--shadow-lg);
+
+        transform: translateX(105%);
+
+        transition:
+            transform .25s ease;
+    }
+
+    .right-sidebar.show-sidebar {
+        transform: translateX(0);
+    }
+
+    .right-sidebar > #closeSidebar {
+        display: block;
+
+        align-self: flex-end;
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .sidebar-overlay.show-overlay {
+        display: block;
+    }
+}
+
+
+/* =========================================================
+   MOBILE FEED
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+    html,
+    body {
+        max-width: 100%;
+
+        overflow-x: hidden;
+    }
+
+    .page-navigation {
+        position: fixed;
+
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+
+        z-index: 5000;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(6, minmax(0, 1fr));
+
+        gap: 3px;
+
+        margin: 0;
+
+        padding: 5px;
+
+        border-radius: 14px;
+
+        background: var(--surface);
+
+        border: 1px solid var(--border);
+
+        box-shadow: var(--shadow-lg);
+
+        backdrop-filter: blur(10px);
+    }
+
+    .page-navigation a {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 2px;
+
+        min-width: 0;
+        min-height: 48px;
+
+        padding: 4px 2px;
+
+        text-align: center;
+
+        font-size: .6rem;
+
+        border-radius: 10px;
+
+        overflow: hidden;
+    }
+
+    .page-navigation a span {
+        font-size: 1rem;
+
+        line-height: 1;
+    }
+
+    .page-navigation a small {
+        font-size: .55rem;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+    .wrap {
+        padding-bottom: 82px;
+    }
+
+    #facts > .section-head {
+        padding: 0;
+
+        margin-bottom: 15px;
+    }
+
+    #facts > .section-head h2 {
+        font-size: 1.55rem;
+    }
+
+    #facts > .section-head p {
+        font-size: .8rem;
+
+        line-height: 1.5;
+    }
+
+    #updates > .section-head h2 {
+        font-size: 1.1rem;
+    }
+
+    .updates-layout {
+        gap: 12px;
+    }
+
+    #updatesContainer {
+        gap: 12px;
+    }
+
+    #updatesContainer > .card {
+        border-radius: 16px;
+    }
+
+    #updatesContainer > .card > .chip {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    #updatesContainer > .card > h3 {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+
+        font-size: 1.05rem;
+    }
+
+    #updatesContainer > .card > p {
+        margin-left: 15px;
+        margin-right: 15px;
+
+        font-size: .82rem;
+
+        line-height: 1.65;
+    }
+
+    #updatesContainer > .card > hr {
+        width: calc(100% - 30px);
+
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+    }
+
+    #updatesContainer > .card > hr + div {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    #updatesContainer > .card > hr + div {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    #updatesContainer > .card > hr + div > div:last-child {
+        width: 100%;
+    }
+
+    #updatesContainer .likeBtn,
+    #updatesContainer .toggleCommentsBtn {
+        flex: 1;
+    }
+
+    #updatesContainer .commentsSection {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    #updatesContainer > .card > img {
+        max-height: 380px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .page-navigation {
+        left: 6px;
+        right: 6px;
+        bottom: 6px;
+
+        gap: 1px;
+
+        padding: 4px;
+
+        border-radius: 13px;
+    }
+
+    .page-navigation a {
+        min-height: 44px;
+
+        padding: 3px 1px;
+    }
+
+    .page-navigation a span {
+        font-size: .9rem;
+    }
+
+    .page-navigation a small {
+        font-size: .43rem;
+    }
+
+    .wrap {
+        padding-bottom: 76px;
+    }
+
+    #facts > .section-head h2 {
+        font-size: 1.4rem;
+    }
+}
