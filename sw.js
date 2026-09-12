@@ -23,6 +23,7 @@ const FILES_TO_CACHE = [
   "./matches.css",
   "./standings.css",
    "./updates.css",
+    "./community.css",
   "./manifest.json",
 
   "./firebase.js",
