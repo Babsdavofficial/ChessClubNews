@@ -1110,3 +1110,104 @@ export const FANTASY_PARTICIPATION_ACHIEVEMENTS = [
   }
 
 ];
+
+
+
+// =====================================================
+// SYNC FANTASY PARTICIPATION ACHIEVEMENTS
+// =====================================================
+
+export async function syncFantasyParticipationAchievements(
+  uid,
+  participationCount
+) {
+
+  if (!uid) return;
+
+  const count =
+    Number(participationCount) || 0;
+
+  if (count <= 0) return;
+
+  try {
+
+    const achievementsRef =
+      collection(
+        db,
+        "users",
+        uid,
+        "achievements"
+      );
+
+    const snapshot =
+      await getDocs(achievementsRef);
+
+    const existingIds =
+      new Set(
+        snapshot.docs.map(
+          docSnap => docSnap.id
+        )
+      );
+
+    const batch =
+      writeBatch(db);
+
+    let newAchievements = 0;
+
+    FANTASY_PARTICIPATION_ACHIEVEMENTS.forEach(
+      achievement => {
+
+        if (
+          count >= achievement.requirement &&
+          !existingIds.has(achievement.id)
+        ) {
+
+          const achievementRef =
+            doc(
+              db,
+              "users",
+              uid,
+              "achievements",
+              achievement.id
+            );
+
+          batch.set(
+            achievementRef,
+            {
+              ...achievement,
+
+              earnedAt:
+                serverTimestamp(),
+
+              participationCount:
+                count
+            }
+          );
+
+          newAchievements++;
+
+        }
+
+      }
+    );
+
+    if (newAchievements > 0) {
+
+      await batch.commit();
+
+      console.log(
+        `🏆 Awarded ${newAchievements} Fantasy participation achievement(s).`
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "❌ Fantasy participation achievement error:",
+      error
+    );
+
+  }
+
+}
