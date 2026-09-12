@@ -447,7 +447,10 @@ createdAt:Timestamp.now()
 }
 
 );
-
+await recordUserActivity(
+  "prediction",
+  predictionId
+);
 alert("Prediction submitted.");
 
 loadPredictions();
@@ -723,6 +726,10 @@ if (submitTriviaBtn) {
 
         }
       );
+      await recordUserActivity(
+  "trivia",
+  selectedTrivia.id
+);
 
 
       document.getElementById("triviaStatus").textContent =
@@ -894,6 +901,10 @@ createdAt:serverTimestamp()
 
 }
 
+);
+  await recordUserActivity(
+  "puzzle",
+  selectedPuzzle.id
 );
 
 document.getElementById("puzzleStatus")
@@ -1813,7 +1824,10 @@ if (submitFantasyTeamBtn) {
           }
 
         );
-
+        await recordUserActivity(
+  "fantasy",
+  activeFantasyEvent.id
+);
 
         // -----------------------------------------
         // SUCCESS
