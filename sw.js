@@ -15,11 +15,14 @@ const FILES_TO_CACHE = [
   "./admin.html",
   "./login.html",
   "./community-layout.css",
+  "./achievement-profile.html",
+  "./achievement-profile.css"
 
   "./style.css",
   "./manifest.json",
 
   "./firebase.js",
+  "./achievement-profile.js",
   "./auth.js",
   "./community.js",
   "./achievement.js",
