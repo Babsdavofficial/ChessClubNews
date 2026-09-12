@@ -1,0 +1,785 @@
+/* =========================================================
+   STANDINGS PAGE
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE NAVIGATION
+   Shared navigation layout for this page
+   ========================================================= */
+
+.page-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    margin: 12px 0 20px;
+    padding: 10px;
+
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.page-navigation a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 9px 13px;
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text-secondary);
+    text-decoration: none;
+
+    font-size: .85rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+        background var(--transition),
+        color var(--transition),
+        transform var(--transition);
+}
+
+.page-navigation a span {
+    font-size: 1rem;
+}
+
+.page-navigation a small {
+    font-size: .78rem;
+}
+
+.page-navigation a:hover {
+    background: var(--primary-soft);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.page-navigation a.active {
+    background: var(--primary-soft);
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   STANDINGS MAIN SECTION
+   ========================================================= */
+
+#standings {
+    overflow: hidden;
+}
+
+#standings.section {
+    padding: 28px;
+}
+
+
+/* =========================================================
+   STANDINGS HEADER
+   ========================================================= */
+
+.standings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    margin-bottom: 26px;
+}
+
+.standings-header .section-kicker,
+.standings-table-head .section-kicker {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 7px;
+
+    color: var(--primary);
+
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.standings-header h2 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    line-height: 1.1;
+}
+
+.standings-header p {
+    margin: 8px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: .95rem;
+}
+
+
+/* =========================================================
+   PLAYER COUNT
+   ========================================================= */
+
+.standings-summary {
+    min-width: 105px;
+
+    padding: 14px 18px;
+
+    text-align: center;
+
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow-sm);
+}
+
+.standings-summary strong {
+    display: block;
+
+    color: var(--primary);
+
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.standings-summary span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PERFORMANCE HIGHLIGHTS
+   ========================================================= */
+
+.standings-highlights {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 24px;
+}
+
+.standing-highlight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 0;
+
+    padding: 16px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.standing-highlight:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.standing-highlight > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    border-radius: 13px;
+
+    background: var(--primary-soft);
+
+    font-size: 1.25rem;
+}
+
+.standing-highlight strong {
+    display: block;
+
+    color: var(--text);
+
+    font-size: .9rem;
+}
+
+.standing-highlight small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: .72rem;
+}
+
+
+/* =========================================================
+   TABLE CARD
+   ========================================================= */
+
+.standings-table-card {
+    overflow: hidden;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.standings-table-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 20px 22px;
+
+    border-bottom: 1px solid var(--border);
+
+    background: var(--surface-2);
+}
+
+.standings-table-head h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 1.15rem;
+}
+
+.table-scroll-hint {
+    display: none;
+
+    color: var(--muted);
+
+    font-size: .72rem;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.standings-table-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+
+    scrollbar-width: thin;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.standings-table {
+    width: 100%;
+
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    color: var(--text);
+
+    font-size: .86rem;
+}
+
+.standings-table thead {
+    background: var(--surface-3);
+}
+
+.standings-table th {
+    padding: 13px 15px;
+
+    color: var(--muted);
+
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.standings-table th:nth-child(2) {
+    text-align: left;
+}
+
+.standings-table td {
+    padding: 15px;
+
+    text-align: center;
+
+    border-bottom: 1px solid var(--border);
+
+    white-space: nowrap;
+}
+
+.standings-table tbody tr {
+    transition:
+        background var(--transition);
+}
+
+.standings-table tbody tr:hover {
+    background: var(--surface-2);
+}
+
+.standings-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   RANK
+   ========================================================= */
+
+.standing-rank span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+
+    color: var(--text);
+
+    font-size: .8rem;
+    font-weight: 800;
+}
+
+
+/* Top three */
+
+.standings-table tbody tr:nth-child(1) .standing-rank span {
+    background: rgba(245, 158, 11, .14);
+    border-color: rgba(245, 158, 11, .35);
+    color: #b45309;
+}
+
+.standings-table tbody tr:nth-child(2) .standing-rank span {
+    background: rgba(148, 163, 184, .18);
+    border-color: rgba(148, 163, 184, .4);
+    color: #64748b;
+}
+
+.standings-table tbody tr:nth-child(3) .standing-rank span {
+    background: rgba(180, 83, 9, .12);
+    border-color: rgba(180, 83, 9, .3);
+    color: #92400e;
+}
+
+
+/* =========================================================
+   PLAYER
+   ========================================================= */
+
+.standing-player {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 180px;
+
+    text-align: left !important;
+}
+
+.standing-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-soft),
+            var(--secondary-soft)
+        );
+
+    border: 1px solid var(--border);
+
+    color: var(--primary);
+
+    font-size: .9rem;
+    font-weight: 800;
+}
+
+.standing-player strong {
+    display: block;
+
+    color: var(--text);
+
+    font-size: .88rem;
+}
+
+.standing-player small {
+    display: block;
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: .68rem;
+}
+
+
+/* =========================================================
+   ACCURACY
+   ========================================================= */
+
+.accuracy-value {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 48px;
+
+    padding: 5px 8px;
+
+    border-radius: 8px;
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   MATCH STATISTICS
+   ========================================================= */
+
+.stat-win {
+    color: var(--success);
+    font-weight: 800;
+}
+
+.stat-loss {
+    color: var(--danger);
+    font-weight: 800;
+}
+
+.stat-draw {
+    color: var(--warning);
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   POINTS
+   ========================================================= */
+
+.standing-points {
+    color: var(--text);
+
+    font-size: .95rem;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   FANTASY POINTS
+   ========================================================= */
+
+.standing-fantasy {
+    color: #b45309;
+
+    font-weight: 800;
+}
+
+.great-moves {
+    color: var(--secondary);
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   TABLE FOOTER
+   ========================================================= */
+
+.standings-table-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 14px 20px;
+
+    background: var(--surface-2);
+
+    border-top: 1px solid var(--border);
+
+    color: var(--muted);
+
+    font-size: .7rem;
+}
+
+
+/* =========================================================
+   STANDINGS LEGEND
+   ========================================================= */
+
+.standings-legend {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+.standings-legend > div {
+    padding: 14px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+
+.standings-legend strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--text);
+
+    font-size: .76rem;
+}
+
+.standings-legend span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: .68rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .standings-highlights {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .standings-legend {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 760px) {
+
+    .page-navigation {
+        position: fixed;
+
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+
+        z-index: 5000;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(6, minmax(0, 1fr));
+
+        gap: 3px;
+
+        margin: 0;
+
+        padding: 5px;
+
+        border-radius: 14px;
+
+        background: var(--surface);
+
+        box-shadow: var(--shadow-lg);
+
+        backdrop-filter: blur(10px);
+    }
+
+    .page-navigation a {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 2px;
+
+        min-width: 0;
+        min-height: 48px;
+
+        padding: 4px 2px;
+
+        text-align: center;
+
+        font-size: .6rem;
+
+        border-radius: 10px;
+
+        overflow: hidden;
+    }
+
+    .page-navigation a span {
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    .page-navigation a small {
+        font-size: .55rem;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+    .wrap {
+        padding-bottom: 80px;
+    }
+
+    #standings.section {
+        padding: 20px 14px;
+    }
+
+    .standings-header {
+        align-items: flex-start;
+    }
+
+    .standings-header h2 {
+        font-size: 1.55rem;
+    }
+
+    .standings-header p {
+        font-size: .82rem;
+    }
+
+    .standings-summary {
+        min-width: 78px;
+        padding: 11px 12px;
+    }
+
+    .standings-summary strong {
+        font-size: 1.45rem;
+    }
+
+    .standings-highlights {
+        gap: 10px;
+    }
+
+    .standing-highlight {
+        padding: 12px;
+    }
+
+    .standing-highlight > span {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+
+    .standings-table-head {
+        padding: 16px;
+    }
+
+    .table-scroll-hint {
+        display: block;
+    }
+
+    .standings-table-footer {
+        flex-direction: column;
+        gap: 5px;
+
+        padding: 12px 15px;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .standings-header {
+        flex-direction: column;
+    }
+
+    .standings-summary {
+        align-self: flex-start;
+    }
+
+    .standings-highlights {
+        grid-template-columns: 1fr;
+    }
+
+    .standings-legend {
+        grid-template-columns: 1fr;
+    }
+
+    .standing-highlight {
+        min-height: 65px;
+    }
+}
