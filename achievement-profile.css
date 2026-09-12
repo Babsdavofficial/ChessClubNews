@@ -623,3 +623,467 @@ body {
 .player-level-badge strong {
   color: #172033;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   ACHIEVEMENT COLLECTION
+========================================= */
+
+.achievements-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+
+/* =========================================
+   ACHIEVEMENT CARD
+========================================= */
+
+.achievement-card {
+  position: relative;
+
+  background: #ffffff;
+
+  border: 1px solid #e7eaf0;
+
+  border-radius: 22px;
+
+  padding: 26px 18px 20px;
+
+  text-align: center;
+
+  box-shadow:
+    0 6px 18px rgba(23, 32, 51, 0.06);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+
+/* Category-colored top line */
+
+.achievement-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 5px;
+
+  background: #d9dee7;
+}
+
+
+/* Hover */
+
+.achievement-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 15px 32px rgba(23, 32, 51, 0.12);
+}
+
+
+/* =========================================
+   DEFAULT / FANTASY POINTS
+========================================= */
+
+.achievement-card[data-category="fantasy"]::before,
+.achievement-card[data-category="fantasyPoints"]::before {
+  background: linear-gradient(
+    90deg,
+    #8b7355,
+    #d6b56c,
+    #f0d78c
+  );
+}
+
+
+.achievement-card[data-category="fantasy"] .achievement-card-icon,
+.achievement-card[data-category="fantasyPoints"] .achievement-card-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #f8f1df,
+      #ead7aa
+    );
+
+  border-color: #d6b56c;
+
+  box-shadow:
+    0 8px 22px rgba(177, 139, 68, 0.2);
+}
+
+
+/* =========================================
+   TRIVIA
+========================================= */
+
+.achievement-card[data-category="trivia"]::before {
+  background: linear-gradient(
+    90deg,
+    #536dfe,
+    #7c4dff,
+    #b388ff
+  );
+}
+
+
+.achievement-card[data-category="trivia"] .achievement-card-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #eef0ff,
+      #e3d9ff
+    );
+
+  border-color: #9b87ff;
+
+  box-shadow:
+    0 8px 22px rgba(108, 92, 231, 0.2);
+}
+
+
+/* =========================================
+   PREDICTIONS
+========================================= */
+
+.achievement-card[data-category="prediction"]::before {
+  background: linear-gradient(
+    90deg,
+    #16a085,
+    #2ecc71,
+    #8ee8ad
+  );
+}
+
+
+.achievement-card[data-category="prediction"] .achievement-card-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #e5fff3,
+      #c8f5dc
+    );
+
+  border-color: #61c98b;
+
+  box-shadow:
+    0 8px 22px rgba(39, 174, 96, 0.2);
+}
+
+
+/* =========================================
+   STREAK
+========================================= */
+
+.achievement-card[data-category="streak"]::before {
+  background: linear-gradient(
+    90deg,
+    #ff6b35,
+    #ff922b,
+    #ffc078
+  );
+}
+
+
+.achievement-card[data-category="streak"] .achievement-card-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #fff0e5,
+      #ffd8bd
+    );
+
+  border-color: #ff9b62;
+
+  box-shadow:
+    0 8px 22px rgba(255, 107, 53, 0.22);
+}
+
+
+/* =========================================
+   EVENT ACHIEVEMENTS
+========================================= */
+
+.achievement-card[data-category="event"]::before {
+  background: linear-gradient(
+    90deg,
+    #d4a017,
+    #f5c542,
+    #ffe58a
+  );
+}
+
+
+.achievement-card[data-category="event"] .achievement-card-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #fff9dd,
+      #ffe99a
+    );
+
+  border-color: #f5c542;
+
+  box-shadow:
+    0 8px 25px rgba(245, 197, 66, 0.28);
+}
+
+
+/* =========================================
+   CUSTOM / ADMIN ACHIEVEMENTS
+========================================= */
+
+.achievement-card[data-category="custom"]::before {
+  background: linear-gradient(
+    90deg,
+    #8e44ad,
+    #c084fc,
+    #e9b7ff
+  );
+}
+
+
+.achievement-card[data-category="custom"] .achievement-card-icon {
+  background:
+    linear-gradient(
+      145deg,
+      #f7edff,
+      #ead7ff
+    );
+
+  border-color: #b879e8;
+
+  box-shadow:
+    0 8px 25px rgba(142, 68, 173, 0.22);
+}
+
+
+/* =========================================
+   LARGE ICON
+========================================= */
+
+.achievement-card-icon {
+  width: 105px;
+  height: 105px;
+
+  margin: 2px auto 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f5f7fa,
+      #e8ebf0
+    );
+
+  border: 5px solid #d9dee7;
+
+  font-size: 55px;
+
+  line-height: 1;
+
+  box-shadow:
+    0 8px 20px rgba(23, 32, 51, 0.08);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* Icon hover */
+
+.achievement-card:hover
+.achievement-card-icon {
+  transform:
+    scale(1.08)
+    rotate(-2deg);
+}
+
+
+/* =========================================
+   CARD TEXT
+========================================= */
+
+.achievement-card-content h3 {
+  margin: 0 0 8px;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  color: #172033;
+}
+
+
+.achievement-card-content p {
+  margin: 0 auto 14px;
+
+  max-width: 235px;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  color: #697386;
+}
+
+
+/* =========================================
+   EARNED DATE
+========================================= */
+
+.achievement-earned-date {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 11px;
+
+  border-radius: 999px;
+
+  background: #f5f7fa;
+
+  color: #7a8495;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.achievement-empty {
+  grid-column: 1 / -1;
+
+  padding: 45px 25px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px dashed #d9dee7;
+
+  border-radius: 22px;
+}
+
+
+.achievement-empty-icon {
+  font-size: 58px;
+
+  margin-bottom: 12px;
+}
+
+
+.achievement-empty h3 {
+  margin: 0 0 8px;
+
+  color: #172033;
+
+  font-size: 20px;
+}
+
+
+.achievement-empty p {
+  margin: 0 auto;
+
+  max-width: 420px;
+
+  color: #7a8495;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+  .achievements-container {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .achievements-container {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+
+  .achievement-card {
+    padding: 24px 16px 20px;
+
+    border-radius: 20px;
+  }
+
+
+  .achievement-card-icon {
+    width: 95px;
+    height: 95px;
+
+    font-size: 50px;
+  }
+
+
+  .achievement-card-content h3 {
+    font-size: 18px;
+  }
+
+}
+
+
