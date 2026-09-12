@@ -239,10 +239,13 @@ function displayAchievements(
     achievement => {
 
       const card =
-        document.createElement("div");
+  document.createElement("div");
 
-      card.className =
-        "achievement-card";
+card.className =
+  "achievement-card";
+
+card.dataset.category =
+  achievement.category || achievement.type || "default";
 
       const earnedDate =
         formatAchievementDate(
