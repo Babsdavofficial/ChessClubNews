@@ -4727,4 +4727,31 @@ box-shadow:
 
 }
 
+/* =====================================================
+   CUSTOM ACHIEVEMENT PLAYER SEARCH
+   ===================================================== */
 
+.custom-achievement-player-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(168,85,247,.25);
+}
+
+.custom-achievement-player-result strong {
+  font-size: 1rem;
+}
+
+.custom-achievement-player-result small {
+  opacity: .7;
+  flex: 1;
+}
+
+.custom-achievement-player-result button {
+  margin-left: auto;
+}
