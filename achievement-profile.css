@@ -608,3 +608,18 @@ body {
   }
 
 }
+
+/* =====================================================
+   ACHIEVEMENT LEVEL BADGE OVERRIDE
+   Keep the profile badge neutral while
+   preserving each level's identity.
+===================================================== */
+
+.player-level-badge {
+  background: #f0f2f5 !important;
+  border: 1px solid #e1e5ea;
+}
+
+.player-level-badge strong {
+  color: #172033;
+}
