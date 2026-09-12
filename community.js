@@ -6,7 +6,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import {
- collection,
+  collection,
   query,
   orderBy,
   getDocs,
@@ -17,17 +17,15 @@ import {
   increment,
   addDoc,
   where,
- 
   onSnapshot,
   serverTimestamp,
   deleteDoc,
   writeBatch,
   limit,
-  Timestamp
-
+  Timestamp,
+  runTransaction
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
 
 // =====================================================
 // ACHIEVEMENT / FANTASY POINT LEVEL SYSTEM
