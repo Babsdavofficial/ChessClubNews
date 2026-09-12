@@ -27,7 +27,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-
 // =====================================================
 // STREAK SYSTEM
 // =====================================================
@@ -37,20 +36,63 @@ from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 //
 // Multiple activities on the same day count
 // as only ONE streak day.
+//
+// The system waits for Firebase authentication
+// before recording the activity.
 // =====================================================
+
+function waitForAuthenticatedUser() {
+  return new Promise((resolve) => {
+
+    // If Firebase already knows the user, use them immediately.
+    if (auth.currentUser) {
+      resolve(auth.currentUser);
+      return;
+    }
+
+    // Otherwise wait for Firebase to finish
+    // restoring the login session.
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+
+        unsubscribe();
+
+        resolve(user || null);
+
+      }
+    );
+
+  });
+}
+
 
 async function recordUserActivity(activityType, activityId = "") {
 
-  const user = auth.currentUser;
-
-  if (!user) return;
-
   try {
 
-    // -------------------------------------------------
-    // CREATE A CONSISTENT DATE KEY
-    // Nigeria time is used for the community day.
-    // -------------------------------------------------
+    // =================================================
+    // WAIT FOR FIREBASE AUTHENTICATION
+    // =================================================
+
+    const user =
+      await waitForAuthenticatedUser();
+
+
+    if (!user) {
+
+      console.warn(
+        "⚠️ Streak skipped: user is not authenticated."
+      );
+
+      return;
+
+    }
+
+
+    // =================================================
+    // CREATE NIGERIA DATE KEY
+    // =================================================
 
     const dateKey =
       new Intl.DateTimeFormat("en-CA", {
@@ -58,57 +100,83 @@ async function recordUserActivity(activityType, activityId = "") {
       }).format(new Date());
 
 
-    // -------------------------------------------------
-    // ONE ACTIVITY DOCUMENT PER USER PER DAY
-    // -------------------------------------------------
-
-    const activityRef = doc(
-      db,
-      "userDailyActivity",
-      `${user.uid}_${dateKey}`
+    console.log(
+      "🔥 Recording streak activity:",
+      activityType,
+      dateKey,
+      user.uid
     );
 
 
-    // -------------------------------------------------
-    // CHECK IF USER ALREADY DID SOMETHING TODAY
-    // -------------------------------------------------
+    // =================================================
+    // DAILY ACTIVITY DOCUMENT
+    // =================================================
 
-    const activitySnap =
-      await getDoc(activityRef);
-
-
-    if (activitySnap.exists()) {
-
-      // They already participated today.
-      // Therefore their streak does not increase again.
-
-      return;
-
-    }
+    const activityRef =
+      doc(
+        db,
+        "userDailyActivity",
+        `${user.uid}_${dateKey}`
+      );
 
 
-    // -------------------------------------------------
+    // =================================================
     // USER DOCUMENT
-    // -------------------------------------------------
+    // =================================================
 
     const userRef =
-      doc(db, "users", user.uid);
+      doc(
+        db,
+        "users",
+        user.uid
+      );
 
 
-    // -------------------------------------------------
-    // UPDATE STREAK SAFELY
-    // -------------------------------------------------
+    // =================================================
+    // ATOMIC TRANSACTION
+    // =================================================
 
     await runTransaction(
       db,
       async (transaction) => {
 
+        // IMPORTANT:
+        // All reads happen before any writes.
+
+        const activitySnap =
+          await transaction.get(activityRef);
+
         const userSnap =
           await transaction.get(userRef);
 
-        if (!userSnap.exists()) {
+
+        // -------------------------------------------------
+        // ALREADY ACTIVE TODAY
+        // -------------------------------------------------
+
+        if (activitySnap.exists()) {
+
+          console.log(
+            "ℹ️ User already has activity recorded for today."
+          );
+
           return;
+
         }
+
+
+        // -------------------------------------------------
+        // USER PROFILE MUST EXIST
+        // -------------------------------------------------
+
+        if (!userSnap.exists()) {
+
+          throw new Error(
+            "User profile does not exist in Firestore."
+          );
+
+        }
+
 
         const userData =
           userSnap.data();
@@ -122,17 +190,19 @@ async function recordUserActivity(activityType, activityId = "") {
           userData.lastActivityDate || "";
 
 
-        // ------------------------------------------------
-        // CALCULATE YESTERDAY
-        // ------------------------------------------------
+        // =================================================
+        // CALCULATE YESTERDAY IN NIGERIA TIME
+        // =================================================
 
         const today =
           new Date(
             `${dateKey}T00:00:00`
           );
 
+
         const yesterday =
           new Date(today);
+
 
         yesterday.setDate(
           yesterday.getDate() - 1
@@ -145,9 +215,9 @@ async function recordUserActivity(activityType, activityId = "") {
           }).format(yesterday);
 
 
-        // ------------------------------------------------
-        // DETERMINE NEW STREAK
-        // ------------------------------------------------
+        // =================================================
+        // CALCULATE NEW STREAK
+        // =================================================
 
         let newStreak = 1;
 
@@ -156,18 +226,20 @@ async function recordUserActivity(activityType, activityId = "") {
           lastActivityDate === yesterdayKey
         ) {
 
-          // User participated yesterday.
-          // Continue the streak.
-
           newStreak =
             currentStreak + 1;
 
         }
 
 
-        // ------------------------------------------------
-        // UPDATE USER
-        // ------------------------------------------------
+        console.log(
+          `🔥 Streak: ${currentStreak} → ${newStreak}`
+        );
+
+
+        // =================================================
+        // UPDATE USER STREAK
+        // =================================================
 
         transaction.update(
           userRef,
@@ -178,18 +250,18 @@ async function recordUserActivity(activityType, activityId = "") {
         );
 
 
-        // ------------------------------------------------
+        // =================================================
         // RECORD TODAY'S ACTIVITY
-        // ------------------------------------------------
+        // =================================================
 
         transaction.set(
           activityRef,
           {
             userId: user.uid,
             date: dateKey,
-            activityType,
-            activityId,
-            createdAt: serverTimestamp()
+            activityType: activityType,
+            activityId: activityId,
+            createdAt: Timestamp.now()
           }
         );
 
@@ -198,7 +270,7 @@ async function recordUserActivity(activityType, activityId = "") {
 
 
     console.log(
-      `🔥 Streak activity recorded: ${activityType}`
+      `✅ Streak activity recorded successfully: ${activityType}`
     );
 
   }
@@ -206,13 +278,15 @@ async function recordUserActivity(activityType, activityId = "") {
   catch (error) {
 
     console.error(
-      "Streak error:",
+      "❌ Streak error:",
       error
     );
 
   }
 
 }
+
+
 
 // =====================================================
 // ACHIEVEMENT / FANTASY POINT LEVEL SYSTEM
