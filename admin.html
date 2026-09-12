@@ -245,6 +245,188 @@ Create Trivia
 </div>
 
 
+
+      <!-- ========================================= -->
+<!-- CUSTOM ACHIEVEMENT -->
+<!-- ========================================= -->
+
+<div
+  class="card"
+  style="
+    background:linear-gradient(
+      135deg,
+      rgba(124,58,237,.18),
+      rgba(168,85,247,.20),
+      rgba(236,72,153,.18)
+    );
+    border:1px solid rgba(168,85,247,.40);
+  "
+>
+
+  <div class="chip">
+    🏆 Custom Achievement
+  </div>
+
+  <h3>
+    Award Achievement
+  </h3>
+
+  <p style="font-size:.9em;opacity:.8;">
+    Give a special achievement to an individual player.
+    The achievement will permanently appear on their
+    Achievement Profile.
+  </p>
+
+
+  <!-- PLAYER SEARCH -->
+
+  <label>
+    Search Player
+  </label>
+
+  <div
+    style="
+      display:flex;
+      gap:8px;
+      margin:10px 0;
+    "
+  >
+
+    <input
+      type="text"
+      id="customAchievementPlayerSearch"
+      placeholder="Enter username"
+      style="
+        flex:1;
+        padding:12px;
+        border:none;
+        border-radius:12px;
+      "
+    >
+
+    <button
+      type="button"
+      id="customAchievementSearchBtn"
+      class="btn secondary"
+    >
+      🔍 Search
+    </button>
+
+  </div>
+
+
+  <!-- SEARCH RESULTS -->
+
+  <div
+    id="customAchievementPlayerResults"
+    style="
+      margin-top:10px;
+    "
+  >
+  </div>
+
+
+  <!-- SELECTED PLAYER -->
+
+  <div
+    id="customAchievementSelectedPlayer"
+    style="
+      display:none;
+      margin-top:12px;
+      padding:12px;
+      border-radius:12px;
+      background:rgba(124,58,237,.12);
+      border:1px solid rgba(124,58,237,.25);
+    "
+  >
+  </div>
+
+
+  <hr
+    style="
+      margin:20px 0;
+      opacity:.2;
+    "
+  >
+
+
+  <!-- ACHIEVEMENT NAME -->
+
+  <label>
+    Achievement Name
+  </label>
+
+  <input
+    type="text"
+    id="customAchievementName"
+    placeholder="e.g. Community MVP"
+    style="
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      margin:10px 0;
+    "
+  >
+
+
+  <!-- ICON -->
+
+  <label>
+    Achievement Icon
+  </label>
+
+  <input
+    type="text"
+    id="customAchievementIcon"
+    placeholder="e.g. 🏆"
+    style="
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      margin:10px 0;
+    "
+  >
+
+
+  <!-- DESCRIPTION -->
+
+  <label>
+    Achievement Description
+  </label>
+
+  <textarea
+    id="customAchievementDescription"
+    rows="4"
+    placeholder="e.g. Recognized for outstanding contribution to Chess News Hub."
+    style="
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      resize:vertical;
+      margin:10px 0;
+    "
+  ></textarea>
+
+
+  <!-- AWARD BUTTON -->
+
+  <button
+    id="awardCustomAchievementBtn"
+    class="btn primary"
+    style="
+      width:100%;
+      margin-top:10px;
+    "
+  >
+    🏆 Award Achievement
+  </button>
+
+</div>
+
+
 <!-- Prediction -->
 <div class="card" style="background:linear-gradient(135deg, rgba(239,68,68,.18), rgba(124,58,237,.20), rgba(37,99,235,.18)); border:1px solid rgba(139,92,246,.35);">
 
