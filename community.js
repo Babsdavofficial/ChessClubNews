@@ -1,6 +1,7 @@
 import { db, auth } from "./firebase.js";
 import {
-  getAchievementLevel
+  getAchievementLevel,
+  syncFantasyParticipationAchievements
 } from "./achievement.js";
 import {
   onAuthStateChanged
@@ -1921,6 +1922,45 @@ if (submitFantasyTeamBtn) {
           }
 
         );
+
+        // -----------------------------------------
+// RECORD FANTASY PARTICIPATION
+// -----------------------------------------
+
+const userRef =
+  doc(
+    db,
+    "users",
+    user.uid
+  );
+
+const userSnap =
+  await getDoc(userRef);
+
+const currentParticipations =
+  Number(
+    userSnap.data()?.fantasyParticipations
+  ) || 0;
+
+const newParticipationCount =
+  currentParticipations + 1;
+
+await updateDoc(
+  userRef,
+  {
+    fantasyParticipations:
+      increment(1)
+  }
+);
+
+// -----------------------------------------
+// CHECK FANTASY PARTICIPATION ACHIEVEMENTS
+// -----------------------------------------
+
+await syncFantasyParticipationAchievements(
+  user.uid,
+  newParticipationCount
+);
         await recordUserActivity(
   "fantasy",
   activeFantasyEvent.id
