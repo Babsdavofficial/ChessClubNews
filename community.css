@@ -1895,3 +1895,1351 @@
     }
 
 }
+
+
+
+/* =========================================================
+   COMMUNITY — POLISHED LEADERBOARDS
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   MINI LEADERBOARD CARDS
+--------------------------------------------------------- */
+
+#fantasyLeaderboard,
+#triviaLeaderboard,
+#predictionLeaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+
+/* Individual leaderboard row */
+
+#fantasyLeaderboard .achievement-row,
+#triviaLeaderboard .achievement-row,
+#predictionLeaderboard .achievement-row {
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns: 1fr auto;
+
+    align-items: center;
+
+    gap: 18px;
+
+    width: 100%;
+
+    min-height: 58px;
+
+    margin: 0;
+
+    padding: 11px 14px;
+
+    border-radius: 15px;
+
+    border: 1px solid rgba(0,0,0,.06);
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 3px 10px rgba(15,23,42,.05);
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
+
+/* Keep achievement background identity */
+
+#fantasyLeaderboard .achievement-row.league-wood,
+#triviaLeaderboard .achievement-row.league-wood,
+#predictionLeaderboard .achievement-row.league-wood {
+    background: linear-gradient(
+        135deg,
+        #8b5a2b,
+        #b8793b
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-stone,
+#triviaLeaderboard .achievement-row.league-stone,
+#predictionLeaderboard .achievement-row.league-stone {
+    background: linear-gradient(
+        135deg,
+        #6b7280,
+        #9ca3af
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-bronze,
+#triviaLeaderboard .achievement-row.league-bronze,
+#predictionLeaderboard .achievement-row.league-bronze {
+    background: linear-gradient(
+        135deg,
+        #92400e,
+        #d97706
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-iron,
+#triviaLeaderboard .achievement-row.league-iron,
+#predictionLeaderboard .achievement-row.league-iron {
+    background: linear-gradient(
+        135deg,
+        #374151,
+        #6b7280
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-silver,
+#triviaLeaderboard .achievement-row.league-silver,
+#predictionLeaderboard .achievement-row.league-silver {
+    background: linear-gradient(
+        135deg,
+        #64748b,
+        #cbd5e1
+    ) !important;
+
+    color: #172033 !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-hunter,
+#triviaLeaderboard .achievement-row.league-hunter,
+#predictionLeaderboard .achievement-row.league-hunter {
+    background: linear-gradient(
+        135deg,
+        #166534,
+        #22c55e
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-gold,
+#triviaLeaderboard .achievement-row.league-gold,
+#predictionLeaderboard .achievement-row.league-gold {
+    background: linear-gradient(
+        135deg,
+        #b45309,
+        #facc15
+    ) !important;
+
+    color: #3b2600 !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-platinum,
+#triviaLeaderboard .achievement-row.league-platinum,
+#predictionLeaderboard .achievement-row.league-platinum {
+    background: linear-gradient(
+        135deg,
+        #0f766e,
+        #67e8f9
+    ) !important;
+
+    color: #083344 !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-diamond,
+#triviaLeaderboard .achievement-row.league-diamond,
+#predictionLeaderboard .achievement-row.league-diamond {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #67e8f9
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-elite,
+#triviaLeaderboard .achievement-row.league-elite,
+#predictionLeaderboard .achievement-row.league-elite {
+    background: linear-gradient(
+        135deg,
+        #7c2d12,
+        #f97316
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-master,
+#triviaLeaderboard .achievement-row.league-master,
+#predictionLeaderboard .achievement-row.league-master {
+    background: linear-gradient(
+        135deg,
+        #581c87,
+        #a855f7
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-grandmaster,
+#triviaLeaderboard .achievement-row.league-grandmaster,
+#predictionLeaderboard .achievement-row.league-grandmaster {
+    background: linear-gradient(
+        135deg,
+        #1e1b4b,
+        #6366f1
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-champion,
+#triviaLeaderboard .achievement-row.league-champion,
+#predictionLeaderboard .achievement-row.league-champion {
+    background: linear-gradient(
+        135deg,
+        #9f1239,
+        #ec4899
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-immortal,
+#triviaLeaderboard .achievement-row.league-immortal,
+#predictionLeaderboard .achievement-row.league-immortal {
+    background: linear-gradient(
+        135deg,
+        #312e81,
+        #8b5cf6
+    ) !important;
+
+    color: #fff !important;
+}
+
+#fantasyLeaderboard .achievement-row.league-legendary,
+#triviaLeaderboard .achievement-row.league-legendary,
+#predictionLeaderboard .achievement-row.league-legendary {
+    background: linear-gradient(
+        135deg,
+        #78350f,
+        #f59e0b,
+        #facc15
+    ) !important;
+
+    color: #fff !important;
+}
+
+
+/* Leaderboard hover */
+
+#fantasyLeaderboard .achievement-row:hover,
+#triviaLeaderboard .achievement-row:hover,
+#predictionLeaderboard .achievement-row:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 18px rgba(15,23,42,.10);
+}
+
+
+/* Player name */
+
+#fantasyLeaderboard .achievement-row strong,
+#triviaLeaderboard .achievement-row strong,
+#predictionLeaderboard .achievement-row strong {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* Score */
+
+#fantasyLeaderboard .achievement-row span,
+#triviaLeaderboard .achievement-row span,
+#predictionLeaderboard .achievement-row span {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    white-space: nowrap;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    min-width: 68px;
+
+    padding: 7px 10px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,.20);
+
+    backdrop-filter: blur(5px);
+}
+
+
+/* ---------------------------------------------------------
+   ACHIEVEMENT LEADERBOARD
+--------------------------------------------------------- */
+
+#achievementLeaderboard {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+
+/* Achievement player row */
+
+.achievement-player-row {
+
+    display: grid;
+
+    grid-template-columns:
+        42px
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-height: 72px;
+
+    padding: 10px 14px;
+
+    border-radius: 17px;
+
+    border: 1px solid rgba(0,0,0,.07);
+
+    box-sizing: border-box;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
+
+.achievement-player-row:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 20px rgba(15,23,42,.10);
+}
+
+
+/* Achievement rank */
+
+.achievement-player-position {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.22);
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    flex-shrink: 0;
+}
+
+
+/* Player information */
+
+.achievement-player-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-width: 0;
+
+    gap: 4px;
+}
+
+
+.achievement-player-info strong {
+
+    display: block;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 15px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+
+.achievement-player-info span {
+
+    display: block;
+
+    font-size: 12px;
+
+    line-height: 1.2;
+
+    opacity: .82;
+
+    white-space: nowrap;
+}
+
+
+/* FP block */
+
+.achievement-player-points {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 76px;
+
+    padding: 9px 11px;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,.22);
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
+
+    backdrop-filter: blur(5px);
+}
+
+
+/* Current user */
+
+.my-leaderboard-name {
+
+    position: relative;
+}
+
+
+/* Make current user's row stand out */
+
+.achievement-player-row:has(.my-leaderboard-name) {
+
+    box-shadow:
+        0 0 0 2px rgba(79,70,229,.22),
+        0 8px 20px rgba(79,70,229,.12);
+}
+
+
+/* Achievement colors */
+
+.achievement-player-row.league-wood {
+    background: linear-gradient(
+        135deg,
+        #8b5a2b,
+        #b8793b
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-stone {
+    background: linear-gradient(
+        135deg,
+        #6b7280,
+        #9ca3af
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-bronze {
+    background: linear-gradient(
+        135deg,
+        #92400e,
+        #d97706
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-iron {
+    background: linear-gradient(
+        135deg,
+        #374151,
+        #6b7280
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-silver {
+    background: linear-gradient(
+        135deg,
+        #64748b,
+        #cbd5e1
+    ) !important;
+    color: #172033;
+}
+
+.achievement-player-row.league-hunter {
+    background: linear-gradient(
+        135deg,
+        #166534,
+        #22c55e
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-gold {
+    background: linear-gradient(
+        135deg,
+        #b45309,
+        #facc15
+    ) !important;
+    color: #3b2600;
+}
+
+.achievement-player-row.league-platinum {
+    background: linear-gradient(
+        135deg,
+        #0f766e,
+        #67e8f9
+    ) !important;
+    color: #083344;
+}
+
+.achievement-player-row.league-diamond {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #67e8f9
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-elite {
+    background: linear-gradient(
+        135deg,
+        #7c2d12,
+        #f97316
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-master {
+    background: linear-gradient(
+        135deg,
+        #581c87,
+        #a855f7
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-grandmaster {
+    background: linear-gradient(
+        135deg,
+        #1e1b4b,
+        #6366f1
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-champion {
+    background: linear-gradient(
+        135deg,
+        #9f1239,
+        #ec4899
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-immortal {
+    background: linear-gradient(
+        135deg,
+        #312e81,
+        #8b5cf6
+    ) !important;
+    color: #fff;
+}
+
+.achievement-player-row.league-legendary {
+    background: linear-gradient(
+        135deg,
+        #78350f,
+        #f59e0b,
+        #facc15
+    ) !important;
+    color: #fff;
+}
+
+
+/* Empty achievement state */
+
+.achievement-empty {
+
+    text-align: center;
+
+    padding: 35px 20px;
+
+    border: 1px dashed var(--border);
+
+    border-radius: 18px;
+
+    background: var(--surface-2);
+
+    color: var(--text-secondary);
+}
+
+
+.achievement-empty-icon {
+
+    font-size: 35px;
+
+    margin-bottom: 8px;
+}
+
+
+/* ---------------------------------------------------------
+   PREDICTION CENTER
+--------------------------------------------------------- */
+
+#predictionsContainer {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+/* Override the old inline gradient card */
+
+#predictionsContainer > .card {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    margin: 0;
+
+    padding: 20px;
+
+    border-radius: 21px !important;
+
+    border: 1px solid var(--border) !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface),
+            var(--surface-2)
+        ) !important;
+
+    color: var(--text) !important;
+
+    box-shadow:
+        0 8px 25px rgba(15,23,42,.07);
+
+    overflow: hidden;
+}
+
+
+/* Decorative prediction glow */
+
+#predictionsContainer > .card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -45px;
+
+    right: -35px;
+
+    width: 130px;
+
+    height: 130px;
+
+    border-radius: 50%;
+
+    background:
+        var(--primary-soft);
+
+    pointer-events: none;
+}
+
+
+/* Prediction chip */
+
+#predictionsContainer > .card .chip {
+
+    position: relative;
+
+    align-self: flex-start;
+
+    margin: 0;
+
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: .4px;
+
+    text-transform: uppercase;
+}
+
+
+/* Prediction question */
+
+#predictionsContainer > .card h3 {
+
+    position: relative;
+
+    margin: 0;
+
+    font-size: 20px;
+
+    line-height: 1.35;
+
+    color: var(--text);
+
+    font-weight: 800;
+}
+
+
+/* Prediction options */
+
+#predictionsContainer > .card label {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    min-height: 50px;
+
+    margin: 0;
+
+    padding: 11px 13px;
+
+    box-sizing: border-box;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        border-color .18s ease,
+        background .18s ease,
+        transform .18s ease;
+}
+
+
+/* Remove ugly spacing caused by old <br><br> */
+
+#predictionsContainer > .card label + br {
+
+    display: none;
+}
+
+#predictionsContainer > .card label + br + br {
+
+    display: none;
+}
+
+
+/* Radio button */
+
+#predictionsContainer > .card input[type="radio"] {
+
+    appearance: none;
+
+    width: 19px;
+
+    height: 19px;
+
+    margin: 0;
+
+    border: 2px solid var(--border-strong);
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+
+    background: var(--surface);
+
+    position: relative;
+}
+
+
+#predictionsContainer > .card input[type="radio"]:checked {
+
+    border-color: var(--primary);
+
+    background: var(--primary);
+}
+
+
+#predictionsContainer > .card input[type="radio"]:checked::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+
+    height: 7px;
+
+    top: 4px;
+
+    left: 4px;
+
+    border-radius: 50%;
+
+    background: #fff;
+}
+
+
+/* Selected option */
+
+#predictionsContainer > .card label:has(input[type="radio"]:checked) {
+
+    border-color: var(--primary);
+
+    background: var(--primary-soft);
+
+    transform: translateX(2px);
+}
+
+
+/* Hover */
+
+#predictionsContainer > .card label:hover {
+
+    border-color: var(--primary);
+
+    background: var(--surface-2);
+
+    transform: translateX(2px);
+}
+
+
+/* Prediction status */
+
+#predictionsContainer > .card p {
+
+    position: relative;
+
+    margin: 0;
+
+    padding: 10px 12px;
+
+    border-radius: 12px;
+
+    background: var(--surface-2);
+
+    color: var(--text-secondary) !important;
+
+    font-size: 13px;
+}
+
+
+/* Submit button */
+
+#predictionsContainer > .card .submitPredictionBtn {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-top: 2px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 15px rgba(79,70,229,.18);
+}
+
+
+/* Disabled prediction */
+
+#predictionsContainer > .card input:disabled {
+
+    cursor: not-allowed;
+
+}
+
+
+#predictionsContainer > .card label:has(input:disabled) {
+
+    cursor: default;
+
+    opacity: .78;
+}
+
+
+/* ---------------------------------------------------------
+   FANTASY TEAM
+--------------------------------------------------------- */
+
+#fantasyPlayersContainer {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+/* Fantasy player card */
+
+#fantasyPlayersContainer .fact-item {
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 1px solid var(--border);
+
+    border-radius: 17px;
+
+    background: var(--surface-2);
+
+    overflow: hidden;
+
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease;
+}
+
+
+#fantasyPlayersContainer .fact-item:hover {
+
+    transform: translateY(-2px);
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 7px 18px rgba(15,23,42,.08);
+}
+
+
+/* Player label */
+
+#fantasyPlayersContainer .fact-item label {
+
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 11px !important;
+
+    width: 100%;
+
+    min-height: 76px;
+
+    padding: 12px !important;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+}
+
+
+/* Checkbox */
+
+#fantasyPlayersContainer .fantasyPlayerCheckbox {
+
+    width: 19px;
+
+    height: 19px;
+
+    flex-shrink: 0;
+
+    accent-color: var(--primary);
+
+    cursor: pointer;
+}
+
+
+/* Player information */
+
+#fantasyPlayersContainer .fact-item label span {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    min-width: 0;
+
+    line-height: 1.2;
+
+    color: var(--text);
+}
+
+
+#fantasyPlayersContainer .fact-item label span strong {
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 14px;
+}
+
+
+#fantasyPlayersContainer .fact-item label span br {
+
+    display: none;
+}
+
+
+/* Create separate information look */
+
+#fantasyPlayersContainer .fact-item label span {
+
+    font-size: 12px;
+}
+
+
+/* Selected fantasy players */
+
+#selectedFantasyPlayers {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 12px;
+
+    padding: 12px;
+
+    border-radius: 16px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+}
+
+
+/* Selected player */
+
+#selectedFantasyPlayers p {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin: 0;
+
+    padding: 10px 11px;
+
+    border-radius: 12px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    color: var(--text);
+
+    font-size: 13px;
+}
+
+
+#selectedFantasyPlayers p strong {
+
+    flex: 1;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* Budget values */
+
+#myFantasyPoints,
+#fantasyBudgetDisplay,
+#fantasyRemainingBudget {
+
+    font-weight: 900;
+
+    letter-spacing: -.2px;
+}
+
+
+/* Fantasy submit */
+
+#submitFantasyTeamBtn {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-top: 14px;
+
+    border-radius: 14px;
+
+    font-weight: 800;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+    #fantasyLeaderboard .achievement-row,
+    #triviaLeaderboard .achievement-row,
+    #predictionLeaderboard .achievement-row {
+
+        min-height: 54px;
+
+        padding: 9px 11px;
+
+        gap: 10px;
+    }
+
+
+    #fantasyLeaderboard .achievement-row strong,
+    #triviaLeaderboard .achievement-row strong,
+    #predictionLeaderboard .achievement-row strong {
+
+        font-size: 13px;
+    }
+
+
+    #fantasyLeaderboard .achievement-row span,
+    #triviaLeaderboard .achievement-row span,
+    #predictionLeaderboard .achievement-row span {
+
+        min-width: 58px;
+
+        padding: 6px 8px;
+
+        font-size: 11px;
+    }
+
+
+    .achievement-player-row {
+
+        grid-template-columns:
+            36px
+            minmax(0, 1fr)
+            auto;
+
+        gap: 9px;
+
+        min-height: 66px;
+
+        padding: 9px 10px;
+    }
+
+
+    .achievement-player-position {
+
+        width: 34px;
+
+        height: 34px;
+
+        border-radius: 10px;
+
+        font-size: 14px;
+    }
+
+
+    .achievement-player-info strong {
+
+        font-size: 13px;
+    }
+
+
+    .achievement-player-info span {
+
+        font-size: 10px;
+    }
+
+
+    .achievement-player-points {
+
+        min-width: 58px;
+
+        padding: 8px 7px;
+
+        font-size: 12px;
+    }
+
+
+    #predictionsContainer > .card {
+
+        padding: 16px;
+
+        border-radius: 18px !important;
+    }
+
+
+    #predictionsContainer > .card h3 {
+
+        font-size: 17px;
+    }
+
+
+    #predictionsContainer > .card label {
+
+        min-height: 47px;
+
+        padding: 9px 11px;
+
+        font-size: 13px;
+    }
+
+
+    #fantasyPlayersContainer {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   VERY SMALL PHONES
+--------------------------------------------------------- */
+
+@media (max-width: 400px) {
+
+    .achievement-player-row {
+
+        grid-template-columns:
+            32px
+            minmax(0, 1fr)
+            auto;
+
+        gap: 7px;
+    }
+
+
+    .achievement-player-position {
+
+        width: 30px;
+
+        height: 30px;
+
+        font-size: 12px;
+    }
+
+
+    .achievement-player-points {
+
+        min-width: 52px;
+
+        padding: 7px 5px;
+
+        font-size: 11px;
+    }
+
+}
