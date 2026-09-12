@@ -1,5 +1,9 @@
 import { db, auth } from "./firebase.js";
 
+
+import {
+  awardCustomAchievement
+} from "./achievement.js";
 import {
 collection,
 addDoc,
@@ -2777,5 +2781,435 @@ async function sendAppNotification(title, message, icon = "") {
     );
 
   }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =====================================================
+// CUSTOM ACHIEVEMENT — ADMIN
+// =====================================================
+
+const customAchievementSearchBtn =
+  document.getElementById("customAchievementSearchBtn");
+
+const customAchievementPlayerSearch =
+  document.getElementById("customAchievementPlayerSearch");
+
+const customAchievementPlayerResults =
+  document.getElementById("customAchievementPlayerResults");
+
+const customAchievementSelectedPlayer =
+  document.getElementById("customAchievementSelectedPlayer");
+
+let selectedCustomAchievementPlayer = null;
+
+
+// =====================================================
+// SEARCH PLAYERS
+// =====================================================
+
+if (customAchievementSearchBtn) {
+
+  customAchievementSearchBtn.addEventListener(
+    "click",
+    async () => {
+
+      const search =
+        customAchievementPlayerSearch.value
+          .trim()
+          .toLowerCase();
+
+      if (!search) {
+
+        alert("Enter a player username.");
+
+        return;
+
+      }
+
+      customAchievementPlayerResults.innerHTML =
+        "Searching...";
+
+      try {
+
+        const snapshot =
+          await getDocs(
+            collection(db, "users")
+          );
+
+        const players = [];
+
+        snapshot.forEach((userDoc) => {
+
+          const user = userDoc.data();
+
+          const username =
+            String(user.username || "")
+              .toLowerCase();
+
+          if (
+            username.includes(search)
+          ) {
+
+            players.push({
+              uid: userDoc.id,
+              username: user.username || "Unknown Player",
+              email: user.email || ""
+            });
+
+          }
+
+        });
+
+
+        if (players.length === 0) {
+
+          customAchievementPlayerResults.innerHTML =
+            "<p>No player found.</p>";
+
+          return;
+
+        }
+
+
+        customAchievementPlayerResults.innerHTML = "";
+
+
+        players.forEach((player) => {
+
+          const result =
+            document.createElement("div");
+
+          result.className =
+            "custom-achievement-player-result";
+
+          result.innerHTML = `
+
+            <strong>
+              ${player.username}
+            </strong>
+
+            <small>
+              ${player.email}
+            </small>
+
+            <button
+              type="button"
+              class="btn secondary selectCustomAchievementPlayerBtn"
+              data-uid="${player.uid}"
+              data-username="${player.username}"
+            >
+              Select
+            </button>
+
+          `;
+
+          customAchievementPlayerResults.appendChild(
+            result
+          );
+
+        });
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Player search error:",
+          error
+        );
+
+        customAchievementPlayerResults.innerHTML =
+          "<p>Failed to search players.</p>";
+
+      }
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// SELECT PLAYER
+// =====================================================
+
+document.addEventListener(
+  "click",
+  (e) => {
+
+    if (
+      !e.target.classList.contains(
+        "selectCustomAchievementPlayerBtn"
+      )
+    ) {
+      return;
+    }
+
+
+    const uid =
+      e.target.dataset.uid;
+
+    const username =
+      e.target.dataset.username;
+
+
+    selectedCustomAchievementPlayer = {
+      uid,
+      username
+    };
+
+
+    customAchievementSelectedPlayer.innerHTML = `
+
+      🎯 Selected Player:
+
+      <strong>
+        ${username}
+      </strong>
+
+    `;
+
+
+    customAchievementSelectedPlayer.style.display =
+      "block";
+
+
+    customAchievementPlayerResults.innerHTML =
+      "";
+
+  }
+);
+
+
+// =====================================================
+// AWARD CUSTOM ACHIEVEMENT
+// =====================================================
+
+const awardCustomAchievementBtn =
+  document.getElementById(
+    "awardCustomAchievementBtn"
+  );
+
+
+if (awardCustomAchievementBtn) {
+
+  awardCustomAchievementBtn.addEventListener(
+    "click",
+    async () => {
+
+      // -----------------------------------------
+      // CHECK PLAYER
+      // -----------------------------------------
+
+      if (
+        !selectedCustomAchievementPlayer
+      ) {
+
+        alert(
+          "Please search for and select a player first."
+        );
+
+        return;
+
+      }
+
+
+      // -----------------------------------------
+      // GET FORM VALUES
+      // -----------------------------------------
+
+      const name =
+        document
+          .getElementById(
+            "customAchievementName"
+          )
+          .value
+          .trim();
+
+
+      const icon =
+        document
+          .getElementById(
+            "customAchievementIcon"
+          )
+          .value
+          .trim();
+
+
+      const description =
+        document
+          .getElementById(
+            "customAchievementDescription"
+          )
+          .value
+          .trim();
+
+
+      // -----------------------------------------
+      // VALIDATION
+      // -----------------------------------------
+
+      if (!name) {
+
+        alert(
+          "Please enter an achievement name."
+        );
+
+        return;
+
+      }
+
+
+      if (!icon) {
+
+        alert(
+          "Please enter an achievement icon."
+        );
+
+        return;
+
+      }
+
+
+      if (!description) {
+
+        alert(
+          "Please enter an achievement description."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        // -----------------------------------------
+        // UNIQUE ACHIEVEMENT ID
+        // -----------------------------------------
+
+        const achievementId =
+          `custom_${Date.now()}`;
+
+
+        // -----------------------------------------
+        // SAVE ACHIEVEMENT
+        // -----------------------------------------
+
+        await awardCustomAchievement(
+
+          selectedCustomAchievementPlayer.uid,
+
+          achievementId,
+
+          {
+
+            name,
+
+            icon,
+
+            description,
+
+            type: "custom",
+
+            category: "custom",
+
+            awardedBy:
+              auth.currentUser
+                ? auth.currentUser.uid
+                : "admin",
+
+            awardedAt:
+              serverTimestamp()
+
+          }
+
+        );
+
+
+        // -----------------------------------------
+        // SUCCESS
+        // -----------------------------------------
+
+        alert(
+
+          `🏆 Custom Achievement awarded successfully!\n\n` +
+
+          `Player: ${selectedCustomAchievementPlayer.username}\n` +
+
+          `Achievement: ${name}`
+
+        );
+
+
+        // -----------------------------------------
+        // CLEAR FORM
+        // -----------------------------------------
+
+        document.getElementById(
+          "customAchievementName"
+        ).value = "";
+
+
+        document.getElementById(
+          "customAchievementIcon"
+        ).value = "";
+
+
+        document.getElementById(
+          "customAchievementDescription"
+        ).value = "";
+
+
+        customAchievementSelectedPlayer.innerHTML =
+          "";
+
+
+        customAchievementSelectedPlayer.style.display =
+          "none";
+
+
+        selectedCustomAchievementPlayer =
+          null;
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Custom achievement error:",
+          error
+        );
+
+        alert(
+          "❌ Failed to award custom achievement.\n\n" +
+          error.message
+        );
+
+      }
+
+    }
+  );
 
 }
