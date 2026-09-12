@@ -448,6 +448,21 @@ async function displayProfile(
     achievement
   );
 
+  /* Apply achievement level to the entire player card */
+const playerHero =
+  document.getElementById("playerHero");
+
+if (playerHero) {
+  playerHero.className =
+    playerHero.className
+      .replace(/\bleague-\S+/g, "")
+      .trim();
+
+  playerHero.classList.add(
+    achievement.className
+  );
+}
+
 
   /* =========================
      PROFILE STATS
