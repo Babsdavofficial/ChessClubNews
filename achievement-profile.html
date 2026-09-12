@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Achievement Profile | Chess News Hub</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="achievement-profile.css">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+</head>
+
+<body>
+
+<div class="profile-page">
+
+  <!-- =====================================================
+       TOP HEADER
+  ====================================================== -->
+
+  <header class="achievement-topbar">
+
+    <div class="achievement-brand">
+
+      <div class="achievement-logo">
+        ♟♙
+      </div>
+
+      <div>
+        <h1>Achievement Profile</h1>
+        <p>Chess News Hub</p>
+      </div>
+
+    </div>
+
+    <button
+      id="searchPlayerBtn"
+      class="profile-search-btn"
+    >
+      🔎 Search Player
+    </button>
+
+  </header>
+
+
+  <!-- =====================================================
+       PLAYER SEARCH PANEL
+  ====================================================== -->
+
+  <div
+    id="searchPanel"
+    class="search-panel"
+  >
+
+    <div class="search-panel-header">
+
+      <h3>🔎 Search Player</h3>
+
+      <button
+        id="closeSearchBtn"
+        class="close-search-btn"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <input
+      type="text"
+      id="playerSearchInput"
+      placeholder="Enter player username..."
+      autocomplete="off"
+    >
+
+    <div
+      id="playerSearchResults"
+      class="player-search-results"
+    >
+      Start typing to search for a player.
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       PROFILE CONTENT
+  ====================================================== -->
+
+  <main class="achievement-content">
+
+    <div
+      id="profileLoading"
+      class="profile-loading"
+    >
+      Loading profile...
+    </div>
+
+
+    <div
+      id="profileContent"
+      style="display:none;"
+    >
+
+      <!-- =================================================
+           PLAYER HERO
+      ================================================== -->
+
+      <section
+        id="playerHero"
+        class="player-hero"
+      >
+
+        <div class="player-avatar">
+          ♟
+        </div>
+
+        <div class="player-main-info">
+
+          <span class="profile-label">
+            CHESS NEWS HUB PLAYER
+          </span>
+
+          <h2 id="playerName">
+            Player
+          </h2>
+
+          <p id="playerEmail">
+          </p>
+
+          <div
+            id="playerLevelBadge"
+            class="player-level-badge"
+          >
+
+            <span id="playerLevelIcon">
+              🪵
+            </span>
+
+            <div>
+              <strong id="playerLevelName">
+                Wood
+              </strong>
+
+              <small id="playerLevelNumber">
+                Level 1
+              </small>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           FANTASY POINTS
+      ================================================== -->
+
+      <section class="main-level-card">
+
+        <div class="level-card-icon">
+          🏆
+        </div>
+
+        <div class="level-card-info">
+
+          <span>
+            Fantasy Points
+          </span>
+
+          <strong id="profileFantasyPoints">
+            0
+          </strong>
+
+          <small id="nextLevelText">
+            Keep participating to reach the next level.
+          </small>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           PLAYER STATISTICS
+      ================================================== -->
+
+      <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+          <div>
+            <span class="section-kicker">
+              PLAYER STATISTICS
+            </span>
+
+            <h3>
+              📊 Community Stats
+            </h3>
+          </div>
+
+        </div>
+
+
+        <div class="profile-stats-grid">
+
+          <div class="profile-stat-card">
+
+            <span class="stat-icon">🧠</span>
+
+            <strong id="profileTrivia">
+              0
+            </strong>
+
+            <small>
+              Trivia Correct
+            </small>
+
+          </div>
+
+
+          <div class="profile-stat-card">
+
+            <span class="stat-icon">🎯</span>
+
+            <strong id="profilePredictions">
+              0
+            </strong>
+
+            <small>
+              Predictions Correct
+            </small>
+
+          </div>
+
+
+          <div class="profile-stat-card">
+
+            <span class="stat-icon">🧩</span>
+
+            <strong id="profilePuzzles">
+              0
+            </strong>
+
+            <small>
+              Puzzle Solves
+            </small>
+
+          </div>
+
+
+          <div class="profile-stat-card">
+
+            <span class="stat-icon">🔥</span>
+
+            <strong id="profileStreak">
+              0
+            </strong>
+
+            <small>
+              Current Streak
+            </small>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           ACHIEVEMENTS
+      ================================================== -->
+
+      <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+          <div>
+
+            <span class="section-kicker">
+              ACHIEVEMENTS
+            </span>
+
+            <h3>
+              🏅 Achievements & Badges
+            </h3>
+
+            <p>
+              Milestones and awards earned by this player.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+          id="achievementsContainer"
+          class="achievements-container"
+        >
+
+          <div class="empty-achievements">
+
+            🏅
+
+            <h4>
+              Achievements Coming Soon
+            </h4>
+
+            <p>
+              Earn achievements by participating in
+              community activities.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       BOTTOM NAVIGATION
+  ====================================================== -->
+
+  <nav class="achievement-bottom-nav">
+
+    <a href="index.html">
+      <span>🏠</span>
+      <small>Home</small>
+    </a>
+
+    <a href="matches.html">
+      <span>♟️</span>
+      <small>Matches</small>
+    </a>
+
+    <a href="standings.html">
+      <span>🏆</span>
+      <small>Standings</small>
+    </a>
+
+    <a href="updates.html">
+      <span>📰</span>
+      <small>Updates</small>
+    </a>
+
+    <a href="community.html">
+      <span>👥</span>
+      <small>Community</small>
+    </a>
+
+    <a href="players.html">
+      <span>👤</span>
+      <small>Players</small>
+    </a>
+
+  </nav>
+
+</div>
+
+
+<script
+  type="module"
+  src="achievement-profile.js"
+></script>
+
+</body>
+</html>
