@@ -1,5 +1,11 @@
+
 import { auth, db } from "./firebase.js";
-import { getAchievementLevel } from "./achievement.js";
+
+import {
+  getAchievementLevel,
+  syncDefaultAchievements,
+  getUserAchievements
+} from "./achievement.js";
 
 import {
   onAuthStateChanged
@@ -17,16 +23,29 @@ import {
    ELEMENTS
 ========================= */
 
-const profileLoading = document.getElementById("profileLoading");
-const profileContent = document.getElementById("profileContent");
+const profileLoading =
+  document.getElementById("profileLoading");
 
-const playerName = document.getElementById("playerName");
-const playerEmail = document.getElementById("playerEmail");
+const profileContent =
+  document.getElementById("profileContent");
 
-const playerLevelBadge = document.getElementById("playerLevelBadge");
-const playerLevelIcon = document.getElementById("playerLevelIcon");
-const playerLevelName = document.getElementById("playerLevelName");
-const playerLevelNumber = document.getElementById("playerLevelNumber");
+const playerName =
+  document.getElementById("playerName");
+
+const playerEmail =
+  document.getElementById("playerEmail");
+
+const playerLevelBadge =
+  document.getElementById("playerLevelBadge");
+
+const playerLevelIcon =
+  document.getElementById("playerLevelIcon");
+
+const playerLevelName =
+  document.getElementById("playerLevelName");
+
+const playerLevelNumber =
+  document.getElementById("playerLevelNumber");
 
 const profileFantasyPoints =
   document.getElementById("profileFantasyPoints");
@@ -76,7 +95,9 @@ function applyLevelStyle(element, achievement) {
     .replace(/\bleague-\S+/g, "")
     .trim();
 
-  element.classList.add(achievement.className);
+  element.classList.add(
+    achievement.className
+  );
 }
 
 
@@ -85,7 +106,9 @@ function applyLevelStyle(element, achievement) {
 ========================= */
 
 function updateNextLevel(points) {
-  const current = getAchievementLevel(points);
+
+  const current =
+    getAchievementLevel(points);
 
   const levels = [
     { points: 200, name: "Stone" },
@@ -104,15 +127,20 @@ function updateNextLevel(points) {
     { points: 4100, name: "Legendary" }
   ];
 
-  const next = levels.find(level => level.points > points);
+  const next =
+    levels.find(
+      level => level.points > points
+    );
 
   if (!next) {
     nextLevelText.textContent =
       "You have reached the highest achievement level.";
+
     return;
   }
 
-  const remaining = next.points - points;
+  const remaining =
+    next.points - points;
 
   nextLevelText.textContent =
     `${remaining} FP needed for ${next.name}`;
@@ -120,52 +148,288 @@ function updateNextLevel(points) {
 
 
 /* =========================
+   FORMAT ACHIEVEMENT DATE
+========================= */
+
+function formatAchievementDate(earnedAt) {
+
+  if (!earnedAt) {
+    return "";
+  }
+
+  let date;
+
+  if (
+    earnedAt &&
+    typeof earnedAt.toDate === "function"
+  ) {
+    date = earnedAt.toDate();
+  } else {
+    date = new Date(earnedAt);
+  }
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleDateString(
+    "en-NG",
+    {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    }
+  );
+}
+
+
+/* =========================
+   DISPLAY ACHIEVEMENTS
+========================= */
+
+function displayAchievements(
+  achievements
+) {
+
+  if (!achievementsContainer) {
+    return;
+  }
+
+  achievementsContainer.innerHTML = "";
+
+  if (!achievements.length) {
+
+    achievementsContainer.innerHTML = `
+      <div class="achievement-empty">
+        <div class="achievement-empty-icon">🏆</div>
+
+        <h3>No Achievements Yet</h3>
+
+        <p>
+          Keep participating in Chess News Hub
+          activities to earn your first achievement.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  /*
+   * Sort achievements so the newest
+   * achievements appear first.
+   */
+  achievements.sort((a, b) => {
+
+    const aTime =
+      a.earnedAt?.toMillis
+        ? a.earnedAt.toMillis()
+        : 0;
+
+    const bTime =
+      b.earnedAt?.toMillis
+        ? b.earnedAt.toMillis()
+        : 0;
+
+    return bTime - aTime;
+  });
+
+
+  achievements.forEach(
+    achievement => {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "achievement-card";
+
+      const earnedDate =
+        formatAchievementDate(
+          achievement.earnedAt
+        );
+
+      card.innerHTML = `
+        <div class="achievement-card-icon">
+          ${achievement.icon || "🏆"}
+        </div>
+
+        <div class="achievement-card-content">
+
+          <h3>
+            ${achievement.name || "Achievement"}
+          </h3>
+
+          <p>
+            ${
+              achievement.description ||
+              "Achievement unlocked."
+            }
+          </p>
+
+          ${
+            earnedDate
+              ? `
+                <span class="achievement-earned-date">
+                  Earned ${earnedDate}
+                </span>
+              `
+              : ""
+          }
+
+        </div>
+      `;
+
+      achievementsContainer.appendChild(
+        card
+      );
+    }
+  );
+}
+
+
+/* =========================
+   LOAD ACHIEVEMENTS
+========================= */
+
+async function loadAchievements(
+  uid,
+  userData
+) {
+
+  try {
+
+    /*
+     * First check all permanent/default
+     * achievements.
+     *
+     * This also handles users who reached
+     * a milestone before the achievement
+     * system was created.
+     */
+    await syncDefaultAchievements(
+      uid,
+      {
+        ...userData,
+
+        /*
+         * Streak achievements use the
+         * highest streak ever.
+         */
+        streak:
+          Number(userData.highestStreak) ||
+          Number(userData.streak) ||
+          0
+      }
+    );
+
+
+    /*
+     * Now load everything the user has
+     * permanently earned.
+     */
+    const achievements =
+      await getUserAchievements(uid);
+
+
+    displayAchievements(
+      achievements
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Error loading achievements:",
+      error
+    );
+
+    achievementsContainer.innerHTML = `
+      <div class="achievement-empty">
+
+        <div class="achievement-empty-icon">
+          ⚠️
+        </div>
+
+        <h3>
+          Unable to load achievements
+        </h3>
+
+        <p>
+          Please refresh the page and try again.
+        </p>
+
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
    DISPLAY PROFILE
 ========================= */
 
-function displayProfile(userData, uid) {
+async function displayProfile(
+  userData,
+  uid
+) {
+
   const username =
-    userData.username || "Chess Player";
+    userData.username ||
+    "Chess Player";
 
   const email =
-    userData.email || "";
+    userData.email ||
+    "";
 
   const fantasyPoints =
-    Number(userData.fantasyPoints) || 0;
+    Number(userData.fantasyPoints) ||
+    0;
 
   const triviaCorrect =
-    Number(userData.triviaCorrect) || 0;
+    Number(userData.triviaCorrect) ||
+    0;
 
   const predictionScore =
-    Number(userData.predictionScore) || 0;
+    Number(userData.predictionScore) ||
+    0;
 
-  /*
-    These two may not exist in the users
-    collection yet, so they safely show 0.
-  */
   const puzzleStats =
-    Number(userData.puzzleCorrect) || 0;
+    Number(userData.puzzleCorrect) ||
+    0;
 
-  const streak =
-    Number(userData.streak) || 0;
-
-
-  /* NAME */
-
-  playerName.textContent = username;
+  const currentStreak =
+    Number(userData.streak) ||
+    0;
 
   /*
-    For now we display the email.
-    We can change this later if you want
-    public profiles to hide email addresses.
-  */
-  playerEmail.textContent = email;
+   * Highest streak is used for achievement
+   * purposes, while the profile still shows
+   * the user's current streak.
+   */
+  const highestStreak =
+    Number(userData.highestStreak) ||
+    currentStreak;
 
 
-  /* LEVEL */
+  /* =========================
+     BASIC PROFILE
+  ========================= */
+
+  playerName.textContent =
+    username;
+
+  playerEmail.textContent =
+    email;
+
+
+  /* =========================
+     ACHIEVEMENT LEVEL
+  ========================= */
 
   const achievement =
-    getAchievementLevel(fantasyPoints);
+    getAchievementLevel(
+      fantasyPoints
+    );
 
   playerLevelIcon.textContent =
     achievement.icon;
@@ -176,18 +440,22 @@ function displayProfile(userData, uid) {
   playerLevelNumber.textContent =
     `Level ${achievement.level}`;
 
-  applyLevelStyle(playerLevelBadge, achievement);
+  applyLevelStyle(
+    playerLevelBadge,
+    achievement
+  );
 
 
-  /* FANTASY POINTS */
+  /* =========================
+     PROFILE STATS
+  ========================= */
 
   profileFantasyPoints.textContent =
     fantasyPoints.toLocaleString();
 
-  updateNextLevel(fantasyPoints);
-
-
-  /* STATS */
+  updateNextLevel(
+    fantasyPoints
+  );
 
   profileTrivia.textContent =
     triviaCorrect;
@@ -199,39 +467,59 @@ function displayProfile(userData, uid) {
     puzzleStats;
 
   profileStreak.textContent =
-    streak;
+    currentStreak;
 
 
-  /* ACHIEVEMENTS */
+  /* =========================
+     ACHIEVEMENTS
+  ========================= */
 
-  achievementsContainer.innerHTML = `
-    <div class="achievement-empty">
-      <div class="achievement-empty-icon">🏆</div>
-      <h3>Achievements Coming Soon</h3>
-      <p>
-        Milestone achievements, event awards and special
-        accomplishments will appear here.
-      </p>
-    </div>
-  `;
+  await loadAchievements(
+    uid,
+    {
+      ...userData,
+
+      /*
+       * Make sure the achievement
+       * system receives the highest
+       * streak value.
+       */
+      highestStreak:
+        highestStreak
+    }
+  );
 
 
-  /* SHOW PROFILE */
+  /* =========================
+     PROFILE VISIBILITY
+  ========================= */
 
-  profileLoading.style.display = "none";
-  profileContent.style.display = "block";
+  profileLoading.style.display =
+    "none";
+
+  profileContent.style.display =
+    "block";
 
 
-  /*
-    Save the selected player in the URL.
-    This allows the profile to be shared later.
-  */
+  /* =========================
+     UPDATE URL
+  ========================= */
+
   const url =
-    new URL(window.location.href);
+    new URL(
+      window.location.href
+    );
 
-  url.searchParams.set("user", uid);
+  url.searchParams.set(
+    "user",
+    uid
+  );
 
-  window.history.replaceState({}, "", url);
+  window.history.replaceState(
+    {},
+    "",
+    url
+  );
 }
 
 
@@ -240,41 +528,73 @@ function displayProfile(userData, uid) {
 ========================= */
 
 async function loadProfile(uid) {
+
   try {
-    profileLoading.style.display = "block";
-    profileContent.style.display = "none";
+
+    profileLoading.style.display =
+      "block";
+
+    profileContent.style.display =
+      "none";
+
 
     const userRef =
-      doc(db, "users", uid);
+      doc(
+        db,
+        "users",
+        uid
+      );
 
     const userSnap =
-      await getDoc(userRef);
+      await getDoc(
+        userRef
+      );
+
 
     if (!userSnap.exists()) {
+
       profileLoading.innerHTML = `
         <div class="error-message">
-          <h3>Player not found</h3>
-          <p>This player profile does not exist.</p>
+
+          <h3>
+            Player not found
+          </h3>
+
+          <p>
+            This player profile does not exist.
+          </p>
+
         </div>
       `;
+
       return;
     }
 
-    displayProfile(
+
+    await displayProfile(
       userSnap.data(),
       uid
     );
 
   } catch (error) {
+
     console.error(
       "Error loading profile:",
       error
     );
 
+
     profileLoading.innerHTML = `
       <div class="error-message">
-        <h3>Unable to load profile</h3>
-        <p>Please try again.</p>
+
+        <h3>
+          Unable to load profile
+        </h3>
+
+        <p>
+          Please try again.
+        </p>
+
       </div>
     `;
   }
@@ -288,11 +608,17 @@ async function loadProfile(uid) {
 searchPlayerBtn.addEventListener(
   "click",
   () => {
-    searchPanel.classList.add("open");
 
-    setTimeout(() => {
-      playerSearchInput.focus();
-    }, 200);
+    searchPanel.classList.add(
+      "open"
+    );
+
+    setTimeout(
+      () => {
+        playerSearchInput.focus();
+      },
+      200
+    );
   }
 );
 
@@ -300,7 +626,10 @@ searchPlayerBtn.addEventListener(
 closeSearchBtn.addEventListener(
   "click",
   () => {
-    searchPanel.classList.remove("open");
+
+    searchPanel.classList.remove(
+      "open"
+    );
   }
 );
 
@@ -313,24 +642,42 @@ let allPlayers = [];
 
 
 async function loadPlayers() {
+
   try {
+
     const usersSnapshot =
       await getDocs(
-        collection(db, "users")
+        collection(
+          db,
+          "users"
+        )
       );
+
 
     allPlayers = [];
 
-    usersSnapshot.forEach(snapshot => {
-      const data = snapshot.data();
 
-      allPlayers.push({
-        uid: snapshot.id,
-        username: data.username || "Chess Player"
-      });
-    });
+    usersSnapshot.forEach(
+      snapshot => {
+
+        const data =
+          snapshot.data();
+
+        allPlayers.push({
+
+          uid:
+            snapshot.id,
+
+          username:
+            data.username ||
+            "Chess Player"
+
+        });
+      }
+    );
 
   } catch (error) {
+
     console.error(
       "Error loading players:",
       error
@@ -352,57 +699,86 @@ playerSearchInput.addEventListener(
         .trim()
         .toLowerCase();
 
-    playerSearchResults.innerHTML = "";
+
+    playerSearchResults.innerHTML =
+      "";
+
 
     if (!search) {
       return;
     }
 
+
     const matches =
-      allPlayers.filter(player =>
-        player.username
-          .toLowerCase()
-          .includes(search)
+      allPlayers.filter(
+        player =>
+          player.username
+            .toLowerCase()
+            .includes(search)
       );
 
+
     if (matches.length === 0) {
+
       playerSearchResults.innerHTML = `
         <div class="search-empty">
           No player found.
         </div>
       `;
+
       return;
     }
 
-    matches.forEach(player => {
 
-      const result =
-        document.createElement("button");
+    matches.forEach(
+      player => {
 
-      result.className =
-        "player-search-result";
+        const result =
+          document.createElement(
+            "button"
+          );
 
-      result.innerHTML = `
-        <span class="search-player-icon">♟</span>
-        <span>${player.username}</span>
-      `;
+        result.className =
+          "player-search-result";
 
-      result.addEventListener(
-        "click",
-        () => {
 
-          loadProfile(player.uid);
+        result.innerHTML = `
+          <span class="search-player-icon">
+            ♟
+          </span>
 
-          searchPanel.classList.remove("open");
+          <span>
+            ${player.username}
+          </span>
+        `;
 
-          playerSearchInput.value = "";
 
-          playerSearchResults.innerHTML = "";
-        }
-      );
+        result.addEventListener(
+          "click",
+          () => {
 
-      playerSearchResults.appendChild(result);
-    });
+            loadProfile(
+              player.uid
+            );
+
+            searchPanel.classList.remove(
+              "open"
+            );
+
+            playerSearchInput.value =
+              "";
+
+            playerSearchResults.innerHTML =
+              "";
+          }
+        );
+
+
+        playerSearchResults.appendChild(
+          result
+        );
+      }
+    );
   }
 );
 
@@ -416,34 +792,35 @@ onAuthStateChanged(
   async (user) => {
 
     if (!user) {
-      window.location.href = "login.html";
+
+      window.location.href =
+        "login.html";
+
       return;
     }
 
-    /*
-      If URL contains ?user=UID,
-      load that player's profile.
-
-      Otherwise load the currently
-      logged-in user's profile.
-    */
 
     const params =
       new URLSearchParams(
         window.location.search
       );
 
+
     const requestedUser =
       params.get("user");
 
+
     const profileUid =
-      requestedUser || user.uid;
+      requestedUser ||
+      user.uid;
 
-    await loadProfile(profileUid);
 
-    /*
-      Load players for the search system.
-    */
+    await loadProfile(
+      profileUid
+    );
+
+
     await loadPlayers();
   }
 );
+
