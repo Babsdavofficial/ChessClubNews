@@ -252,6 +252,8 @@ const predictionScore =
 
 const adminPanelBtn =
   document.getElementById("adminPanelBtn");
+const viewProfileBtn =
+  document.getElementById("viewProfileBtn");
 
   if (user) {
 
@@ -276,6 +278,11 @@ onSnapshot(userRef, (userSnap) => {
 
     if (fantasyPoints)
         fantasyPoints.textContent = userData.fantasyPoints || 0;
+    if (viewProfileBtn) {
+  viewProfileBtn.onclick = () => {
+    window.location.href = "achievement-profile.html";
+  };
+}
   // =====================================================
 // UPDATE FANTASY ACHIEVEMENT
 // =====================================================
