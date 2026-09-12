@@ -1021,3 +1021,92 @@ export async function awardCustomAchievement(
   );
 
 }
+
+
+// =====================================================
+// FANTASY TEAM PARTICIPATION ACHIEVEMENTS
+// =====================================================
+
+export const FANTASY_PARTICIPATION_ACHIEVEMENTS = [
+
+  {
+    id: "fantasy_1",
+    name: "Fantasy Participant ×1",
+    icon: "🏆",
+    description: "Submitted your first Fantasy Team.",
+    type: "event",
+    category: "fantasy",
+    requirement: 1
+  },
+
+  {
+    id: "fantasy_5",
+    name: "Fantasy Participant ×5",
+    icon: "🏆",
+    description: "Submitted Fantasy Teams in 5 events.",
+    type: "event",
+    category: "fantasy",
+    requirement: 5
+  },
+
+  {
+    id: "fantasy_10",
+    name: "Fantasy Participant ×10",
+    icon: "🏆",
+    description: "Submitted Fantasy Teams in 10 events.",
+    type: "event",
+    category: "fantasy",
+    requirement: 10
+  },
+
+  {
+    id: "fantasy_15",
+    name: "Fantasy Participant ×15",
+    icon: "🏆",
+    description: "Submitted Fantasy Teams in 15 events.",
+    type: "event",
+    category: "fantasy",
+    requirement: 15
+  },
+
+  {
+    id: "fantasy_20",
+    name: "Fantasy Participant ×20",
+    icon: "🏆",
+    description: "Submitted Fantasy Teams in 20 events.",
+    type: "event",
+    category: "fantasy",
+    requirement: 20
+  },
+
+  {
+    id: "fantasy_25",
+    name: "Fantasy Participant ×25",
+    icon: "🏆",
+    description: "Submitted Fantasy Teams in 25 events.",
+    type: "event",
+    category: "fantasy",
+    requirement: 25
+  },
+
+  {
+    id: "fantasy_50",
+    name: "Fantasy Participant ×50",
+    icon: "🏆",
+    description: "Submitted Fantasy Teams in 50 events.",
+    type: "event",
+    category: "fantasy",
+    requirement: 50
+  },
+
+  {
+    id: "fantasy_100",
+    name: "Fantasy Participant ×100",
+    icon: "👑",
+    description: "Submitted Fantasy Teams in 100 events.",
+    type: "event",
+    category: "fantasy",
+    requirement: 100
+  }
+
+];
