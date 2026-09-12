@@ -19,6 +19,7 @@ const FILES_TO_CACHE = [
   "./achievement-profile.css",
 
   "./style.css",
+  "./general.css",
   "./manifest.json",
 
   "./firebase.js",
