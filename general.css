@@ -134,48 +134,7 @@
 }
 
 
-/* =========================================================
-   AUTOMATIC SYSTEM DARK MODE
-   ---------------------------------------------------------
-   If JavaScript does not set data-theme, the browser's
-   system preference can still determine the appearance.
-   ========================================================= */
 
-@media (prefers-color-scheme: dark) {
-
-    :root:not([data-theme="light"]) {
-
-        --primary: #818cf8;
-        --primary-hover: #6366f1;
-        --primary-soft: rgba(129,140,248,.12);
-
-        --secondary: #a78bfa;
-        --secondary-soft: rgba(167,139,250,.12);
-
-        --bg: #0f1117;
-        --bg-secondary: #171a23;
-
-        --surface: #181b24;
-        --surface-2: #1e222d;
-        --surface-3: #252a36;
-
-        --text: #f3f4f6;
-        --text-secondary: #c5cad3;
-        --muted: #8f98a8;
-
-        --border: #2b3140;
-        --border-strong: #394151;
-
-        --shadow-sm:
-            0 2px 8px rgba(0,0,0,.20);
-
-        --shadow:
-            0 8px 25px rgba(0,0,0,.25);
-
-        --shadow-lg:
-            0 18px 45px rgba(0,0,0,.35);
-    }
-}
 
 
 /* =========================================================
