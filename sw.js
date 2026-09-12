@@ -16,7 +16,7 @@ const FILES_TO_CACHE = [
   "./login.html",
   "./community-layout.css",
   "./achievement-profile.html",
-  "./achievement-profile.css"
+  "./achievement-profile.css",
 
   "./style.css",
   "./manifest.json",
