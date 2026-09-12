@@ -27,6 +27,193 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+
+// =====================================================
+// STREAK SYSTEM
+// =====================================================
+//
+// A streak is based on PARTICIPATION.
+// Correctness does not matter.
+//
+// Multiple activities on the same day count
+// as only ONE streak day.
+// =====================================================
+
+async function recordUserActivity(activityType, activityId = "") {
+
+  const user = auth.currentUser;
+
+  if (!user) return;
+
+  try {
+
+    // -------------------------------------------------
+    // CREATE A CONSISTENT DATE KEY
+    // Nigeria time is used for the community day.
+    // -------------------------------------------------
+
+    const dateKey =
+      new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Africa/Lagos"
+      }).format(new Date());
+
+
+    // -------------------------------------------------
+    // ONE ACTIVITY DOCUMENT PER USER PER DAY
+    // -------------------------------------------------
+
+    const activityRef = doc(
+      db,
+      "userDailyActivity",
+      `${user.uid}_${dateKey}`
+    );
+
+
+    // -------------------------------------------------
+    // CHECK IF USER ALREADY DID SOMETHING TODAY
+    // -------------------------------------------------
+
+    const activitySnap =
+      await getDoc(activityRef);
+
+
+    if (activitySnap.exists()) {
+
+      // They already participated today.
+      // Therefore their streak does not increase again.
+
+      return;
+
+    }
+
+
+    // -------------------------------------------------
+    // USER DOCUMENT
+    // -------------------------------------------------
+
+    const userRef =
+      doc(db, "users", user.uid);
+
+
+    // -------------------------------------------------
+    // UPDATE STREAK SAFELY
+    // -------------------------------------------------
+
+    await runTransaction(
+      db,
+      async (transaction) => {
+
+        const userSnap =
+          await transaction.get(userRef);
+
+        if (!userSnap.exists()) {
+          return;
+        }
+
+        const userData =
+          userSnap.data();
+
+
+        const currentStreak =
+          Number(userData.streak) || 0;
+
+
+        const lastActivityDate =
+          userData.lastActivityDate || "";
+
+
+        // ------------------------------------------------
+        // CALCULATE YESTERDAY
+        // ------------------------------------------------
+
+        const today =
+          new Date(
+            `${dateKey}T00:00:00`
+          );
+
+        const yesterday =
+          new Date(today);
+
+        yesterday.setDate(
+          yesterday.getDate() - 1
+        );
+
+
+        const yesterdayKey =
+          new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Africa/Lagos"
+          }).format(yesterday);
+
+
+        // ------------------------------------------------
+        // DETERMINE NEW STREAK
+        // ------------------------------------------------
+
+        let newStreak = 1;
+
+
+        if (
+          lastActivityDate === yesterdayKey
+        ) {
+
+          // User participated yesterday.
+          // Continue the streak.
+
+          newStreak =
+            currentStreak + 1;
+
+        }
+
+
+        // ------------------------------------------------
+        // UPDATE USER
+        // ------------------------------------------------
+
+        transaction.update(
+          userRef,
+          {
+            streak: newStreak,
+            lastActivityDate: dateKey
+          }
+        );
+
+
+        // ------------------------------------------------
+        // RECORD TODAY'S ACTIVITY
+        // ------------------------------------------------
+
+        transaction.set(
+          activityRef,
+          {
+            userId: user.uid,
+            date: dateKey,
+            activityType,
+            activityId,
+            createdAt: serverTimestamp()
+          }
+        );
+
+      }
+    );
+
+
+    console.log(
+      `🔥 Streak activity recorded: ${activityType}`
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Streak error:",
+      error
+    );
+
+  }
+
+}
+
 // =====================================================
 // ACHIEVEMENT / FANTASY POINT LEVEL SYSTEM
 // =====================================================
