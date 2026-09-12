@@ -27,72 +27,39 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-// =====================================================
-// STREAK SYSTEM
-// =====================================================
-//
-// A streak is based on PARTICIPATION.
-// Correctness does not matter.
-//
-// Multiple activities on the same day count
-// as only ONE streak day.
-//
-// The system waits for Firebase authentication
-// before recording the activity.
-// =====================================================
-
 function waitForAuthenticatedUser() {
   return new Promise((resolve) => {
-
-    // If Firebase already knows the user, use them immediately.
     if (auth.currentUser) {
       resolve(auth.currentUser);
       return;
     }
 
-    // Otherwise wait for Firebase to finish
-    // restoring the login session.
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => {
-
-        unsubscribe();
-
-        resolve(user || null);
-
-      }
-    );
-
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user || null);
+    });
   });
 }
 
 
 async function recordUserActivity(activityType, activityId = "") {
-
   try {
 
-    // =================================================
-    // WAIT FOR FIREBASE AUTHENTICATION
-    // =================================================
-
-    const user =
-      await waitForAuthenticatedUser();
-
+    const user = await waitForAuthenticatedUser();
 
     if (!user) {
-
       console.warn(
         "⚠️ Streak skipped: user is not authenticated."
       );
-
       return;
-
     }
 
 
-    // =================================================
-    // CREATE NIGERIA DATE KEY
-    // =================================================
+    /* =================================================
+       NIGERIA DATE
+       Use Lagos time so the streak follows
+       the user's local day.
+    ================================================= */
 
     const dateKey =
       new Intl.DateTimeFormat("en-CA", {
@@ -108,9 +75,9 @@ async function recordUserActivity(activityType, activityId = "") {
     );
 
 
-    // =================================================
-    // DAILY ACTIVITY DOCUMENT
-    // =================================================
+    /* =================================================
+       FIRESTORE REFERENCES
+    ================================================= */
 
     const activityRef =
       doc(
@@ -118,11 +85,6 @@ async function recordUserActivity(activityType, activityId = "") {
         "userDailyActivity",
         `${user.uid}_${dateKey}`
       );
-
-
-    // =================================================
-    // USER DOCUMENT
-    // =================================================
 
     const userRef =
       doc(
@@ -132,16 +94,13 @@ async function recordUserActivity(activityType, activityId = "") {
       );
 
 
-    // =================================================
-    // ATOMIC TRANSACTION
-    // =================================================
+    /* =================================================
+       TRANSACTION
+    ================================================= */
 
     await runTransaction(
       db,
       async (transaction) => {
-
-        // IMPORTANT:
-        // All reads happen before any writes.
 
         const activitySnap =
           await transaction.get(activityRef);
@@ -150,9 +109,9 @@ async function recordUserActivity(activityType, activityId = "") {
           await transaction.get(userRef);
 
 
-        // -------------------------------------------------
-        // ALREADY ACTIVE TODAY
-        // -------------------------------------------------
+        /* ---------------------------------------------
+           Already completed an activity today
+        --------------------------------------------- */
 
         if (activitySnap.exists()) {
 
@@ -161,13 +120,12 @@ async function recordUserActivity(activityType, activityId = "") {
           );
 
           return;
-
         }
 
 
-        // -------------------------------------------------
-        // USER PROFILE MUST EXIST
-        // -------------------------------------------------
+        /* ---------------------------------------------
+           Make sure user profile exists
+        --------------------------------------------- */
 
         if (!userSnap.exists()) {
 
@@ -182,27 +140,45 @@ async function recordUserActivity(activityType, activityId = "") {
           userSnap.data();
 
 
+        /* ---------------------------------------------
+           Current streak
+        --------------------------------------------- */
+
         const currentStreak =
           Number(userData.streak) || 0;
+
+
+        /* ---------------------------------------------
+           Highest streak ever achieved
+
+           This is permanent.
+
+           Example:
+
+           Highest = 30
+           Current = 1
+
+           User still owns the 30-day achievement.
+        --------------------------------------------- */
+
+        const highestStreak =
+          Number(userData.highestStreak) || 0;
 
 
         const lastActivityDate =
           userData.lastActivityDate || "";
 
 
-        // =================================================
-        // CALCULATE YESTERDAY IN NIGERIA TIME
-        // =================================================
+        /* ---------------------------------------------
+           Calculate yesterday
+        --------------------------------------------- */
 
         const today =
-          new Date(
-            `${dateKey}T00:00:00`
-          );
+          new Date(`${dateKey}T00:00:00`);
 
 
         const yesterday =
           new Date(today);
-
 
         yesterday.setDate(
           yesterday.getDate() - 1
@@ -215,9 +191,9 @@ async function recordUserActivity(activityType, activityId = "") {
           }).format(yesterday);
 
 
-        // =================================================
-        // CALCULATE NEW STREAK
-        // =================================================
+        /* ---------------------------------------------
+           Calculate new current streak
+        --------------------------------------------- */
 
         let newStreak = 1;
 
@@ -232,36 +208,86 @@ async function recordUserActivity(activityType, activityId = "") {
         }
 
 
+        /* ---------------------------------------------
+           Calculate highest streak
+
+           Never decrease it.
+
+           Example:
+
+           highestStreak = 20
+           newStreak = 21
+
+           → highestStreak = 21
+
+
+           Example:
+
+           highestStreak = 30
+           newStreak = 1
+
+           → highestStreak = 30
+        --------------------------------------------- */
+
+        const newHighestStreak =
+          Math.max(
+            highestStreak,
+            newStreak
+          );
+
+
         console.log(
-          `🔥 Streak: ${currentStreak} → ${newStreak}`
+          `🔥 Current Streak: ${currentStreak} → ${newStreak}`
+        );
+
+        console.log(
+          `🏆 Highest Streak: ${highestStreak} → ${newHighestStreak}`
         );
 
 
-        // =================================================
-        // UPDATE USER STREAK
-        // =================================================
+        /* ---------------------------------------------
+           Update user
+        --------------------------------------------- */
 
         transaction.update(
           userRef,
           {
             streak: newStreak,
-            lastActivityDate: dateKey
+
+            highestStreak:
+              newHighestStreak,
+
+            lastActivityDate:
+              dateKey
           }
         );
 
 
-        // =================================================
-        // RECORD TODAY'S ACTIVITY
-        // =================================================
+        /* ---------------------------------------------
+           Record today's activity
+
+           This prevents multiple activities
+           on the same day from increasing
+           the streak multiple times.
+        --------------------------------------------- */
 
         transaction.set(
           activityRef,
           {
-            userId: user.uid,
-            date: dateKey,
-            activityType: activityType,
-            activityId: activityId,
-            createdAt: Timestamp.now()
+            userId:
+              user.uid,
+
+            date:
+              dateKey,
+
+            activityType:
+              activityType,
+
+            activityId:
+              activityId,
+
+            createdAt:
+              Timestamp.now()
           }
         );
 
@@ -273,9 +299,8 @@ async function recordUserActivity(activityType, activityId = "") {
       `✅ Streak activity recorded successfully: ${activityType}`
     );
 
-  }
 
-  catch (error) {
+  } catch (error) {
 
     console.error(
       "❌ Streak error:",
@@ -283,9 +308,7 @@ async function recordUserActivity(activityType, activityId = "") {
     );
 
   }
-
 }
-
 
 
 // =====================================================
