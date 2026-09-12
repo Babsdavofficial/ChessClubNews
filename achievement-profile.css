@@ -1087,3 +1087,330 @@ body {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   ACHIEVEMENT PROFILE HERO
+   LEVEL-BASED COLORS
+===================================================== */
+
+#playerHero {
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    color 0.35s ease;
+}
+
+
+/* =====================================================
+   WOOD
+===================================================== */
+
+#playerHero.league-wood {
+  background:
+    linear-gradient(
+      135deg,
+      #4a2917,
+      #7a4a28,
+      #9b6338
+    );
+
+  color: #fff;
+
+  border-color: #a66a3f;
+}
+
+
+/* =====================================================
+   STONE
+===================================================== */
+
+#playerHero.league-stone {
+  background:
+    linear-gradient(
+      135deg,
+      #444,
+      #666,
+      #8a8a8a
+    );
+
+  color: #fff;
+
+  border-color: #999;
+}
+
+
+/* =====================================================
+   BRONZE
+===================================================== */
+
+#playerHero.league-bronze {
+  background:
+    linear-gradient(
+      135deg,
+      #713b1c,
+      #a85d2b,
+      #cd7f32
+    );
+
+  color: #fff;
+
+  border-color: #d18a48;
+}
+
+
+/* =====================================================
+   IRON
+===================================================== */
+
+#playerHero.league-iron {
+  background:
+    linear-gradient(
+      135deg,
+      #20242a,
+      #444b54,
+      #68717c
+    );
+
+  color: #fff;
+
+  border-color: #78828d;
+}
+
+
+/* =====================================================
+   SILVER
+===================================================== */
+
+#playerHero.league-silver {
+  background:
+    linear-gradient(
+      135deg,
+      #707070,
+      #a9a9a9,
+      #d6d6d6
+    );
+
+  color: #111;
+
+  border-color: #e0e0e0;
+}
+
+
+/* =====================================================
+   HUNTER
+===================================================== */
+
+#playerHero.league-hunter {
+  background:
+    linear-gradient(
+      135deg,
+      #24452a,
+      #3f7144,
+      #6b9d6f
+    );
+
+  color: #fff;
+
+  border-color: #78a97c;
+}
+
+
+/* =====================================================
+   GOLD
+===================================================== */
+
+#playerHero.league-gold {
+  background:
+    linear-gradient(
+      135deg,
+      #806000,
+      #b88a00,
+      #ffd700
+    );
+
+  color: #171000;
+
+  border-color: #ffe066;
+
+  box-shadow:
+    0 6px 20px rgba(255, 215, 0, .25);
+}
+
+
+/* =====================================================
+   PLATINUM
+===================================================== */
+
+#playerHero.league-platinum {
+  background:
+    linear-gradient(
+      135deg,
+      #3f5f72,
+      #6f9bb5,
+      #b9e6ff
+    );
+
+  color: #10202b;
+
+  border-color: #c8edff;
+}
+
+
+/* =====================================================
+   DIAMOND
+===================================================== */
+
+#playerHero.league-diamond {
+  background:
+    linear-gradient(
+      135deg,
+      #075985,
+      #168dcc,
+      #67d5ff
+    );
+
+  color: #fff;
+
+  border-color: #82ddff;
+
+  box-shadow:
+    0 6px 22px rgba(103, 213, 255, .28);
+}
+
+
+/* =====================================================
+   ELITE
+===================================================== */
+
+#playerHero.league-elite {
+  background:
+    linear-gradient(
+      135deg,
+      #762000,
+      #b83b00,
+      #ff6a00
+    );
+
+  color: #fff;
+
+  border-color: #ff8533;
+}
+
+
+/* =====================================================
+   MASTER
+===================================================== */
+
+#playerHero.league-master {
+  background:
+    linear-gradient(
+      135deg,
+      #421581,
+      #7028b7,
+      #a855f7
+    );
+
+  color: #fff;
+
+  border-color: #c084fc;
+
+  box-shadow:
+    0 6px 22px rgba(168, 85, 247, .28);
+}
+
+
+/* =====================================================
+   GRANDMASTER
+===================================================== */
+
+#playerHero.league-grandmaster {
+  background:
+    linear-gradient(
+      135deg,
+      #102c42,
+      #1d5680,
+      #3b82f6
+    );
+
+  color: #fff;
+
+  border-color: #60a5fa;
+}
+
+
+/* =====================================================
+   CHAMPION
+===================================================== */
+
+#playerHero.league-champion {
+  background:
+    linear-gradient(
+      135deg,
+      #641d0b,
+      #b52e18,
+      #ef4444
+    );
+
+  color: #fff;
+
+  border-color: #ff6b6b;
+}
+
+
+/* =====================================================
+   IMMORTAL
+===================================================== */
+
+#playerHero.league-immortal {
+  background:
+    linear-gradient(
+      135deg,
+      #211d63,
+      #4935a3,
+      #8b5cf6
+    );
+
+  color: #fff;
+
+  border-color: #a78bfa;
+
+  box-shadow:
+    0 6px 24px rgba(139, 92, 246, .32);
+}
+
+
+/* =====================================================
+   LEGENDARY
+===================================================== */
+
+#playerHero.league-legendary {
+  background:
+    linear-gradient(
+      135deg,
+      #5c1111,
+      #9b2c1a,
+      #f59e0b
+    );
+
+  color: #fff;
+
+  border-color: #fbbf24;
+
+  box-shadow:
+    0 0 22px rgba(245, 158, 11, .42);
+}
+
+
+
