@@ -1,0 +1,1756 @@
+/* =========================================================
+   COMMUNITY PAGE
+   Chess News Hub
+   Modern community + leaderboard design
+   ========================================================= */
+
+
+/* =========================================================
+   COMMUNITY PAGE FOUNDATION
+   ========================================================= */
+
+.community-page {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+
+/* =========================================================
+   COMMUNITY INTRO
+   ========================================================= */
+
+.community-intro {
+    padding: 10px 4px 4px;
+    margin-bottom: 26px;
+}
+
+.community-intro .section-kicker {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    background: var(--primary-soft);
+    border: 1px solid var(--border);
+
+    color: var(--primary);
+
+    font-size: .68rem;
+    font-weight: 800;
+
+    letter-spacing: .04em;
+}
+
+.community-intro h2 {
+    margin: 10px 0 7px;
+
+    color: var(--text);
+
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+
+    line-height: 1.15;
+}
+
+.community-intro p {
+    max-width: 720px;
+
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: .9rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   COMMUNITY ZONES
+   ========================================================= */
+
+.community-zone {
+    margin-top: 28px;
+}
+
+.zone-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+}
+
+.zone-heading h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 1.2rem;
+}
+
+.zone-heading p {
+    margin: 5px 0 0;
+
+    color: var(--muted);
+
+    font-size: .8rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   PLAY & CHALLENGE
+   ========================================================= */
+
+.community-game-grid {
+    align-items: stretch;
+}
+
+.community-feature-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    padding: 22px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface),
+            var(--surface-2)
+        ) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius-lg);
+
+    color: var(--text) !important;
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition);
+}
+
+.community-feature-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow);
+
+    border-color: var(--border-strong) !important;
+}
+
+
+/* Small decorative line */
+
+.community-feature-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    opacity: .8;
+}
+
+
+/* Feature icon */
+
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 13px;
+
+    border-radius: 14px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
+
+    font-size: 1.4rem;
+}
+
+
+/* Feature chip */
+
+.community-feature-card .chip {
+    align-self: flex-start;
+
+    margin-bottom: 9px;
+
+    padding: 5px 9px;
+
+    background: var(--surface-3);
+
+    border: 1px solid var(--border);
+
+    color: var(--primary);
+
+    border-radius: 999px;
+
+    font-size: .65rem;
+    font-weight: 800;
+}
+
+.community-feature-card h3 {
+    margin: 0 0 8px;
+
+    color: var(--text) !important;
+
+    font-size: 1.12rem;
+}
+
+.feature-description {
+    margin: 0 0 15px;
+
+    color: var(--text-secondary) !important;
+
+    font-size: .8rem;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FEATURE CONTENT
+   ========================================================= */
+
+.feature-content {
+    margin-top: 5px;
+
+    padding: 12px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    color: var(--text-secondary);
+
+    font-size: .8rem;
+
+    line-height: 1.55;
+}
+
+.feature-options {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 10px;
+}
+
+.feature-options button,
+.feature-options label {
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+.feature-action {
+    width: 100%;
+
+    margin-top: 12px;
+
+    min-height: 40px;
+}
+
+.feature-status {
+    min-height: 18px;
+
+    margin: 9px 0 0;
+
+    color: var(--muted);
+
+    font-size: .73rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   PUZZLE
+   ========================================================= */
+
+.puzzle-note {
+    margin: 0 0 12px;
+
+    padding: 10px 12px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--muted);
+
+    font-size: .72rem;
+
+    line-height: 1.55;
+}
+
+.puzzle-note strong {
+    color: var(--text);
+}
+
+.puzzle-content {
+    min-height: 45px;
+}
+
+
+/* =========================================================
+   =========================================================
+   MAIN COMMUNITY RANKINGS
+   =========================================================
+   ========================================================= */
+
+.community-rankings-card {
+    padding: 0 !important;
+
+    background: transparent !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+}
+
+
+/* Three leaderboard cards */
+
+.community-rank-grid {
+    align-items: stretch;
+}
+
+.ranking-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    padding: 20px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface),
+            var(--surface-2)
+        ) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius-lg);
+
+    color: var(--text) !important;
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.ranking-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow);
+}
+
+
+/* Ranking icon */
+
+.ranking-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    margin-bottom: 12px;
+
+    border-radius: 13px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
+
+    font-size: 1.3rem;
+}
+
+.ranking-card h4 {
+    margin: 0 0 14px;
+
+    color: var(--text);
+
+    font-size: .95rem;
+}
+
+
+/* =========================================================
+   MINI LEADERBOARDS
+   ========================================================= */
+
+.leaderboard-row {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    width: 100%;
+}
+
+
+/*
+   These selectors support the different markup
+   community.js may generate for leaderboard players.
+*/
+
+.leaderboard-row > div,
+.leaderboard-row .leaderboard-item,
+.leaderboard-row .leaderboard-player,
+.leaderboard-row .player-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    width: 100%;
+
+    min-height: 42px;
+
+    padding: 8px 10px;
+
+    box-sizing: border-box;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    color: var(--text);
+
+    font-size: .76rem;
+}
+
+
+/* =========================================================
+   ACHIEVEMENT RANKINGS
+   ========================================================= */
+
+.achievement-rankings-card {
+    position: relative;
+
+    padding: 24px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface),
+            var(--surface-2)
+        ) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+}
+
+
+/* Top accent */
+
+.achievement-rankings-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--secondary)
+        );
+}
+
+
+/* Achievement heading */
+
+.achievement-rankings-card .zone-heading {
+    margin-bottom: 20px;
+}
+
+.achievement-rankings-card .chip {
+    display: inline-flex;
+
+    margin-bottom: 9px;
+
+    padding: 5px 10px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
+
+    color: var(--primary);
+
+    border-radius: 999px;
+
+    font-size: .65rem;
+    font-weight: 800;
+}
+
+.achievement-rankings-card .zone-heading h3 {
+    font-size: 1.3rem;
+}
+
+.achievement-rankings-card .zone-heading p {
+    max-width: 650px;
+}
+
+
+/* =========================================================
+   ACHIEVEMENT FILTER
+   ========================================================= */
+
+.achievement-filter {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+
+    padding: 13px 15px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+}
+
+.achievement-filter label {
+    color: var(--text-secondary);
+
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.achievement-filter select {
+    min-width: 180px;
+
+    padding: 9px 12px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border-strong);
+
+    border-radius: 10px;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: .76rem;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.achievement-filter select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px var(--primary-soft);
+}
+
+
+/* =========================================================
+   ACHIEVEMENT LEADERBOARD
+   ========================================================= */
+
+.achievement-leaderboard {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+
+/*
+   Generic achievement player row support.
+
+   community.js can use different wrappers depending
+   on the current version of the leaderboard.
+*/
+
+.achievement-leaderboard > div,
+.achievement-leaderboard .achievement-item,
+.achievement-leaderboard .achievement-player,
+.achievement-leaderboard .player-row {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-height: 64px;
+
+    padding: 10px 13px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(0,0,0,.08);
+
+    border-radius: 14px;
+
+    color: var(--text);
+
+    overflow: hidden;
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        filter var(--transition);
+}
+
+[data-theme="dark"]
+.achievement-leaderboard > div,
+[data-theme="dark"]
+.achievement-leaderboard .achievement-item,
+[data-theme="dark"]
+.achievement-leaderboard .achievement-player,
+[data-theme="dark"]
+.achievement-leaderboard .player-row {
+    border-color: rgba(255,255,255,.08);
+}
+
+.achievement-leaderboard > div:hover,
+.achievement-leaderboard .achievement-item:hover,
+.achievement-leaderboard .achievement-player:hover,
+.achievement-leaderboard .player-row:hover {
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-sm);
+
+    filter: brightness(1.02);
+}
+
+
+/* =========================================================
+   ACHIEVEMENT RANK NUMBER
+   ========================================================= */
+
+.achievement-leaderboard .rank,
+.achievement-leaderboard .player-rank,
+.achievement-leaderboard .rank-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,.55);
+
+    color: #1f2937;
+
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+[data-theme="dark"]
+.achievement-leaderboard .rank,
+[data-theme="dark"]
+.achievement-leaderboard .player-rank,
+[data-theme="dark"]
+.achievement-leaderboard .rank-number {
+    background: rgba(0,0,0,.25);
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   PLAYER AVATAR
+   ========================================================= */
+
+.achievement-leaderboard .player-avatar,
+.achievement-leaderboard .avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.6);
+
+    border: 1px solid rgba(0,0,0,.08);
+
+    font-size: 1rem;
+    font-weight: 800;
+
+    overflow: hidden;
+}
+
+[data-theme="dark"]
+.achievement-leaderboard .player-avatar,
+[data-theme="dark"]
+.achievement-leaderboard .avatar {
+    background: rgba(0,0,0,.2);
+
+    border-color: rgba(255,255,255,.08);
+}
+
+
+/* =========================================================
+   PLAYER INFORMATION
+   ========================================================= */
+
+.achievement-leaderboard .player-info,
+.achievement-leaderboard .achievement-info {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-width: 0;
+
+    flex: 1;
+}
+
+.achievement-leaderboard .player-info strong,
+.achievement-leaderboard .achievement-info strong {
+    color: inherit;
+
+    font-size: .84rem;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.achievement-leaderboard .player-info small,
+.achievement-leaderboard .achievement-info small {
+    margin-top: 3px;
+
+    color: inherit;
+
+    opacity: .72;
+
+    font-size: .68rem;
+}
+
+
+/* =========================================================
+   ACHIEVEMENT BADGE
+   ========================================================= */
+
+.achievement-leaderboard .achievement-badge,
+.achievement-leaderboard .level-badge {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    min-width: 74px;
+
+    padding: 6px 9px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.58);
+
+    color: inherit;
+
+    font-size: .67rem;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   FANTASY POINTS
+   ========================================================= */
+
+.achievement-leaderboard .fantasy-points,
+.achievement-leaderboard .points,
+.achievement-leaderboard .fp {
+    flex: 0 0 auto;
+
+    min-width: 60px;
+
+    text-align: right;
+
+    font-size: .75rem;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   ACHIEVEMENT LEVEL COLORS
+   IMPORTANT:
+   Keep the level identity.
+   ========================================================= */
+
+
+/* WOOD */
+
+.league-wood,
+.achievement-wood,
+.level-wood {
+    background:
+        linear-gradient(
+            135deg,
+            #d7b08a,
+            #b98252
+        ) !important;
+
+    color: #3d2414 !important;
+}
+
+
+/* STONE */
+
+.league-stone,
+.achievement-stone,
+.level-stone {
+    background:
+        linear-gradient(
+            135deg,
+            #d9dde3,
+            #aeb5bf
+        ) !important;
+
+    color: #26313d !important;
+}
+
+
+/* BRONZE */
+
+.league-bronze,
+.achievement-bronze,
+.level-bronze {
+    background:
+        linear-gradient(
+            135deg,
+            #e6a66b,
+            #b96c35
+        ) !important;
+
+    color: #43220f !important;
+}
+
+
+/* IRON */
+
+.league-iron,
+.achievement-iron,
+.level-iron {
+    background:
+        linear-gradient(
+            135deg,
+            #aeb8c4,
+            #687382
+        ) !important;
+
+    color: #17202b !important;
+}
+
+
+/* SILVER */
+
+.league-silver,
+.achievement-silver,
+.level-silver {
+    background:
+        linear-gradient(
+            135deg,
+            #f0f3f7,
+            #b9c2ce
+        ) !important;
+
+    color: #27313d !important;
+}
+
+
+/* HUNTER */
+
+.league-hunter,
+.achievement-hunter,
+.level-hunter {
+    background:
+        linear-gradient(
+            135deg,
+            #9ed6a8,
+            #4f9f62
+        ) !important;
+
+    color: #12371b !important;
+}
+
+
+/* GOLD */
+
+.league-gold,
+.achievement-gold,
+.level-gold {
+    background:
+        linear-gradient(
+            135deg,
+            #ffe58a,
+            #e7ae2f
+        ) !important;
+
+    color: #4c3500 !important;
+}
+
+
+/* PLATINUM */
+
+.league-platinum,
+.achievement-platinum,
+.level-platinum {
+    background:
+        linear-gradient(
+            135deg,
+            #bde8ee,
+            #70c7d3
+        ) !important;
+
+    color: #10363d !important;
+}
+
+
+/* DIAMOND */
+
+.league-diamond,
+.achievement-diamond,
+.level-diamond {
+    background:
+        linear-gradient(
+            135deg,
+            #b9d8ff,
+            #6d9fe8
+        ) !important;
+
+    color: #102c50 !important;
+}
+
+
+/* ELITE */
+
+.league-elite,
+.achievement-elite,
+.level-elite {
+    background:
+        linear-gradient(
+            135deg,
+            #f7b7ff,
+            #c66de0
+        ) !important;
+
+    color: #42154d !important;
+}
+
+
+/* MASTER */
+
+.league-master,
+.achievement-master,
+.level-master {
+    background:
+        linear-gradient(
+            135deg,
+            #d8b4fe,
+            #8b5cf6
+        ) !important;
+
+    color: #29104e !important;
+}
+
+
+/* GRANDMASTER */
+
+.league-grandmaster,
+.achievement-grandmaster,
+.level-grandmaster {
+    background:
+        linear-gradient(
+            135deg,
+            #9ee7ff,
+            #4285c5
+        ) !important;
+
+    color: #08283d !important;
+}
+
+
+/* CHAMPION */
+
+.league-champion,
+.achievement-champion,
+.level-champion {
+    background:
+        linear-gradient(
+            135deg,
+            #ffd36a,
+            #f97316
+        ) !important;
+
+    color: #4b1d00 !important;
+}
+
+
+/* IMMORTAL */
+
+.league-immortal,
+.achievement-immortal,
+.level-immortal {
+    background:
+        linear-gradient(
+            135deg,
+            #ffd1f7,
+            #ef72d0
+        ) !important;
+
+    color: #4d123f !important;
+}
+
+
+/* LEGENDARY */
+
+.league-legendary,
+.achievement-legendary,
+.level-legendary {
+    background:
+        linear-gradient(
+            135deg,
+            #ffe58f,
+            #ff9f43,
+            #e85d04
+        ) !important;
+
+    color: #4a2100 !important;
+
+    box-shadow:
+        0 5px 18px rgba(232,93,4,.18);
+}
+
+
+/* =========================================================
+   TOP THREE ACHIEVEMENT PLAYERS
+   ========================================================= */
+
+.achievement-leaderboard .top-rank,
+.achievement-leaderboard .rank-1,
+.achievement-leaderboard .rank-2,
+.achievement-leaderboard .rank-3 {
+    border-width: 1px;
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* First place */
+
+.achievement-leaderboard .rank-1 {
+    min-height: 72px;
+}
+
+.achievement-leaderboard .rank-1 .rank,
+.achievement-leaderboard .rank-1 .player-rank,
+.achievement-leaderboard .rank-1 .rank-number {
+    width: 40px;
+    height: 40px;
+
+    font-size: .95rem;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING ACHIEVEMENT STATE
+   ========================================================= */
+
+.achievement-leaderboard > p {
+    margin: 0;
+
+    padding: 28px 15px;
+
+    text-align: center;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    color: var(--muted);
+
+    font-size: .8rem;
+}
+
+
+/* =========================================================
+   FANTASY TEAM
+   ========================================================= */
+
+.fantasy-team-card {
+    position: relative;
+
+    padding: 24px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface),
+            var(--surface-2)
+        ) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+}
+
+.fantasy-team-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #f59e0b,
+            var(--primary)
+        );
+}
+
+.fantasy-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.fantasy-header .chip {
+    display: inline-flex;
+
+    padding: 5px 10px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    color: var(--primary);
+
+    font-size: .65rem;
+    font-weight: 800;
+}
+
+.fantasy-header h3 {
+    margin: 8px 0 0;
+
+    color: var(--text);
+
+    font-size: 1.25rem;
+}
+
+
+/* =========================================================
+   FANTASY SUMMARY
+   ========================================================= */
+
+.fantasy-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+}
+
+.fantasy-stat {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    padding: 14px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+}
+
+.fantasy-stat span {
+    color: var(--muted);
+
+    font-size: .68rem;
+    font-weight: 600;
+}
+
+.fantasy-stat strong {
+    color: var(--text);
+
+    font-size: 1rem;
+}
+
+#myFantasyPoints {
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   FANTASY SELECTION INFO
+   ========================================================= */
+
+.fantasy-selection-info {
+    margin-bottom: 15px;
+
+    padding: 11px 13px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    color: var(--text-secondary);
+
+    font-size: .76rem;
+}
+
+.fantasy-selection-info strong {
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   FANTASY PLAYER AREA
+   ========================================================= */
+
+.fantasy-player-area h4 {
+    margin: 0 0 12px;
+
+    color: var(--text);
+
+    font-size: .9rem;
+}
+
+#fantasyPlayersContainer {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 9px;
+}
+
+
+/*
+   Flexible selectors for player cards generated
+   by community.js.
+*/
+
+#fantasyPlayersContainer > div,
+#fantasyPlayersContainer .fantasy-player,
+#fantasyPlayersContainer .player-card {
+    padding: 12px;
+
+    background: var(--surface-2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    color: var(--text);
+
+    transition:
+        transform var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+#fantasyPlayersContainer > div:hover,
+#fantasyPlayersContainer .fantasy-player:hover,
+#fantasyPlayersContainer .player-card:hover {
+    transform: translateY(-2px);
+
+    border-color: var(--border-strong);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* =========================================================
+   SELECTED FANTASY TEAM
+   ========================================================= */
+
+.selected-fantasy-card {
+    margin-top: 4px;
+
+    padding: 16px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface-2),
+            var(--surface-3)
+        ) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: 14px;
+
+    color: var(--text) !important;
+}
+
+.selected-fantasy-card h3 {
+    margin: 0 0 12px;
+
+    color: var(--text);
+
+    font-size: .95rem;
+}
+
+#selectedFantasyPlayers {
+    color: var(--text-secondary);
+
+    font-size: .78rem;
+
+    line-height: 1.6;
+}
+
+.fantasy-submit-btn {
+    width: 100%;
+
+    min-height: 43px;
+
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   GENERAL FORM / INPUT OVERRIDES
+   ========================================================= */
+
+.community-page input,
+.community-page textarea,
+.community-page select {
+    font-family: inherit;
+}
+
+.community-page input:focus,
+.community-page textarea:focus,
+.community-page select:focus {
+    outline: none;
+}
+
+
+/* =========================================================
+   DESKTOP SPACING
+   ========================================================= */
+
+@media (min-width: 901px) {
+
+    .community-page {
+        padding-bottom: 30px;
+    }
+
+    .community-intro {
+        padding-top: 6px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .community-game-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .community-game-grid
+    .community-feature-card:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .community-rank-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .community-rank-grid
+    .ranking-card:last-child {
+        grid-column: 1 / -1;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+    .community-intro {
+        margin-bottom: 20px;
+
+        padding: 0;
+    }
+
+    .community-intro h2 {
+        font-size: 1.65rem;
+    }
+
+    .community-intro p {
+        font-size: .8rem;
+
+        line-height: 1.6;
+    }
+
+
+    /* Zones */
+
+    .community-zone {
+        margin-top: 22px;
+    }
+
+    .zone-heading {
+        margin-bottom: 12px;
+    }
+
+    .zone-heading h3 {
+        font-size: 1.05rem;
+    }
+
+    .zone-heading p {
+        font-size: .72rem;
+    }
+
+
+    /* Play cards */
+
+    .community-game-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .community-game-grid
+    .community-feature-card:last-child {
+        grid-column: auto;
+    }
+
+    .community-feature-card {
+        padding: 18px !important;
+
+        border-radius: 16px;
+    }
+
+    .feature-icon {
+        width: 43px;
+        height: 43px;
+
+        border-radius: 12px;
+
+        font-size: 1.2rem;
+    }
+
+
+    /* Rankings */
+
+    .community-rank-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .community-rank-grid
+    .ranking-card:last-child {
+        grid-column: auto;
+    }
+
+    .ranking-card {
+        padding: 17px !important;
+
+        border-radius: 16px;
+    }
+
+
+    /* Achievement */
+
+    .achievement-rankings-card {
+        padding: 17px !important;
+
+        border-radius: 16px;
+    }
+
+    .achievement-rankings-card .zone-heading h3 {
+        font-size: 1.08rem;
+    }
+
+    .achievement-filter {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        gap: 8px;
+
+        padding: 12px;
+    }
+
+    .achievement-filter select {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+
+    /* Achievement rows */
+
+    .achievement-leaderboard {
+        gap: 7px;
+    }
+
+    .achievement-leaderboard > div,
+    .achievement-leaderboard .achievement-item,
+    .achievement-leaderboard .achievement-player,
+    .achievement-leaderboard .player-row {
+        gap: 9px;
+
+        min-height: 58px;
+
+        padding: 8px 9px;
+
+        border-radius: 12px;
+    }
+
+    .achievement-leaderboard .rank,
+    .achievement-leaderboard .player-rank,
+    .achievement-leaderboard .rank-number {
+        width: 30px;
+        height: 30px;
+
+        border-radius: 8px;
+
+        font-size: .7rem;
+    }
+
+    .achievement-leaderboard .player-avatar,
+    .achievement-leaderboard .avatar {
+        width: 35px;
+        height: 35px;
+
+        font-size: .85rem;
+    }
+
+    .achievement-leaderboard .player-info strong,
+    .achievement-leaderboard .achievement-info strong {
+        font-size: .76rem;
+    }
+
+    .achievement-leaderboard .player-info small,
+    .achievement-leaderboard .achievement-info small {
+        font-size: .61rem;
+    }
+
+    .achievement-leaderboard .achievement-badge,
+    .achievement-leaderboard .level-badge {
+        min-width: auto;
+
+        padding: 5px 7px;
+
+        font-size: .59rem;
+    }
+
+    .achievement-leaderboard .fantasy-points,
+    .achievement-leaderboard .points,
+    .achievement-leaderboard .fp {
+        min-width: 45px;
+
+        font-size: .67rem;
+    }
+
+
+    /* Fantasy */
+
+    .fantasy-team-card {
+        padding: 18px !important;
+
+        border-radius: 16px;
+    }
+
+    .fantasy-header h3 {
+        font-size: 1.05rem;
+    }
+
+    .fantasy-summary {
+        grid-template-columns: 1fr;
+
+        gap: 7px;
+    }
+
+    .fantasy-stat {
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 11px 12px;
+    }
+
+    #fantasyPlayersContainer {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .community-intro h2 {
+        font-size: 1.45rem;
+    }
+
+    .community-intro p {
+        font-size: .76rem;
+    }
+
+    .community-feature-card {
+        padding: 16px !important;
+    }
+
+    .achievement-rankings-card,
+    .fantasy-team-card {
+        padding: 15px !important;
+    }
+
+    .achievement-leaderboard .achievement-badge,
+    .achievement-leaderboard .level-badge {
+        display: none;
+    }
+
+    .achievement-leaderboard .fantasy-points,
+    .achievement-leaderboard .points,
+    .achievement-leaderboard .fp {
+        min-width: 40px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 350px) {
+
+    .achievement-leaderboard .player-avatar,
+    .achievement-leaderboard .avatar {
+        display: none;
+    }
+
+    .achievement-leaderboard > div,
+    .achievement-leaderboard .achievement-item,
+    .achievement-leaderboard .achievement-player,
+    .achievement-leaderboard .player-row {
+        gap: 7px;
+    }
+
+}
