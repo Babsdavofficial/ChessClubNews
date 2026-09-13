@@ -1,65 +1,96 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Login | Chess News Hub</title>
+
   <link rel="stylesheet" href="general.css">
+  <link rel="stylesheet" href="auth.css">
+
   <script src="theme.js"></script>
 </head>
+
 <body>
 
-<div class="panel" style="max-width:500px;margin:50px auto;padding:30px;">
+  <main class="auth-page">
 
-  <div class="section-head" style="justify-content:center;text-align:center;">
-    <div>
-      <h1>♟️ Chess News Hub</h1>
-      <p>Welcome back, player.</p>
+    <div class="auth-container">
+
+      <!-- HEADER -->
+      <div class="auth-header">
+        <h1>♟️ Chess News Hub</h1>
+        <p>Welcome back, player.</p>
+      </div>
+
+
+      <!-- LOGIN CARD -->
+      <div class="panel auth-card">
+
+        <div class="chip auth-badge">
+          🔐 Secure Login
+        </div>
+
+
+        <!-- EMAIL -->
+        <div class="auth-form-group">
+          <label for="loginEmail">
+            Email Address
+          </label>
+
+          <input
+            id="loginEmail"
+            type="email"
+            placeholder="Enter your email"
+          >
+        </div>
+
+
+        <!-- PASSWORD -->
+        <div class="auth-form-group">
+          <label for="loginPassword">
+            Password
+          </label>
+
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="Enter your password"
+          >
+        </div>
+
+
+        <!-- LOGIN -->
+        <button
+          id="loginBtn"
+          class="btn primary auth-submit">
+          Sign In
+        </button>
+
+
+        <!-- FORGOT PASSWORD -->
+        <button
+          id="forgotPasswordBtn"
+          class="btn secondary auth-secondary">
+          🔑 Forgot Password?
+        </button>
+
+
+        <!-- SIGNUP LINK -->
+        <p class="auth-footer">
+          New here?
+          <a href="signup.html">Create an account</a>
+        </p>
+
+      </div>
+
     </div>
-  </div>
 
-  <div class="card">
+  </main>
 
-    <div class="chip">🔐 Secure Login</div>
 
-    <br>
-
-    <label>Email Address</label>
-    <input id="loginEmail" type="email" placeholder="Enter your email">
-
-    <br><br>
-
-    <label>Password</label>
-    <input id="loginPassword" type="password" placeholder="Enter your password">
-
-    <br><br>
-
-    <button id="loginBtn" class="btn primary" style="width:100%;">
-      Sign In
-    </button>
-    <br><br>
-
-    <br>
-
-<button
-  id="forgotPasswordBtn"
-  class="btn secondary"
-  style="width:100%;">
-  🔑 Forgot Password?
-</button>
-
-    <p style="margin-top:20px;text-align:center;">
-      New here?
-      <a href="signup.html">Create an account</a>
-    </p>
-
-  </div>
-
-</div>
-
-<script type="module" src="auth.js"></script>
+  <script type="module" src="auth.js"></script>
 
 </body>
 </html>
