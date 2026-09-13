@@ -1,65 +1,116 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Sign Up | Chess News Hub</title>
+
   <link rel="stylesheet" href="general.css">
+  <link rel="stylesheet" href="auth.css">
+
   <script src="theme.js"></script>
 </head>
+
 <body>
 
-<div class="panel" style="max-width:500px;margin:50px auto;padding:30px;">
+  <main class="auth-page">
 
-  <div class="section-head" style="justify-content:center;text-align:center;">
-    <div>
-      <h1>♟️ Chess News Hub</h1>
-      <p>Create your community account.</p>
+    <div class="auth-container">
+
+      <!-- HEADER -->
+      <div class="auth-header">
+        <h1>♟️ Chess News Hub</h1>
+        <p>Create your community account.</p>
+      </div>
+
+
+      <!-- SIGNUP CARD -->
+      <div class="panel auth-card">
+
+        <div class="chip auth-badge">
+          🚀 Join the Community
+        </div>
+
+
+        <!-- USERNAME -->
+        <div class="auth-form-group">
+          <label for="username">
+            Username
+          </label>
+
+          <input
+            id="username"
+            type="text"
+            placeholder="Choose a username"
+          >
+        </div>
+
+
+        <!-- EMAIL -->
+        <div class="auth-form-group">
+          <label for="email">
+            Email Address
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            placeholder="Enter your email"
+          >
+        </div>
+
+
+        <!-- PASSWORD -->
+        <div class="auth-form-group">
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            placeholder="Create a password"
+          >
+        </div>
+
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="auth-form-group">
+          <label for="confirmPassword">
+            Confirm Password
+          </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm password"
+          >
+        </div>
+
+
+        <!-- SIGNUP BUTTON -->
+        <button
+          id="signupBtn"
+          class="btn primary auth-submit">
+          Create Account
+        </button>
+
+
+        <!-- LOGIN LINK -->
+        <p class="auth-footer">
+          Already have an account?
+          <a href="login.html">Sign In</a>
+        </p>
+
+      </div>
+
     </div>
-  </div>
 
-  <div class="card">
+  </main>
 
-    <div class="chip">🚀 Join the Community</div>
 
-    <br>
+  <script type="module" src="auth.js"></script>
 
-    <label>Username</label>
-    <input id="username" type="text" placeholder="Choose a username">
-
-    <br><br>
-
-    <label>Email Address</label>
-    <input id="email" type="email" placeholder="Enter your email">
-
-    <br><br>
-
-    <label>Password</label>
-    <input id="password" type="password" placeholder="Create a password">
-
-    <br><br>
-
-    <label>Confirm Password</label>
-    <input id="confirmPassword" type="password" placeholder="Confirm password">
-
-    <br><br>
-
-    <button id="signupBtn" class="btn primary" style="width:100%;">
-      Create Account
-    </button>
-
-    <p style="margin-top:20px;text-align:center;">
-      Already have an account?
-      <a href="login.html">Sign In</a>
-    </p>
-
-  </div>
-
-</div>
-
-<script type="module" src="auth.js"></script>
 </body>
 </html>
-
-
