@@ -17,26 +17,266 @@
 
 <div class="wrap">
 
-    <!-- Header -->
-    <header class="topbar panel">
-        <div class="brand">
-            <span class="brand-icon">♟️</span>
-            <span>Chess Community Hub</span>
+  <!-- =====================================================
+       TOP HEADER
+       Chess News Hub + Profile
+  ====================================================== -->
+
+  <header class="topbar panel">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div class="logo">
+        ♟♙
+      </div>
+
+      <div class="titlebox">
+
+        <h1>
+          Chess News Hub
+        </h1>
+
+        <p>
+          Predictions, puzzles and chess community challenges
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         PROFILE
+    ==================================================== -->
+
+    <div class="profile-menu">
+
+      <button
+        id="profileBtn"
+        class="btn secondary"
+      >
+
+        <span id="userDisplay">
+          👤 Guest
+        </span>
+
+        ▼
+
+      </button>
+
+
+      <!-- PROFILE DROPDOWN -->
+
+      <div
+        id="profileDropdown"
+        class="profile-dropdown"
+      >
+
+        <p>
+          <strong id="profileName">
+            Guest
+          </strong>
+        </p>
+
+
+        <hr>
+
+
+        <p id="profileEmail">
+          Not logged in
+        </p>
+
+
+        <!-- =================================================
+             FANTASY ACHIEVEMENT
+        ================================================== -->
+
+        <div
+          id="profileAchievement"
+          class="profile-achievement"
+        >
+
+          <div
+            id="profileAchievementBadge"
+            class="achievement-badge"
+          >
+            🪵
+          </div>
+
+
+          <div class="achievement-info">
+
+            <strong id="profileAchievementName">
+              Wood
+            </strong>
+
+            <span id="profileAchievementLevel">
+              Level 1
+            </span>
+
+            <small>
+
+              🏆
+
+              <span id="fantasyPoints">
+                0
+              </span>
+
+              Fantasy Points
+
+            </small>
+
+          </div>
+
         </div>
 
-        <div class="profile">
-            <button class="profile-btn" type="button" onclick="toggleProfileMenu()">
-                👤 <span id="profileName">Profile</span> ▾
-            </button>
 
-            <div id="profileMenu" class="profile-menu hidden">
-                <a href="achievement-profile.html">🏆 Achievement Profile</a>
-                <a href="players.html">👥 Players</a>
-                <a href="index.html">🏠 Home</a>
-                <button type="button" onclick="logout()">🚪 Logout</button>
-            </div>
-        </div>
-    </header>
+        <p>
+          🧠 Trivia Correct:
+
+          <span id="triviaScore">
+            0
+          </span>
+        </p>
+
+
+        <p>
+          🎯 Predictions:
+
+          <span id="predictionScore">
+            0
+          </span>
+        </p>
+
+
+        <hr>
+
+
+        <!-- ADMIN -->
+
+        <button
+          id="adminPanelBtn"
+          class="btn primary"
+          style="
+            width:100%;
+            display:none;
+            margin-bottom:8px;
+          "
+        >
+          👑 Admin Dashboard
+        </button>
+
+
+        <!-- LOGOUT -->
+
+        <button
+          id="logoutBtn"
+          class="btn secondary"
+          style="width:100%;"
+        >
+          🚪 Logout
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       PAGE NAVIGATION
+       DESKTOP: UNDER HEADER
+       MOBILE: BOTTOM OF SCREEN
+  ====================================================== -->
+
+  <nav class="page-navigation">
+
+
+    <a href="index.html">
+
+      <span>
+        🏠
+      </span>
+
+      <small>
+        Home
+      </small>
+
+    </a>
+
+
+    <a
+      href="matches.html"
+      class="active"
+    >
+
+      <span>
+        ♟️
+      </span>
+
+      <small>
+        Matches
+      </small>
+
+    </a>
+
+
+    <a href="standings.html">
+
+      <span>
+        🏆
+      </span>
+
+      <small>
+        Standings
+      </small>
+
+    </a>
+
+
+    <a href="updates.html">
+
+      <span>
+        📰
+      </span>
+
+      <small>
+        Updates
+      </small>
+
+    </a>
+
+
+    <a href="community.html">
+
+      <span>
+        👥
+      </span>
+
+      <small>
+        Community
+      </small>
+
+    </a>
+
+
+    <a href="players.html">
+
+      <span>
+        👤
+      </span>
+
+      <small>
+        Players
+      </small>
+
+    </a>
+
+  </nav>
 
     <!-- Main navigation -->
     <nav class="page-navigation" aria-label="Main navigation">
