@@ -651,9 +651,14 @@
     line-height: 1.3;
 }
 
+
+
 /* =========================================================
    MOBILE
    ========================================================= */
+
+
+
 
 @media (max-width: 900px) {
 
@@ -785,5 +790,159 @@
 
     .featured-record-stats span {
         font-size: 8px;
+    }
+}
+
+
+@media (max-width: 760px) {
+
+    .page-navigation {
+        position: fixed;
+
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+
+        z-index: 5000;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(6, minmax(0, 1fr));
+
+        gap: 3px;
+
+        margin: 0;
+
+        padding: 5px;
+
+        border-radius: 14px;
+
+        background: var(--surface);
+
+        box-shadow: var(--shadow-lg);
+
+        backdrop-filter: blur(10px);
+    }
+
+    .page-navigation a {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 2px;
+
+        min-width: 0;
+        min-height: 48px;
+
+        padding: 4px 2px;
+
+        text-align: center;
+
+        font-size: .6rem;
+
+        border-radius: 10px;
+
+        overflow: hidden;
+    }
+
+    .page-navigation a span {
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    .page-navigation a small {
+        font-size: .55rem;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+    .wrap {
+        padding-bottom: 80px;
+    }
+
+    #standings.section {
+        padding: 20px 14px;
+    }
+
+    .standings-header {
+        align-items: flex-start;
+    }
+
+    .standings-header h2 {
+        font-size: 1.55rem;
+    }
+
+    .standings-header p {
+        font-size: .82rem;
+    }
+
+    .standings-summary {
+        min-width: 78px;
+        padding: 11px 12px;
+    }
+
+    .standings-summary strong {
+        font-size: 1.45rem;
+    }
+
+    .standings-highlights {
+        gap: 10px;
+    }
+
+    .standing-highlight {
+        padding: 12px;
+    }
+
+    .standing-highlight > span {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+
+    .standings-table-head {
+        padding: 16px;
+    }
+
+    .table-scroll-hint {
+        display: block;
+    }
+
+    .standings-table-footer {
+        flex-direction: column;
+        gap: 5px;
+
+        padding: 12px 15px;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .standings-header {
+        flex-direction: column;
+    }
+
+    .standings-summary {
+        align-self: flex-start;
+    }
+
+    .standings-highlights {
+        grid-template-columns: 1fr;
+    }
+
+    .standings-legend {
+        grid-template-columns: 1fr;
+    }
+
+    .standing-highlight {
+        min-height: 65px;
     }
 }
