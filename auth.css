@@ -1,0 +1,208 @@
+/* =========================================================
+   CHESS NEWS HUB
+   LOGIN / SIGNUP LAYOUT
+   ---------------------------------------------------------
+   Uses general.css for colors, buttons, inputs and theme.
+   This file controls only the authentication page layout.
+   ========================================================= */
+
+
+/* =========================
+   AUTH PAGE
+   ========================= */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+}
+
+
+/* =========================
+   AUTH CONTAINER
+   ========================= */
+
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+
+/* =========================
+   AUTH HEADER
+   ========================= */
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-header h1 {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.2;
+}
+
+.auth-header p {
+    margin: 7px 0 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+
+/* =========================
+   AUTH CARD
+   ========================= */
+
+.auth-card {
+    padding: 28px;
+}
+
+
+/* =========================
+   AUTH BADGE
+   ========================= */
+
+.auth-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 22px;
+}
+
+
+/* =========================
+   FORM GROUP
+   ========================= */
+
+.auth-form-group {
+    margin-bottom: 18px;
+}
+
+.auth-form-group label {
+    display: block;
+    margin-bottom: 7px;
+}
+
+
+/* =========================
+   INPUTS
+   ========================= */
+
+.auth-card input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   MAIN AUTH BUTTON
+   ========================= */
+
+.auth-submit {
+    width: 100%;
+    margin-top: 4px;
+}
+
+
+/* =========================
+   SECONDARY ACTION
+   ========================= */
+
+.auth-secondary {
+    width: 100%;
+    margin-top: 12px;
+}
+
+
+/* =========================
+   AUTH FOOTER
+   ========================= */
+
+.auth-footer {
+    margin: 22px 0 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.auth-footer a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   DIVIDER
+   ========================= */
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.auth-divider span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .auth-page {
+        padding: 20px 12px;
+        align-items: flex-start;
+    }
+
+    .auth-container {
+        margin-top: 25px;
+    }
+
+    .auth-header h1 {
+        font-size: 22px;
+    }
+
+    .auth-header p {
+        font-size: 13px;
+    }
+
+    .auth-card {
+        padding: 22px 18px;
+    }
+}
+
+
+/* =========================
+   VERY SMALL SCREENS
+   ========================= */
+
+@media (max-width: 380px) {
+
+    .auth-card {
+        padding: 20px 15px;
+    }
+
+    .auth-header h1 {
+        font-size: 20px;
+    }
+}
