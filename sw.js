@@ -20,6 +20,7 @@ const FILES_TO_CACHE = [
 
   "./style.css",
   "./general.css",
+  "./auth.css",
   "./matches.css",
   "./standings.css",
    "./updates.css",
