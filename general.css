@@ -929,6 +929,130 @@ select:focus {
 
         width: calc(100% - 14px);
     }
+/* =========================================================
+THEME SETTING
+========================================================= */
+
+.theme-setting {
+
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+gap: 12px;
+
+padding: 10px 0;
+
+
+}
+
+.theme-setting-info {
+
+display: flex;
+
+align-items: center;
+
+gap: 9px;
+
+min-width: 0;
+
+
+}
+
+.theme-setting-icon {
+
+
+width: 34px;
+height: 34px;
+
+display: grid;
+
+place-items: center;
+
+flex: 0 0 auto;
+
+border-radius: 10px;
+
+background: var(--primary-soft);
+
+font-size: 17px;
+
+
+}
+
+.theme-setting-info div {
+
+
+display: flex;
+
+flex-direction: column;
+
+min-width: 0;
+
+
+}
+
+.theme-setting-info strong {
+
+
+color: var(--text);
+
+font-size: 12px;
+
+
+}
+
+.theme-setting-info small {
+
+
+margin-top: 2px;
+
+color: var(--muted);
+
+font-size: 9px;
+
+
+}
+
+.theme-select {
+
+
+width: auto;
+
+min-width: 105px;
+
+padding: 7px 9px;
+
+border-radius: 9px;
+
+border: 1px solid var(--border);
+
+background: var(--surface-2);
+
+color: var(--text);
+
+font-size: 11px;
+
+cursor: pointer;
+
+outline: none;
+
+
+}
+
+.theme-select:focus {
+
+
+border-color: var(--primary);
+
+box-shadow:
+    0 0 0 3px var(--primary-soft);
+
+
+}
 
 
     .titlebox p {
