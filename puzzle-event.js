@@ -244,6 +244,7 @@ async function loadPuzzleEventPage() {
 
 
     const event = eventSnapshot.data();
+    await loadEventLeaderboard(eventId, event);
 
 
     /* -----------------------------------------
@@ -443,7 +444,270 @@ async function loadPuzzleEventPage() {
 
 }
 
+/* =========================================
+   EVENT LEADERBOARD
+========================================= */
 
+async function loadEventLeaderboard(eventId, event) {
+
+  const leaderboardSection =
+    document.getElementById("leaderboardSection");
+
+  const leaderboardContent =
+    document.getElementById("leaderboardContent");
+
+  if (!leaderboardSection || !leaderboardContent) return;
+
+
+  // Hide leaderboard if disabled for this event
+  if (event.leaderboardEnabled !== true) {
+
+    leaderboardSection.classList.add("hidden");
+
+    return;
+  }
+
+
+  try {
+
+    const resultsQuery = query(
+      collection(db, "puzzleEventResults"),
+      where("eventId", "==", eventId)
+    );
+
+    const snapshot = await getDocs(resultsQuery);
+
+
+    if (snapshot.empty) {
+
+      leaderboardContent.innerHTML = `
+        <div class="leaderboard-empty">
+          <div class="state-icon">🏆</div>
+          <h3>No Results Yet</h3>
+          <p>
+            The leaderboard will appear when players complete the event.
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    /*
+      Keep only the highest official score
+      for each player.
+    */
+
+    const playerResults = new Map();
+
+
+    snapshot.forEach((resultDoc) => {
+
+      const result = resultDoc.data();
+
+      const userId = result.userId;
+
+      if (!userId) return;
+
+
+      const score = Number(result.score || 0);
+
+
+      if (!playerResults.has(userId)) {
+
+        playerResults.set(userId, {
+          userId,
+          score,
+          correctAnswers: Number(result.correctAnswers || 0)
+        });
+
+        return;
+      }
+
+
+      const existingResult =
+        playerResults.get(userId);
+
+
+      if (score > existingResult.score) {
+
+        playerResults.set(userId, {
+          userId,
+          score,
+          correctAnswers: Number(result.correctAnswers || 0)
+        });
+
+      }
+
+    });
+
+
+    /*
+      Sort highest score first.
+    */
+
+    const leaderboard =
+      Array.from(playerResults.values())
+        .sort((a, b) => b.score - a.score);
+
+
+    if (!leaderboard.length) {
+
+      leaderboardContent.innerHTML = `
+        <div class="leaderboard-empty">
+          <div class="state-icon">🏆</div>
+          <h3>No Results Yet</h3>
+          <p>
+            The leaderboard will appear when players complete the event.
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    /*
+      Get player names.
+    */
+
+    const userIds =
+      leaderboard.map(player => player.userId);
+
+
+    const playerData = new Map();
+
+
+    await Promise.all(
+      userIds.map(async (userId) => {
+
+        try {
+
+          const userSnapshot =
+            await getDoc(doc(db, "users", userId));
+
+
+          if (userSnapshot.exists()) {
+
+            const user = userSnapshot.data();
+
+            playerData.set(userId, {
+              name:
+                user.displayName ||
+                user.username ||
+                user.name ||
+                "Chess Player",
+
+              photoURL:
+                user.photoURL || ""
+            });
+
+          }
+
+        } catch (error) {
+
+          console.error(
+            `Could not load player ${userId}:`,
+            error
+          );
+
+        }
+
+      })
+    );
+
+
+    /*
+      Build leaderboard.
+    */
+
+    leaderboardContent.innerHTML =
+      leaderboard.map((player, index) => {
+
+        const playerInfo =
+          playerData.get(player.userId) || {
+            name: "Chess Player",
+            photoURL: ""
+          };
+
+
+        const rank = index + 1;
+
+
+        let rankDisplay = rank;
+
+        if (rank === 1) rankDisplay = "🥇";
+        else if (rank === 2) rankDisplay = "🥈";
+        else if (rank === 3) rankDisplay = "🥉";
+
+
+        const safeName =
+          escapeEventHtml(playerInfo.name);
+
+
+        return `
+          <div class="leaderboard-row">
+
+            <div class="leaderboard-rank">
+              ${rankDisplay}
+            </div>
+
+            <div class="leaderboard-player">
+
+              ${
+                playerInfo.photoURL
+                  ? `
+                    <img
+                      src="${escapeEventHtml(playerInfo.photoURL)}"
+                      alt="${safeName}"
+                      class="leaderboard-avatar"
+                    >
+                  `
+                  : `
+                    <div class="leaderboard-avatar-placeholder">
+                      ♟
+                    </div>
+                  `
+              }
+
+              <span>
+                ${safeName}
+              </span>
+
+            </div>
+
+            <div class="leaderboard-score">
+              ${player.score} pts
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ Error loading event leaderboard:",
+      error
+    );
+
+
+    leaderboardContent.innerHTML = `
+      <div class="leaderboard-empty">
+        <div class="state-icon">⚠️</div>
+        <h3>Leaderboard Unavailable</h3>
+        <p>
+          We could not load the event leaderboard right now.
+        </p>
+      </div>
+    `;
+
+  }
+
+}
 /* =========================================
    INITIALIZE
 ========================================= */
