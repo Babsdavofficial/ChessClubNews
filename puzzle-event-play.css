@@ -569,3 +569,18 @@
     box-sizing: border-box;
   }
 }
+
+
+.timer-danger {
+  animation: timerPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes timerPulse {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
