@@ -1269,6 +1269,18 @@ if (!validationResponse.ok) {
 
 const isCorrect =
   validationResult.correct === true;
+  // PUZZLE EVENT SCORE
+if (isCorrect) {
+
+  const points =
+    Number(
+      currentPuzzle.eventPoints || 0
+    );
+
+  currentScore += points;
+
+  correctAnswers++;
+}
 
 
   // ==========================================
