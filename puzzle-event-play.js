@@ -849,26 +849,6 @@ async function loadAssignedPuzzles() {
 }
 
 
-  /* -----------------------------------------
-     RANDOMIZE
-  ----------------------------------------- */
-
-  shuffleArray(
-    loadedPuzzles
-  );
-
-
-  /* -----------------------------------------
-     SELECT REQUIRED NUMBER
-  ----------------------------------------- */
-
-  selectedPuzzles =
-    loadedPuzzles.slice(
-      0,
-      requiredCount
-    );
-}
-
 
 /* =========================================
    SHUFFLE
