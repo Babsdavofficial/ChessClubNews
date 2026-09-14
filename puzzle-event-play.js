@@ -1193,21 +1193,56 @@ async function submitAnswer() {
      CHECK ANSWER
   ----------------------------------------- */
 
-  const submittedAnswer =
-    normalizeAnswer(
-      answer
-    );
+const submittedAnswer = normalizeAnswer(answer);
 
+const user = auth.currentUser;
 
-  const correctMove =
-    normalizeAnswer(
-      currentPuzzle.correctMove
-    );
+if (!user) {
+  alert("You must be logged in.");
+  return;
+}
 
+// ==========================================
+// SERVER-SIDE PUZZLE EVENT VALIDATION
+// ==========================================
 
-  const isCorrect =
-    submittedAnswer ===
-    correctMove;
+const idToken =
+  await user.getIdToken();
+
+const validationResponse =
+  await fetch(
+    "https://chess-news-notifications.babsdave22.workers.dev",
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization":
+          `Bearer ${idToken}`
+      },
+
+      body: JSON.stringify({
+        type: "puzzleEventAnswer",
+        eventId,
+        puzzleId: currentPuzzle.id,
+        answer: submittedAnswer
+      })
+    }
+  );
+
+const validationResult =
+  await validationResponse.json();
+
+if (!validationResponse.ok) {
+  alert(
+    validationResult.error ||
+    "Unable to validate your answer."
+  );
+  return;
+}
+
+const isCorrect =
+  validationResult.correct === true;
 
 
   // ==========================================
