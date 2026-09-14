@@ -756,70 +756,96 @@ async function handleParticipationExpired() {
 /* =========================================
    LOAD ASSIGNED PUZZLES
 ========================================= */
+async function loadAssignedPuzzles() {
 
-async function loadAssignedPuzzles(
-  assignedPuzzles,
-  requiredCount
-) {
-
-  const loadedPuzzles = [];
-
-
-  for (const assignedPuzzle of assignedPuzzles) {
-
-    if (!assignedPuzzle?.puzzleId) {
-      continue;
-    }
-
-
-    try {
-
-      const puzzleRef =
-        doc(
-          db,
-          "puzzleEventPuzzles",
-          assignedPuzzle.puzzleId
-        );
-
-
-      const puzzleSnapshot =
-        await getDoc(puzzleRef);
-
-
-      if (!puzzleSnapshot.exists()) {
-        continue;
-      }
-
-
-      const puzzle =
-        puzzleSnapshot.data();
-
-
-      loadedPuzzles.push({
-
-        id:
-          puzzleSnapshot.id,
-
-        ...puzzle,
-
-        eventPoints:
-          getAssignedPoints(
-            assignedPuzzle
-          )
-
-      });
-
-    } catch (error) {
-
-      console.error(
-        "Error loading puzzle:",
-        assignedPuzzle.puzzleId,
-        error
-      );
-
-    }
-
+  if (!eventData?.assignedPuzzles?.length) {
+    selectedPuzzles = [];
+    return;
   }
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("User is not logged in.");
+  }
+
+  // Get Firebase authentication token
+  const idToken =
+    await user.getIdToken();
+
+  // Ask the Worker for the event puzzles
+  const response =
+    await fetch(
+      "https://chess-news-notifications.babsdave22.workers.dev",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":
+            `Bearer ${idToken}`
+        },
+
+        body: JSON.stringify({
+          type: "getPuzzleEventPuzzles",
+          eventId
+        })
+      }
+    );
+
+  const result =
+    await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      result.error ||
+      "Unable to load Puzzle Event puzzles."
+    );
+  }
+
+  const puzzleMap =
+    new Map(
+      (result.puzzles || []).map(
+        puzzle => [
+          puzzle.id,
+          puzzle
+        ]
+      )
+    );
+
+  selectedPuzzles =
+    eventData.assignedPuzzles
+      .map(assignedPuzzle => {
+
+        const puzzle =
+          puzzleMap.get(
+            assignedPuzzle.puzzleId
+          );
+
+        if (!puzzle) {
+          return null;
+        }
+
+        return {
+          ...puzzle,
+
+          eventPoints:
+            Number(
+              assignedPuzzle.points ??
+              puzzle.points ??
+              0
+            )
+        };
+
+      })
+      .filter(Boolean);
+
+  if (!selectedPuzzles.length) {
+    throw new Error(
+      "No valid puzzles were found for this event."
+    );
+  }
+}
 
 
   /* -----------------------------------------
