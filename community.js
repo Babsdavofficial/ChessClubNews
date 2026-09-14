@@ -43,7 +43,7 @@ function waitForAuthenticatedUser() {
 }
 
 
-async function recordUserActivity(activityType, activityId = "") {
+export async function recordUserActivity(activityType, activityId = ""){
   try {
 
     const user = await waitForAuthenticatedUser();
