@@ -17,6 +17,9 @@ import {
 import {
   recordUserActivity
 } from "./community.js";
+import {
+  syncPuzzleEventSolvedAchievements
+} from "./achievement.js";
 
 
 /* =========================================
