@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Puzzle Event | Chess News Hub</title>
+
+  <link rel="stylesheet" href="general.css">
+  <link rel="stylesheet" href="puzzle-event.css">
+
+  <script type="module" src="theme.js"></script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+
+      <a href="index.html" class="site-logo">
+        <span class="logo-icon">♟</span>
+        <span>Chess News Hub</span>
+      </a>
+
+      <a href="index.html" class="back-home">
+        ← Back Home
+      </a>
+
+    </div>
+  </header>
+
+
+  <!-- Main Event Content -->
+  <main class="puzzle-event-page">
+
+    <div id="eventLoading" class="event-state">
+      <div class="loading-spinner"></div>
+      <p>Loading Puzzle Event...</p>
+    </div>
+
+
+    <div id="eventError" class="event-state hidden">
+      <div class="state-icon">⚠️</div>
+      <h2>Event Not Found</h2>
+      <p>
+        This Puzzle Event could not be found or may have been removed.
+      </p>
+
+      <a href="index.html" class="primary-btn">
+        Return Home
+      </a>
+    </div>
+
+
+    <!-- Event Content -->
+    <div id="eventContent" class="hidden">
+
+      <!-- Hero -->
+      <section class="event-hero">
+
+        <div class="event-hero-image">
+          <img id="eventImage" src="" alt="Puzzle Event">
+        </div>
+
+        <div class="event-hero-content">
+
+          <span class="event-label">🧩 PUZZLE EVENT</span>
+
+          <h1 id="eventTitle">Puzzle Event</h1>
+
+          <p id="eventDescription"></p>
+
+          <div class="event-status" id="eventStatus">
+            Scheduled
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Event Details -->
+      <section class="event-details">
+
+        <div class="detail-card">
+          <span class="detail-icon">📅</span>
+          <div>
+            <span class="detail-label">Event Time</span>
+            <strong id="eventDate">--</strong>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <span class="detail-icon">🧩</span>
+          <div>
+            <span class="detail-label">Puzzles</span>
+            <strong id="eventPuzzleCount">--</strong>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <span class="detail-icon">⏱️</span>
+          <div>
+            <span class="detail-label">Time Per Puzzle</span>
+            <strong id="eventTimer">--</strong>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <span class="detail-icon">🔄</span>
+          <div>
+            <span class="detail-label">Replay Cooldown</span>
+            <strong id="eventCooldown">--</strong>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- How to Play -->
+      <section class="event-section">
+
+        <div class="section-heading">
+          <span class="section-label">📖 HOW TO PLAY</span>
+          <h2>How to Play</h2>
+        </div>
+
+        <div class="event-instructions" id="eventInstructions">
+          No instructions provided.
+        </div>
+
+      </section>
+
+
+      <!-- Rules -->
+      <section class="event-section">
+
+        <div class="section-heading">
+          <span class="section-label">📜 RULES</span>
+          <h2>Event Rules</h2>
+        </div>
+
+        <div class="event-rules">
+
+          <div class="rule-item">
+            <span>1</span>
+            <p>
+              You will receive a random selection of puzzles assigned to this event.
+            </p>
+          </div>
+
+          <div class="rule-item">
+            <span>2</span>
+            <p>
+              Each puzzle has its own time limit. Submit your answer before the timer expires.
+            </p>
+          </div>
+
+          <div class="rule-item">
+            <span>3</span>
+            <p>
+              Your score is based on the points assigned to the puzzles you solve correctly.
+            </p>
+          </div>
+
+          <div class="rule-item">
+            <span>4</span>
+            <p>
+              Correct and incorrect answers are recorded as part of your event participation.
+            </p>
+          </div>
+
+          <div class="rule-item">
+            <span>5</span>
+            <p>
+              You cannot immediately replay the event after completing it. The configured cooldown must pass first.
+            </p>
+          </div>
+
+          <div class="rule-item">
+            <span>6</span>
+            <p>
+              Your event results and achievements remain part of your profile even after the event ends.
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Start Event -->
+      <section class="event-start-section">
+
+        <div class="start-card">
+
+          <div class="start-icon">♟</div>
+
+          <h2 id="startTitle">Ready to Play?</h2>
+
+          <p id="startMessage">
+            Test your chess skills and compete for the highest score.
+          </p>
+
+          <button
+            id="startEventBtn"
+            class="primary-btn start-event-btn"
+            type="button"
+          >
+            Start Event
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <script type="module" src="puzzle-event.js"></script>
+
+</body>
+</html>
