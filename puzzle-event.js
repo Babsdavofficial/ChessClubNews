@@ -1,8 +1,3 @@
-/* =====================================================
-   PUZZLE EVENT HOMEPAGE
-   Chess News Hub
-===================================================== */
-
 import { db } from "./firebase.js";
 
 import {
@@ -11,141 +6,92 @@ import {
   where,
   orderBy,
   limit,
-  getDocs
+  getDocs,
+  getDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
-const eventSection =
-  document.getElementById(
-    "puzzleEventSection"
-  );
-
-const eventCard =
-  document.getElementById(
-    "homepagePuzzleEventCard"
-  );
-
-
-/* =====================================================
-   FORMAT DATE
-===================================================== */
+/* =========================================
+   COMMON HELPERS
+========================================= */
 
 function formatEventDate(timestamp) {
+  if (!timestamp) return "Date not available";
 
-  if (!timestamp) {
-    return "Date unavailable";
-  }
+  const date = timestamp.toDate
+    ? timestamp.toDate()
+    : new Date(timestamp);
 
-  try {
-
-    const date =
-      timestamp.toDate
-        ? timestamp.toDate()
-        : new Date(timestamp);
-
-    return new Intl.DateTimeFormat(
-      "en-NG",
-      {
-        dateStyle: "medium",
-        timeStyle: "short"
-      }
-    ).format(date);
-
-  } catch (error) {
-
-    return "Date unavailable";
-
-  }
-
+  return date.toLocaleString("en-NG", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
 }
 
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeEventHtml(value) {
-
-  return String(value || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
+function escapeEventHtml(value = "") {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 
-/* =====================================================
-   LOAD ACTIVE PUZZLE EVENT
-===================================================== */
+/* =========================================
+   HOMEPAGE PUZZLE EVENT
+========================================= */
 
 async function loadHomepagePuzzleEvent() {
 
-  if (!eventCard) {
-    return;
-  }
+  const eventSection = document.getElementById("puzzleEventSection");
+  const eventCard = document.getElementById("homepagePuzzleEventCard");
 
+  // Not on homepage
+  if (!eventCard) return;
 
   try {
 
-    const now =
-      new Date();
+    const eventsQuery = query(
+      collection(db, "puzzleEvents"),
+      where("active", "==", true),
+      orderBy("startAt", "asc"),
+      limit(5)
+    );
 
+    const snapshot = await getDocs(eventsQuery);
 
-    /*
-     * First find active/scheduled events.
-     *
-     * We intentionally load a small number here.
-     */
-
-    const snapshot =
-      await getDocs(
-        query(
-          collection(db, "puzzleEvents"),
-          where("active", "==", true),
-          orderBy("startAt", "asc"),
-          limit(5)
-        )
-      );
-
+    const now = new Date();
 
     let selectedEvent = null;
 
+    snapshot.forEach((eventDoc) => {
 
-    /*
-     * Find the first event that has not ended.
-     */
+      if (selectedEvent) return;
 
-    snapshot.forEach(eventDoc => {
+      const event = eventDoc.data();
 
-      if (selectedEvent) {
-        return;
-      }
+      const startDate = event.startAt?.toDate
+        ? event.startAt.toDate()
+        : new Date(event.startAt);
 
+      const endDate = event.endAt?.toDate
+        ? event.endAt.toDate()
+        : new Date(event.endAt);
 
-      const event =
-        eventDoc.data();
-
-
-      const endDate =
-        event.endAt?.toDate
-          ? event.endAt.toDate()
-          : new Date(event.endAt);
-
-
-      if (
-        !endDate ||
-        endDate > now
-      ) {
+      if (endDate > now) {
 
         selectedEvent = {
-
-          id:
-            eventDoc.id,
-
-          ...event
-
+          id: eventDoc.id,
+          ...event,
+          startDate,
+          endDate
         };
 
       }
@@ -153,165 +99,83 @@ async function loadHomepagePuzzleEvent() {
     });
 
 
-    /* -----------------------------------------------
-       NO EVENT
-    ------------------------------------------------ */
-
     if (!selectedEvent) {
 
       eventCard.innerHTML = `
-
         <div class="puzzle-event-empty">
-
-          <div class="puzzle-event-empty-icon">
-            🧩
-          </div>
-
-          <h3>
-            No Puzzle Event Right Now
-          </h3>
-
+          <div class="empty-icon">🧩</div>
+          <h3>No Puzzle Event Right Now</h3>
           <p>
-            Stay tuned. A new chess puzzle challenge
-            will appear here soon.
+            Check back soon for our next puzzle challenge.
           </p>
-
         </div>
-
       `;
 
       return;
-
     }
 
 
-    /* -----------------------------------------------
-       EVENT DATA
-    ------------------------------------------------ */
+    const isUpcoming = selectedEvent.startDate > now;
 
-    const title =
-      escapeEventHtml(
-        selectedEvent.title ||
-        "Puzzle Challenge"
-      );
+    const statusText = isUpcoming
+      ? "Upcoming Event"
+      : "Event Live Now";
 
-
-    const description =
-      escapeEventHtml(
-        selectedEvent.description ||
-        "Challenge yourself with a series of chess puzzles."
-      );
-
-
-    const imageUrl =
-      selectedEvent.imageUrl ||
-      "";
-
-
-    const puzzleCount =
-      Number(
-        selectedEvent.numberOfPuzzles
-      ) || 0;
-
-
-    const timer =
-      Number(
-        selectedEvent.timerSeconds
-      ) || 0;
-
-
-    const startDate =
-      formatEventDate(
-        selectedEvent.startAt
-      );
-
-
-    const endDate =
-      formatEventDate(
-        selectedEvent.endAt
-      );
-
-
-    /* -----------------------------------------------
-       DISPLAY EVENT
-    ------------------------------------------------ */
 
     eventCard.innerHTML = `
 
-      ${
-        imageUrl
-          ? `
-            <div
-              class="puzzle-event-image"
-              style="
-                background-image:
-                  url('${escapeEventHtml(imageUrl)}');
-              "
-            ></div>
-          `
-          : `
-            <div
-              class="puzzle-event-image"
-              style="
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:5rem;
-              "
-            >
-              🧩
-            </div>
-          `
-      }
+      <div class="puzzle-event-image">
+
+        <img
+          src="${escapeEventHtml(selectedEvent.imageUrl || "images/puzzle-event.jpg")}"
+          alt="${escapeEventHtml(selectedEvent.title)}"
+        >
+
+      </div>
 
 
       <div class="puzzle-event-content">
 
         <span class="puzzle-event-badge">
-          🧩 PUZZLE EVENT
+          🧩 ${statusText}
         </span>
 
-
         <h3>
-          ${title}
+          ${escapeEventHtml(selectedEvent.title)}
         </h3>
 
-
         <p>
-          ${description}
+          ${escapeEventHtml(selectedEvent.description)}
         </p>
 
 
         <div class="puzzle-event-meta">
 
           <span>
-            🧩 ${puzzleCount} Puzzles
+            🧩 ${selectedEvent.numberOfPuzzles || selectedEvent.puzzleCount || 0} puzzles
           </span>
 
           <span>
-            ⏱️ ${timer}s Each
+            ⏱️ ${selectedEvent.timerSeconds || 0}s each
           </span>
 
           <span>
-            📅 ${startDate}
+            📅 ${formatEventDate(selectedEvent.startAt)}
           </span>
 
         </div>
 
 
         <a
-          href="puzzle-event.html?event=${encodeURIComponent(
-            selectedEvent.id
-          )}"
-          class="puzzle-event-button"
+          href="puzzle-event.html?event=${encodeURIComponent(selectedEvent.id)}"
+          class="primary-btn puzzle-event-btn"
         >
-          View Event →
+          View Event
         </a>
 
       </div>
 
     `;
-
 
   } catch (error) {
 
@@ -320,34 +184,269 @@ async function loadHomepagePuzzleEvent() {
       error
     );
 
-
     eventCard.innerHTML = `
-
       <div class="puzzle-event-empty">
+        <div class="empty-icon">🧩</div>
 
-        <div class="puzzle-event-empty-icon">
-          🧩
-        </div>
-
-        <h3>
-          Puzzle Event
-        </h3>
+        <h3>Puzzle Event</h3>
 
         <p>
           Check back soon for our next puzzle challenge.
         </p>
-
       </div>
-
     `;
+  }
+}
+
+
+/* =========================================
+   EVENT INFORMATION PAGE
+========================================= */
+
+async function loadPuzzleEventPage() {
+
+  const eventContent = document.getElementById("eventContent");
+
+  // Not on event page
+  if (!eventContent) return;
+
+
+  const loading = document.getElementById("eventLoading");
+  const errorBox = document.getElementById("eventError");
+
+
+  const params = new URLSearchParams(window.location.search);
+  const eventId = params.get("event");
+
+
+  if (!eventId) {
+
+    loading.classList.add("hidden");
+    errorBox.classList.remove("hidden");
+
+    return;
+  }
+
+
+  try {
+
+    const eventRef = doc(db, "puzzleEvents", eventId);
+    const eventSnapshot = await getDoc(eventRef);
+
+
+    if (!eventSnapshot.exists()) {
+
+      loading.classList.add("hidden");
+      errorBox.classList.remove("hidden");
+
+      return;
+    }
+
+
+    const event = eventSnapshot.data();
+
+
+    /* -----------------------------------------
+       BASIC EVENT INFORMATION
+    ----------------------------------------- */
+
+    document.title =
+      `${event.title || "Puzzle Event"} | Chess News Hub`;
+
+
+    const eventImage = document.getElementById("eventImage");
+
+    if (eventImage) {
+
+      eventImage.src =
+        event.imageUrl || "images/puzzle-event.jpg";
+
+      eventImage.alt =
+        event.title || "Puzzle Event";
+
+    }
+
+
+    document.getElementById("eventTitle").textContent =
+      event.title || "Puzzle Event";
+
+
+    document.getElementById("eventDescription").textContent =
+      event.description || "Join this special chess puzzle challenge.";
+
+
+    document.getElementById("eventDate").textContent =
+      `${formatEventDate(event.startAt)} → ${formatEventDate(event.endAt)}`;
+
+
+    document.getElementById("eventPuzzleCount").textContent =
+      `${event.numberOfPuzzles || event.puzzleCount || 0}`;
+
+
+    document.getElementById("eventTimer").textContent =
+      `${event.timerSeconds || 0} seconds`;
+
+
+    const cooldownHours =
+      Number(event.cooldownHours || 0);
+
+
+    if (cooldownHours === 0) {
+
+      document.getElementById("eventCooldown").textContent =
+        "No cooldown";
+
+    } else if (cooldownHours < 1) {
+
+      document.getElementById("eventCooldown").textContent =
+        `${Math.round(cooldownHours * 60)} minutes`;
+
+    } else {
+
+      document.getElementById("eventCooldown").textContent =
+        `${cooldownHours} hour${cooldownHours === 1 ? "" : "s"}`;
+
+    }
+
+
+    document.getElementById("eventInstructions").textContent =
+      event.instructions ||
+      "Follow the instructions provided and solve each puzzle before the timer expires.";
+
+
+    /* -----------------------------------------
+       EVENT STATUS
+    ----------------------------------------- */
+
+    const now = new Date();
+
+
+    const startDate = event.startAt?.toDate
+      ? event.startAt.toDate()
+      : new Date(event.startAt);
+
+
+    const endDate = event.endAt?.toDate
+      ? event.endAt.toDate()
+      : new Date(event.endAt);
+
+
+    const statusElement =
+      document.getElementById("eventStatus");
+
+
+    const startButton =
+      document.getElementById("startEventBtn");
+
+
+    const startTitle =
+      document.getElementById("startTitle");
+
+
+    const startMessage =
+      document.getElementById("startMessage");
+
+
+    if (now < startDate) {
+
+      statusElement.textContent =
+        "⏳ Upcoming";
+
+
+      startTitle.textContent =
+        "Event Has Not Started";
+
+
+      startMessage.textContent =
+        `This event will begin on ${formatEventDate(event.startAt)}.`;
+
+
+      startButton.disabled = true;
+
+      startButton.textContent =
+        "Not Started Yet";
+
+    }
+
+
+    else if (now >= startDate && now < endDate) {
+
+      statusElement.textContent =
+        "🟢 Live Now";
+
+
+      startTitle.textContent =
+        "Ready to Play?";
+
+
+      startMessage.textContent =
+        "The event is live. Test your chess skills and compete for the highest score.";
+
+
+      startButton.disabled = false;
+
+      startButton.textContent =
+        "Start Event";
+
+
+      startButton.onclick = () => {
+
+        window.location.href =
+          `puzzle-event-play.html?event=${encodeURIComponent(eventId)}`;
+
+      };
+
+    }
+
+
+    else {
+
+      statusElement.textContent =
+        "🔴 Event Ended";
+
+
+      startTitle.textContent =
+        "Event Has Ended";
+
+
+      startMessage.textContent =
+        "This Puzzle Event has ended. Check back for the next challenge.";
+
+
+      startButton.disabled = true;
+
+      startButton.textContent =
+        "Event Ended";
+
+    }
+
+
+    /* -----------------------------------------
+       SHOW PAGE
+    ----------------------------------------- */
+
+    loading.classList.add("hidden");
+    eventContent.classList.remove("hidden");
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ Error loading Puzzle Event:",
+      error
+    );
+
+    loading.classList.add("hidden");
+    errorBox.classList.remove("hidden");
 
   }
 
 }
 
 
-/* =====================================================
-   START
-===================================================== */
+/* =========================================
+   INITIALIZE
+========================================= */
 
 loadHomepagePuzzleEvent();
+loadPuzzleEventPage();
