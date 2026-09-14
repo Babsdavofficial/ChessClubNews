@@ -31,6 +31,7 @@ let eventId = null;
 let eventData = null;
 
 let selectedPuzzles = [];
+let isFinishingEvent = false;
 let currentPuzzleIndex = 0;
 
 let currentPuzzle = null;
@@ -1248,11 +1249,13 @@ const validationResponse =
       },
 
       body: JSON.stringify({
-        type: "puzzleEventAnswer",
-        eventId,
-        puzzleId: currentPuzzle.id,
-        answer: submittedAnswer
-      })
+  type: "puzzleEventAnswer",
+  eventId,
+  puzzleId: currentPuzzle.id,
+  attemptId: currentAttemptId,
+  puzzleNumber: currentPuzzleIndex + 1,
+  answer: submittedAnswer
+})
     }
   );
 
@@ -1269,7 +1272,8 @@ if (!validationResponse.ok) {
 
 const isCorrect =
   validationResult.correct === true;
-  // PUZZLE EVENT SCORE
+
+// PUZZLE EVENT SCORE
 if (isCorrect) {
 
   const points =
@@ -1281,7 +1285,6 @@ if (isCorrect) {
 
   correctAnswers++;
 }
-
 
   // ==========================================
 // PUZZLE EVENT SOLVED COUNTER
@@ -1366,62 +1369,69 @@ if (
      SAVE INDIVIDUAL ANSWER
   ----------------------------------------- */
 
-  const user =
-    auth.currentUser;
+/* -----------------------------------------
+   SAVE INDIVIDUAL ANSWER
+----------------------------------------- */
+/* -----------------------------------------
+   SAVE INDIVIDUAL ANSWER
+----------------------------------------- */
+
+const user =
+  auth.currentUser;
 
 
-  try {
+try {
 
-    await addDoc(
-      collection(
-        db,
-        "puzzleEventAnswers"
-      ),
-      {
+  await addDoc(
+    collection(
+      db,
+      "puzzleEventAnswers"
+    ),
+    {
 
-        eventId,
+      eventId,
 
-        eventName:
-          eventData.title || "",
+      eventName:
+        eventData.title || "",
 
-        userId:
-          user.uid,
+      userId:
+        user.uid,
 
-        attemptId:
-          currentAttemptId,
+      attemptId:
+        currentAttemptId,
 
-        puzzleId:
-          currentPuzzle.id,
+      puzzleId:
+        currentPuzzle.id,
 
-        puzzleNumber:
-          currentPuzzleIndex + 1,
+      puzzleNumber:
+        currentPuzzleIndex + 1,
 
-        answer,
+      answer,
 
-        correct:
-          isCorrect,
+      correct:
+        isCorrect,
 
-        points:
-          isCorrect
-            ? Number(
-                currentPuzzle.eventPoints || 0
-              )
-            : 0,
+      points:
+        isCorrect
+          ? Number(
+              currentPuzzle.eventPoints || 0
+            )
+          : 0,
 
-        createdAt:
-          serverTimestamp()
+      createdAt:
+        serverTimestamp()
 
-      }
-    );
+    }
+  );
 
-  } catch (error) {
+} catch (error) {
 
-    console.error(
-      "Error saving puzzle event answer:",
-      error
-    );
+  console.error(
+    "Error saving puzzle event answer:",
+    error
+  );
 
-  }
+}
 
 
   currentScoreElement.textContent =
@@ -1455,6 +1465,12 @@ if (
 
 async function finishEvent() {
 
+  if (isFinishingEvent) {
+  return;
+}
+
+isFinishingEvent = true;
+
   clearPuzzleTimer();
   clearParticipationTimer();
 
@@ -1477,98 +1493,122 @@ async function finishEvent() {
     true;
 
 
+ /* -----------------------------------------
+   SAVE OFFICIAL RESULT
+----------------------------------------- */
+
+try {
+
+  const idToken =
+    await user.getIdToken();
+
+  const finishResponse =
+    await fetch(
+      "https://chess-news-notifications.babsdave22.workers.dev",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+
+          "Authorization":
+            `Bearer ${idToken}`
+        },
+
+        body: JSON.stringify({
+          type:
+            "finishPuzzleEvent",
+
+          eventId,
+
+          attemptId:
+            currentAttemptId
+        })
+      }
+    );
+
+  const finishResult =
+    await finishResponse.json();
+
+  if (!finishResponse.ok) {
+
+    throw new Error(
+      finishResult.error ||
+      "Unable to save official event result."
+    );
+
+  }
+
+  console.log(
+    "Official Puzzle Event result:",
+    finishResult
+  );
+
+} catch (error) {
+
+  console.error(
+    "Error saving official event result:",
+    error
+  );
+
+  showError(
+    "Your event result could not be saved. Please try again."
+  );
+
+  return;
+}
+
+  
+
   /* -----------------------------------------
-     SAVE RESULT
-  ----------------------------------------- */
+   MARK ATTEMPT COMPLETED
+----------------------------------------- */
+
+if (currentAttemptId) {
 
   try {
 
-    await addDoc(
-      collection(
+    await updateDoc(
+      doc(
         db,
-        "puzzleEventResults"
+        "puzzleEventAttempts",
+        currentAttemptId
       ),
       {
 
-        eventId,
+        status:
+          "completed",
 
-        eventName:
-          eventData.title || "",
+        finalScore:
+          Number(
+            finishResult.score || 0
+          ),
 
-        userId:
-          user.uid,
-
-        attemptId:
-          currentAttemptId,
-
-        score:
-          currentScore,
-
-        correctAnswers,
-
-        totalPuzzles:
-          selectedPuzzles.length,
+        correctAnswers:
+          Number(
+            finishResult.correctAnswers || 0
+          ),
 
         completedAt:
+          serverTimestamp(),
+
+        endedAt:
           serverTimestamp()
 
       }
     );
 
-
   } catch (error) {
 
     console.error(
-      "Error saving event result:",
+      "Error updating puzzle event attempt:",
       error
     );
 
   }
 
-
-  /* -----------------------------------------
-     MARK ATTEMPT COMPLETED
-  ----------------------------------------- */
-
-  if (currentAttemptId) {
-
-    try {
-
-      await updateDoc(
-        doc(
-          db,
-          "puzzleEventAttempts",
-          currentAttemptId
-        ),
-        {
-
-          status:
-            "completed",
-
-          finalScore:
-            currentScore,
-
-          correctAnswers,
-
-          completedAt:
-            serverTimestamp(),
-
-          endedAt:
-            serverTimestamp()
-
-        }
-      );
-
-    } catch (error) {
-
-      console.error(
-        "Error updating puzzle event attempt:",
-        error
-      );
-
-    }
-
-  }
+}
 
 
   /* -----------------------------------------
