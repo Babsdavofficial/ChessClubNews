@@ -518,13 +518,11 @@ async function loadAssignedPuzzles(
 
     try {
 
-      const puzzleRef =
-        doc(
-          db,
-          "puzzles",
-          assignedPuzzle.puzzleId
-        );
-
+     const puzzleRef = doc(
+  db,
+  "puzzleEventPuzzles",
+  assignedPuzzle.puzzleId
+);
 
       const puzzleSnapshot =
         await getDoc(puzzleRef);
