@@ -4087,3 +4087,328 @@ if (selectPuzzleEvent) {
   loadPuzzleEventsForAssignment();
 
 }
+
+
+// =====================================================
+// PUZZLE EVENT - CREATE EVENT-SPECIFIC PUZZLES
+// =====================================================
+
+const selectEventForPuzzle =
+  document.getElementById("selectEventForPuzzle");
+
+const createEventPuzzleBtn =
+  document.getElementById("createEventPuzzleBtn");
+
+const eventPuzzleCreationStatus =
+  document.getElementById("eventPuzzleCreationStatus");
+
+const eventPuzzleCreatedList =
+  document.getElementById("eventPuzzleCreatedList");
+
+
+// -----------------------------------------------------
+// LOAD PUZZLE EVENTS INTO EVENT PUZZLE CREATION SELECT
+// -----------------------------------------------------
+
+async function loadEventsForEventPuzzleCreation(){
+
+  if(!selectEventForPuzzle) return;
+
+  try{
+
+    selectEventForPuzzle.innerHTML = `
+      <option value="">Select an event</option>
+    `;
+
+    const snapshot = await getDocs(
+      query(
+        collection(db,"puzzleEvents"),
+        orderBy("createdAt","desc")
+      )
+    );
+
+    snapshot.forEach(eventDoc => {
+
+      const event = eventDoc.data();
+
+      const option = document.createElement("option");
+
+      option.value = eventDoc.id;
+
+      option.textContent =
+        event.title || "Untitled Puzzle Event";
+
+      selectEventForPuzzle.appendChild(option);
+
+    });
+
+  }catch(error){
+
+    console.error(
+      "❌ Error loading Puzzle Events:",
+      error
+    );
+
+  }
+
+}
+
+
+// -----------------------------------------------------
+// CREATE EVENT PUZZLE
+// -----------------------------------------------------
+
+if(createEventPuzzleBtn){
+
+  createEventPuzzleBtn.addEventListener(
+    "click",
+    async () => {
+
+      try{
+
+        const eventId =
+          selectEventForPuzzle?.value;
+
+        const title =
+          document.getElementById(
+            "eventPuzzleTitle"
+          )?.value.trim();
+
+        const image =
+          document.getElementById(
+            "eventPuzzleImage"
+          )?.value.trim();
+
+        const correctMove =
+          document.getElementById(
+            "eventPuzzleCorrectMove"
+          )?.value.trim();
+
+        const points =
+          Number(
+            document.getElementById(
+              "eventPuzzlePoints"
+            )?.value
+          );
+
+
+        // ---------------------------------------------
+        // VALIDATION
+        // ---------------------------------------------
+
+        if(!eventId){
+
+          alert(
+            "Please select a Puzzle Event."
+          );
+
+          return;
+
+        }
+
+        if(!title){
+
+          alert(
+            "Please enter a puzzle title."
+          );
+
+          return;
+
+        }
+
+        if(!image){
+
+          alert(
+            "Please enter the puzzle image filename."
+          );
+
+          return;
+
+        }
+
+        if(!correctMove){
+
+          alert(
+            "Please enter the correct move."
+          );
+
+          return;
+
+        }
+
+        if(!points || points < 1){
+
+          alert(
+            "Puzzle points must be at least 1."
+          );
+
+          return;
+
+        }
+
+
+        // ---------------------------------------------
+        // GET EVENT INFORMATION
+        // ---------------------------------------------
+
+        const eventRef =
+          doc(db,"puzzleEvents",eventId);
+
+        const eventSnapshot =
+          await getDoc(eventRef);
+
+        if(!eventSnapshot.exists()){
+
+          alert(
+            "The selected Puzzle Event could not be found."
+          );
+
+          return;
+
+        }
+
+        const event =
+          eventSnapshot.data();
+
+
+        // ---------------------------------------------
+        // IMAGE URL
+        // ---------------------------------------------
+
+        let imageUrl = "";
+
+        if(
+          image.startsWith("http://") ||
+          image.startsWith("https://")
+        ){
+
+          imageUrl = image;
+
+        }else{
+
+          imageUrl =
+            puzzleEventImageBase + image;
+
+        }
+
+
+        // ---------------------------------------------
+        // CREATE EVENT PUZZLE
+        // ---------------------------------------------
+
+        await addDoc(
+          collection(
+            db,
+            "puzzleEventPuzzles"
+          ),
+          {
+
+            eventId: eventId,
+
+            eventName:
+              event.title || "Puzzle Event",
+
+            title: title,
+
+            imageUrl: imageUrl,
+
+            correctMove: correctMove,
+
+            points: points,
+
+            createdBy:
+              auth.currentUser?.uid || "",
+
+            createdAt:
+              serverTimestamp()
+
+          }
+        );
+
+
+        // ---------------------------------------------
+        // SUCCESS MESSAGE
+        // ---------------------------------------------
+
+        if(eventPuzzleCreationStatus){
+
+          eventPuzzleCreationStatus.innerHTML = `
+            <p style="
+              margin-top:12px;
+              padding:10px;
+              border-radius:10px;
+              background:rgba(34,197,94,.12);
+            ">
+              ✅ Event puzzle created successfully.
+            </p>
+          `;
+
+        }
+
+
+        // ---------------------------------------------
+        // CLEAR FORM
+        // ---------------------------------------------
+
+        document.getElementById(
+          "eventPuzzleTitle"
+        ).value = "";
+
+        document.getElementById(
+          "eventPuzzleImage"
+        ).value = "";
+
+        document.getElementById(
+          "eventPuzzleCorrectMove"
+        ).value = "";
+
+        document.getElementById(
+          "eventPuzzlePoints"
+        ).value = 10;
+
+
+        // Refresh event puzzle list
+        if(selectPuzzleEvent?.value === eventId){
+
+          await loadAvailableEventPuzzles(
+            eventId
+          );
+
+        }
+
+      }catch(error){
+
+        console.error(
+          "❌ Error creating Event Puzzle:",
+          error
+        );
+
+        if(eventPuzzleCreationStatus){
+
+          eventPuzzleCreationStatus.innerHTML = `
+            <p style="
+              margin-top:12px;
+              padding:10px;
+              border-radius:10px;
+              background:rgba(239,68,68,.12);
+            ">
+              ❌ Failed to create event puzzle.
+              Please try again.
+            </p>
+          `;
+
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+// -----------------------------------------------------
+// INITIAL LOAD
+// -----------------------------------------------------
+
+loadEventsForEventPuzzleCreation();
