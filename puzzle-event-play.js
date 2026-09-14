@@ -8,7 +8,9 @@ import {
   getDoc,
   doc,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
+  updateDoc,
+  Timestamp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 import {
@@ -35,6 +37,11 @@ let timerInterval = null;
 let remainingSeconds = 0;
 
 let hasSubmitted = false;
+
+/* Participation attempt */
+let currentAttemptId = null;
+let participationExpiresAt = null;
+let participationTimerInterval = null;
 
 
 /* =========================================
@@ -104,6 +111,9 @@ const backToEventBtn =
 ========================================= */
 
 function showError(message) {
+
+  clearPuzzleTimer();
+  clearParticipationTimer();
 
   playLoading.classList.add("hidden");
   gameContainer.classList.add("hidden");
@@ -314,11 +324,11 @@ async function loadEvent() {
 
 
   /* -----------------------------------------
-     CHECK COOLDOWN
+     CHECK / CREATE PARTICIPATION ATTEMPT
   ----------------------------------------- */
 
   const canPlay =
-    await checkReplayCooldown(user.uid);
+    await prepareParticipationAttempt(user.uid);
 
   if (!canPlay) {
     return;
@@ -365,6 +375,13 @@ async function loadEvent() {
 
 
   /* -----------------------------------------
+     START PARTICIPATION TIMER
+  ----------------------------------------- */
+
+  startParticipationTimer();
+
+
+  /* -----------------------------------------
      START
   ----------------------------------------- */
 
@@ -373,127 +390,361 @@ async function loadEvent() {
 
 
 /* =========================================
-   CHECK REPLAY COOLDOWN
+   PARTICIPATION ATTEMPT
 ========================================= */
 
-async function checkReplayCooldown(uid) {
+async function prepareParticipationAttempt(uid) {
 
-  const cooldownHours =
-    Number(eventData.cooldownHours || 0);
+  const maxAttempts =
+    Number(eventData.maxAttempts || 1);
+
+  const participationMinutes =
+    Number(
+      eventData.participationWindowMinutes || 40
+    );
 
 
-  if (cooldownHours <= 0) {
-    return true;
-  }
+  /* -----------------------------------------
+     GET EXISTING ATTEMPTS
+  ----------------------------------------- */
 
-
-  const resultsQuery =
+  const attemptsQuery =
     query(
-      collection(db, "puzzleEventResults"),
+      collection(db, "puzzleEventAttempts"),
       where("eventId", "==", eventId),
       where("userId", "==", uid)
     );
 
 
   const snapshot =
-    await getDocs(resultsQuery);
+    await getDocs(attemptsQuery);
 
 
-  if (snapshot.empty) {
-    return true;
-  }
+  const attempts = [];
 
 
-  let latestResult = null;
+  snapshot.forEach((attemptDoc) => {
 
-
-  snapshot.forEach((resultDoc) => {
-
-    const result =
-      resultDoc.data();
-
-    const completedAt =
-      timestampToDate(result.completedAt);
-
-    if (!completedAt) return;
-
-    if (
-      !latestResult ||
-      completedAt > latestResult
-    ) {
-      latestResult = completedAt;
-    }
+    attempts.push({
+      id: attemptDoc.id,
+      ...attemptDoc.data()
+    });
 
   });
 
 
-  if (!latestResult) {
+  /* -----------------------------------------
+     CHECK FOR ACTIVE ATTEMPT
+  ----------------------------------------- */
+
+  const now = new Date();
+
+  let activeAttempt = null;
+
+
+  for (const attempt of attempts) {
+
+    const expiresAt =
+      timestampToDate(attempt.expiresAt);
+
+    const status =
+      attempt.status || "active";
+
+
+    if (
+      status === "active" &&
+      expiresAt &&
+      now < expiresAt
+    ) {
+
+      activeAttempt = attempt;
+      break;
+
+    }
+
+  }
+
+
+  /* -----------------------------------------
+     RESUME ACTIVE ATTEMPT
+  ----------------------------------------- */
+
+  if (activeAttempt) {
+
+    currentAttemptId =
+      activeAttempt.id;
+
+    participationExpiresAt =
+      timestampToDate(
+        activeAttempt.expiresAt
+      );
+
     return true;
   }
 
 
-  const cooldownMilliseconds =
-    cooldownHours * 60 * 60 * 1000;
+  /* -----------------------------------------
+     COUNT USED ATTEMPTS
+  ----------------------------------------- */
+
+  const usedAttempts =
+    attempts.filter(
+      attempt =>
+        attempt.status === "completed" ||
+        attempt.status === "expired"
+    ).length;
 
 
-  const nextAllowedTime =
-    latestResult.getTime() +
-    cooldownMilliseconds;
+  if (usedAttempts >= maxAttempts) {
 
-
-  if (Date.now() < nextAllowedTime) {
-
-    const remainingMilliseconds =
-      nextAllowedTime - Date.now();
-
-
-    const remainingHours =
-      Math.floor(
-        remainingMilliseconds /
-        (60 * 60 * 1000)
-      );
-
-
-    const remainingMinutes =
-      Math.ceil(
-        (
-          remainingMilliseconds %
-          (60 * 60 * 1000)
-        ) /
-        (60 * 1000)
-      );
-
-
-    let message =
-      "You have already completed this event.";
-
-
-    if (remainingHours > 0) {
-
-      message +=
-        ` You can play again in ${remainingHours} hour${remainingHours === 1 ? "" : "s"}`;
-
-      if (remainingMinutes > 0) {
-        message +=
-          ` ${remainingMinutes} minute${remainingMinutes === 1 ? "" : "s"}`;
-      }
-
-      message += ".";
-
-    } else {
-
-      message +=
-        ` You can play again in ${remainingMinutes} minute${remainingMinutes === 1 ? "" : "s"}.`;
-    }
-
-
-    showError(message);
+    showError(
+      "You have already used all your allowed attempts for this event."
+    );
 
     return false;
   }
 
 
-  return true;
+  /* -----------------------------------------
+     CREATE NEW ATTEMPT
+  ----------------------------------------- */
+
+  const attemptNumber =
+    usedAttempts + 1;
+
+
+  const expiresAt =
+    new Date(
+      Date.now() +
+      participationMinutes * 60 * 1000
+    );
+
+
+  try {
+
+    const attemptRef =
+      await addDoc(
+        collection(
+          db,
+          "puzzleEventAttempts"
+        ),
+        {
+
+          eventId,
+
+          eventName:
+            eventData.title || "",
+
+          userId:
+            uid,
+
+          attemptNumber,
+
+          status:
+            "active",
+
+          startedAt:
+            serverTimestamp(),
+
+          expiresAt:
+            Timestamp.fromDate(
+              expiresAt
+            ),
+
+          createdAt:
+            serverTimestamp()
+
+        }
+      );
+
+
+    currentAttemptId =
+      attemptRef.id;
+
+    participationExpiresAt =
+      expiresAt;
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Error creating puzzle event attempt:",
+      error
+    );
+
+    showError(
+      "Unable to start your Puzzle Event attempt. Please try again."
+    );
+
+    return false;
+  }
+}
+
+
+/* =========================================
+   PARTICIPATION TIMER
+========================================= */
+
+function startParticipationTimer() {
+
+  clearParticipationTimer();
+
+
+  if (!participationExpiresAt) {
+    return;
+  }
+
+
+  updateParticipationTime();
+
+
+  participationTimerInterval =
+    setInterval(
+      updateParticipationTime,
+      1000
+    );
+}
+
+
+function updateParticipationTime() {
+
+  if (!participationExpiresAt) {
+    return;
+  }
+
+
+  const remainingMilliseconds =
+    participationExpiresAt.getTime() -
+    Date.now();
+
+
+  if (remainingMilliseconds <= 0) {
+
+    handleParticipationExpired();
+
+    return;
+  }
+
+
+  const remainingMinutes =
+    Math.floor(
+      remainingMilliseconds /
+      (60 * 1000)
+    );
+
+
+  const remainingSeconds =
+    Math.ceil(
+      (
+        remainingMilliseconds %
+        (60 * 1000)
+      ) / 1000
+    );
+
+
+  /*
+    We use the existing answer status area
+    so we do not need to change the HTML.
+  */
+
+  if (
+    remainingMinutes <= 5
+  ) {
+
+    answerStatus.textContent =
+      `Participation time remaining: ${remainingMinutes}m ${remainingSeconds}s`;
+
+  }
+}
+
+
+function clearParticipationTimer() {
+
+  if (participationTimerInterval) {
+
+    clearInterval(
+      participationTimerInterval
+    );
+
+    participationTimerInterval = null;
+
+  }
+}
+
+
+/* =========================================
+   PARTICIPATION EXPIRED
+========================================= */
+
+async function handleParticipationExpired() {
+
+  clearParticipationTimer();
+  clearPuzzleTimer();
+
+
+  submitPuzzleBtn.disabled =
+    true;
+
+  puzzleAnswer.disabled =
+    true;
+
+
+  answerStatus.textContent =
+    "Your participation time has ended.";
+
+
+  /* -----------------------------------------
+     MARK ATTEMPT EXPIRED
+  ----------------------------------------- */
+
+  if (currentAttemptId) {
+
+    try {
+
+      await updateDoc(
+        doc(
+          db,
+          "puzzleEventAttempts",
+          currentAttemptId
+        ),
+        {
+
+          status:
+            "expired",
+
+          endedAt:
+            serverTimestamp()
+
+        }
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Error marking attempt expired:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /*
+    Finish the event with whatever score
+    the player has achieved so far.
+  */
+
+  setTimeout(
+    () => {
+
+      finishEvent();
+
+    },
+    1000
+  );
 }
 
 
@@ -518,11 +769,13 @@ async function loadAssignedPuzzles(
 
     try {
 
-     const puzzleRef = doc(
-  db,
-  "puzzleEventPuzzles",
-  assignedPuzzle.puzzleId
-);
+      const puzzleRef =
+        doc(
+          db,
+          "puzzleEventPuzzles",
+          assignedPuzzle.puzzleId
+        );
+
 
       const puzzleSnapshot =
         await getDoc(puzzleRef);
@@ -539,12 +792,15 @@ async function loadAssignedPuzzles(
 
       loadedPuzzles.push({
 
-        id: puzzleSnapshot.id,
+        id:
+          puzzleSnapshot.id,
 
         ...puzzle,
 
         eventPoints:
-          getAssignedPoints(assignedPuzzle)
+          getAssignedPoints(
+            assignedPuzzle
+          )
 
       });
 
@@ -565,7 +821,9 @@ async function loadAssignedPuzzles(
      RANDOMIZE
   ----------------------------------------- */
 
-  shuffleArray(loadedPuzzles);
+  shuffleArray(
+    loadedPuzzles
+  );
 
 
   /* -----------------------------------------
@@ -631,21 +889,46 @@ function startPuzzle() {
   }
 
 
+  /*
+    If the participation window has already
+    expired, do not start another puzzle.
+  */
+
+  if (
+    participationExpiresAt &&
+    Date.now() >=
+    participationExpiresAt.getTime()
+  ) {
+
+    handleParticipationExpired();
+
+    return;
+  }
+
+
   currentPuzzle =
-    selectedPuzzles[currentPuzzleIndex];
+    selectedPuzzles[
+      currentPuzzleIndex
+    ];
+
+
   console.log(
-  "🧩 Current Puzzle:",
-  currentPuzzleIndex + 1,
-  currentPuzzle
-);
-
-console.log(
-  "🖼️ Current Puzzle Image:",
-  getPuzzleImageUrl(currentPuzzle)
-);
+    "🧩 Current Puzzle:",
+    currentPuzzleIndex + 1,
+    currentPuzzle
+  );
 
 
-  hasSubmitted = false;
+  console.log(
+    "🖼️ Current Puzzle Image:",
+    getPuzzleImageUrl(
+      currentPuzzle
+    )
+  );
+
+
+  hasSubmitted =
+    false;
 
 
   currentPuzzleNumber.textContent =
@@ -660,7 +943,8 @@ console.log(
     currentPuzzle.eventPoints;
 
 
-  puzzleAnswer.value = "";
+  puzzleAnswer.value =
+    "";
 
 
   answerStatus.textContent =
@@ -668,14 +952,20 @@ console.log(
 
 
   puzzleImage.src =
-    getPuzzleImageUrl(currentPuzzle);
+    getPuzzleImageUrl(
+      currentPuzzle
+    );
 
 
   puzzleImage.alt =
     "Chess puzzle";
 
 
-  if (!getPuzzleImageUrl(currentPuzzle)) {
+  if (
+    !getPuzzleImageUrl(
+      currentPuzzle
+    )
+  ) {
 
     answerStatus.textContent =
       "Puzzle image unavailable.";
@@ -684,6 +974,9 @@ console.log(
 
 
   submitPuzzleBtn.disabled =
+    false;
+
+  puzzleAnswer.disabled =
     false;
 
 
@@ -718,6 +1011,24 @@ console.log(
 
 function handleTimerTick() {
 
+  /*
+    Check participation window first.
+  */
+
+  if (
+    participationExpiresAt &&
+    Date.now() >=
+    participationExpiresAt.getTime()
+  ) {
+
+    clearPuzzleTimer();
+
+    handleParticipationExpired();
+
+    return;
+  }
+
+
   remainingSeconds--;
 
   updateTimerDisplay();
@@ -728,6 +1039,7 @@ function handleTimerTick() {
     clearPuzzleTimer();
 
     handleTimeExpired();
+
   }
 
 }
@@ -785,7 +1097,9 @@ function handleTimeExpired() {
   }
 
 
-  hasSubmitted = true;
+  hasSubmitted =
+    true;
+
 
   submitPuzzleBtn.disabled =
     true;
@@ -793,11 +1107,6 @@ function handleTimeExpired() {
   puzzleAnswer.disabled =
     true;
 
-
-  /*
-    No correctness message is shown.
-    The puzzle simply moves forward.
-  */
 
   answerStatus.textContent =
     "Time's up. Moving to the next puzzle...";
@@ -831,6 +1140,23 @@ async function submitAnswer() {
   }
 
 
+  /*
+    Do not allow submission after the
+    participation window has expired.
+  */
+
+  if (
+    participationExpiresAt &&
+    Date.now() >=
+    participationExpiresAt.getTime()
+  ) {
+
+    await handleParticipationExpired();
+
+    return;
+  }
+
+
   const answer =
     puzzleAnswer.value.trim();
 
@@ -844,7 +1170,8 @@ async function submitAnswer() {
   }
 
 
-  hasSubmitted = true;
+  hasSubmitted =
+    true;
 
 
   clearPuzzleTimer();
@@ -862,7 +1189,9 @@ async function submitAnswer() {
   ----------------------------------------- */
 
   const submittedAnswer =
-    normalizeAnswer(answer);
+    normalizeAnswer(
+      answer
+    );
 
 
   const correctMove =
@@ -872,7 +1201,8 @@ async function submitAnswer() {
 
 
   const isCorrect =
-    submittedAnswer === correctMove;
+    submittedAnswer ===
+    correctMove;
 
 
   if (isCorrect) {
@@ -912,6 +1242,9 @@ async function submitAnswer() {
         userId:
           user.uid,
 
+        attemptId:
+          currentAttemptId,
+
         puzzleId:
           currentPuzzle.id,
 
@@ -950,12 +1283,6 @@ async function submitAnswer() {
     currentScore;
 
 
-  /*
-    IMPORTANT:
-    We deliberately DO NOT tell the player
-    whether the answer was correct.
-  */
-
   answerStatus.textContent =
     "Answer submitted. Moving to the next puzzle...";
 
@@ -984,6 +1311,7 @@ async function submitAnswer() {
 async function finishEvent() {
 
   clearPuzzleTimer();
+  clearParticipationTimer();
 
 
   const user =
@@ -1025,6 +1353,9 @@ async function finishEvent() {
         userId:
           user.uid,
 
+        attemptId:
+          currentAttemptId,
+
         score:
           currentScore,
 
@@ -1046,6 +1377,51 @@ async function finishEvent() {
       "Error saving event result:",
       error
     );
+
+  }
+
+
+  /* -----------------------------------------
+     MARK ATTEMPT COMPLETED
+  ----------------------------------------- */
+
+  if (currentAttemptId) {
+
+    try {
+
+      await updateDoc(
+        doc(
+          db,
+          "puzzleEventAttempts",
+          currentAttemptId
+        ),
+        {
+
+          status:
+            "completed",
+
+          finalScore:
+            currentScore,
+
+          correctAnswers,
+
+          completedAt:
+            serverTimestamp(),
+
+          endedAt:
+            serverTimestamp()
+
+        }
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Error updating puzzle event attempt:",
+        error
+      );
+
+    }
 
   }
 
