@@ -360,6 +360,11 @@ async function loadEvent() {
     return;
   }
 
+/* -----------------------------------------
+   RESTORE ATTEMPT PROGRESS
+----------------------------------------- */
+
+await restoreAttemptProgress();
 
   /* -----------------------------------------
      PREPARE UI
@@ -848,7 +853,168 @@ async function loadAssignedPuzzles() {
   }
 }
 
+/* =========================================
+   RESTORE ATTEMPT PROGRESS
+========================================= */
 
+async function restoreAttemptProgress() {
+
+  const user = auth.currentUser;
+
+  if (!user || !currentAttemptId) {
+    return;
+  }
+
+
+  try {
+
+    /*
+      Get all answers belonging to this attempt.
+
+      We query by attemptId only so we do not
+      need a new Firestore composite index.
+    */
+
+    const answersQuery =
+      query(
+        collection(
+          db,
+          "puzzleEventAnswers"
+        ),
+        where(
+          "attemptId",
+          "==",
+          currentAttemptId
+        )
+      );
+
+
+    const snapshot =
+      await getDocs(answersQuery);
+
+
+    const answeredPuzzleIds = new Set();
+
+    currentScore = 0;
+    correctAnswers = 0;
+
+
+    snapshot.forEach((answerDoc) => {
+
+      const answer =
+        answerDoc.data();
+
+
+      /*
+        Extra protection:
+        Make sure this answer belongs
+        to the current event and user.
+      */
+
+      if (
+        answer.eventId !== eventId ||
+        answer.userId !== user.uid
+      ) {
+        return;
+      }
+
+
+      if (!answer.puzzleId) {
+        return;
+      }
+
+
+      answeredPuzzleIds.add(
+        answer.puzzleId
+      );
+
+
+      if (answer.correct === true) {
+
+        currentScore +=
+          Number(answer.points || 0);
+
+        correctAnswers++;
+
+      }
+
+    });
+
+
+    /*
+      Find the first puzzle that has not
+      already been answered.
+    */
+
+    let nextPuzzleIndex = 0;
+
+
+    while (
+      nextPuzzleIndex <
+      selectedPuzzles.length
+    ) {
+
+      const puzzle =
+        selectedPuzzles[nextPuzzleIndex];
+
+
+      if (
+        !answeredPuzzleIds.has(
+          puzzle.id
+        )
+      ) {
+
+        break;
+
+      }
+
+
+      nextPuzzleIndex++;
+
+    }
+
+
+    currentPuzzleIndex =
+      nextPuzzleIndex;
+
+
+    currentScoreElement.textContent =
+      currentScore;
+
+
+    console.log(
+      "🔄 Puzzle Event progress restored:",
+      {
+        attemptId:
+          currentAttemptId,
+
+        answeredPuzzles:
+          answeredPuzzleIds.size,
+
+        currentScore,
+
+        correctAnswers,
+
+        nextPuzzle:
+          currentPuzzleIndex + 1
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ Error restoring Puzzle Event progress:",
+      error
+    );
+
+    throw new Error(
+      "Unable to restore your Puzzle Event progress."
+    );
+
+  }
+
+}
 
 /* =========================================
    SHUFFLE
@@ -1573,11 +1739,11 @@ if (currentAttemptId) {
 
 
   finalScore.textContent =
-    currentScore;
+  Number(finishResult.score || 0);
 
 
-  finalCorrect.textContent =
-    correctAnswers;
+finalCorrect.textContent =
+  Number(finishResult.correctAnswers || 0);
 
 
   finalTotal.textContent =
