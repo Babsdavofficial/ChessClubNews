@@ -3265,15 +3265,20 @@ if (createPuzzleEventBtn) {
           document.getElementById("eventTimer")?.value
         );
 
-      const cooldownHours =
-        Number(
-          document.getElementById("eventCooldown")?.value
-        );
+      const cooldownHours = Number(
+  document.getElementById("eventCooldown")?.value
+);
 
-      const leaderboardEnabled =
-        document.getElementById(
-          "eventLeaderboardEnabled"
-        )?.checked ?? true;
+const participationWindowMinutes = Number(
+  document.getElementById("eventParticipationMinutes")?.value
+);
+
+const maxAttempts = Number(
+  document.getElementById("eventMaxAttempts")?.value
+);
+
+const leaderboardEnabled =
+  document.getElementById("eventLeaderboardEnabled")?.checked ?? true;
 
 
       /* -----------------------------------------------
@@ -3310,6 +3315,15 @@ if (createPuzzleEventBtn) {
         return;
       }
 
+      if (participationWindowMinutes < 1) {
+  alert("Participation window must be at least 1 minute.");
+  return;
+}
+
+if (maxAttempts < 1) {
+  alert("Maximum attempts must be at least 1.");
+  return;
+}
 
       const start =
         new Date(startDate);
@@ -3361,45 +3375,25 @@ if (createPuzzleEventBtn) {
           "Creating Event...";
 
 
-        const eventData = {
-
-          title,
-
-          description,
-
-          imageUrl,
-
-          instructions,
-
-          startAt:
-            Timestamp.fromDate(start),
-
-          endAt:
-            Timestamp.fromDate(end),
-
-          numberOfPuzzles:
-            puzzleCount,
-
-          timerSeconds,
-
-          cooldownHours,
-
-          leaderboardEnabled,
-
-          status: "scheduled",
-
-          active: true,
-
-          assignedPuzzles: [],
-
-          createdBy:
-            auth.currentUser?.uid || "",
-
-          createdAt:
-            serverTimestamp()
-
-        };
-
+       const eventData = {
+  title,
+  description,
+  imageUrl,
+  instructions,
+  startAt: Timestamp.fromDate(start),
+  endAt: Timestamp.fromDate(end),
+  numberOfPuzzles: puzzleCount,
+  timerSeconds,
+  cooldownHours,
+  participationWindowMinutes,
+  maxAttempts,
+  leaderboardEnabled,
+  status: "scheduled",
+  active: true,
+  assignedPuzzles: [],
+  createdBy: auth.currentUser?.uid || "",
+  createdAt: serverTimestamp()
+};
 
         const eventRef =
           await addDoc(
@@ -3453,6 +3447,9 @@ if (createPuzzleEventBtn) {
         document.getElementById("eventTimer").value = 30;
 
         document.getElementById("eventCooldown").value = 24;
+
+        document.getElementById("eventParticipationMinutes").value = 40;
+document.getElementById("eventMaxAttempts").value = 1;
 
         document.getElementById(
           "eventLeaderboardEnabled"
