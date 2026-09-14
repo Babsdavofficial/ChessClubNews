@@ -1208,6 +1208,47 @@ async function submitAnswer() {
     submittedAnswer ===
     correctMove;
 
+  // ==========================================
+// PUZZLE EVENT SOLVED COUNTER
+// ==========================================
+
+if (isCorrect && auth.currentUser) {
+
+  const userRef =
+    doc(
+      db,
+      "users",
+      auth.currentUser.uid
+    );
+
+  await updateDoc(
+    userRef,
+    {
+      puzzleEventSolved:
+        increment(1)
+    }
+  );
+
+  // Get the updated user data
+  const updatedUserSnapshot =
+    await getDoc(userRef);
+
+  const updatedUserData =
+    updatedUserSnapshot.exists()
+      ? updatedUserSnapshot.data()
+      : {};
+
+  const solvedCount =
+    Number(
+      updatedUserData.puzzleEventSolved || 0
+    );
+
+  await syncPuzzleEventSolvedAchievements(
+    auth.currentUser.uid,
+    solvedCount
+  );
+}
+
 
   if (isCorrect) {
 
