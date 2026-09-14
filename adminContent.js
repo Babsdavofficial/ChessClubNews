@@ -3483,3 +3483,607 @@ if (createPuzzleEventBtn) {
   );
 
 }
+
+
+/* =====================================================
+   PUZZLE EVENT PUZZLE ASSIGNMENT
+===================================================== */
+
+const selectPuzzleEvent =
+  document.getElementById("selectPuzzleEvent");
+
+const eventPuzzleSelectionContainer =
+  document.getElementById(
+    "eventPuzzleSelectionContainer"
+  );
+
+const saveEventPuzzlesBtn =
+  document.getElementById(
+    "saveEventPuzzlesBtn"
+  );
+
+const eventPuzzleAssignmentStatus =
+  document.getElementById(
+    "eventPuzzleAssignmentStatus"
+  );
+
+
+let selectedPuzzleEventId = "";
+
+let availableEventPuzzles = [];
+
+
+/* =====================================================
+   LOAD PUZZLE EVENTS
+===================================================== */
+
+async function loadPuzzleEventsForAssignment() {
+
+  if (!selectPuzzleEvent) {
+    return;
+  }
+
+  try {
+
+    const snapshot =
+      await getDocs(
+        query(
+          collection(db, "puzzleEvents"),
+          orderBy("createdAt", "desc")
+        )
+      );
+
+
+    selectPuzzleEvent.innerHTML = `
+      <option value="">
+        Select an event
+      </option>
+    `;
+
+
+    snapshot.forEach(eventDoc => {
+
+      const event =
+        eventDoc.data();
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        eventDoc.id;
+
+      option.textContent =
+        event.title || "Untitled Event";
+
+      selectPuzzleEvent.appendChild(option);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ Error loading Puzzle Events:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD AVAILABLE DAILY PUZZLES
+===================================================== */
+
+async function loadAvailableEventPuzzles(eventId) {
+
+  if (!eventId) {
+    return;
+  }
+
+
+  try {
+
+    eventPuzzleSelectionContainer.innerHTML =
+      "<p>Loading puzzles...</p>";
+
+    saveEventPuzzlesBtn.style.display =
+      "none";
+
+
+    /* -----------------------------------------------
+       Get event
+    ------------------------------------------------ */
+
+    const eventRef =
+      doc(
+        db,
+        "puzzleEvents",
+        eventId
+      );
+
+    const eventSnapshot =
+      await getDoc(eventRef);
+
+
+    if (!eventSnapshot.exists()) {
+
+      eventPuzzleSelectionContainer.innerHTML =
+        "<p>Event not found.</p>";
+
+      return;
+
+    }
+
+
+    const event =
+      eventSnapshot.data();
+
+
+    const assignedPuzzles =
+      Array.isArray(event.assignedPuzzles)
+        ? event.assignedPuzzles
+        : [];
+
+
+    /* -----------------------------------------------
+       Get Daily Puzzles
+    ------------------------------------------------ */
+
+    const puzzleSnapshot =
+      await getDocs(
+        query(
+          collection(db, "puzzles"),
+          orderBy("createdAt", "desc")
+        )
+      );
+
+
+    availableEventPuzzles = [];
+
+
+    puzzleSnapshot.forEach(puzzleDoc => {
+
+      const puzzle =
+        puzzleDoc.data();
+
+
+      /*
+       * We only use existing puzzle documents.
+       *
+       * The original Daily Puzzle document
+       * remains unchanged.
+       */
+
+      availableEventPuzzles.push({
+
+        id:
+          puzzleDoc.id,
+
+        ...puzzle
+
+      });
+
+    });
+
+
+    if (availableEventPuzzles.length === 0) {
+
+      eventPuzzleSelectionContainer.innerHTML = `
+        <p>
+          No puzzles are available yet.
+          Create some Daily Puzzles first.
+        </p>
+      `;
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------------
+       Build puzzle list
+    ------------------------------------------------ */
+
+    eventPuzzleSelectionContainer.innerHTML = "";
+
+
+    availableEventPuzzles.forEach(
+      puzzle => {
+
+        const existingAssignment =
+          assignedPuzzles.find(
+            assigned =>
+              assigned.puzzleId === puzzle.id
+          );
+
+
+        const isSelected =
+          Boolean(existingAssignment);
+
+
+        const points =
+          existingAssignment
+            ? Number(
+                existingAssignment.points
+              ) || 0
+            : Number(puzzle.reward) || 10;
+
+
+        const puzzleCard =
+          document.createElement("div");
+
+        puzzleCard.className =
+          "event-puzzle-selection";
+
+
+        puzzleCard.style.cssText = `
+          border: 1px solid var(--border-color, #ddd);
+          border-radius: 12px;
+          padding: 15px;
+          margin: 10px 0;
+        `;
+
+
+        puzzleCard.innerHTML = `
+
+          <div
+            style="
+              display:flex;
+              align-items:center;
+              gap:12px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <label
+              style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                flex:1;
+              "
+            >
+
+              <input
+                type="checkbox"
+                class="event-puzzle-checkbox"
+                data-puzzle-id="${puzzle.id}"
+                ${isSelected ? "checked" : ""}
+              >
+
+              <strong>
+                ${escapeHtmlEventPuzzle(
+                  puzzle.title || "Untitled Puzzle"
+                )}
+              </strong>
+
+            </label>
+
+
+            <label
+              style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+              "
+            >
+
+              Points:
+
+              <input
+                type="number"
+                min="0"
+                class="event-puzzle-points"
+                data-puzzle-id="${puzzle.id}"
+                value="${points}"
+                style="width:90px;"
+              >
+
+            </label>
+
+          </div>
+
+          ${
+            puzzle.imageUrl
+              ? `
+                <div style="margin-top:10px;">
+                  <img
+                    src="${escapeHtmlEventPuzzle(
+                      puzzle.imageUrl
+                    )}"
+                    alt="Puzzle"
+                    style="
+                      width:100%;
+                      max-width:300px;
+                      border-radius:8px;
+                      display:block;
+                    "
+                  >
+                </div>
+              `
+              : ""
+          }
+
+        `;
+
+
+        eventPuzzleSelectionContainer.appendChild(
+          puzzleCard
+        );
+
+      }
+    );
+
+
+    saveEventPuzzlesBtn.style.display =
+      "block";
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ Error loading event puzzles:",
+      error
+    );
+
+    eventPuzzleSelectionContainer.innerHTML =
+      "<p>Failed to load puzzles.</p>";
+
+  }
+
+}
+
+
+/* =====================================================
+   SAVE SELECTED EVENT PUZZLES
+===================================================== */
+
+async function saveEventPuzzles() {
+
+  if (!selectedPuzzleEventId) {
+
+    alert(
+      "Please select a Puzzle Event first."
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    saveEventPuzzlesBtn.disabled =
+      true;
+
+    saveEventPuzzlesBtn.textContent =
+      "Saving...";
+
+
+    const checkboxes =
+      document.querySelectorAll(
+        ".event-puzzle-checkbox"
+      );
+
+
+    const selectedPuzzles = [];
+
+
+    checkboxes.forEach(
+      checkbox => {
+
+        if (!checkbox.checked) {
+          return;
+        }
+
+
+        const puzzleId =
+          checkbox.dataset.puzzleId;
+
+
+        const pointsInput =
+          document.querySelector(
+            `.event-puzzle-points[data-puzzle-id="${puzzleId}"]`
+          );
+
+
+        const points =
+          Number(
+            pointsInput?.value
+          ) || 0;
+
+
+        selectedPuzzles.push({
+
+          puzzleId,
+
+          points
+
+        });
+
+      }
+    );
+
+
+    /* -----------------------------------------------
+       Make sure enough puzzles are selected
+    ------------------------------------------------ */
+
+    const eventRef =
+      doc(
+        db,
+        "puzzleEvents",
+        selectedPuzzleEventId
+      );
+
+
+    const eventSnapshot =
+      await getDoc(eventRef);
+
+
+    if (!eventSnapshot.exists()) {
+
+      alert(
+        "Puzzle Event no longer exists."
+      );
+
+      return;
+
+    }
+
+
+    const event =
+      eventSnapshot.data();
+
+
+    const requiredPuzzleCount =
+      Number(
+        event.numberOfPuzzles
+      ) || 1;
+
+
+    if (
+      selectedPuzzles.length <
+      requiredPuzzleCount
+    ) {
+
+      alert(
+        `Please select at least ${requiredPuzzleCount} puzzles for this event.`
+      );
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------------
+       Save assignments
+    ------------------------------------------------ */
+
+    await updateDoc(
+      eventRef,
+      {
+
+        assignedPuzzles:
+          selectedPuzzles,
+
+        puzzleCount:
+          selectedPuzzles.length,
+
+        puzzlesConfiguredAt:
+          serverTimestamp()
+
+      }
+    );
+
+
+    eventPuzzleAssignmentStatus.textContent =
+      `✅ ${selectedPuzzles.length} puzzles assigned successfully.`;
+
+
+    alert(
+      "Puzzle Event puzzles saved successfully."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ Error saving event puzzles:",
+      error
+    );
+
+    alert(
+      "Failed to save event puzzles. Check the console."
+    );
+
+  } finally {
+
+    saveEventPuzzlesBtn.disabled =
+      false;
+
+    saveEventPuzzlesBtn.textContent =
+      "Save Event Puzzles";
+
+  }
+
+}
+
+
+/* =====================================================
+   EVENT SELECT CHANGE
+===================================================== */
+
+if (selectPuzzleEvent) {
+
+  selectPuzzleEvent.addEventListener(
+    "change",
+    async event => {
+
+      selectedPuzzleEventId =
+        event.target.value;
+
+      if (!selectedPuzzleEventId) {
+
+        eventPuzzleSelectionContainer.innerHTML =
+          "<p>Select an event to load its puzzles.</p>";
+
+        saveEventPuzzlesBtn.style.display =
+          "none";
+
+        return;
+
+      }
+
+
+      await loadAvailableEventPuzzles(
+        selectedPuzzleEventId
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SAVE BUTTON
+===================================================== */
+
+if (saveEventPuzzlesBtn) {
+
+  saveEventPuzzlesBtn.addEventListener(
+    "click",
+    saveEventPuzzles
+  );
+
+}
+
+
+/* =====================================================
+   SIMPLE HTML ESCAPE
+===================================================== */
+
+function escapeHtmlEventPuzzle(value) {
+
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+if (selectPuzzleEvent) {
+
+  loadPuzzleEventsForAssignment();
+
+}
