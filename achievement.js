@@ -1021,7 +1021,154 @@ export async function awardCustomAchievement(
   );
 
 }
+// ==========================================
+// PUZZLE EVENT SOLVED ACHIEVEMENTS
+// ==========================================
 
+export const PUZZLE_EVENT_SOLVED_ACHIEVEMENTS = [
+  {
+    id: "puzzle_event_solved_1",
+    name: "First Event Solve",
+    description: "Solve your first Puzzle Event puzzle.",
+    icon: "🧩",
+    category: "puzzleEvent",
+    requirement: 1
+  },
+
+  {
+    id: "puzzle_event_solved_5",
+    name: "Puzzle Event Rookie",
+    description: "Solve 5 Puzzle Event puzzles.",
+    icon: "🧩",
+    category: "puzzleEvent",
+    requirement: 5
+  },
+
+  {
+    id: "puzzle_event_solved_10",
+    name: "Puzzle Event Solver",
+    description: "Solve 10 Puzzle Event puzzles.",
+    icon: "🧩",
+    category: "puzzleEvent",
+    requirement: 10
+  },
+
+  {
+    id: "puzzle_event_solved_25",
+    name: "Puzzle Event Expert",
+    description: "Solve 25 Puzzle Event puzzles.",
+    icon: "🧩",
+    category: "puzzleEvent",
+    requirement: 25
+  },
+
+  {
+    id: "puzzle_event_solved_50",
+    name: "Puzzle Event Master",
+    description: "Solve 50 Puzzle Event puzzles.",
+    icon: "🧩",
+    category: "puzzleEvent",
+    requirement: 50
+  },
+
+  {
+    id: "puzzle_event_solved_100",
+    name: "Puzzle Event Legend",
+    description: "Solve 100 Puzzle Event puzzles.",
+    icon: "🧩",
+    category: "puzzleEvent",
+    requirement: 100
+  }
+];
+
+
+// ==========================================
+// SYNC PUZZLE EVENT ACHIEVEMENTS
+// ==========================================
+
+export async function syncPuzzleEventSolvedAchievements(
+  uid,
+  solvedCount
+) {
+
+  if (!uid) return;
+
+  const count = Number(solvedCount || 0);
+
+  const eligibleAchievements =
+    PUZZLE_EVENT_SOLVED_ACHIEVEMENTS.filter(
+      achievement =>
+        count >= achievement.requirement
+    );
+
+  if (eligibleAchievements.length === 0) {
+    return;
+  }
+
+  const achievementsRef =
+    collection(
+      db,
+      "users",
+      uid,
+      "achievements"
+    );
+
+  const existingSnapshot =
+    await getDocs(achievementsRef);
+
+  const existingIds =
+    new Set(
+      existingSnapshot.docs.map(
+        doc => doc.id
+      )
+    );
+
+  const batch =
+    writeBatch(db);
+
+  let added = 0;
+
+  for (
+    const achievement
+    of eligibleAchievements
+  ) {
+
+    if (
+      existingIds.has(
+        achievement.id
+      )
+    ) {
+      continue;
+    }
+
+    const achievementRef =
+      doc(
+        db,
+        "users",
+        uid,
+        "achievements",
+        achievement.id
+      );
+
+    batch.set(
+      achievementRef,
+      {
+        ...achievement,
+        solvedCount: count,
+        awardedAt: serverTimestamp()
+      },
+      {
+        merge: true
+      }
+    );
+
+    added++;
+  }
+
+  if (added > 0) {
+    await batch.commit();
+  }
+}
 
 // =====================================================
 // FANTASY TEAM PARTICIPATION ACHIEVEMENTS
