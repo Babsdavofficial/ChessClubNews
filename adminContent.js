@@ -3631,13 +3631,13 @@ async function loadAvailableEventPuzzles(eventId) {
        Get Daily Puzzles
     ------------------------------------------------ */
 
-    const puzzleSnapshot =
-      await getDocs(
-        query(
-          collection(db, "puzzles"),
-          orderBy("createdAt", "desc")
-        )
-      );
+    const puzzleSnapshot = await getDocs(
+  query(
+    collection(db,"puzzleEventPuzzles"),
+    where("eventId","==",eventId),
+    orderBy("createdAt","desc")
+  )
+);
 
 
     availableEventPuzzles = [];
@@ -3708,7 +3708,7 @@ async function loadAvailableEventPuzzles(eventId) {
             ? Number(
                 existingAssignment.points
               ) || 0
-            : Number(puzzle.reward) || 10;
+            : Number(puzzle.points) || 10;
 
 
         const puzzleCard =
