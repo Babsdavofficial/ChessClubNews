@@ -2,7 +2,7 @@
 // CHESS NEWS HUB — SERVICE WORKER
 // =====================================================
 
-const CACHE_NAME = "chess-news-hub-v5.69";
+const CACHE_NAME = "chess-news-hub-v5.70";
 
 const FILES_TO_CACHE = [
   "./",
@@ -14,6 +14,12 @@ const FILES_TO_CACHE = [
   "./players.html",
   "./admin.html",
   "./login.html",
+   "./puzzle-event.html",
+   "./puzzle-event.css",
+   "./puzzle-event.js",
+   "./puzzle-event-play.html",
+   "./puzzle-event-play.css",
+   "./puzzle-event-play.js",
   "./community-layout.css",
   "./achievement-profile.html",
   "./achievement-profile.css",
