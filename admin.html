@@ -707,14 +707,152 @@ style="width:100%;">
      PUZZLE EVENT PUZZLE ASSIGNMENT
 ===================================================== -->
 
-<div class="card" id="puzzleEventAssignmentCard">
+<!-- =====================================================
+     CREATE PUZZLE EVENT PUZZLE
+===================================================== -->
 
-  <h2>🧩 Assign Event Puzzles</h2>
+<div class="card" id="puzzleEventPuzzleCreationCard">
+
+  <h2>🧩 Create Event Puzzle</h2>
 
   <p class="card-description">
-    Select the puzzles that will be used in a Puzzle Event
-    and set the points for each puzzle.
+    Create a puzzle specifically for a selected Puzzle Event.
+    These puzzles are separate from Daily Puzzles.
   </p>
+
+  <!-- SELECT EVENT -->
+
+  <div class="form-group">
+
+    <label for="selectEventForPuzzle">
+      Select Puzzle Event
+    </label>
+
+    <select id="selectEventForPuzzle">
+
+      <option value="">
+        Select an event
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <!-- PUZZLE TITLE -->
+
+  <div class="form-group">
+
+    <label for="eventPuzzleTitle">
+      Puzzle Title
+    </label>
+
+    <input
+      type="text"
+      id="eventPuzzleTitle"
+      placeholder="e.g. Find the Winning Move"
+    >
+
+  </div>
+
+
+  <!-- PUZZLE IMAGE -->
+
+  <div class="form-group">
+
+    <label for="eventPuzzleImage">
+      Image Filename
+    </label>
+
+    <input
+      type="text"
+      id="eventPuzzleImage"
+      placeholder="e.g. event-puzzle-1.jpg"
+    >
+
+    <small>
+      Upload the image to your GitHub images/ folder first,
+      then enter the filename here.
+    </small>
+
+  </div>
+
+
+  <!-- CORRECT MOVE -->
+
+  <div class="form-group">
+
+    <label for="eventPuzzleCorrectMove">
+      Correct Move
+    </label>
+
+    <input
+      type="text"
+      id="eventPuzzleCorrectMove"
+      placeholder="e.g. Qh7+"
+    >
+
+  </div>
+
+
+  <!-- POINTS -->
+
+  <div class="form-group">
+
+    <label for="eventPuzzlePoints">
+      Puzzle Points
+    </label>
+
+    <input
+      type="number"
+      id="eventPuzzlePoints"
+      min="1"
+      value="10"
+    >
+
+  </div>
+
+
+  <!-- CREATE BUTTON -->
+
+  <button
+    type="button"
+    id="createEventPuzzleBtn"
+    class="primary-btn"
+  >
+    🧩 Create Event Puzzle
+  </button>
+
+
+  <div id="eventPuzzleCreationStatus"></div>
+
+
+  <!-- CREATED PUZZLES -->
+
+  <div
+    id="eventPuzzleCreatedList"
+    style="margin-top:20px;"
+  >
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     PUZZLE EVENT PUZZLE ASSIGNMENT
+===================================================== -->
+
+<div class="card" id="puzzleEventAssignmentCard">
+
+  <h2>🧩 Event Puzzle Selection</h2>
+
+  <p class="card-description">
+    Select the event puzzles that will be used in the selected
+    Puzzle Event.
+  </p>
+
+
+  <!-- SELECT EVENT -->
 
   <div class="form-group">
 
@@ -733,14 +871,18 @@ style="width:100%;">
   </div>
 
 
+  <!-- EVENT PUZZLES -->
+
   <div id="eventPuzzleSelectionContainer">
 
     <p>
-      Select an event to load its puzzles.
+      Select an event to load its event puzzles.
     </p>
 
   </div>
 
+
+  <!-- SAVE -->
 
   <button
     type="button"
