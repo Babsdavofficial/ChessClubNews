@@ -1395,8 +1395,10 @@ async function finishEvent() {
 
 isFinishingEvent = true;
 
-  clearPuzzleTimer();
-  clearParticipationTimer();
+let finishResult = null;
+
+clearPuzzleTimer();
+clearParticipationTimer();
 
 
   const user =
@@ -1452,8 +1454,8 @@ try {
       }
     );
 
-  const finishResult =
-    await finishResponse.json();
+  finishResult =
+  await finishResponse.json();
 
   if (!finishResponse.ok) {
 
