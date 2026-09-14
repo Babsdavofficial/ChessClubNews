@@ -633,6 +633,16 @@ function startPuzzle() {
 
   currentPuzzle =
     selectedPuzzles[currentPuzzleIndex];
+  console.log(
+  "🧩 Current Puzzle:",
+  currentPuzzleIndex + 1,
+  currentPuzzle
+);
+
+console.log(
+  "🖼️ Current Puzzle Image:",
+  getPuzzleImageUrl(currentPuzzle)
+);
 
 
   hasSubmitted = false;
