@@ -9,9 +9,10 @@ import {
   doc,
   addDoc,
   serverTimestamp,
-  updateDoc,
+    updateDoc,
   Timestamp,
-  increment
+  increment,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 import {
@@ -1208,58 +1209,84 @@ async function submitAnswer() {
     submittedAnswer ===
     correctMove;
 
+
   // ==========================================
 // PUZZLE EVENT SOLVED COUNTER
 // ==========================================
 
-if (isCorrect && auth.currentUser) {
+if (
+  isCorrect &&
+  auth.currentUser &&
+  currentPuzzle?.id
+) {
 
-  const userRef =
+  const userId =
+    auth.currentUser.uid;
+
+  const solveKey =
+    `${eventId}_${userId}_${currentPuzzle.id}`;
+
+  const solveRef =
     doc(
       db,
-      "users",
-      auth.currentUser.uid
+      "puzzleEventSolved",
+      solveKey
     );
 
-  await updateDoc(
-    userRef,
-    {
-      puzzleEventSolved:
-        increment(1)
-    }
-  );
+  const existingSolve =
+    await getDoc(solveRef);
 
-  // Get the updated user data
-  const updatedUserSnapshot =
-    await getDoc(userRef);
+  // Only count this exact puzzle once
+  if (!existingSolve.exists()) {
 
-  const updatedUserData =
-    updatedUserSnapshot.exists()
-      ? updatedUserSnapshot.data()
-      : {};
-
-  const solvedCount =
-    Number(
-      updatedUserData.puzzleEventSolved || 0
-    );
-
-  await syncPuzzleEventSolvedAchievements(
-    auth.currentUser.uid,
-    solvedCount
-  );
-}
-
-
-  if (isCorrect) {
-
-    currentScore +=
-      Number(
-        currentPuzzle.eventPoints || 0
+    const userRef =
+      doc(
+        db,
+        "users",
+        userId
       );
 
-    correctAnswers++;
+    await updateDoc(
+      userRef,
+      {
+        puzzleEventSolved:
+          increment(1)
+      }
+    );
 
+    await setDoc(
+      solveRef,
+      {
+        eventId,
+        userId,
+        puzzleId:
+          currentPuzzle.id,
+        solvedAt:
+          serverTimestamp()
+      }
+    );
+
+    const updatedUserSnapshot =
+      await getDoc(userRef);
+
+    const updatedUserData =
+      updatedUserSnapshot.exists()
+        ? updatedUserSnapshot.data()
+        : {};
+
+    const solvedCount =
+      Number(
+        updatedUserData.puzzleEventSolved || 0
+      );
+
+    await syncPuzzleEventSolvedAchievements(
+      userId,
+      solvedCount
+    );
   }
+}
+
+  
 
 
   /* -----------------------------------------
