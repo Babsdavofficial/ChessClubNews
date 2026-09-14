@@ -3213,3 +3213,273 @@ if (awardCustomAchievementBtn) {
   );
 
 }
+
+
+
+/* =====================================================
+   PUZZLE EVENT SYSTEM
+===================================================== */
+
+const puzzleEventImageBase =
+  "https://babsdavofficial.github.io/ChessClubNews/images/";
+
+
+/* =====================================================
+   CREATE PUZZLE EVENT
+===================================================== */
+
+const createPuzzleEventBtn =
+  document.getElementById("createPuzzleEventBtn");
+
+if (createPuzzleEventBtn) {
+
+  createPuzzleEventBtn.addEventListener(
+    "click",
+    async () => {
+
+      const title =
+        document.getElementById("eventTitle")?.value.trim();
+
+      const description =
+        document.getElementById("eventDescription")?.value.trim();
+
+      const image =
+        document.getElementById("eventImage")?.value.trim();
+
+      const instructions =
+        document.getElementById("eventInstructions")?.value.trim();
+
+      const startDate =
+        document.getElementById("eventStartDate")?.value;
+
+      const endDate =
+        document.getElementById("eventEndDate")?.value;
+
+      const puzzleCount =
+        Number(
+          document.getElementById("eventPuzzleCount")?.value
+        );
+
+      const timerSeconds =
+        Number(
+          document.getElementById("eventTimer")?.value
+        );
+
+      const cooldownHours =
+        Number(
+          document.getElementById("eventCooldown")?.value
+        );
+
+      const leaderboardEnabled =
+        document.getElementById(
+          "eventLeaderboardEnabled"
+        )?.checked ?? true;
+
+
+      /* -----------------------------------------------
+         VALIDATION
+      ------------------------------------------------ */
+
+      if (!title) {
+        alert("Please enter an event title.");
+        return;
+      }
+
+      if (!description) {
+        alert("Please enter an event description.");
+        return;
+      }
+
+      if (!startDate || !endDate) {
+        alert("Please select the event start and end time.");
+        return;
+      }
+
+      if (puzzleCount < 1) {
+        alert("The event must contain at least 1 puzzle.");
+        return;
+      }
+
+      if (timerSeconds < 5) {
+        alert("The puzzle timer must be at least 5 seconds.");
+        return;
+      }
+
+      if (cooldownHours < 0) {
+        alert("Cooldown cannot be negative.");
+        return;
+      }
+
+
+      const start =
+        new Date(startDate);
+
+      const end =
+        new Date(endDate);
+
+
+      if (end <= start) {
+        alert("Event end time must be after the start time.");
+        return;
+      }
+
+
+      /* -----------------------------------------------
+         IMAGE URL
+      ------------------------------------------------ */
+
+      let imageUrl = "";
+
+      if (image) {
+
+        if (
+          image.startsWith("http://") ||
+          image.startsWith("https://")
+        ) {
+
+          imageUrl = image;
+
+        } else {
+
+          imageUrl =
+            puzzleEventImageBase + image;
+
+        }
+
+      }
+
+
+      /* -----------------------------------------------
+         CREATE EVENT
+      ------------------------------------------------ */
+
+      try {
+
+        createPuzzleEventBtn.disabled = true;
+
+        createPuzzleEventBtn.textContent =
+          "Creating Event...";
+
+
+        const eventData = {
+
+          title,
+
+          description,
+
+          imageUrl,
+
+          instructions,
+
+          startAt:
+            Timestamp.fromDate(start),
+
+          endAt:
+            Timestamp.fromDate(end),
+
+          numberOfPuzzles:
+            puzzleCount,
+
+          timerSeconds,
+
+          cooldownHours,
+
+          leaderboardEnabled,
+
+          status: "scheduled",
+
+          active: true,
+
+          assignedPuzzles: [],
+
+          createdBy:
+            auth.currentUser?.uid || "",
+
+          createdAt:
+            serverTimestamp()
+
+        };
+
+
+        const eventRef =
+          await addDoc(
+            collection(db, "puzzleEvents"),
+            eventData
+          );
+
+
+        console.log(
+          "🧩 Puzzle Event created:",
+          eventRef.id
+        );
+
+
+        const status =
+          document.getElementById(
+            "puzzleEventAdminStatus"
+          );
+
+        if (status) {
+
+          status.textContent =
+            "✅ Puzzle Event created successfully.";
+
+        }
+
+
+        alert(
+          "Puzzle Event created successfully."
+        );
+
+
+        /* ---------------------------------------------
+           CLEAR FORM
+        --------------------------------------------- */
+
+        document.getElementById("eventTitle").value = "";
+
+        document.getElementById("eventDescription").value = "";
+
+        document.getElementById("eventImage").value = "";
+
+        document.getElementById("eventInstructions").value = "";
+
+        document.getElementById("eventStartDate").value = "";
+
+        document.getElementById("eventEndDate").value = "";
+
+        document.getElementById("eventPuzzleCount").value = 5;
+
+        document.getElementById("eventTimer").value = 30;
+
+        document.getElementById("eventCooldown").value = 24;
+
+        document.getElementById(
+          "eventLeaderboardEnabled"
+        ).checked = true;
+
+
+      } catch (error) {
+
+        console.error(
+          "❌ Error creating Puzzle Event:",
+          error
+        );
+
+        alert(
+          "Failed to create Puzzle Event. Check the console."
+        );
+
+      } finally {
+
+        createPuzzleEventBtn.disabled = false;
+
+        createPuzzleEventBtn.textContent =
+          "Create Puzzle Event";
+
+      }
+
+    }
+  );
+
+}
