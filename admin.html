@@ -568,6 +568,139 @@ style="width:100%;">
 
     <br><br>
 
+
+      <!-- =====================================================
+     PUZZLE EVENT ADMIN
+===================================================== -->
+
+<div class="card" id="puzzleEventAdminCard">
+
+  <h2>🧩 Puzzle Event</h2>
+
+  <p class="card-description">
+    Create and manage special puzzle events for the community.
+  </p>
+
+  <div class="form-group">
+    <label for="eventTitle">Event Title</label>
+    <input
+      type="text"
+      id="eventTitle"
+      placeholder="e.g. Weekend Puzzle Challenge"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="eventDescription">Description</label>
+    <textarea
+      id="eventDescription"
+      placeholder="Describe the event..."
+      rows="4"
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="eventImage">Event Image</label>
+    <input
+      type="text"
+      id="eventImage"
+      placeholder="e.g. puzzle-event.jpg"
+    >
+    <small>
+      Use the image filename from your GitHub images folder.
+    </small>
+  </div>
+
+  <div class="form-group">
+    <label for="eventInstructions">How to Play</label>
+    <textarea
+      id="eventInstructions"
+      placeholder="Explain how players should participate..."
+      rows="5"
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="eventStartDate">Event Start</label>
+    <input
+      type="datetime-local"
+      id="eventStartDate"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="eventEndDate">Event End</label>
+    <input
+      type="datetime-local"
+      id="eventEndDate"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="eventPuzzleCount">
+      Number of Puzzles
+    </label>
+
+    <input
+      type="number"
+      id="eventPuzzleCount"
+      min="1"
+      value="5"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="eventTimer">
+      Time Per Puzzle (seconds)
+    </label>
+
+    <input
+      type="number"
+      id="eventTimer"
+      min="5"
+      value="30"
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="eventCooldown">
+      Replay Cooldown (hours)
+    </label>
+
+    <input
+      type="number"
+      id="eventCooldown"
+      min="0"
+      value="24"
+    >
+  </div>
+
+  <div class="form-group">
+
+    <label>
+      <input
+        type="checkbox"
+        id="eventLeaderboardEnabled"
+        checked
+      >
+
+      Enable Leaderboard
+    </label>
+
+  </div>
+
+  <button
+    type="button"
+    id="createPuzzleEventBtn"
+    class="primary-btn"
+  >
+    Create Puzzle Event
+  </button>
+
+  <div id="puzzleEventAdminStatus"></div>
+
+</div>
+
     
   </section>
 
