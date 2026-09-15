@@ -59,8 +59,6 @@ const profileTrivia =
 const profilePredictions =
   document.getElementById("profilePredictions");
 
-const profilePuzzles =
-  document.getElementById("profilePuzzles");
 
 const profilePuzzleEventSolved =
   document.getElementById("profilePuzzleEventSolved");
@@ -399,9 +397,6 @@ async function displayProfile(
   Number(userData.predictionScore) ||
   0;
 
-const puzzleStats =
-  Number(userData.puzzleCorrect) ||
-  0;
 
 const puzzleEventSolved =
   Number(userData.puzzleEventSolved) ||
@@ -488,8 +483,7 @@ if (playerHero) {
   profilePredictions.textContent =
   predictionScore;
 
-profilePuzzles.textContent =
-  puzzleStats;
+
 
 profilePuzzleEventSolved.textContent =
   puzzleEventSolved;
