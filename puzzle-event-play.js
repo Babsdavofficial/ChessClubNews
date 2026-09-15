@@ -1642,53 +1642,51 @@ try {
      AWARD EVENT PARTICIPATION ACHIEVEMENT
   ----------------------------------------- */
 
-  try {
+try {
 
-    await awardEventAchievement(
-      user.uid,
-      `puzzle_event_participation_${eventId}`,
-      {
-        eventId,
-        eventName:
-          eventData.title ||
-          "Puzzle Event",
+  await awardEventAchievement(
+    user.uid,
+    `puzzle_event_participation_${eventId}`,
+    {
+      eventId,
+      eventName:
+        eventData.title ||
+        "Puzzle Event",
 
-        category:
-          "puzzleEvent",
+      category:
+        "puzzleEvent",
 
-        name:
-          eventData.achievementName ||
-          `${eventData.title || "Puzzle Event"} Participant`,
+      name:
+        eventData.achievementName ||
+        `${eventData.title || "Puzzle Event"} Participant`,
 
-        icon:
-          eventData.achievementIcon ||
-          "🧩",
+      icon:
+        eventData.achievementIcon ||
+        "🧩",
 
-        description:
-          eventData.achievementDescription ||
-          `Participated in the ${
-            eventData.title || "Puzzle Event"
-          }.`,
+      description:
+        eventData.achievementDescription ||
+        `Participated in the ${
+          eventData.title || "Puzzle Event"
+        }.`,
 
-        requirement:
-          "Participate in this Puzzle Event."
-      }
-    );
+      requirement:
+        "Participate in this Puzzle Event."
+    }
+  );
 
-    console.log(
-      "🏆 Puzzle Event participation achievement awarded."
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Error awarding Puzzle Event achievement:",
-      error
-    );
-
-  }
+  console.log(
+    "🏆 Puzzle Event participation achievement awarded."
+  );
 
 } catch (error) {
+
+  console.error(
+    "Error awarding Puzzle Event achievement:",
+    error
+  );
+
+}
 
 } catch (error) {
 
