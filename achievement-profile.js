@@ -58,9 +58,8 @@ const profileTrivia =
 
 const profilePredictions =
   document.getElementById("profilePredictions");
-
-const profilePuzzles =
-  document.getElementById("profilePuzzles");
+const profilePuzzleEventSolved =
+  document.getElementById("profilePuzzleEventSolved");
 
 const profileStreak =
   document.getElementById("profileStreak");
@@ -396,9 +395,9 @@ async function displayProfile(
     Number(userData.predictionScore) ||
     0;
 
-  const puzzleStats =
-    Number(userData.puzzleCorrect) ||
-    0;
+const puzzleEventSolved =
+  Number(userData.puzzleEventSolved) ||
+  0;
 
   const currentStreak =
     Number(userData.streak) ||
@@ -481,8 +480,8 @@ if (playerHero) {
   profilePredictions.textContent =
     predictionScore;
 
-  profilePuzzles.textContent =
-    puzzleStats;
+ profilePuzzleEventSolved.textContent =
+  puzzleEventSolved;
 
   profileStreak.textContent =
     currentStreak;
