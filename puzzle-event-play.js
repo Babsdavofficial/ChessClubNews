@@ -19,7 +19,8 @@ import {
   recordUserActivity
 } from "./community.js";
 import {
-  syncPuzzleEventSolvedAchievements
+  syncPuzzleEventSolvedAchievements,
+  awardEventAchievement
 } from "./achievement.js";
 
 
@@ -1632,10 +1633,62 @@ try {
 
   }
 
-  console.log(
+   console.log(
     "Official Puzzle Event result:",
     finishResult
   );
+
+  /* -----------------------------------------
+     AWARD EVENT PARTICIPATION ACHIEVEMENT
+  ----------------------------------------- */
+
+  try {
+
+    await awardEventAchievement(
+      user.uid,
+      `puzzle_event_participation_${eventId}`,
+      {
+        eventId,
+        eventName:
+          eventData.title ||
+          "Puzzle Event",
+
+        category:
+          "puzzleEvent",
+
+        name:
+          eventData.achievementName ||
+          `${eventData.title || "Puzzle Event"} Participant`,
+
+        icon:
+          eventData.achievementIcon ||
+          "🧩",
+
+        description:
+          eventData.achievementDescription ||
+          `Participated in the ${
+            eventData.title || "Puzzle Event"
+          }.`,
+
+        requirement:
+          "Participate in this Puzzle Event."
+      }
+    );
+
+    console.log(
+      "🏆 Puzzle Event participation achievement awarded."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Error awarding Puzzle Event achievement:",
+      error
+    );
+
+  }
+
+} catch (error) {
 
 } catch (error) {
 
