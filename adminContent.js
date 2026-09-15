@@ -3248,6 +3248,14 @@ if (createPuzzleEventBtn) {
 
       const instructions =
         document.getElementById("eventInstructions")?.value.trim();
+      const achievementName =
+  document.getElementById("eventAchievementName")?.value.trim();
+
+const achievementDescription =
+  document.getElementById("eventAchievementDescription")?.value.trim();
+
+const achievementIcon =
+  document.getElementById("eventAchievementIcon")?.value.trim();
 
       const startDate =
         document.getElementById("eventStartDate")?.value;
@@ -3382,6 +3390,9 @@ if (maxAttempts < 1) {
   instructions,
   startAt: Timestamp.fromDate(start),
   endAt: Timestamp.fromDate(end),
+  achievementName,
+  achievementDescription,
+  achievementIcon,
   numberOfPuzzles: puzzleCount,
   timerSeconds,
   cooldownHours,
