@@ -415,6 +415,9 @@ async function prepareParticipationAttempt(uid) {
       eventData.participationWindowMinutes || 40
     );
 
+  const cooldownHours =
+    Number(eventData.cooldownHours || 0);
+
 
   /* -----------------------------------------
      GET EXISTING ATTEMPTS
@@ -496,7 +499,7 @@ async function prepareParticipationAttempt(uid) {
 
 
   /* -----------------------------------------
-     COUNT USED ATTEMPTS
+     GET USED ATTEMPTS
   ----------------------------------------- */
 
   const usedAttempts =
@@ -504,10 +507,17 @@ async function prepareParticipationAttempt(uid) {
       attempt =>
         attempt.status === "completed" ||
         attempt.status === "expired"
-    ).length;
+    );
 
 
-  if (usedAttempts >= maxAttempts) {
+  /* -----------------------------------------
+     CHECK MAXIMUM ATTEMPTS
+  ----------------------------------------- */
+
+  if (
+    usedAttempts.length >=
+    maxAttempts
+  ) {
 
     showError(
       "You have already used all your allowed attempts for this event."
@@ -518,11 +528,156 @@ async function prepareParticipationAttempt(uid) {
 
 
   /* -----------------------------------------
+     CHECK COOLDOWN
+  ----------------------------------------- */
+
+  if (
+    usedAttempts.length > 0 &&
+    cooldownHours > 0
+  ) {
+
+    /*
+     * Find the most recent completed/expired
+     * attempt.
+     */
+    const sortedAttempts =
+      [...usedAttempts].sort(
+        (a, b) => {
+
+          const aDate =
+            timestampToDate(
+              a.completedAt ||
+              a.endedAt ||
+              a.expiresAt
+            );
+
+          const bDate =
+            timestampToDate(
+              b.completedAt ||
+              b.endedAt ||
+              b.expiresAt
+            );
+
+          return (
+            (bDate?.getTime() || 0) -
+            (aDate?.getTime() || 0)
+          );
+
+        }
+      );
+
+
+    const lastAttempt =
+      sortedAttempts[0];
+
+
+    const lastAttemptTime =
+      timestampToDate(
+        lastAttempt.completedAt ||
+        lastAttempt.endedAt ||
+        lastAttempt.expiresAt
+      );
+
+
+    if (lastAttemptTime) {
+
+      const cooldownMilliseconds =
+        cooldownHours *
+        60 *
+        60 *
+        1000;
+
+      const nextAllowedTime =
+        new Date(
+          lastAttemptTime.getTime() +
+          cooldownMilliseconds
+        );
+
+
+      if (now < nextAllowedTime) {
+
+        const remainingMilliseconds =
+          nextAllowedTime.getTime() -
+          now.getTime();
+
+        const remainingMinutes =
+          Math.ceil(
+            remainingMilliseconds /
+            (60 * 1000)
+          );
+
+        const remainingHours =
+          Math.floor(
+            remainingMinutes / 60
+          );
+
+        const remainingMinutesAfterHours =
+          remainingMinutes % 60;
+
+
+        let cooldownMessage =
+          "You can play again in ";
+
+
+        if (remainingHours > 0) {
+
+          cooldownMessage +=
+            `${remainingHours} hour${
+              remainingHours === 1
+                ? ""
+                : "s"
+            }`;
+
+        }
+
+
+        if (
+          remainingHours > 0 &&
+          remainingMinutesAfterHours > 0
+        ) {
+
+          cooldownMessage +=
+            " ";
+
+        }
+
+
+        if (
+          remainingMinutesAfterHours > 0
+        ) {
+
+          cooldownMessage +=
+            `${remainingMinutesAfterHours} minute${
+              remainingMinutesAfterHours === 1
+                ? ""
+                : "s"
+            }`;
+
+        }
+
+
+        cooldownMessage +=
+          ".";
+
+
+        showError(
+          cooldownMessage
+        );
+
+        return false;
+      }
+
+    }
+
+  }
+
+
+  /* -----------------------------------------
      CREATE NEW ATTEMPT
   ----------------------------------------- */
 
   const attemptNumber =
-    usedAttempts + 1;
+    usedAttempts.length + 1;
 
 
   const expiresAt =
@@ -579,19 +734,19 @@ async function prepareParticipationAttempt(uid) {
 
     return true;
 
-} catch (error) {
+  } catch (error) {
 
-  console.error(
-    "Error saving official event result:",
-    error
-  );
+    console.error(
+      "Error creating Puzzle Event attempt:",
+      error
+    );
 
-  showError(
-    "Your event result could not be saved. Please try again."
-  );
+    showError(
+      "Unable to start your Puzzle Event attempt. Please try again."
+    );
 
-  return;
-}
+    return false;
+  }
 }
 
 
