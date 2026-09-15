@@ -801,3 +801,99 @@
   }
 
 }
+
+
+/* =========================================
+   PUZZLE GUIDE BUTTON
+========================================= */
+
+.puzzle-guide-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  width: fit-content;
+
+  padding: 14px 18px;
+
+  background: var(--card-bg, var(--bg-secondary));
+
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+
+  color: var(--text-primary);
+  text-decoration: none;
+
+  box-shadow: var(
+    --card-shadow,
+    0 8px 24px rgba(0, 0, 0, 0.08)
+  );
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.puzzle-guide-btn > span {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background: var(--bg-tertiary);
+
+  font-size: 1.35rem;
+}
+
+.puzzle-guide-btn div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.puzzle-guide-btn strong {
+  color: var(--text-primary);
+
+  font-size: 0.95rem;
+}
+
+.puzzle-guide-btn small {
+  color: var(--text-secondary);
+
+  font-size: 0.78rem;
+
+  line-height: 1.4;
+}
+
+.puzzle-guide-btn:hover {
+  transform: translateY(-2px);
+
+  border-color: var(--primary-color);
+
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+.puzzle-guide-btn:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 550px) {
+
+  .puzzle-guide-btn {
+    width: 100%;
+  }
+
+}
