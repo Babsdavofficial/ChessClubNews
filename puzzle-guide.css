@@ -1,0 +1,587 @@
+/* =========================================
+   PUZZLE GUIDE PAGE
+========================================= */
+
+.puzzle-guide-page {
+  width: min(1100px, 92%);
+  margin: 40px auto 80px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.site-header {
+  border-bottom: 1px solid var(--border-color);
+  background: var(--card-bg, var(--bg-secondary));
+}
+
+.header-container {
+  width: min(1100px, 92%);
+  margin: auto;
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  text-decoration: none;
+  color: var(--text-primary);
+
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.logo-icon {
+  font-size: 1.7rem;
+}
+
+.back-home {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back-home:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.guide-hero {
+  margin-bottom: 55px;
+
+  padding: 65px 45px;
+
+  text-align: center;
+
+  background: var(--card-bg, var(--bg-secondary));
+
+  border: 1px solid var(--border-color);
+  border-radius: 22px;
+
+  box-shadow: var(
+    --card-shadow,
+    0 10px 30px rgba(0, 0, 0, 0.08)
+  );
+}
+
+.guide-hero-content {
+  max-width: 750px;
+  margin: auto;
+}
+
+.guide-label {
+  display: inline-block;
+
+  margin-bottom: 15px;
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  background: var(--bg-tertiary);
+  color: var(--primary-color);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.guide-hero h1 {
+  margin: 0 0 18px;
+
+  color: var(--text-primary);
+
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+
+  line-height: 1.05;
+}
+
+.guide-hero p {
+  max-width: 680px;
+
+  margin: auto;
+
+  color: var(--text-secondary);
+
+  line-height: 1.8;
+
+  font-size: 1.05rem;
+}
+
+
+/* =========================================
+   GUIDE SECTIONS
+========================================= */
+
+.guide-section {
+  margin-top: 60px;
+}
+
+.section-heading {
+  margin-bottom: 20px;
+}
+
+.section-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--primary-color);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: var(--text-primary);
+
+  font-size: 1.8rem;
+}
+
+
+/* =========================================
+   GUIDE CARD
+========================================= */
+
+.guide-card {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  overflow: hidden;
+
+  background: var(--card-bg, var(--bg-secondary));
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 22px;
+
+  box-shadow: var(
+    --card-shadow,
+    0 10px 30px rgba(0, 0, 0, 0.08)
+  );
+}
+
+
+/* =========================================
+   CARD IMAGE
+========================================= */
+
+.guide-card-image {
+  min-height: 360px;
+
+  background: var(--bg-tertiary);
+}
+
+.guide-card-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================
+   CARD CONTENT
+========================================= */
+
+.guide-card-content {
+  padding: 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lesson-number {
+  display: inline-block;
+
+  width: fit-content;
+
+  margin-bottom: 12px;
+
+  color: var(--primary-color);
+
+  font-size: 0.75rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+}
+
+.guide-card-content h3 {
+  margin: 0 0 15px;
+
+  color: var(--text-primary);
+
+  font-size: 1.6rem;
+}
+
+.guide-card-content p {
+  margin: 0 0 15px;
+
+  color: var(--text-secondary);
+
+  line-height: 1.75;
+}
+
+.guide-card-content strong {
+  color: var(--text-primary);
+}
+
+
+/* =========================================
+   NOTATION LIST
+========================================= */
+
+.notation-list {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 8px;
+
+  margin: 10px 0 20px;
+}
+
+.notation-list div {
+  padding: 12px 8px;
+
+  text-align: center;
+
+  background: var(--bg-tertiary);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 10px;
+}
+
+.notation-list strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--primary-color);
+
+  font-size: 1.2rem;
+}
+
+.notation-list span {
+  color: var(--text-secondary);
+
+  font-size: 0.72rem;
+}
+
+
+/* =========================================
+   NOTATION EXAMPLE
+========================================= */
+
+.notation-example {
+  width: fit-content;
+
+  margin: 10px 0 18px;
+
+  padding: 12px 22px;
+
+  background: var(--bg-tertiary);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 12px;
+
+  color: var(--primary-color);
+
+  font-size: 1.4rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.05em;
+}
+
+
+/* =========================================
+   MULTIPLE NOTATION EXAMPLES
+========================================= */
+
+.notation-examples {
+  display: grid;
+
+  gap: 10px;
+
+  margin: 15px 0 20px;
+}
+
+.notation-examples div {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 13px 16px;
+
+  background: var(--bg-tertiary);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 10px;
+}
+
+.notation-examples strong {
+  color: var(--primary-color);
+
+  font-size: 1.05rem;
+}
+
+.notation-examples span {
+  color: var(--text-secondary);
+
+  font-size: 0.85rem;
+
+  text-align: right;
+}
+
+
+/* =========================================
+   FINAL GUIDE CARD
+========================================= */
+
+.final-guide-card {
+  overflow: hidden;
+
+  background: var(--card-bg, var(--bg-secondary));
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 22px;
+
+  box-shadow: var(
+    --card-shadow,
+    0 10px 30px rgba(0, 0, 0, 0.08)
+  );
+}
+
+.final-guide-image {
+  width: 100%;
+
+  max-height: 520px;
+
+  background: var(--bg-tertiary);
+
+  overflow: hidden;
+}
+
+.final-guide-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.final-guide-content {
+  padding: 40px;
+}
+
+.final-guide-content h3 {
+  margin: 0 0 12px;
+
+  color: var(--text-primary);
+
+  font-size: 1.7rem;
+}
+
+.final-guide-content p {
+  margin: 0 0 20px;
+
+  color: var(--text-secondary);
+
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   FINAL NOTATION
+========================================= */
+
+.final-notation {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 10px;
+
+  margin: 25px 0;
+}
+
+.final-notation div {
+  padding: 16px 10px;
+
+  text-align: center;
+
+  background: var(--bg-tertiary);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 12px;
+}
+
+.final-notation strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--primary-color);
+
+  font-size: 1.05rem;
+}
+
+.final-notation span {
+  color: var(--text-secondary);
+
+  font-size: 0.72rem;
+}
+
+.final-message {
+  padding-top: 20px;
+
+  border-top: 1px solid var(--border-color);
+}
+
+
+/* =========================================
+   END BUTTON
+========================================= */
+
+.guide-end {
+  margin-top: 60px;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 850px) {
+
+  .guide-card {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-card-image {
+    min-height: 300px;
+  }
+
+  .guide-card-content {
+    padding: 30px;
+  }
+
+  .notation-list {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .final-notation {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+}
+
+
+@media (max-width: 550px) {
+
+  .puzzle-guide-page {
+    width: 94%;
+
+    margin-top: 25px;
+  }
+
+  .header-container {
+    min-height: 60px;
+  }
+
+  .site-logo {
+    font-size: 0.95rem;
+  }
+
+  .back-home {
+    font-size: 0.85rem;
+  }
+
+  .guide-hero {
+    padding: 40px 22px;
+  }
+
+  .guide-hero h1 {
+    font-size: 2.1rem;
+  }
+
+  .guide-hero p {
+    font-size: 0.95rem;
+  }
+
+  .guide-section {
+    margin-top: 40px;
+  }
+
+  .guide-card-image {
+    min-height: 230px;
+  }
+
+  .guide-card-content {
+    padding: 25px;
+  }
+
+  .guide-card-content h3 {
+    font-size: 1.4rem;
+  }
+
+  .notation-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .notation-examples div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .notation-examples span {
+    text-align: left;
+  }
+
+  .final-guide-content {
+    padding: 25px;
+  }
+
+  .final-notation {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
