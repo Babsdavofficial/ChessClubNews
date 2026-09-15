@@ -579,19 +579,19 @@ async function prepareParticipationAttempt(uid) {
 
     return true;
 
-  } catch (error) {
+} catch (error) {
 
-    console.error(
-      "Error creating puzzle event attempt:",
-      error
-    );
+  console.error(
+    "Error saving official event result:",
+    error
+  );
 
-    showError(
-      "Unable to start your Puzzle Event attempt. Please try again."
-    );
+  showError(
+    "Your event result could not be saved. Please try again."
+  );
 
-    return false;
-  }
+  return;
+}
 }
 
 
