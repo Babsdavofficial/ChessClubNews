@@ -467,3 +467,623 @@
     padding: 35px 20px;
   }
 }
+
+
+/* =========================================================
+   EVENT LEADERBOARD — CLIMBING LADDER DESIGN
+========================================================= */
+
+:root {
+    /* ===== EASY BACKGROUND CONTROL ===== */
+    --leaderboard-bg: #120A06;
+    --leaderboard-surface: #24150D;
+    --leaderboard-surface-light: #321D10;
+
+    /* ===== LEADERBOARD COLORS ===== */
+    --leaderboard-line: #B88952;
+    --leaderboard-gold: #D8B47A;
+    --leaderboard-accent: #C99A5B;
+
+    /* ===== TEXT ===== */
+    --leaderboard-text: #F5E6CC;
+    --leaderboard-muted: #BCA58B;
+
+    /* ===== EFFECTS ===== */
+    --leaderboard-shadow: rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   MAIN SECTION
+========================================================= */
+
+.leaderboard-section {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(184, 137, 82, 0.14),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--leaderboard-bg),
+            #1A0E08 55%,
+            #100805
+        );
+
+    border: 1px solid rgba(184, 137, 82, 0.22);
+    border-radius: 28px;
+
+    padding: 42px 30px 55px;
+
+    box-shadow:
+        0 25px 60px var(--leaderboard-shadow),
+        inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+
+/* Decorative background glow */
+
+.leaderboard-section::before {
+    content: "";
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    top: -220px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(201, 154, 91, 0.08);
+
+    border-radius: 50%;
+
+    filter: blur(70px);
+
+    pointer-events: none;
+}
+
+
+/* Subtle chess-style grid */
+
+.leaderboard-section::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.018) 1px,
+            transparent 1px
+        );
+
+    background-size: 42px 42px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.8),
+        transparent 85%
+    );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.leaderboard-section .section-heading {
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+
+.leaderboard-section .section-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    padding: 7px 14px;
+
+    border-radius: 999px;
+
+    background: rgba(184, 137, 82, 0.12);
+
+    border: 1px solid rgba(184, 137, 82, 0.25);
+
+    color: var(--leaderboard-gold);
+
+    font-size: 0.72rem;
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+}
+
+
+.leaderboard-section h2 {
+    margin: 12px 0 0;
+
+    color: var(--leaderboard-text);
+
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+
+    font-weight: 800;
+
+    letter-spacing: -0.03em;
+}
+
+
+/* =========================================================
+   LEADERBOARD CONTAINER
+========================================================= */
+
+.event-leaderboard {
+    position: relative;
+    z-index: 2;
+
+    width: min(900px, 100%);
+
+    margin: 0 auto;
+
+    padding: 10px 0 30px;
+}
+
+
+/* =========================================================
+   CLIMBING PATH
+========================================================= */
+
+.event-leaderboard::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 50%;
+
+    width: 4px;
+
+    transform: translateX(-50%);
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            var(--leaderboard-line) 8%,
+            var(--leaderboard-line) 92%,
+            transparent
+        );
+
+    border-radius: 999px;
+
+    opacity: 0.55;
+
+    box-shadow:
+        0 0 15px rgba(184, 137, 82, 0.18);
+}
+
+
+/* =========================================================
+   PLAYER / RANK CARD
+========================================================= */
+
+/*
+   These styles expect your JS to create cards with:
+   
+   .leaderboard-item
+   .leaderboard-rank
+   .leaderboard-name
+   .leaderboard-points
+
+   If your JS uses different class names, send it and
+   I'll connect them exactly.
+*/
+
+.leaderboard-item {
+    position: relative;
+
+    width: 43%;
+
+    min-height: 92px;
+
+    margin-bottom: 38px;
+
+    padding: 18px 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--leaderboard-surface-light),
+            var(--leaderboard-surface)
+        );
+
+    border: 1px solid rgba(184, 137, 82, 0.22);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 14px 30px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.025);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* Zig-zag climbing effect */
+
+.leaderboard-item:nth-child(odd) {
+    margin-right: auto;
+    transform: translateX(-3%);
+}
+
+
+.leaderboard-item:nth-child(even) {
+    margin-left: auto;
+    transform: translateX(3%);
+}
+
+
+.leaderboard-item:hover {
+    transform: translateY(-5px) scale(1.015);
+
+    border-color: rgba(216, 180, 122, 0.55);
+
+    box-shadow:
+        0 18px 38px rgba(0,0,0,0.32),
+        0 0 25px rgba(184, 137, 82, 0.08);
+}
+
+
+/* =========================================================
+   CONNECTION DOT
+========================================================= */
+
+.leaderboard-item::before {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+
+    width: 15px;
+    height: 15px;
+
+    transform: translateY(-50%);
+
+    background: var(--leaderboard-gold);
+
+    border: 4px solid var(--leaderboard-bg);
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 2px rgba(184,137,82,0.4),
+        0 0 15px rgba(216,180,122,0.25);
+
+    z-index: 3;
+}
+
+
+/* Connector from card to timeline */
+
+.leaderboard-item:nth-child(odd)::after {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    right: -52px;
+
+    width: 52px;
+    height: 2px;
+
+    background: var(--leaderboard-line);
+
+    opacity: 0.5;
+}
+
+
+.leaderboard-item:nth-child(even)::after {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: -52px;
+
+    width: 52px;
+    height: 2px;
+
+    background: var(--leaderboard-line);
+
+    opacity: 0.5;
+}
+
+
+.leaderboard-item:nth-child(odd)::before {
+    right: -60px;
+}
+
+
+.leaderboard-item:nth-child(even)::before {
+    left: -60px;
+}
+
+
+/* =========================================================
+   RANK NUMBER
+========================================================= */
+
+.leaderboard-rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: rgba(184, 137, 82, 0.13);
+
+    border: 1px solid rgba(184, 137, 82, 0.25);
+
+    color: var(--leaderboard-gold);
+
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   PLAYER CONTENT
+========================================================= */
+
+.leaderboard-name {
+    color: var(--leaderboard-text);
+
+    font-size: 1rem;
+    font-weight: 800;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.leaderboard-points {
+    margin-top: 4px;
+
+    color: var(--leaderboard-muted);
+
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TOP PLAYER — CHAMPION
+========================================================= */
+
+.leaderboard-item:first-child {
+    width: 48%;
+
+    min-height: 115px;
+
+    padding: 23px 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(216,180,122,0.20),
+            rgba(42,24,13,0.96)
+        );
+
+    border-color: rgba(216,180,122,0.55);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.35),
+        0 0 35px rgba(184,137,82,0.12);
+}
+
+
+.leaderboard-item:first-child .leaderboard-rank {
+    width: 46px;
+    height: 46px;
+
+    background: rgba(216,180,122,0.18);
+
+    border-color: rgba(216,180,122,0.5);
+
+    color: #F5D99E;
+
+    font-size: 0.95rem;
+}
+
+
+.leaderboard-item:first-child::before {
+    width: 19px;
+    height: 19px;
+
+    background: #E1BD78;
+
+    box-shadow:
+        0 0 0 3px rgba(216,180,122,0.25),
+        0 0 25px rgba(216,180,122,0.4);
+}
+
+
+/* =========================================================
+   LOADING STATE
+========================================================= */
+
+.leaderboard-loading {
+    min-height: 180px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--leaderboard-muted);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    letter-spacing: 0.02em;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .leaderboard-section {
+        padding: 32px 16px 42px;
+
+        border-radius: 22px;
+    }
+
+    .leaderboard-section .section-heading {
+        margin-bottom: 35px;
+    }
+
+    .event-leaderboard {
+        padding: 5px 0 15px;
+    }
+
+    /* Move timeline to the left */
+
+    .event-leaderboard::before {
+        left: 18px;
+
+        transform: none;
+
+        width: 3px;
+    }
+
+    .leaderboard-item,
+    .leaderboard-item:first-child {
+        width: calc(100% - 45px);
+
+        margin-left: 45px;
+        margin-right: 0;
+
+        transform: none;
+
+        min-height: 82px;
+
+        padding: 15px 17px;
+
+        border-radius: 17px;
+    }
+
+    .leaderboard-item:nth-child(odd),
+    .leaderboard-item:nth-child(even) {
+        margin-left: 45px;
+
+        margin-right: 0;
+
+        transform: none;
+    }
+
+    /* Connector */
+
+    .leaderboard-item::after,
+    .leaderboard-item:nth-child(odd)::after,
+    .leaderboard-item:nth-child(even)::after {
+        left: -27px;
+        right: auto;
+
+        width: 27px;
+    }
+
+    /* Timeline dot */
+
+    .leaderboard-item::before,
+    .leaderboard-item:nth-child(odd)::before,
+    .leaderboard-item:nth-child(even)::before {
+        left: -35px;
+        right: auto;
+
+        width: 14px;
+        height: 14px;
+    }
+
+    .leaderboard-item:first-child {
+        min-height: 95px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .leaderboard-section {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .leaderboard-item,
+    .leaderboard-item:first-child {
+        width: calc(100% - 38px);
+
+        margin-left: 38px;
+
+        padding: 14px;
+    }
+
+    .event-leaderboard::before {
+        left: 14px;
+    }
+
+    .leaderboard-item::after,
+    .leaderboard-item:nth-child(odd)::after,
+    .leaderboard-item:nth-child(even)::after {
+        left: -24px;
+
+        width: 24px;
+    }
+
+    .leaderboard-item::before,
+    .leaderboard-item:nth-child(odd)::before,
+    .leaderboard-item:nth-child(even)::before {
+        left: -31px;
+    }
+
+    .leaderboard-name {
+        font-size: 0.9rem;
+    }
+
+    .leaderboard-points {
+        font-size: 0.72rem;
+    }
+}
