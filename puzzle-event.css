@@ -615,99 +615,34 @@
 
 
 /* =========================================================
-   =========================================================
-   LEADERBOARD
-   =========================================================
-========================================================= */
-
-
-/* =========================================================
-   MAIN LEADERBOARD SECTION
+   LEADERBOARD SECTION
 ========================================================= */
 
 .leaderboard-section {
   position: relative;
-
   overflow: hidden;
 
-  padding: 50px 30px 65px;
+  margin-top: 55px;
+  padding: 42px 30px 48px;
 
-  border-radius: 28px;
+  border-radius: 26px;
 
   background:
     radial-gradient(
-      circle at 50% 0%,
-      rgba(255, 255, 255, 0.7),
-      transparent 38%
+      circle at top right,
+      rgba(255, 255, 255, 0.55),
+      transparent 35%
     ),
     linear-gradient(
       145deg,
-      var(--leaderboard-bg),
-      var(--leaderboard-bg-dark)
+      #E8F5A9,
+      #D4E889
     );
 
-  border: 1px solid rgba(49, 87, 44, 0.12);
+  border: 1px solid rgba(49, 87, 44, 0.14);
 
   box-shadow:
-    0 22px 50px var(--leaderboard-shadow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-
-/* Decorative glow */
-
-.leaderboard-section::before {
-  content: "";
-
-  position: absolute;
-
-  width: 450px;
-  height: 450px;
-
-  top: -250px;
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.22);
-
-  filter: blur(70px);
-
-  pointer-events: none;
-}
-
-
-/* Background pattern */
-
-.leaderboard-section::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  background-image:
-    linear-gradient(
-      rgba(49, 87, 44, 0.045) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(49, 87, 44, 0.045) 1px,
-      transparent 1px
-    );
-
-  background-size: 45px 45px;
-
-  mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.5),
-    transparent 80%
-  );
-
-  pointer-events: none;
+    0 18px 40px rgba(49, 87, 44, 0.14);
 }
 
 
@@ -718,344 +653,176 @@
 .leaderboard-section .section-heading {
   position: relative;
 
-  z-index: 2;
+  margin-bottom: 32px;
 
   text-align: center;
-
-  margin-bottom: 55px;
 }
 
 .leaderboard-section .section-label {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
 
-  gap: 7px;
-
-  padding: 8px 16px;
+  padding: 8px 15px;
 
   border-radius: 999px;
 
-  background: rgba(255, 255, 255, 0.72);
+  background: #31572C;
 
-  border: 1px solid rgba(49, 87, 44, 0.14);
+  color: #FFFFFF;
 
-  color: var(--leaderboard-green);
-
-  font-size: 0.72rem;
-
+  font-size: 0.75rem;
   font-weight: 900;
 
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
 }
 
-.leaderboard-section h2 {
+.leaderboard-section .section-heading h2 {
   margin: 13px 0 0;
 
-  color: var(--leaderboard-green);
+  color: #31572C;
 
-  font-size: clamp(1.7rem, 4vw, 2.5rem);
-
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
   font-weight: 900;
-
-  letter-spacing: -0.03em;
 }
 
 
 /* =========================================================
-   LEADERBOARD AREA
+   LEADERBOARD CONTAINER
 ========================================================= */
 
 .event-leaderboard {
-  position: relative;
+  display: grid;
 
-  z-index: 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
 
   width: min(900px, 100%);
 
   margin: 0 auto;
-
-  padding: 10px 0 30px;
 }
 
 
 /* =========================================================
-   CENTRAL CLIMBING PATH
-========================================================= */
-
-.event-leaderboard::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  bottom: 0;
-
-  left: 50%;
-
-  width: 5px;
-
-  transform: translateX(-50%);
-
-  background:
-    linear-gradient(
-      to bottom,
-      transparent,
-      #31572C 7%,
-      #31572C 93%,
-      transparent
-    );
-
-  border-radius: 999px;
-
-  box-shadow:
-    0 0 0 5px rgba(49, 87, 44, 0.05),
-    0 0 15px rgba(49, 87, 44, 0.14);
-}
-
-
-/* =========================================================
-   PLAYER CARDS
+   PLAYER CARD
 ========================================================= */
 
 .leaderboard-item {
   position: relative;
 
-  width: 43%;
-
-  min-height: 92px;
-
-  margin-bottom: 40px;
-
-  padding: 18px 22px;
-
   display: flex;
-
   align-items: center;
 
-  gap: 14px;
+  min-height: 105px;
+
+  padding: 18px 20px;
+
+  gap: 15px;
 
   background: #FFFFFF;
 
-  border: 2px solid rgba(49, 87, 44, 0.13);
+  border: 1px solid rgba(49, 87, 44, 0.13);
 
-  border-radius: 20px;
+  border-radius: 18px;
 
   box-shadow:
-    0 12px 28px rgba(49, 87, 44, 0.13),
-    0 3px 0 rgba(49, 87, 44, 0.04);
+    0 8px 20px rgba(49, 87, 44, 0.10);
 
   transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
-
-
-/* Left */
-
-.leaderboard-item:nth-child(odd) {
-  margin-right: auto;
-
-  transform: translateX(-3%);
-}
-
-
-/* Right */
-
-.leaderboard-item:nth-child(even) {
-  margin-left: auto;
-
-  transform: translateX(3%);
-}
-
-
-/* Hover */
 
 .leaderboard-item:hover {
-  transform: translateY(-5px) scale(1.015);
+  transform: translateY(-4px);
 
   box-shadow:
-    0 20px 38px rgba(49, 87, 44, 0.18),
-    0 0 0 3px rgba(49, 87, 44, 0.05);
+    0 14px 28px rgba(49, 87, 44, 0.17);
 }
 
 
 /* =========================================================
-   CONNECTION DOT
-========================================================= */
-
-.leaderboard-item::before {
-  content: "";
-
-  position: absolute;
-
-  top: 50%;
-
-  width: 16px;
-  height: 16px;
-
-  transform: translateY(-50%);
-
-  background: #31572C;
-
-  border: 4px solid #E8F5A9;
-
-  border-radius: 50%;
-
-  box-shadow:
-    0 0 0 2px rgba(49, 87, 44, 0.25),
-    0 0 14px rgba(49, 87, 44, 0.18);
-
-  z-index: 3;
-}
-
-
-/* =========================================================
-   CONNECTOR LINES
-========================================================= */
-
-.leaderboard-item:nth-child(odd)::after {
-  content: "";
-
-  position: absolute;
-
-  top: 50%;
-  right: -52px;
-
-  width: 52px;
-  height: 3px;
-
-  background: #31572C;
-
-  opacity: 0.7;
-
-  border-radius: 999px;
-}
-
-
-.leaderboard-item:nth-child(even)::after {
-  content: "";
-
-  position: absolute;
-
-  top: 50%;
-  left: -52px;
-
-  width: 52px;
-  height: 3px;
-
-  background: #31572C;
-
-  opacity: 0.7;
-
-  border-radius: 999px;
-}
-
-
-/* =========================================================
-   DOT POSITIONS
-========================================================= */
-
-.leaderboard-item:nth-child(odd)::before {
-  right: -60px;
-}
-
-
-.leaderboard-item:nth-child(even)::before {
-  left: -60px;
-}
-
-
-/* =========================================================
-   RANK BADGE
+   RANK NUMBER
 ========================================================= */
 
 .leaderboard-rank {
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  width: 42px;
-  height: 42px;
-
   flex-shrink: 0;
 
-  border-radius: 12px;
+  width: 46px;
+  height: 46px;
+
+  border-radius: 14px;
 
   background: #E8F5A9;
 
-  border: 2px solid rgba(49, 87, 44, 0.13);
+  border: 1px solid rgba(49, 87, 44, 0.14);
 
   color: #31572C;
 
-  font-size: 0.85rem;
-
+  font-size: 0.95rem;
   font-weight: 900;
 }
 
 
 /* =========================================================
-   PLAYER NAME
+   PLAYER INFORMATION
 ========================================================= */
 
 .leaderboard-name {
+  overflow: hidden;
+
   color: #31572C;
 
   font-size: 1rem;
-
   font-weight: 900;
 
   white-space: nowrap;
-
-  overflow: hidden;
-
   text-overflow: ellipsis;
 }
 
-
-/* =========================================================
-   POINTS
-========================================================= */
-
 .leaderboard-points {
-  margin-top: 4px;
+  margin-top: 5px;
 
-  color: #60765A;
+  color: #6B8E23;
 
-  font-size: 0.78rem;
-
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 800;
 }
 
 
 /* =========================================================
-   #1 CHAMPION
+   FIRST PLACE CARD
 ========================================================= */
 
 .leaderboard-item:first-child {
-  width: 48%;
+  grid-column: 1 / -1;
 
-  min-height: 120px;
+  min-height: 135px;
 
-  padding: 23px 25px;
+  padding: 25px;
 
-  background: #FFFFFF;
+  background:
+    linear-gradient(
+      135deg,
+      #FFFFFF,
+      #F8FBEF
+    );
 
-  border: 3px solid #C99A5B;
+  border: 2px solid #C99A5B;
 
   box-shadow:
-    0 20px 42px rgba(49, 87, 44, 0.20),
-    0 0 0 6px rgba(201, 154, 91, 0.12);
+    0 14px 30px rgba(49, 87, 44, 0.16),
+    0 0 0 5px rgba(201, 154, 91, 0.13);
 }
 
-
-/* Champion rank */
-
 .leaderboard-item:first-child .leaderboard-rank {
-  width: 50px;
-  height: 50px;
+  width: 58px;
+  height: 58px;
 
   background: #C99A5B;
 
@@ -1063,157 +830,82 @@
 
   color: #FFFFFF;
 
-  font-size: 1rem;
-
-  box-shadow:
-    0 6px 15px rgba(184, 137, 82, 0.25);
+  font-size: 1.1rem;
 }
-
-
-/* Champion name */
 
 .leaderboard-item:first-child .leaderboard-name {
-  font-size: 1.08rem;
+  font-size: 1.2rem;
 }
-
-
-/* Champion points */
 
 .leaderboard-item:first-child .leaderboard-points {
-  color: #6B8E23;
+  color: #B88952;
 
-  font-weight: 800;
-}
-
-
-/* Champion connection */
-
-.leaderboard-item:first-child::before {
-  width: 21px;
-  height: 21px;
-
-  background: #C99A5B;
-
-  border-color: #E8F5A9;
-
-  box-shadow:
-    0 0 0 3px rgba(201, 154, 91, 0.22),
-    0 0 22px rgba(201, 154, 91, 0.45);
+  font-size: 0.88rem;
 }
 
 
 /* =========================================================
-   LOADING
+   OPTIONAL RANK ACCENTS
+========================================================= */
+
+.leaderboard-item:nth-child(2) .leaderboard-rank {
+  background: #E5E7EB;
+}
+
+.leaderboard-item:nth-child(3) .leaderboard-rank {
+  background: #F3D7B1;
+}
+
+
+/* =========================================================
+   LOADING STATE
 ========================================================= */
 
 .leaderboard-loading {
-  min-height: 180px;
+  grid-column: 1 / -1;
+
+  min-height: 150px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   color: #31572C;
 
-  font-size: 0.9rem;
-
+  font-size: 0.95rem;
   font-weight: 800;
 }
 
 
 /* =========================================================
-   MOBILE LEADERBOARD
+   TABLET
 ========================================================= */
 
 @media (max-width: 700px) {
 
   .leaderboard-section {
-    padding: 38px 16px 48px;
+    padding: 34px 18px 38px;
 
-    border-radius: 23px;
+    border-radius: 22px;
   }
 
+  .event-leaderboard {
+    grid-template-columns: 1fr;
 
-  .leaderboard-section .section-heading {
-    margin-bottom: 40px;
+    gap: 14px;
   }
-
-
-  /* Move ladder to left */
-
-  .event-leaderboard::before {
-    left: 17px;
-
-    transform: none;
-
-    width: 4px;
-  }
-
-
-  /* Cards */
 
   .leaderboard-item,
   .leaderboard-item:first-child {
-    width: calc(100% - 44px);
+    grid-column: auto;
 
-    min-height: 84px;
+    min-height: 92px;
 
-    margin-left: 44px;
-
-    margin-right: 0;
-
-    padding: 15px 17px;
-
-    transform: none;
-
-    border-radius: 17px;
+    padding: 17px;
   }
-
-
-  .leaderboard-item:nth-child(odd),
-  .leaderboard-item:nth-child(even) {
-    margin-left: 44px;
-
-    margin-right: 0;
-
-    transform: none;
-  }
-
-
-  /* Connector */
-
-  .leaderboard-item::after,
-  .leaderboard-item:nth-child(odd)::after,
-  .leaderboard-item:nth-child(even)::after {
-    left: -27px;
-
-    right: auto;
-
-    width: 27px;
-
-    height: 3px;
-  }
-
-
-  /* Dot */
-
-  .leaderboard-item::before,
-  .leaderboard-item:nth-child(odd)::before,
-  .leaderboard-item:nth-child(even)::before {
-    left: -35px;
-
-    right: auto;
-
-    width: 14px;
-    height: 14px;
-  }
-
-
-  /* Champion */
 
   .leaderboard-item:first-child {
-    min-height: 98px;
+    min-height: 112px;
   }
 }
 
@@ -1225,52 +917,44 @@
 @media (max-width: 420px) {
 
   .leaderboard-section {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 30px 13px 34px;
   }
 
-
-  .event-leaderboard::before {
-    left: 14px;
+  .leaderboard-section .section-heading {
+    margin-bottom: 25px;
   }
-
 
   .leaderboard-item,
   .leaderboard-item:first-child {
-    width: calc(100% - 38px);
-
-    margin-left: 38px;
+    gap: 12px;
 
     padding: 14px;
+
+    border-radius: 15px;
   }
 
+  .leaderboard-rank,
+  .leaderboard-item:first-child .leaderboard-rank {
+    width: 40px;
+    height: 40px;
 
-  .leaderboard-item::after,
-  .leaderboard-item:nth-child(odd)::after,
-  .leaderboard-item:nth-child(even)::after {
-    left: -24px;
+    border-radius: 11px;
 
-    width: 24px;
+    font-size: 0.85rem;
   }
 
-
-  .leaderboard-item::before,
-  .leaderboard-item:nth-child(odd)::before,
-  .leaderboard-item:nth-child(even)::before {
-    left: -31px;
+  .leaderboard-item:first-child .leaderboard-name {
+    font-size: 1rem;
   }
-
 
   .leaderboard-name {
     font-size: 0.9rem;
   }
 
-
   .leaderboard-points {
     font-size: 0.72rem;
   }
 }
-
 
 /* =========================================================
    GENERAL MOBILE
