@@ -1,5 +1,34 @@
 /* =========================================
    PUZZLE EVENT GAMEPLAY
+   CREAM + NAVY CHESS THEME
+========================================= */
+
+:root {
+  --play-cream: #F8E7C0;
+  --play-cream-light: #FFF9EA;
+  --play-cream-dark: #EED9A9;
+
+  --play-navy: #283246;
+  --play-navy-light: #354158;
+  --play-navy-dark: #1E2635;
+
+  --play-white: #FFFFFF;
+
+  --play-text: #283246;
+  --play-text-secondary: #5E687A;
+
+  --play-border: rgba(40, 50, 70, 0.15);
+
+  --play-shadow: rgba(40, 50, 70, 0.15);
+
+  /* Gold remains for special highlights */
+  --play-gold: #C99A5B;
+  --play-gold-dark: #B88952;
+}
+
+
+/* =========================================
+   PUZZLE EVENT GAMEPLAY
 ========================================= */
 
 .puzzle-play-page {
