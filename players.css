@@ -946,3 +946,52 @@
         min-height: 65px;
     }
 }
+
+
+
+
+/* =========================================================
+   ASTRONOMER23 — GOLD HALL OF FAME CARD
+   ========================================================= */
+
+.player-profile.astronomer-gold {
+    background: linear-gradient(145deg, #FFF3BF, #E8BD45);
+    border-color: #C99A20;
+}
+
+.player-profile.astronomer-gold .player-identity h3 {
+    color: #765000;
+}
+
+.player-profile.astronomer-gold .rank {
+    background: #D9AA32;
+    color: #3F2B00;
+}
+
+.player-profile.astronomer-gold .avatar {
+    background: linear-gradient(135deg, #F5D76E, #B8860B);
+    color: #3F2B00;
+    box-shadow: 0 6px 14px rgba(120, 80, 0, 0.2);
+}
+
+.player-profile.astronomer-gold .badge {
+    background: #DDB64D;
+    color: #513900;
+}
+
+.player-profile.astronomer-gold .rating-box > div {
+    background: rgba(255, 250, 225, 0.75);
+}
+
+.player-profile.astronomer-gold .rating-box {
+    border-top-color: rgba(120, 80, 0, 0.25);
+}
+
+.player-profile.astronomer-gold .rating-box small {
+    color: #765D24;
+}
+
+.player-profile.astronomer-gold .rating-box strong {
+    color: #513900;
+}
+
